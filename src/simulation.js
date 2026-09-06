@@ -12,16 +12,16 @@ export function edible(predator,prey){
 }
 function entity(species,id,x,y){return {id,species,x,y,vx:0,vy:0,angle:0,facing:1,energy:100,health:100,hidden:false,still:0,cleanTime:0,cooldown:0,abilityTime:0,stun:0,life:100,target:null,alive:true,behavior:'Cruising',biteCooldown:0,think:0};}
 export class Simulation {
- constructor(seed=123456){this.seed=seed>>>0;this.time=0;this.uid=0;this.events=[];this.mode='practice';this.phase='idle';this.score=0;this.stage=0;this.stageScore=0;this.sequence=[];this.sections=[];this.player=null;this.protected=true;this.paused=false;this.period='day';this.current=4;this.pointer={x:800,y:330};this.difficulty=1;this.visited=[];}
+ constructor(seed=123456){this.seed=seed>>>0;this.time=0;this.uid=0;this.events=[];this.mode='practice';this.phase='idle';this.score=0;this.stage=0;this.stageScore=0;this.sequence=[];this.sections=[];this.player=null;this.protected=true;this.paused=false;this.period='day';this.current=4;this.pointer={x:800,y:330};this.difficulty=1;this.visited=[];this.observations=[];}
  random(){this.seed=(Math.imul(1664525,this.seed)+1013904223)>>>0;return this.seed/4294967296;}
  event(type,text,extra={}){this.events.push({type,text,...extra});}
  start(mode='practice',speciesId='s1',custom=null){
-  this.mode=mode;this.phase='playing';this.time=0;this.score=0;this.stage=0;this.stageScore=0;this.events=[];this.custom=custom;this.visited=[];
+  this.mode=mode;this.phase='playing';this.time=0;this.score=0;this.stage=0;this.stageScore=0;this.events=[];this.custom=custom;this.visited=[];this.observations=[];
   if(mode==='tournament')this.sequence=[...PLAYABLE.filter(s=>s.id!=='s34').map(s=>s.id),'s34'];
   else if(mode==='challenge'){const bands=[PLAYABLE.slice(0,14),PLAYABLE.slice(14,28),PLAYABLE.slice(28,42),PLAYABLE.slice(42)];this.sequence=bands.map(a=>a[Math.floor(this.random()*a.length)].id);}
   else this.sequence=[speciesId];
   this.spawnPlayer(mode==='create'?createSpecies(custom):BY_ID[this.sequence[0]]);
-  this.event('start','Welcome to '+REEFS[this.current].name+'. Move to begin.');
+  this.event('start','Welcome to '+REEFS[this.current].name+'. Swim and look around; press Esc to observe.');
  }
  spawnPlayer(species){
   this.player=entity(species,'player',800,300);this.period=species.active==='night'?'night':'day';this.current=species.habitat==='sand'?7:species.habitat==='open'||species.habitat==='school'?1:4;
@@ -31,11 +31,16 @@ export class Simulation {
   const available=SPECIES.filter(s=>s.active===this.period||s.active==='both');
   const entities=[];
   for(let i=0;i<15;i++){
-   let pool=available.filter(s=>s.habitat===reef.habitat&&s.ability!=='clean');if(i%3===0)pool=available.filter(s=>s.playable&&s.size<130);
-   const s=pool[Math.floor(this.random()*pool.length)]||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;entities.push(fish);
+   // A community of grazers and small foragers, with occasional hunters.
+   // No habitat is required to contain a shark or a predator for the player.
+   const hunters=entities.filter(e=>e.species.diet.includes('fish')).length;
+   const seekHunter=i%6===5&&hunters<2;
+   let pool=available.filter(s=>s.playable&&s.ability!=='clean'&&s.diet.includes('fish')===seekHunter&&(seekHunter||s.size<130));
+   const local=pool.filter(s=>s.habitat===reef.habitat);if(local.length)pool=local;
+   const s=pool[Math.floor(this.random()*pool.length)]||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;entities.push(fish);
   }
-  // Each section includes small prey and one substantial predator, so the food web is viable at every player size.
-  for(const s of [SPECIES[2],SPECIES[2],SPECIES[11],SPECIES[16],SPECIES[this.period==='day'?32:33]])entities.push(entity(s,++this.uid,100+this.random()*(W-200),100+this.random()*(H-220)));
+  const small=available.filter(s=>s.playable&&s.size<50&&!s.diet.includes('fish'));
+  for(let i=0;i<3;i++){const s=small[Math.floor(this.random()*small.length)];entities.push(entity(s,++this.uid,100+this.random()*(W-200),100+this.random()*(H-220)));}
   const clean=entity(SPECIES[this.period==='day'?43:45],++this.uid,reef.cleaner.x,reef.cleaner.y);clean.station={...reef.cleaner};entities.push(clean);
   const food=[];let n=0;
   for(const [kind,def]of Object.entries(FOODS))for(let k=0;k<(kind==='plankton'?6:3);k++){
@@ -45,6 +50,19 @@ export class Simulation {
   return {entities,food};
  }
  get section(){return this.sections[this.current];}
+ relationship(e){
+  if(e.species?.ability==='clean')return 'A cleaning partner. Wait nearby to observe the cleaning interaction; clicking during swimming attempts to eat it.';
+  if(e.species?.poison||(e.food==='sponge'&&!this.player.species.diet.includes('sponge')))return 'Unsuitable food for many reef dwellers. Compare this organism with your fish’s diet in the field guide.';
+  if(edible(this.player,e))return 'Part of your fish’s food web in this model. Compare its size and food type with the diet in your field guide.';
+  if(e.species&&edible(e,this.player))return 'Your fish is potential prey in this model. Watch whether this animal is feeding, digesting, or resting; it does not hunt continuously.';
+  return 'A neighbor rather than a meal for your fish. Compare its diet and activity with yours to see how different lives share the reef.';
+ }
+ observe(e){
+  if(!e)return;
+  const subject=e.species?.id||e.food,behavior=e.behavior||'Stationary reef life';
+  if(this.observations.some(n=>n.subject===subject&&n.habitat===this.current&&n.behavior===behavior))return;
+  this.observations.push({subject,name:e.species?.name||e.name,behavior,habitat:this.current,period:this.period,time:this.time,relationship:this.relationship(e)});
+ }
  get required(){return this.mode==='challenge'?(this.stage+1)*5000:5000;}
  point(x,y){this.pointer={x:clamp(x,0,W),y:clamp(y,0,H)};}
  findAt(x,y){
@@ -90,7 +108,7 @@ export class Simulation {
   if(p.target&&!target)p.target=null;
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y};
   if(dist>7){
-   this.protected=false;const wanted=Math.atan2(dy,dx);let da=(wanted-p.angle+Math.PI*3)%(Math.PI*2)-Math.PI;p.angle+=clamp(da,-p.species.agility*dt,p.species.agility*dt);
+   const wanted=Math.atan2(dy,dx);let da=(wanted-p.angle+Math.PI*3)%(Math.PI*2)-Math.PI;p.angle+=clamp(da,-p.species.agility*dt,p.species.agility*dt);
    const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;p.still=0;
   }else p.still+=dt;
   const moving=distance(old,p)>dt*6;
@@ -110,32 +128,57 @@ export class Simulation {
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
  stepNpc(e,dt){
-  if(!e.alive){e.respawn-=dt;if(e.respawn<=0){e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;}return;}
+  if(!e.alive){e.respawn-=dt;if(e.respawn<=0){e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;}return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
   const p=this.player;e.think-=dt;
   if(e.species.ability==='clean'){const dest=p.cleanTime>0?{x:p.x-p.facing*20,y:p.y+10}:e.station;if(dest){e.x+=(dest.x-e.x)*dt*1.5;e.y+=(dest.y-e.y)*dt*1.5;}e.facing=Math.sin(this.time*.5)>0?1:-1;return;}
   if(e.species.speed===0)return;
+  e.satiated=Math.max(0,(e.satiated??0)-dt);e.rest=Math.max(0,(e.rest??0)-dt);e.pursuit=e.pursuit??0;
+  const defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
+  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&edible(e,p);
+  if(e.target==='player'&&!canEatPlayer&&e.behavior!=='Following lure'){e.target=null;e.pursuit=0;e.think=0;}
+  if(e.target){e.pursuit+=dt;if(e.pursuit>6){e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
   let speed=e.species.speed*.35;
   if(e.think<=0){
-   e.think=.35+this.random()*.35;
-   const pd=distance(e,p),defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
-   if(!p.hidden&&!this.protected&&edible(e,p)&&pd<330&&!defended){e.target='player';e.behavior='Hunting '+p.species.name;}
-   else if((edible(p,e)&&pd<185&&!p.hidden)||defended&&pd<220){e.target=null;e.angle=Math.atan2(e.y-p.y,e.x-p.x);e.behavior='Fleeing';}
-   else{
-    const near=this.section.entities.find(b=>b!==e&&b.alive&&edible(e,b)&&distance(e,b)<140);
-    e.target=near?.id||null;e.behavior=near?'Hunting '+near.species.name:'Cruising';if(!near&&this.random()<.25)e.angle+=(this.random()-.5)*1.8;
+   e.think=.65+this.random()*.55;
+   const pd=distance(e,p);
+   const threats=this.section.entities.filter(b=>b!==e&&b.alive&&b.satiated<=0&&edible(b,e)&&distance(e,b)<100);
+   if((edible(p,e)&&pd<100&&!p.hidden)||defended&&pd<150)threats.push(p);
+   const threat=threats.sort((a,b)=>distance(e,a)-distance(e,b))[0];
+   if(threat){e.target=null;e.pursuit=0;e.angle=Math.atan2(e.y-threat.y,e.x-threat.x);e.behavior='Moving away from '+threat.species.name;}
+   else if(!e.target){
+    const candidates=e.satiated<=0&&e.rest<=0?[
+     ...this.section.entities.filter(b=>b!==e&&b.alive&&edible(e,b)&&!b.species.poison),
+     ...this.section.food.filter(f=>f.regrow<=0&&edible(e,f)),
+     ...(canEatPlayer?[p]:[])
+    ].filter(b=>distance(e,b)<165).sort((a,b)=>distance(e,a)-distance(e,b)):[];
+    const near=candidates[0];e.target=near?.id||null;e.pursuit=0;
+    e.behavior=near?(near.kind==='food'?'Foraging for ':'Hunting ')+(near.name||near.species.name):e.satiated>0?'Digesting a meal':e.rest>0?'Resting between feeding trips':'Exploring';
+    if(!near&&this.random()<.45)e.angle+=(this.random()-.5)*1.1;
    }
    if(p.species.ability==='lure'&&p.abilityTime>0&&edible(p,e)&&pd<340){e.target='player';e.behavior='Following lure';}
   }
-  if(e.target){const dest=e.target==='player'?p:this.section.entities.find(b=>b.id===e.target&&b.alive);if(dest){e.angle=Math.atan2(dest.y-e.y,dest.x-e.x);speed=e.species.speed*(e.target==='player'?.72:.65);if(distance(e,dest)<(e.species.size+(dest.species?.size||0))*.28&&e.biteCooldown<=0){e.biteCooldown=2;if(dest===p&&!p.hidden&&!this.protected&&edible(e,p)&&!(p.abilityTime>0&&['spines','puff','ink','poison','shock','sting'].includes(p.species.ability))){p.health-=35;p.energy-=8;p.cooldown=Math.max(p.cooldown,1);e.stun=1;this.event('hurt',e.species.name+' bit you. Find shelter!',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}else if(dest!==p){dest.alive=false;dest.respawn=24;e.target=null;}}}else e.target=null;}
-  else if(e.behavior==='Fleeing')speed=e.species.speed*.85;
+  if(e.target){
+   const dest=e.target==='player'?p:this.section.entities.find(b=>b.id===e.target&&b.alive)||this.section.food.find(f=>f.id===e.target&&f.regrow<=0);
+   if(dest){
+    const wanted=Math.atan2(dest.y-e.y,dest.x-e.x),da=(wanted-e.angle+Math.PI*3)%(Math.PI*2)-Math.PI;e.angle+=clamp(da,-e.species.agility*dt,e.species.agility*dt);speed=e.species.speed*.55;
+    if(distance(e,dest)<(e.species.size+(dest.species?.size||dest.size||0))*.28&&e.biteCooldown<=0){
+     e.biteCooldown=2;
+     if(dest===p&&canEatPlayer){p.health-=35;p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
+     else if(dest!==p&&dest.kind==='food'){dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
+     else if(dest!==p){dest.alive=false;dest.respawn=24;}
+     e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
+    }
+   }else{e.target=null;e.pursuit=0;}
+  }
+  else if(e.behavior.startsWith('Moving away'))speed=e.species.speed*.65;
   e.x+=Math.cos(e.angle)*speed*dt;e.y+=Math.sin(e.angle)*speed*dt;e.facing=Math.cos(e.angle)>=0?1:-1;
   if(e.x<10||e.x>W-10){e.x=clamp(e.x,10,W-10);e.angle=Math.PI-e.angle;}if(e.y<25||e.y>H-20){e.y=clamp(e.y,25,H-20);e.angle=-e.angle;}
  }
  next(){if(this.phase==='advance'){this.stage++;this.stageScore=0;this.spawnPlayer(BY_ID[this.sequence[this.stage]]);}}
  die(reason){if(this.phase!=='playing')return;this.phase='dead';this.event('death',reason);}
  continueRun(){this.score=0;this.stageScore=0;this.spawnPlayer(this.player.species);}
- serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,visited:this.visited,difficulty:this.difficulty});}
+ serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,visited:this.visited,difficulty:this.difficulty,observations:this.observations});}
  static restore(raw){
   const d=typeof raw==='string'?JSON.parse(raw):raw;
   if(d.version!==1||!Array.isArray(d.sections)||d.sections.length!==9||!d.player?.species||!Number.isInteger(d.current)||d.current<0||d.current>8||!['practice','challenge','tournament','create'].includes(d.mode))throw new Error('This save is not a compatible Atoll game.');

@@ -8,7 +8,7 @@
 
 The engine advances in fixed 1/60-second steps. Species definitions contain diet tags, movement, size, activity, ability, parasite requirements, prey type and defensive traits. Feeding combines explicit diet acceptance with size/armor checks. Food clicks acquire a target and initiate an approach; food rewards arrive only on contact. Rejected food wastes energy. Poison also costs health and points.
 
-The player initially has an undrained protected state. Movement or action starts survival. Movement costs more energy than stillness. Health decreases with parasites for susceptible species. Waiting near the active period's cleaner restores health after a short cleaning interaction. Small fish can hide while stationary in scene-specific shelter zones. Moving reveals them. Predators remember an active chase at section transitions; wrapping occurs horizontally, with hard top and bottom boundaries.
+The player initially has an undrained protected state. Swimming within the arrival habitat preserves protection; eating, using an ability, or changing sections ends it. Movement costs more energy than stillness. Health decreases with parasites for susceptible species. Waiting near the active period's cleaner restores health after a short cleaning interaction. Small fish can hide while stationary in scene-specific shelter zones. Moving reveals them. Predators remember an active chase at section transitions; wrapping occurs horizontally, with hard top and bottom boundaries.
 
 NPCs forage, hunt smaller suitable creatures, flee threatening player fish, return to cleaner stations, and repopulate after consumption. Renewable stationary food regrows after depletion. Population and food state persist in the save. Off-screen sections retain their state rather than running a second independent simulation.
 
@@ -29,3 +29,9 @@ Field guide: all 64 creatures, interactive-food descriptions, and glossary. Dial
 ## Reconstruction boundaries
 
 The original manual and screenshots guide behavior and composition. No exact executable analysis or historical numerical verification is claimed. The catalog is an independently selected reef ecosystem rather than an assertion that every original roster entry appears. There is no continuous size growth, procedurally replaced reef, multiplayer, crafting or online service.
+
+## Exploration-first revision
+
+Community generation now selects at most two fish-eating hunters per newly populated section, alongside small foragers, grazers and other residents. Migrating animals can change that population. Hunters choose the nearest suitable food within their sensing range, using the same rule for player and non-player prey. Grazers consume renewable plants and other suitable food too. Feeding is followed by 45–80 seconds of digestion. Pursuits end after six seconds and are followed by a 15-second rest. These durations are provisional tuning values, not recovered original constants or real-world biological measurements.
+
+Inspection records the organism's name, activity, habitat, period and relationship to the current fish. Field notes persist with saves and deduplicate repeated observations of the same behavior in the same habitat. Initial protected swimming follows the original manual's opportunity to inspect the reef before eating or leaving an area. All major existing food, health, cleaning, shelter and mode systems remain available, but their presentation is being revised around learning.

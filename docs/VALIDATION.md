@@ -1,5 +1,17 @@
 # Validation record
 
+## Current exploration revision
+
+This is an in-progress Windows revision, not a completed-remake acceptance record. The current simulation/asset suite has 29 passing tests and the browser suite has nine passing tests. Added coverage verifies non-preferential food selection, satiated hunters, rest after unsuccessful pursuits, plant grazing, mixed communities, protected initial swimming, and field notes that persist across reloads.
+
+An identical seeded comparison ran 30 two-minute open-water circuits as three small species, without food, abilities or deliberate hiding and with initial protection explicitly disabled. Before the revision, 0/30 completed the circuit; afterward, 30/30 completed it, with ten predator bites across the 30 runs. This establishes a substantial reduction in constant predation for that scenario, not complete balance across all creatures and modes. Reports: `artifacts/ecology-before.json` and `artifacts/ecology-after.json`.
+
+The original Windows manual (pages 3–4, 8 and 11) supports exploratory Practice play, arrival protection before feeding/leaving an area, and paused observation with a field guide. Appetite and rest timings are newly authored approximations. Field notes are a new learning aid, not a claimed original feature.
+
+Remaining acceptance work includes wider species and mode playtesting, more substantial educational content, visual integration, and animation fidelity. The earlier finish review below applies only to the initial UI implementation and does not prove these broader requirements.
+
+## Initial build evidence (historical)
+
 Validated on Windows on 6 September 2026, using Node.js 22.18.0, Electron 44.2.0 and Playwright Chromium.
 
 | Check | Result |

@@ -1,12 +1,10 @@
 # Atoll Down Under
 
-An offline, widescreen 2D reef-survival game with original painted artwork, creature sprites, relaxing music, and sound effects. Inspired by the ecological play of Odell Down Under; it does not include the original game's artwork, music, text, or executable.
+An offline, widescreen 2D life-science exploration game with original painted artwork, creature sprites, relaxing music, and sound effects. Inspired by the ecological play of Odell Down Under; it does not include the original game's artwork, music, text, or executable.
 
 ## Play
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
-
-For Apple Silicon Macs, `dist/Atoll-Down-Under-mac-arm64.zip` contains an unsigned app and setup notes. This archive has been checked for integrity and preserved framework links, but has not been run on macOS.
 
 From source (Node.js 22 or later):
 
@@ -74,16 +72,21 @@ npx playwright install chromium
 npm run test:e2e
 npm run test:desktop
 npm run package:win
-npm run package:mac
 ```
 
-Browser tests start their own localhost server when one is not already running. The native desktop test launches a hidden test window and verifies the real local protocol, game startup, sprite loading, and music readiness. macOS builds target Apple Silicon; they are unsigned and require verification on a Mac before distribution.
+Browser tests start their own localhost server when one is not already running. The native desktop test launches a hidden test window and verifies the real local protocol, game startup, sprite loading, and music readiness. Windows is the authorized delivery target.
 
-When packaging macOS from Windows, run `package:win` first. The macOS packaging script uses that application archive and preserves the official Electron ZIP's Unix symlinks without extracting them on Windows. This path also requires Python 3 (or set `ATOLL_PYTHON` to its executable). Running `package:mac` on a Mac uses the native packager. Run `python scripts/package-releases.py` after both builds to create the Windows portable ZIP, full source ZIP, and SHA-256 checksums.
+Run `python scripts/package-releases.py` after the Windows build to create the Windows portable ZIP, source ZIP, and SHA-256 checksums. Python 3 is required for this archive step.
+
+## Exploration revision in progress
+
+The current revision replaces player-first predator targeting with nearest suitable food selection, feeding/rest cycles and bounded pursuits. Communities include more small foragers and grazers; a shark is no longer forced into every scene. Your first habitat remains protected while you swim and observe, until you eat, use an ability, or leave that habitat.
+
+Press Escape and click an organism to inspect its current activity and relationship to your fish. Observations are recorded in **Field guide → Field notes** and saved with the dive. These notes describe the game's model; they are not a substitute for a scientific species reference.
 
 ## Fidelity and limits
 
-This is a complete playable first version with the major requested systems. Numeric balancing, creature roster, names of habitats, field-guide prose, and ability effects are independently authored. It is not a byte-for-byte emulation or a claim of exact historical parity. Species sizes and diets are game abstractions, not a scientific reference.
+This is a playable work in progress. Ecological pacing, educational depth, animation, and visual fidelity are still being refined. Numeric balancing, creature roster, names of habitats, field-guide prose, and ability effects are independently authored. It is not a byte-for-byte emulation or a claim of exact historical parity. Species sizes and diets are game abstractions, not a scientific reference.
 
 The image-generation tool produced approximately 1.5K–1.7K source paintings; the renderer scales smoothly to 4K displays. These are new high-resolution illustrations relative to the original game's small screens, not native 4K painted masters. Original prompts are in `docs/ASSET-PROMPTS.json`.
 

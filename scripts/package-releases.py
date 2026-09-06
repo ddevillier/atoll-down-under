@@ -33,7 +33,7 @@ def collect(directory):
 collect(root)
 reports.append(archive(dist / 'Atoll-Down-Under-Source.zip', source_files, root, 'atoll-down-under/'))
 checksums = []
-for file in sorted(dist.glob('*.zip')):
+for file in [dist / 'Atoll-Down-Under-Windows-x64.zip', dist / 'Atoll-Down-Under-Source.zip']:
     with file.open('rb') as stream:
         digest = hashlib.file_digest(stream, 'sha256').hexdigest()
     checksums.append(f'{digest}  {file.name}')
