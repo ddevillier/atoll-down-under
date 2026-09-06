@@ -1,0 +1,438 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-06T15:49:16.494Z",
+  "title": "Design System: Atoll Down Under",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "oklch(15.00% 0.0229 95.96)",
+          "oklch(26.43% 0.0229 95.96)",
+          "oklch(37.86% 0.0229 95.96)",
+          "oklch(49.29% 0.0229 95.96)",
+          "oklch(60.71% 0.0229 95.96)",
+          "oklch(72.14% 0.0229 95.96)",
+          "oklch(83.57% 0.0229 95.96)",
+          "oklch(95.00% 0.0229 95.96)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0443 211.50)",
+          "oklch(26.43% 0.0443 211.50)",
+          "oklch(37.86% 0.0443 211.50)",
+          "oklch(49.29% 0.0443 211.50)",
+          "oklch(60.71% 0.0443 211.50)",
+          "oklch(72.14% 0.0443 211.50)",
+          "oklch(83.57% 0.0443 211.50)",
+          "oklch(95.00% 0.0443 211.50)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.0388 212.81)",
+          "oklch(26.43% 0.0388 212.81)",
+          "oklch(37.86% 0.0388 212.81)",
+          "oklch(49.29% 0.0388 212.81)",
+          "oklch(60.71% 0.0388 212.81)",
+          "oklch(72.14% 0.0388 212.81)",
+          "oklch(83.57% 0.0388 212.81)",
+          "oklch(95.00% 0.0388 212.81)"
+        ]
+      },
+      "teal": {
+        "role": "primary",
+        "displayName": "Reef teal",
+        "tonalRamp": [
+          "oklch(15.00% 0.0740 199.97)",
+          "oklch(26.43% 0.0740 199.97)",
+          "oklch(37.86% 0.0740 199.97)",
+          "oklch(49.29% 0.0740 199.97)",
+          "oklch(60.71% 0.0740 199.97)",
+          "oklch(72.14% 0.0740 199.97)",
+          "oklch(83.57% 0.0740 199.97)",
+          "oklch(95.00% 0.0740 199.97)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Reef line",
+        "tonalRamp": [
+          "oklch(15.00% 0.0185 142.81)",
+          "oklch(26.43% 0.0185 142.81)",
+          "oklch(37.86% 0.0185 142.81)",
+          "oklch(49.29% 0.0185 142.81)",
+          "oklch(60.71% 0.0185 142.81)",
+          "oklch(72.14% 0.0185 142.81)",
+          "oklch(83.57% 0.0185 142.81)",
+          "oklch(95.00% 0.0185 142.81)"
+        ]
+      },
+      "shell": {
+        "role": "neutral",
+        "displayName": "Shell",
+        "tonalRamp": [
+          "oklch(15.00% 0.0372 215.86)",
+          "oklch(26.43% 0.0372 215.86)",
+          "oklch(37.86% 0.0372 215.86)",
+          "oklch(49.29% 0.0372 215.86)",
+          "oklch(60.71% 0.0372 215.86)",
+          "oklch(72.14% 0.0372 215.86)",
+          "oklch(83.57% 0.0372 215.86)",
+          "oklch(95.00% 0.0372 215.86)"
+        ]
+      },
+      "secondary-surface": {
+        "role": "neutral",
+        "displayName": "Secondary surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0146 98.28)",
+          "oklch(26.43% 0.0146 98.28)",
+          "oklch(37.86% 0.0146 98.28)",
+          "oklch(49.29% 0.0146 98.28)",
+          "oklch(60.71% 0.0146 98.28)",
+          "oklch(72.14% 0.0146 98.28)",
+          "oklch(83.57% 0.0146 98.28)",
+          "oklch(95.00% 0.0146 98.28)"
+        ]
+      },
+      "on-teal": {
+        "role": "neutral",
+        "displayName": "On-teal cream",
+        "tonalRamp": [
+          "oklch(15.00% 0.0378 92.23)",
+          "oklch(26.43% 0.0378 92.23)",
+          "oklch(37.86% 0.0378 92.23)",
+          "oklch(49.29% 0.0378 92.23)",
+          "oklch(60.71% 0.0378 92.23)",
+          "oklch(72.14% 0.0378 92.23)",
+          "oklch(83.57% 0.0378 92.23)",
+          "oklch(95.00% 0.0378 92.23)"
+        ]
+      },
+      "selection": {
+        "role": "primary",
+        "displayName": "Selection teal",
+        "tonalRamp": [
+          "oklch(15.00% 0.0734 197.54)",
+          "oklch(26.43% 0.0734 197.54)",
+          "oklch(37.86% 0.0734 197.54)",
+          "oklch(49.29% 0.0734 197.54)",
+          "oklch(60.71% 0.0734 197.54)",
+          "oklch(72.14% 0.0734 197.54)",
+          "oklch(83.57% 0.0734 197.54)",
+          "oklch(95.00% 0.0734 197.54)"
+        ]
+      },
+      "tool-surface": {
+        "role": "neutral",
+        "displayName": "Tool surface",
+        "tonalRamp": [
+          "oklch(15.00% 0.0210 124.67)",
+          "oklch(26.43% 0.0210 124.67)",
+          "oklch(37.86% 0.0210 124.67)",
+          "oklch(49.29% 0.0210 124.67)",
+          "oklch(60.71% 0.0210 124.67)",
+          "oklch(72.14% 0.0210 124.67)",
+          "oklch(83.57% 0.0210 124.67)",
+          "oklch(95.00% 0.0210 124.67)"
+        ]
+      },
+      "tool-primary": {
+        "role": "primary",
+        "displayName": "Tool teal",
+        "tonalRamp": [
+          "oklch(15.00% 0.0722 198.84)",
+          "oklch(26.43% 0.0722 198.84)",
+          "oklch(37.86% 0.0722 198.84)",
+          "oklch(49.29% 0.0722 198.84)",
+          "oklch(60.71% 0.0722 198.84)",
+          "oklch(72.14% 0.0722 198.84)",
+          "oklch(83.57% 0.0722 198.84)",
+          "oklch(95.00% 0.0722 198.84)"
+        ]
+      },
+      "practice": {
+        "role": "secondary",
+        "displayName": "Practice sand",
+        "tonalRamp": [
+          "oklch(15.00% 0.0955 82.60)",
+          "oklch(26.43% 0.0955 82.60)",
+          "oklch(37.86% 0.0955 82.60)",
+          "oklch(49.29% 0.0955 82.60)",
+          "oklch(60.71% 0.0955 82.60)",
+          "oklch(72.14% 0.0955 82.60)",
+          "oklch(83.57% 0.0955 82.60)",
+          "oklch(95.00% 0.0955 82.60)"
+        ]
+      },
+      "focus": {
+        "role": "secondary",
+        "displayName": "Focus gold",
+        "tonalRamp": [
+          "oklch(15.00% 0.1191 82.98)",
+          "oklch(26.43% 0.1191 82.98)",
+          "oklch(37.86% 0.1191 82.98)",
+          "oklch(49.29% 0.1191 82.98)",
+          "oklch(60.71% 0.1191 82.98)",
+          "oklch(72.14% 0.1191 82.98)",
+          "oklch(83.57% 0.1191 82.98)",
+          "oklch(95.00% 0.1191 82.98)"
+        ]
+      },
+      "meter-safe": {
+        "role": "secondary",
+        "displayName": "Survival green",
+        "tonalRamp": [
+          "oklch(15.00% 0.0912 140.76)",
+          "oklch(26.43% 0.0912 140.76)",
+          "oklch(37.86% 0.0912 140.76)",
+          "oklch(49.29% 0.0912 140.76)",
+          "oklch(60.71% 0.0912 140.76)",
+          "oklch(72.14% 0.0912 140.76)",
+          "oklch(83.57% 0.0912 140.76)",
+          "oklch(95.00% 0.0912 140.76)"
+        ]
+      },
+      "meter-warning": {
+        "role": "secondary",
+        "displayName": "Warning ochre",
+        "tonalRamp": [
+          "oklch(15.00% 0.1144 86.96)",
+          "oklch(26.43% 0.1144 86.96)",
+          "oklch(37.86% 0.1144 86.96)",
+          "oklch(49.29% 0.1144 86.96)",
+          "oklch(60.71% 0.1144 86.96)",
+          "oklch(72.14% 0.1144 86.96)",
+          "oklch(83.57% 0.1144 86.96)",
+          "oklch(95.00% 0.1144 86.96)"
+        ]
+      },
+      "meter-danger": {
+        "role": "secondary",
+        "displayName": "Danger coral",
+        "tonalRamp": [
+          "oklch(15.00% 0.1220 35.74)",
+          "oklch(26.43% 0.1220 35.74)",
+          "oklch(37.86% 0.1220 35.74)",
+          "oklch(49.29% 0.1220 35.74)",
+          "oklch(60.71% 0.1220 35.74)",
+          "oklch(72.14% 0.1220 35.74)",
+          "oklch(83.57% 0.1220 35.74)",
+          "oklch(95.00% 0.1220 35.74)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Spectral Display",
+        "purpose": "Main game title; locally registered as AtollDisplay."
+      },
+      "headline": {
+        "displayName": "Spectral Headline",
+        "purpose": "Dialog headings."
+      },
+      "title": {
+        "displayName": "Spectral Creature Title",
+        "purpose": "Creature names in the detail pane."
+      },
+      "body": {
+        "displayName": "DM Sans Body",
+        "purpose": "Compact descriptions and explanations; locally registered as AtollSans."
+      },
+      "label": {
+        "displayName": "DM Sans Label",
+        "purpose": "Navigation and compact controls."
+      },
+      "micro": {
+        "displayName": "DM Sans Micro",
+        "purpose": "Meter labels and sequence chips."
+      }
+    },
+    "shadows": [
+      {
+        "name": "dialog",
+        "value": "0 12px 50px #082b3880",
+        "purpose": "Lift the modal sheet above the reef."
+      },
+      {
+        "name": "inspection",
+        "value": "0 6px 22px #173d4660",
+        "purpose": "Separate the inspection card from detailed reef texture."
+      },
+      {
+        "name": "title-text",
+        "value": "0 3px 20px #09323c99",
+        "purpose": "Text shadow for the cream title over water."
+      }
+    ],
+    "motion": [
+      {
+        "name": "button-color",
+        "value": "background .16s, color .16s",
+        "purpose": "CSS button transitions; hover brightness is 1.06 and pressed displacement is 1px."
+      },
+      {
+        "name": "meter-state",
+        "value": "background .18s linear",
+        "purpose": "Animate the survival meter's state color."
+      },
+      {
+        "name": "loading",
+        "value": "1.5s ease-in-out infinite alternate",
+        "purpose": "Loading-bar movement; translates to 80%."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}",
+        "purpose": "Disable CSS animation and transitions; the renderer separately reduces decorative motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop-max-width",
+        "value": "1100px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Compact dialog action with a visible keyboard focus outline.",
+      "html": "<button class=\"ds-primary\"><svg viewBox=\"0 0 26 26\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\"/></svg>Enter the reef</button>",
+      "css": ".ds-primary{font-family:AtollSans,Arial,sans-serif;padding:11px 20px;border:1px solid var(--teal,#196a6e);font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:9px;justify-content:center;background:var(--teal,#196a6e);color:#fff6da}.ds-primary svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-primary{transition:background .16s,color .16s;cursor:pointer}.ds-primary:hover{filter:brightness(1.06)}.ds-primary:active{transform:translateY(1px)}.ds-primary:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-primary:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Compact dialog action with a visible keyboard focus outline.",
+      "html": "<button class=\"ds-secondary\">Back</button>",
+      "css": ".ds-secondary{font-family:AtollSans,Arial,sans-serif;padding:11px 20px;border:1px solid #b4c5b7;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:9px;justify-content:center;background:#fffdf2;color:var(--ink,#163c43)}.ds-secondary svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-secondary{transition:background .16s,color .16s;cursor:pointer}.ds-secondary:hover{filter:brightness(1.06)}.ds-secondary:active{transform:translateY(1px)}.ds-secondary:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-secondary:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Toolbar Button",
+      "kind": "button",
+      "refersTo": "button-tool",
+      "description": "An ability action with a keyboard keycap.",
+      "html": "<button class=\"ds-tool\"><svg viewBox=\"0 0 26 26\" aria-hidden=\"true\"><path d=\"m13 2-9 12h7l-1 8 10-13h-7l0-7\"/></svg>Burst swim<kbd>Space</kbd></button>",
+      "css": ".ds-tool{font-family:AtollSans,Arial,sans-serif;background:#e1e7d8;border:1px solid #bbcabe;padding:9px 12px;color:var(--ink,#163c43);font-size:12px;display:inline-flex;gap:6px;align-items:center}.ds-tool kbd{font:10px AtollSans,sans-serif;background:#ffffff70;padding:2px 4px}.ds-tool svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-tool{transition:background .16s,color .16s;cursor:pointer}.ds-tool:hover{filter:brightness(1.06)}.ds-tool:active{transform:translateY(1px)}.ds-tool:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-tool:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-tool{transition:none}}@media(max-width:1100px){.ds-tool{padding:8px}.ds-tool kbd{display:none}}"
+    },
+    {
+      "name": "Emphasized Toolbar Button",
+      "kind": "button",
+      "refersTo": "button-tool-primary",
+      "description": "The survival bar's inspection or continue action.",
+      "html": "<button class=\"ds-tool-primary\"><svg viewBox=\"0 0 26 26\" aria-hidden=\"true\"><path d=\"M12 11v6m0-10v.1M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20\"/></svg>Inspect<kbd>Esc</kbd></button>",
+      "css": ".ds-tool-primary{font-family:AtollSans,Arial,sans-serif;background:#1a686b;border:1px solid #1a686b;padding:9px 12px;color:#fff6d8;font-size:12px;display:inline-flex;gap:6px;align-items:center}.ds-tool-primary kbd{font:10px AtollSans,sans-serif;background:#ffffff70;padding:2px 4px}.ds-tool-primary svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-tool-primary{transition:background .16s,color .16s;cursor:pointer}.ds-tool-primary:hover{filter:brightness(1.06)}.ds-tool-primary:active{transform:translateY(1px)}.ds-tool-primary:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-tool-primary:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-tool-primary{transition:none}}@media(max-width:1100px){.ds-tool-primary{padding:8px}.ds-tool-primary kbd{display:none}}"
+    },
+    {
+      "name": "Mode Button",
+      "kind": "button",
+      "refersTo": "button-mode",
+      "description": "A title-screen mode row with explanatory text and a directional arrow.",
+      "html": "<button class=\"ds-mode\"><span><b>Challenge</b><small>Four lives, from small fry to reef ruler.</small></span><svg viewBox=\"0 0 26 26\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-mode{font-family:AtollSans,Arial,sans-serif;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;text-align:left;background:#f5f0dfee;border:0;color:#123b43;min-height:60px;width:100%}.ds-mode b{font-size:17px;font-weight:600}.ds-mode small{display:block;font-size:12px;color:#436167;margin-top:3px}.ds-mode svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-mode svg{width:22px}.ds-mode{transition:background .16s,color .16s;cursor:pointer}.ds-mode:hover{filter:brightness(1.06)}.ds-mode:active{transform:translateY(1px)}.ds-mode:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-mode:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-mode{transition:none}}@media(max-width:1100px){.ds-mode{padding:9px 14px;min-height:49px}.ds-mode b{font-size:15px}.ds-mode small{font-size:11px}}"
+    },
+    {
+      "name": "Practice Mode Button",
+      "kind": "button",
+      "refersTo": "button-mode-practice",
+      "description": "A title-screen mode row with explanatory text and a directional arrow.",
+      "html": "<button class=\"ds-mode-practice\"><span><b>Practice</b><small>Choose a creature. Learn to survive.</small></span><svg viewBox=\"0 0 26 26\" aria-hidden=\"true\"><path d=\"M4 12h16m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-mode-practice{font-family:AtollSans,Arial,sans-serif;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;text-align:left;background:#e5c17d;border:0;color:#123b43;min-height:60px;width:100%}.ds-mode-practice b{font-size:17px;font-weight:600}.ds-mode-practice small{display:block;font-size:12px;color:#436167;margin-top:3px}.ds-mode-practice svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-mode-practice svg{width:22px}.ds-mode-practice{transition:background .16s,color .16s;cursor:pointer}.ds-mode-practice:hover{filter:brightness(1.06)}.ds-mode-practice:active{transform:translateY(1px)}.ds-mode-practice:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-mode-practice:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-mode-practice{transition:none}}@media(max-width:1100px){.ds-mode-practice{padding:9px 14px;min-height:49px}.ds-mode-practice b{font-size:15px}.ds-mode-practice small{font-size:11px}}"
+    },
+    {
+      "name": "Main Menu Navigation",
+      "kind": "nav",
+      "refersTo": "button-text",
+      "description": "Transparent text actions over the warm paper top bar.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main menu\"><button class=\"ds-nav-action\"><svg viewBox=\"0 0 26 26\" aria-hidden=\"true\"><path d=\"M3 4h7l2 2 2-2h7v16h-7l-2 2-2-2H3V4Zm9 2v16\"/></svg>Field guide</button><button class=\"ds-nav-action\"><svg viewBox=\"0 0 26 26\" aria-hidden=\"true\"><path d=\"M4 3h13l4 4v14H3V3h1Zm3 0v6h10V3M7 21v-8h10v8\"/></svg>Saved dives</button></nav>",
+      "css": ".ds-nav{display:flex;gap:5px;align-items:center;background:#f3efdeef;color:var(--ink,#163c43)}.ds-nav-action{font-family:AtollSans,Arial,sans-serif;border:0;background:transparent;color:var(--ink,#163c43);padding:9px 12px;display:inline-flex;gap:7px;align-items:center;justify-content:center;font-size:13px}.ds-nav-action:hover{background:#c9ded8}.ds-nav-action svg{width:19px;height:19px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.ds-nav-action{transition:background .16s,color .16s;cursor:pointer}.ds-nav-action:hover{filter:brightness(1.06)}.ds-nav-action:active{transform:translateY(1px)}.ds-nav-action:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-nav-action:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-nav-action{transition:none}}@media(max-width:1100px){.ds-nav{gap:0}.ds-nav-action{padding:7px 6px;font-size:11px}}"
+    },
+    {
+      "name": "Creature Search",
+      "kind": "input",
+      "refersTo": "search",
+      "description": "The creature browser's full-width search field.",
+      "html": "<input class=\"ds-search\" type=\"search\" aria-label=\"Search creatures\" placeholder=\"Find a reef dweller…\">",
+      "css": ".ds-search{font-family:AtollSans,Arial,sans-serif;width:100%;padding:11px 13px;background:#fffdf3;color:var(--ink,#163c43);border:1px solid #b9c9ba;margin-bottom:9px;font-size:13px}.ds-search:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}"
+    },
+    {
+      "name": "Dialog Sheet with Feedback",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "The paper dialog frame with feedback kept visibly inside the active modal.",
+      "html": "<section class=\"ds-panel\" aria-labelledby=\"ds-dialog-title\"><header class=\"ds-panel-header\"><h2 id=\"ds-dialog-title\">Your saved dives</h2><button class=\"ds-panel-close\" aria-label=\"Close dialog\">×</button></header><div class=\"ds-modal-notice\" role=\"status\">Storage is full or unavailable. This dive could not be saved. Keep it open, free local storage, then try saving again.</div><div class=\"ds-panel-body\"><p>Saved on this device.</p></div></section>",
+      "css": ".ds-panel{font-family:AtollSans,Arial,sans-serif;background:var(--paper,#f4f0df);color:var(--ink,#163c43);width:min(930px,90%);max-height:100%;display:flex;flex-direction:column;box-shadow:0 12px 50px #082b3880;border-radius:4px;overflow:hidden}.ds-panel-header{display:flex;align-items:center;justify-content:space-between;padding:20px 27px 16px;border-bottom:1px solid var(--line,#c6d0c5);gap:16px}.ds-panel-header h2{margin:0;font-family:AtollDisplay,Georgia,serif;font-weight:600;font-size:29px;line-height:1.2}.ds-panel-close{font-family:AtollSans,Arial,sans-serif;background:none;border:none;font-size:24px;line-height:24px;color:var(--ink,#163c43);padding:7px}.ds-panel-body{padding:23px 27px;overflow:auto;min-height:0}.ds-panel-body p{margin:0;line-height:1.6}.ds-modal-notice{padding:10px 27px;background:#eadbaf;color:#3d4a37;font-size:12px;line-height:1.5;flex-shrink:0}.ds-panel-close{transition:background .16s,color .16s;cursor:pointer}.ds-panel-close:hover{filter:brightness(1.06)}.ds-panel-close:active{transform:translateY(1px)}.ds-panel-close:focus-visible{outline:3px solid #f4c76e;outline-offset:3px}.ds-panel-close:disabled{cursor:default;opacity:.48}@media(prefers-reduced-motion:reduce){.ds-panel-close{transition:none}}@media(max-width:1100px){.ds-panel-header{padding:14px 22px}.ds-panel-header h2{font-size:25px}.ds-panel-body{padding:16px 22px;overscroll-behavior:contain}}"
+    },
+    {
+      "name": "Sequence Chips",
+      "kind": "chip",
+      "refersTo": "sequence-tag",
+      "description": "Static species labels for a multistage dive; the first label has a stronger tint.",
+      "html": "<div class=\"ds-sequence\"><span>Neon damselfish</span><span>Parrotfish</span><span>Coral grouper</span></div>",
+      "css": ".ds-sequence{font-family:AtollSans,Arial,sans-serif;color:var(--ink,#163c43);display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}.ds-sequence span{font-size:10px;background:#dce7d7;padding:5px 8px}.ds-sequence span:first-child{background:#c5dbcb}"
+    },
+    {
+      "name": "Survival Meters and Habitat Map",
+      "kind": "custom",
+      "description": "Two slim numeric meters and a nine-cell map, extracted from the survival bar.",
+      "html": "<div class=\"ds-instruments\"><div class=\"ds-meters\"><div class=\"ds-meter-row\"><span>Energy</span><div class=\"ds-meter\" role=\"meter\" aria-label=\"Energy\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"100\"><i></i></div><span>100</span></div><div class=\"ds-meter-row\"><span>Health</span><div class=\"ds-meter\" role=\"meter\" aria-label=\"Health\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"100\"><i></i></div><span>100</span></div></div><div class=\"ds-map\" aria-label=\"Reef section 5 of 9\"><span></span><span></span><span></span><span></span><span class=\"ds-map-active\"></span><span></span><span></span><span></span><span></span></div></div>",
+      "css": ".ds-instruments{font-family:AtollSans,Arial,sans-serif;color:var(--ink,#163c43);display:flex;align-items:center;gap:22px;padding:9px 2%;background:#f4f0e0f5;border-top:1px solid #d9d5bd}.ds-meters{display:grid;gap:7px;min-width:175px;flex:1;max-width:290px}.ds-meter-row{display:grid;grid-template-columns:47px 1fr 30px;gap:8px;align-items:center;font-size:10px}.ds-meter{height:9px;background:#d1d9cd;border:1px solid #b4c2b8}.ds-meter i{display:block;height:100%;background:#6e9b66;transition:background .18s linear}.ds-meter i.ds-warning{background:#c7a34b}.ds-meter i.ds-danger{background:#c36850}.ds-map{display:grid;grid-template-columns:repeat(3,13px);grid-template-rows:repeat(3,11px);gap:3px;padding:4px}.ds-map span{border:1px solid #809e94;background:#d7dfcd}.ds-map span.ds-map-active{background:#256a6e}@media(prefers-reduced-motion:reduce){.ds-meter i{transition:none}}@media(max-width:1100px){.ds-instruments{gap:12px}.ds-meters{min-width:150px}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The illustrated living reef",
+    "overview": "Richly textured natural-history reef illustrations and crisp side-profile fish carry the experience. Jewel-tone coral, luminous turquoise water, cream sand, and deep cave shadows give the world its detail. Compact warm cream and gray-green controls, dark teal lettering, and Spectral headings provide the field-guide frame.\n\nThe reef dominates this desktop 16:9 scene-driven game. Menus and educational dialogs sit over the same illustrated world; interface density stays compact so the habitat and creatures remain visible. Original artwork, typography, and branding preserve the approved visual direction without copying game marks.",
+    "keyCharacteristics": [
+      "Rich natural-history illustration with clear side-profile creatures.",
+      "Nine distinct habitat compositions with scene-specific shelter and food placement.",
+      "Warm paper surfaces, restrained teal actions, and compact ecological instruments.",
+      "Spectral headings paired with readable DM Sans controls.",
+      "Full reef readability in both daytime and nighttime play."
+    ],
+    "rules": [
+      {
+        "name": "The Reef Color Rule",
+        "body": "Let the paintings carry the broad color range; keep the interface grounded in paper, ink, and teal.",
+        "section": "colors"
+      },
+      {
+        "name": "The Distinct Habitat Rule",
+        "body": "Each of the nine scenes must have a distinct overall silhouette, negative-space arrangement, and habitat topology. Do not repeat an open-water bowl framed by coral across the map.",
+        "section": "layout"
+      },
+      {
+        "name": "The Readable Night Rule",
+        "body": "Keep nighttime habitats as readable as daytime. The renderer deliberately applies no dark night filter or obscuring fog.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** let original reef paintings and side-profile creatures dominate the stage.",
+      "**Do** preserve nine distinct scene silhouettes, negative spaces, and habitat topologies.",
+      "**Do** place shelters and food against each painting's actual terrain.",
+      "**Do** use Spectral for titles and DM Sans for controls and facts.",
+      "**Do** keep energy and health compact, labeled, and numerically readable.",
+      "**Do** preserve visible keyboard focus, modal focus containment, and in-dialog feedback.",
+      "**Do** keep the night reef fully readable and honor reduced-motion preferences."
+    ],
+    "donts": [
+      "**Don't** reuse the rejected open-water bowl composition for every habitat.",
+      "**Don't** copy original game marks, lettering, or bundled artwork.",
+      "**Don't** cover the reef with combat HUD clutter, broad fog, or a dark night filter.",
+      "**Don't** replace the compact rectangular controls with oversized pill or card treatments.",
+      "**Don't** allow portrait canvases to overflow their stages or obscure text.",
+      "**Don't** hide save or load feedback behind the active dialog."
+    ]
+  }
+}

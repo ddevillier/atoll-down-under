@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self'; font-src 'self'">
+  <title>Atoll Down Under</title>
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <main id="app" aria-label="Atoll Down Under">
+    <canvas id="reef" aria-label="Interactive coral reef. Move the mouse to swim; click food to eat. Press Escape to inspect the reef." tabindex="0"></canvas>
+    <div id="ui"></div>
+    <div id="announcer" class="sr-only" aria-live="polite"></div>
+  </main>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

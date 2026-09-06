@@ -1,0 +1,26 @@
+{
+  "name": "atoll-down-under",
+  "version": "0.1.0",
+  "description": "An original widescreen reef survival game",
+  "private": true,
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dev": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "package:win": "node scripts/package.mjs win32",
+    "package:mac": "node scripts/package.mjs darwin",
+    "test:e2e": "playwright test",
+    "test:desktop": "node scripts/qa-desktop.mjs"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "@fontsource/dm-sans": "^5.3.0",
+    "@fontsource/spectral": "^5.3.0",
+    "@playwright/test": "^1.63.0",
+    "electron": "^44.2.0",
+    "png-to-ico": "^3.0.2",
+    "sharp": "^0.35.4"
+  }
+}

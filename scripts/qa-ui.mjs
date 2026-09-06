@@ -1,0 +1,16 @@
+import { chromium } from '@playwright/test';
+import fs from 'node:fs';
+fs.mkdirSync('artifacts',{recursive:true});
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1600,height:900},deviceScaleFactor:1});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>window.atoll?.renderer.ready);await page.screenshot({path:'artifacts/title-1600.png'});
+await page.getByRole('button',{name:/Practice Choose/}).click();await page.screenshot({path:'artifacts/practice-1600.png'});
+await page.getByRole('button',{name:'Enter the reef'}).click();await page.screenshot({path:'artifacts/reef-1600.png'});
+await page.keyboard.press('Escape');await page.screenshot({path:'artifacts/inspect-1600.png'});
+await page.getByRole('button',{name:'Field guide',exact:true}).click();await page.screenshot({path:'artifacts/guide-1600.png'});await page.getByRole('button',{name:'Close dialog'}).click();
+await page.getByRole('button',{name:'Atoll',exact:true}).click();await page.getByRole('button',{name:/Create a fish/}).click();await page.screenshot({path:'artifacts/create-1600.png'});
+await page.getByRole('button',{name:'Close dialog'}).click();
+await page.setViewportSize({width:1024,height:768});await page.screenshot({path:'artifacts/title-1024.png'});await page.getByRole('button',{name:/Practice Choose/}).click();await page.screenshot({path:'artifacts/practice-1024.png'});
+fs.writeFileSync('artifacts/ui-errors.json',JSON.stringify(errors,null,2));console.log(JSON.stringify({errors,screenshots:8}));
+await browser.close();

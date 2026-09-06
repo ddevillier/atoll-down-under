@@ -1,0 +1,182 @@
+{
+  "music": [
+    {
+      "file": "glasswater.ogg",
+      "duration": 106.667,
+      "peak": 0.2282,
+      "rms": 0.0455
+    },
+    {
+      "file": "moon-through-water.ogg",
+      "duration": 128.0,
+      "peak": 0.1773,
+      "rms": 0.0404
+    },
+    {
+      "file": "blue-passage.ogg",
+      "duration": 101.053,
+      "peak": 0.2184,
+      "rms": 0.0457
+    }
+  ],
+  "effects": [
+    {
+      "file": "ui.ogg",
+      "duration": 0.18,
+      "peak": 0.0877,
+      "rms": 0.0333
+    },
+    {
+      "file": "bite.ogg",
+      "duration": 0.17,
+      "peak": 0.1815,
+      "rms": 0.0593
+    },
+    {
+      "file": "meal.ogg",
+      "duration": 0.65,
+      "peak": 0.1374,
+      "rms": 0.035
+    },
+    {
+      "file": "reject.ogg",
+      "duration": 0.24,
+      "peak": 0.0919,
+      "rms": 0.0398
+    },
+    {
+      "file": "poison.ogg",
+      "duration": 0.7,
+      "peak": 0.1014,
+      "rms": 0.0371
+    },
+    {
+      "file": "hurt.ogg",
+      "duration": 0.32,
+      "peak": 0.1963,
+      "rms": 0.0555
+    },
+    {
+      "file": "hide.ogg",
+      "duration": 0.38,
+      "peak": 0.0636,
+      "rms": 0.0276
+    },
+    {
+      "file": "reveal.ogg",
+      "duration": 0.3,
+      "peak": 0.0566,
+      "rms": 0.0245
+    },
+    {
+      "file": "transition.ogg",
+      "duration": 0.8,
+      "peak": 0.0556,
+      "rms": 0.0185
+    },
+    {
+      "file": "bubble.ogg",
+      "duration": 0.19,
+      "peak": 0.0459,
+      "rms": 0.0199
+    },
+    {
+      "file": "dash.ogg",
+      "duration": 0.5,
+      "peak": 0.1099,
+      "rms": 0.0315
+    },
+    {
+      "file": "ink.ogg",
+      "duration": 0.65,
+      "peak": 0.1731,
+      "rms": 0.0433
+    },
+    {
+      "file": "spines.ogg",
+      "duration": 0.35,
+      "peak": 0.0812,
+      "rms": 0.0253
+    },
+    {
+      "file": "puff.ogg",
+      "duration": 0.55,
+      "peak": 0.1018,
+      "rms": 0.037
+    },
+    {
+      "file": "shock.ogg",
+      "duration": 0.55,
+      "peak": 0.1856,
+      "rms": 0.0384
+    },
+    {
+      "file": "sting.ogg",
+      "duration": 0.32,
+      "peak": 0.0894,
+      "rms": 0.031
+    },
+    {
+      "file": "sonic.ogg",
+      "duration": 0.9,
+      "peak": 0.0707,
+      "rms": 0.0306
+    },
+    {
+      "file": "flash.ogg",
+      "duration": 0.5,
+      "peak": 0.0633,
+      "rms": 0.0205
+    },
+    {
+      "file": "lure.ogg",
+      "duration": 1.1,
+      "peak": 0.0763,
+      "rms": 0.0178
+    },
+    {
+      "file": "camouflage.ogg",
+      "duration": 0.6,
+      "peak": 0.0566,
+      "rms": 0.0245
+    },
+    {
+      "file": "crush.ogg",
+      "duration": 0.26,
+      "peak": 0.2197,
+      "rms": 0.0561
+    },
+    {
+      "file": "clean.ogg",
+      "duration": 2.64,
+      "peak": 0.2109,
+      "rms": 0.0477
+    },
+    {
+      "file": "advance.ogg",
+      "duration": 2.96,
+      "peak": 0.2615,
+      "rms": 0.0556
+    },
+    {
+      "file": "save.ogg",
+      "duration": 2.48,
+      "peak": 0.2011,
+      "rms": 0.0428
+    },
+    {
+      "file": "death.ogg",
+      "duration": 2.64,
+      "peak": 0.2297,
+      "rms": 0.048
+    },
+    {
+      "file": "win.ogg",
+      "duration": 3.12,
+      "peak": 0.2615,
+      "rms": 0.0583
+    }
+  ],
+  "sampleRate": 32000,
+  "composition": "All notes, synthesis and arrangements are original to Atoll Down Under. No recorded samples."
+}
