@@ -1,6 +1,6 @@
 # Life-science reference notes
 
-The field guide separates natural-history explanations from the game's simplified rules. The following primary sources were read on 6 September 2026. The text in the game is newly written; source photographs and text are not copied into the asset library.
+The field guide separates natural-history explanations from the game's simplified rules. The following institutional sources were read on 6 September 2026. The text in the game is newly written; source photographs and text are not copied into the asset library.
 
 - [NOAA Ocean Service: Are corals animals or plants?](https://oceanservice.noaa.gov/facts/coral.html) supports coral polyps as animals, limestone skeletons, colony formation and partnerships with photosynthetic algae.
 - [NOAA Ocean Service: What are plankton?](https://oceanservice.noaa.gov/facts/plankton.html) supports classification by drifting, life stages, phytoplankton and zooplankton, and feeding links.
@@ -14,7 +14,7 @@ Each lesson includes an observation or comparison question and states the proces
 
 ## Species natural history (checked 6 September 2026)
 
-Forty entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
+Forty-five entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
 
 - Longnose butterflyfish: [Australian Museum](https://australian.museum/learn/animals/fishes/longnose-butterflyfish-forcipiger-longirostris-broussonet-1782/). Supports name, family, maximum length, range, habitat and diagnostic differences from the forcepsfish. The current illustration needs a species-identification art audit; its markings should not be used as a field identification reference.
 - Banggai cardinalfish: [NOAA Fisheries](https://www.fisheries.noaa.gov/species/banggai-cardinalfish). Supports name, family, length (3.4 inches converted to approximately 8.6 cm), native range, copepod diet, mouthbrooding and individually distinctive spots. The simulation's activity period remains a scenario rule pending a species activity audit; reproduction is not simulated.
@@ -46,7 +46,7 @@ Second facts batch (checked 6 September 2026):
 - Banded coral shrimp: [Oregon Coast Aquarium](https://aquarium.org/animals/banded-coral-shrimp/). Identity, approximate body length, markings, habitat, pairing, cleaning, eggs and larval dispersal. No exact larval duration or nocturnal exclusivity claimed.
 - Cuttlefish: [Australian Museum, Giant Cuttlefish](https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/). Named example supporting camouflage, changing texture, diet, communication and daytime activity. The catalog still lacks a species identification; the example is explicitly not asserted to be its identity. No claim that all cuttlefish share the giant cuttlefish's size or distribution.
 
-The remaining 24 catalog entries do not yet have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Do not infer that this partial expansion verifies the full roster's natural history. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
+The remaining 19 catalog entries do not yet have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Do not infer that this partial expansion verifies the full roster's natural history. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
 
 ## Third facts batch (checked 6 September 2026)
 
@@ -72,3 +72,11 @@ The remaining 24 catalog entries do not yet have sourced natural-history expansi
 - Longfin bannerfish: [Australian Museum · Longfin Bannerfish](https://australian.museum/learn/animals/fishes/longfin-bannerfish-heniochus-acuminatus-linnaeus-1758/). Identification, length, habitat, diet and distinction from schooling bannerfish.
 
 Yellowspot emperor name cross-check: [NOAA species table](https://downloads.regulations.gov/NOAA-NMFS-2014-0130-0016/content.pdf); its spelling aurolineatus is reconciled to the museum account aureolineatus. No fisheries rules are adopted.
+
+## Facts batch 5
+
+- [Neon damselfish](https://fishesofaustralia.net.au/home/species/2341): Fishes of Australia supports the neon-damsel name, color, length, range and comparison with P. pavo. This common-name match does not certify the sprite.
+- [Peach fairy basslet](https://fishesofaustralia.net.au/home/species/4390): Fishes of Australia supports male/female fin and color differences, length and the change from Pseudanthias to Nemanthias. The game feeding rule is separate.
+- [Whitespot hawkfish](https://churaumi.okinawa/en/fishbook/1610175140/): Okinawa Churaumi Aquarium supports identity, size, markings, bottom habitat and small-fish/crustacean diet.
+- [Checkerboard hawkfish](https://fishesofaustralia.net.au/home/species/2428): Exact identity remains unresolved. Fishes of Australia provides Oxycirrhites typus as a clearly named example: patterned body, long snout, perching habitat and crustacean diet. It is not presented as the sprite identification.
+- [Royal gramma](https://www.aquarium-larochelle.com/en/species-encyclopedia/royal-gramma/): Aquarium La Rochelle supports identity, size, Atlantic distribution, ledge orientation, crustacean diet, occasional cleaning and nest care. Geography is explicitly flagged as inconsistent with a strictly Australian roster. Reproductive timing and sex-development claims were omitted.

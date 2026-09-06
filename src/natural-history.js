@@ -1,6 +1,41 @@
 // Independently written summaries of cited museum, government, aquarium and university sources.
 // Real-world measurements are separate from sprite size and game balance.
 export const NATURAL_HISTORY={
+ s3:{scientific:'Gramma loreto',family:'Royal grammas and their relatives',length:'About 8 cm',
+  paragraphs:[
+   'Royal grammas live around Caribbean and western Atlantic reefs, often close to caves and overhangs. They can swim belly-up beneath a ledge, orienting themselves to the nearby reef surface.',
+   'Their food includes tiny crustaceans drifting in the water or living near the bottom. They sometimes pick parasites from other fishes. A male prepares a sheltered nest with algae and other material, then tends the eggs.'
+  ],question:'Watch a fish beside a ledge. Is its belly always facing the seabed, or could it face the nearest shelter?',
+  limit:'This is an Atlantic species in a mixed game catalog, not evidence that it belongs on an Australian reef. Upside-down swimming, nesting and occasional cleaning are not simulated.',
+  source:'Aquarium La Rochelle · Royal Gramma',url:'https://www.aquarium-larochelle.com/en/species-encyclopedia/royal-gramma/'},
+ s1:{scientific:'Pomacentrus coelestis',family:'Pomacentridae · damselfishes',length:'Up to 8 cm total length',
+  paragraphs:[
+   'Brilliant blue covers the neon damsel’s body, with yellow on the tail and sometimes the lower fins. It is a small reef fish found across a broad part of the Indo-Pacific, including northern Australian reefs.',
+   'Other blue damselfishes can be confusingly similar. The related blue damsel, Pomacentrus pavo, has dark streaks on its scales and a dark mark high on the gill cover. Looking for several features is more reliable than identifying a fish simply as blue.'
+  ],question:'Compare a fish’s tail color, gill cover and scale markings. Which details remain visible when it turns?',
+  limit:'This entry follows the museum’s neon-damsel name. The game’s plankton-and-algae menu and burst ability are separate rules; the sprite has not been verified against all similar species.',
+  source:'Dianne J. Bray · Fishes of Australia: Neon Damsel',url:'https://fishesofaustralia.net.au/home/species/2341'},
+ s11:{scientific:'Nemanthias dispar',family:'Anthias and fairy basslets',length:'Up to 9.5 cm total length',
+  paragraphs:[
+   'Peach fairy basslets show different male and female appearances. Males have a bright red dorsal fin, purple-pink areas on the head and belly, and long pelvic fins. Females have shorter pelvic fins and a yellowish tail.',
+   'Both have an orange line passing through the lower part of the eye toward the pectoral fin. This reef-associated fish was previously called Pseudanthias dispar, so older books may use a different scientific name for the same animal.'
+  ],question:'Compare two fish with different fin lengths. What evidence would help you decide whether they are different species or different forms of one species?',
+  limit:'The game uses one illustration and a simplified plankton-feeding role. It does not show male and female forms, and the renamed genus does not change gameplay.',
+  source:'Dianne J. Bray · Fishes of Australia: Fairy Basslet',url:'https://fishesofaustralia.net.au/home/species/4390'},
+ s31:{scientific:'Paracirrhites hemistictus',family:'Cirrhitidae · hawkfishes',length:'Up to 29 cm',
+  paragraphs:[
+   'Small dark spots cover the body of this hawkfish, with pale spots near its middle. It is one of the larger hawkfishes, despite the small size of its illustration here.',
+   'It lives close to the bottom on shallow coral reefs. Small fishes and crustaceans make up its main food. Looking near the reef surface can reveal a hunter that might be missed when watching only the open water.'
+  ],question:'Search near the bottom before looking higher in the water. Does changing where you look reveal different animals?',
+  limit:'Real-world length is separate from game sprite size. Its camouflage ability and exact prey-size limits are simulation choices.',
+  source:'Okinawa Churaumi Aquarium · Whitespot hawkfish',url:'https://churaumi.okinawa/en/fishbook/1610175140/'},
+ s57:{scientific:'Cirrhitidae (hawkfishes; family)',family:'Hawkfishes · species not identified',
+  paragraphs:[
+   'Checkerboard hawkfish is a descriptive game name that does not yet identify a verified species. One real hawkfish with a crisscross pattern is the longnose hawkfish, Oxycirrhites typus, whose pointed snout is especially distinctive.',
+   'That species perches among sea fans and black corals on steep reef slopes. It eats small crustaceans, including animals drifting in the plankton. A perch can place a fish beside moving water that carries food past it.'
+  ],question:'Compare a long, pointed snout with a short one. Why would matching a color pattern alone be insufficient to identify a fish?',
+  limit:'The longnose hawkfish is a named example, not an identification of this sprite. The game’s shrimp-and-fish menu and camouflage rule belong to the catalog creature.',
+  source:'Dianne J. Bray · Fishes of Australia: Longnose Hawkfish (named example)',url:'https://fishesofaustralia.net.au/home/species/2428'},
  s50:{scientific:'Gnathodentex aureolineatus',family:'Lethrinidae · emperors',length:'Up to 30 cm total length',
   paragraphs:[
    'A bright yellow blotch below the rear dorsal fin stands out on this striped fish. Also called the goldspot seabream, it has rows of pale spots on the upper body and brownish-orange stripes below.',

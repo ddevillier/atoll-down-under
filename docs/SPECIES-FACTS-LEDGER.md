@@ -5,9 +5,9 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | ID | Catalog entry | Natural-history coverage |
 |---|---|---|
 | s0 | Silver sprat | Pending identification and sourced facts |
-| s1 | Neon damselfish | Pending identification and sourced facts |
+| s1 | Neon damselfish | Written: Pomacentrus coelestis; source in guide |
 | s2 | Orange coral goby | Pending identification and sourced facts |
-| s3 | Royal gramma | Pending identification and sourced facts |
+| s3 | Royal gramma | Written: Gramma loreto; source in guide |
 | s4 | Moorish idol | Written: Zanclus cornutus; source in guide |
 | s5 | Palette surgeonfish | Written: Paracanthurus hepatus; source in guide |
 | s6 | Longnose butterflyfish | Written: Forcipiger longirostris; source in guide |
@@ -15,7 +15,7 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s8 | Foxface rabbitfish | Written: Siganus vulpinus; source in guide |
 | s9 | Yellow goatfish | Pending identification and sourced facts |
 | s10 | Sixbar wrasse | Written: Thalassoma hardwicke; source in guide |
-| s11 | Peach fairy basslet | Pending identification and sourced facts |
+| s11 | Peach fairy basslet | Written: Nemanthias dispar; source in guide |
 | s12 | Squirrelfish | Pending identification and sourced facts |
 | s13 | Banggai cardinalfish | Written: Pterapogon kauderni; source in guide |
 | s14 | Oriental sweetlip | Pending identification and sourced facts |
@@ -35,7 +35,7 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s28 | Rainbow runner | Written: Elagatis bipinnulata; source in guide |
 | s29 | Humphead wrasse | Written: Cheilinus undulatus; source in guide |
 | s30 | Humbug damselfish | Written: Dascyllus aruanus; source in guide |
-| s31 | Whitespot hawkfish | Pending identification and sourced facts |
+| s31 | Whitespot hawkfish | Written: Paracirrhites hemistictus; source in guide |
 | s32 | Blacktip reef shark | Written: Carcharhinus melanopterus; source in guide |
 | s33 | Whitetip reef shark | Written: Triaenodon obesus; source in guide |
 | s34 | Great white shark | Written: Carcharodon carcharias; source in guide |
@@ -61,7 +61,7 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s54 | Painted frogfish | Written: Antennarius pictus; source in guide |
 | s55 | Silver trevally | Pending identification and sourced facts |
 | s56 | Longfin bannerfish | Written: Heniochus acuminatus; source in guide |
-| s57 | Checkerboard hawkfish | Pending identification and sourced facts |
+| s57 | Checkerboard hawkfish | Written: Cirrhitidae (hawkfishes; family); source in guide |
 | s58 | Purple anthias | Pending identification and sourced facts |
 | s59 | Longsnout flathead | Pending identification and sourced facts |
 | s60 | Nudibranch | Written: Nudibranchia (nudibranchs; group); source in guide |
