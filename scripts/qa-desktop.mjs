@@ -18,6 +18,19 @@ await expect(page.locator('[data-action="fullscreen"]')).toHaveText('Leave fulls
 await page.waitForFunction(()=>window.atoll?.renderer.ready);await page.screenshot({path:'artifacts/desktop-splash.png'});await clickButton(page,{name:/Practice Choose/});await clickButton(page,{name:'Enter the reef'});await page.waitForFunction(()=>window.atoll.audio.music?.readyState>=3);
 const report=await page.evaluate(()=>({origin:location.origin,ready:window.atoll.renderer.ready,splashReady:window.atoll.renderer.splash?.naturalWidth>1000,mode:window.atoll.simulation.mode,musicReady:window.atoll.audio.music.readyState,nodeExposed:typeof window.require!=='undefined',species:window.atoll.renderer.sprites.length}));
 report.fullscreenStartup=fullscreenStartup;
+const revision=await page.evaluate(async()=>{
+ const {NATURAL_HISTORY}=await import(new URL('src/natural-history.js',location.href).href);
+ const {POPULATIONS}=await import(new URL('src/populations.js',location.href).href);
+ const {Simulation}=await import(new URL('src/simulation.js',location.href).href);
+ const s=window.atoll.simulation,counts=s.sections.map(r=>r.entities.length);
+ const scored=new Simulation(42);scored.start('practice','s1');scored.mode='tournament';scored.score=9000;scored.stageScore=4900;
+ scored.consume(scored.section.food.find(f=>f.food==='sponge'));
+ return {factCount:Object.keys(NATURAL_HISTORY).length,counts,outerBlueChance:POPULATIONS[2].secondHunter,
+  factsVerified:Object.keys(NATURAL_HISTORY).length===64,
+  populationsVerified:counts[8]<counts[4]&&counts[7]<counts[1]&&POPULATIONS[2].secondHunter===.45,
+  scoringVerified:scored.score===8500&&scored.stageScore===4400};
+});
+Object.assign(report,revision);
 await page.keyboard.press('Escape');
 report.fullscreenVerified=fullscreenStartup.active&&fullscreenStartup.coversDisplay&&await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isFullScreen());
 await page.keyboard.press('Escape');
@@ -39,9 +52,11 @@ await page.mouse.move(box.x+1100/1600*box.width,box.y+355/900*box.height);
 await page.waitForFunction(()=>window.atoll.simulation.player.target===null&&window.atoll.simulation.player.x>850);
 report.mouseSteeringVerified=true;
 // Exercise the visible edge target and following animal in the packaged build.
-await page.evaluate(()=>{
- const s=window.atoll.simulation,p=s.player,prototype=s.sections.flatMap(r=>r.entities).find(e=>e.species.id==='s50');
+await page.evaluate(async()=>{
+ const {BY_ID}=await import(new URL('src/data.js',location.href).href);
+ const s=window.atoll.simulation,p=s.player,prototype=s.sections.flatMap(r=>r.entities).find(e=>e.species.diet.includes('fish'));
  const hunter=structuredClone(prototype);
+ hunter.species=BY_ID.s50;
  for(const section of s.sections){section.entities=[];section.food=[];}
  s.current=4;s.protected=false;
  Object.assign(p,{x:1480,y:350,angle:Math.PI*10,health:100,energy:100,biteDamage:0,poisonDamage:0});s.point(p.x,p.y);
@@ -88,6 +103,6 @@ await expect(page.locator('#state-badge')).toContainText('Swim');
 await page.keyboard.press('m');await clickButton(page,{name:'Clear route'});
 report.reefMapVerified&&=await page.evaluate(()=>window.atoll.simulation.destination===null);
 await page.keyboard.press('Escape');await expect(page.locator('#reef')).toBeFocused();
-console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));if(errors.length||!report.fullscreenVerified||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified||!report.reefMapVerified)process.exitCode=1;
+console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));if(errors.length||!report.fullscreenVerified||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified||!report.reefMapVerified||!report.factsVerified||!report.populationsVerified||!report.scoringVerified)process.exitCode=1;
 
 }finally{await app.close();}

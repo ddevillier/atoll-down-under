@@ -6,9 +6,9 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
-The current testing build is `dist/Atoll-Down-Under-Windows-Fullscreen-2026-09-06.zip`. Extract it completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape still pauses for inspection. See [the testing guide](docs/TESTING.md).
+The current testing build is `dist/Atoll-Down-Under-Windows-Populations-2026-09-06.zip`. Extract it completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape still pauses for inspection. See [the testing guide](docs/TESTING.md).
 
-The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build adds fullscreen; predator balance remains as audited.
+The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations and consistent poison score penalties. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-POPULATIONS-BUILD.md).
 
 From source (Node.js 22 or later):
 
