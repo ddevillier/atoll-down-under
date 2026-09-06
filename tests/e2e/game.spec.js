@@ -2,6 +2,39 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('steering out of a meal approach returns control and a later click still feeds',async({page})=>{
+ test.setTimeout(60000);
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page);
+  const food=await page.evaluate(()=>{
+   const s=window.atoll.simulation,f=s.section.food.find(f=>f.food==='algae');
+   s.section.entities=[];s.section.food=[f];f.x=300;f.y=300;
+   Object.assign(s.player,{x:800,y:300,angle:Math.PI,energy:60});s.point(800,300);
+   return {x:f.x,y:f.y,id:f.id};
+  });
+  const box=await page.locator('#reef').boundingBox();
+  const screen=(x,y)=>({x:box.x+x/1600*box.width,y:box.y+(y+55)/900*box.height});
+  const meal=screen(food.x,food.y),turn=screen(1100,300);
+  await page.mouse.click(meal.x,meal.y);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.target)).toBe(food.id);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.x)).toBeLessThan(775);
+  await page.mouse.move(turn.x,turn.y);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.target)).toBeNull();
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.x)).toBeGreaterThan(850);
+  expect(await page.evaluate(()=>window.atoll.simulation.section.food[0].amount)).toBe(100);
+  // Observation may add a field note, but cannot queue movement or a meal.
+  await page.keyboard.press('Escape');
+  const state=()=>page.evaluate(()=>{const s=window.atoll.simulation;return {player:s.player,pointer:s.pointer,time:s.time};});
+  const frozen=await state();
+  await page.mouse.move(meal.x,meal.y);await page.mouse.click(meal.x,meal.y);
+  expect(await state()).toEqual(frozen);
+  await page.keyboard.press('Escape');await page.mouse.click(meal.x,meal.y);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].amount),{timeout:10000}).toBe(65);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.target)).toBeNull();
+  await page.screenshot({path:`artifacts/gameplay-controls-${width}.png`});
+ }
+});
+
 test('splash uses compact menus and supports keyboard entry to every mode',async({page})=>{
  await ready(page);await page.evaluate(()=>{window.atoll.renderer.reducedMotion=true;window.atoll.renderer.clock=0;});
  for(const [width,height] of [[1600,900],[1024,768]]){

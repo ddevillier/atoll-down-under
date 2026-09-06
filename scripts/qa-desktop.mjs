@@ -8,4 +8,18 @@ if(!isolatedProfile){await app.close();throw new Error('Native QA must use isola
 const page=await app.firstWindow();const errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.waitForFunction(()=>window.atoll?.renderer.ready);await page.screenshot({path:'artifacts/desktop-splash.png'});await clickButton(page,{name:/Practice Choose/});await clickButton(page,{name:'Enter the reef'});await page.waitForFunction(()=>window.atoll.audio.music?.readyState>=3);
 const report=await page.evaluate(()=>({origin:location.origin,ready:window.atoll.renderer.ready,splashReady:window.atoll.renderer.splash?.naturalWidth>1000,mode:window.atoll.simulation.mode,musicReady:window.atoll.audio.music.readyState,nodeExposed:typeof window.require!=='undefined',species:window.atoll.renderer.sprites.length}));
-await page.screenshot({path:'artifacts/desktop-native.png'});console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed)process.exitCode=1;
+await page.screenshot({path:'artifacts/desktop-native.png'});
+// Verify mouse steering through the packaged app, in the isolated QA dive.
+const target=await page.evaluate(()=>{
+ const s=window.atoll.simulation,f=s.section.food.find(f=>f.food==='algae');
+ s.section.entities=[];s.section.food=[f];f.x=300;f.y=300;
+ Object.assign(s.player,{x:800,y:300,angle:Math.PI});s.point(800,300);
+ return f.id;
+});
+const box=await page.locator('#reef').boundingBox();
+await page.mouse.click(box.x+300/1600*box.width,box.y+355/900*box.height);
+await page.waitForFunction(id=>window.atoll.simulation.player.target===id,target);
+await page.mouse.move(box.x+1100/1600*box.width,box.y+355/900*box.height);
+await page.waitForFunction(()=>window.atoll.simulation.player.target===null&&window.atoll.simulation.player.x>850);
+report.mouseSteeringVerified=true;
+console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified)process.exitCode=1;

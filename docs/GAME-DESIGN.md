@@ -12,7 +12,7 @@ Four expandable Reef life lessons introduce coral polyps and symbiosis, plankton
 
 ## Simulation
 
-The engine advances in fixed 1/60-second steps. Species definitions contain diet tags, movement, size, activity, ability, parasite requirements, prey type and defensive traits. Feeding combines explicit diet acceptance with size/armor checks. Food clicks acquire a target and initiate an approach; food rewards arrive only on contact. Rejected food wastes energy. Poison also costs health and points.
+The engine advances in fixed 1/60-second steps. Species definitions contain diet tags, movement, size, activity, ability, parasite requirements, prey type and defensive traits. Feeding combines explicit diet acceptance with size/armor checks. Food clicks acquire a target and initiate an approach; food rewards arrive only on contact. Moving the cursor releases that target and returns swimming control immediately. Clicking empty water also cancels the approach and swims to that position. Observation pauses do not accept movement or meal commands. Rejected food wastes energy. Poison also costs health and points.
 
 The player initially has an undrained protected state. Swimming within the arrival habitat preserves protection; eating, using an ability, or changing sections ends it. Movement costs more energy than stillness. Health decreases with parasites for susceptible species. Waiting near the active period's cleaner restores health after a short cleaning interaction. Small fish can hide while stationary in scene-specific shelter zones. Moving reveals them. Predators remember an active chase at section transitions; wrapping occurs horizontally, with hard top and bottom boundaries.
 

@@ -78,11 +78,21 @@ export class Simulation {
   this.observations.push({subject,name:e.species?.name||e.name,behavior,habitat:this.current,period:this.period,time:this.time,relationship:this.relationship(e)});
  }
  get required(){return this.mode==='challenge'?(this.stage+1)*5000:5000;}
- point(x,y){this.pointer={x:clamp(x,0,W),y:clamp(y,0,H)};}
+ point(x,y){
+  if(!this.player||this.paused||this.phase!=='playing')return;
+  this.pointer={x:clamp(x,0,W),y:clamp(y,0,H)};
+  // A meal click assists the approach until the player steers again. Cursor
+  // movement must always give control back, including during a pursuit.
+  this.player.target=null;
+ }
  findAt(x,y){
   const p={x,y};return this.section?.entities.filter(e=>e.alive).sort((a,b)=>distance(a,p)-distance(b,p)).find(e=>distance(e,p)<Math.max(17,creatureWidth(e.species)*.45))||this.section?.food.find(f=>f.regrow<=0&&distance(f,p)<f.size+9)||null;
  }
- eatAt(x,y){const t=this.findAt(x,y);if(!t)return false;this.protected=false;this.player.target=t.id;this.pointer={x:t.x,y:t.y};this.player.hidden=false;return true;}
+ eatAt(x,y){
+  if(!this.player||this.paused||this.phase!=='playing')return false;
+  const t=this.findAt(x,y);if(!t){this.point(x,y);return false;}
+  this.protected=false;this.player.target=t.id;this.pointer={x:t.x,y:t.y};this.player.hidden=false;return true;
+ }
  useAbility(){
   const p=this.player;if(!p||this.phase!=='playing'||this.paused)return false;
   if(p.species.ability==='none'){this.event('message','This species relies on swimming and shelter.');return false;}
