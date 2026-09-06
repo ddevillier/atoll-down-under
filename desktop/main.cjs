@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, protocol, net, session } = require('electron');
+const { app, BrowserWindow, Menu, protocol, net, session, ipcMain } = require('electron');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 // Native checks get their own storage, so entering a test dive cannot replace a player's save.
@@ -16,12 +16,17 @@ app.whenReady().then(() => {
     return net.fetch(pathToFileURL(target===root?path.join(root,'index.html'):target).toString());
   });
   session.defaultSession.setPermissionRequestHandler((_web,_permission,callback)=>callback(false));
-  const window = new BrowserWindow({ width: 1440, height: 850, minWidth: 960, minHeight: 600, backgroundColor: '#082e39', icon: path.join(app.getAppPath(),'assets/icon.png'), title: 'Atoll Down Under', show: false, webPreferences: { nodeIntegration: false, contextIsolation: true, sandbox: true } });
+  const window = new BrowserWindow({ width: 1440, height: 850, minWidth: 960, minHeight: 600, fullscreen: true, backgroundColor: '#082e39', icon: path.join(app.getAppPath(),'assets/icon.png'), title: 'Atoll Down Under', show: false, webPreferences: { preload: path.join(__dirname,'preload.cjs'), nodeIntegration: false, contextIsolation: true, sandbox: true } });
+  const ownFrame=event=>event.sender===window.webContents&&event.senderFrame===window.webContents.mainFrame&&event.senderFrame.url.startsWith('atoll://game/');
+  ipcMain.handle('atoll:fullscreen-state',event=>{if(!ownFrame(event))throw new Error('Unavailable');return window.isFullScreen();});
+  ipcMain.handle('atoll:fullscreen-toggle',event=>{if(!ownFrame(event))throw new Error('Unavailable');window.setFullScreen(!window.isFullScreen());return window.isFullScreen();});
+  const publishFullscreen=()=>window.webContents.send('atoll:fullscreen-changed',window.isFullScreen());
+  window.on('enter-full-screen',publishFullscreen);window.on('leave-full-screen',publishFullscreen);
   Menu.setApplicationMenu(null);
   window.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   window.webContents.on('will-navigate', (event,url)=>{if(!url.startsWith('atoll://game/'))event.preventDefault();});
   window.loadURL('atoll://game/index.html');
   window.once('ready-to-show',()=>{if(!process.env.ATOLL_QA)window.show();});
-  window.webContents.on('before-input-event',(_event,input)=>{ if(input.key==='F11' && input.type==='keyDown')window.setFullScreen(!window.isFullScreen()); });
+  window.webContents.on('before-input-event',(event,input)=>{if(input.key==='F11'&&input.type==='keyDown'){event.preventDefault();if(!input.isAutoRepeat)window.setFullScreen(!window.isFullScreen());}});
 });
 app.on('window-all-closed',()=>app.quit());

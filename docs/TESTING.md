@@ -1,10 +1,10 @@
 # Windows gameplay testing snapshot — 6 September 2026
 
-This snapshot parks the current work for hands-on testing. Gameplay feel, balance across species and modes, animation and overall remake fidelity still need player feedback. Further feature development and natural-history expansion are on hold.
+The fullscreen revision is ready for hands-on testing. The [comprehensive design audit](ORIGINAL-DESIGN-AUDIT.md) identifies weak predator pressure and the remaining fidelity gaps. This revision changes display controls, not predator balance. Natural-history expansion remains on hold.
 
 ## Launch
 
-Extract `Atoll-Down-Under-Windows-Testing-2026-09-06.zip` completely. Open `Atoll Down Under-win32-x64/Atoll Down Under.exe` and keep that application folder together. The game runs offline. Existing local saves remain available; start a new dive to see the latest habitat populations and feeding-site layouts.
+Extract `Atoll-Down-Under-Windows-Fullscreen-2026-09-06.zip` completely. Open `Atoll Down Under-win32-x64/Atoll Down Under.exe` and keep that application folder together. Windows starts fullscreen so the reef covers the taskbar. F11 switches to a window and back; visible controls appear in File, Settings and the dive toolbar. Escape continues to pause for inspection. The game runs offline. Existing local saves remain available; start a new dive to see the latest habitat populations and feeding-site layouts.
 
 ## Suggested first session
 

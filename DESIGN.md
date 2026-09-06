@@ -262,6 +262,10 @@ A persistent diet reminder sits below the current fish's name and mode, using th
 
 Crushing jaws is a passive feeding trait. Its HUD position contains a plain, non-interactive readout with 13px text and an 11px muted "Always active" line, separated by 3px. It has no button border, cooldown or Space key hint. Active abilities retain the existing action button. The creation selector and creature facts use the same trait name and explain that it needs no activation.
 
+### Fullscreen
+
+The Windows game starts fullscreen. A plain text Fullscreen / Leave fullscreen action appears in the existing File menu, Settings dialog and dive toolbar. Its label follows the actual native window state; F11 is an alternate control. Escape remains dedicated to pause and inspection. This uses the existing button and modal styles without changing the visual system.
+
 ### Reef map
 
 The survival bar's miniature map is a button with a compact "Map" label. Its cells distinguish the current habitat in teal and visited habitats in survival green. It opens the existing paper dialog, also available with M. The dialog presents the nine existing habitat paintings in their connected three-by-three order beside a detail column. Horizontal edges wrap; the top and bottom end the reef.

@@ -48,6 +48,8 @@ Create-a-Fish offers a 1,600-point budget: body size, speed, endurance, agility,
 
 ## Interface and persistence
 
+The Windows application starts in native fullscreen on each launch. F11 toggles the native window state, with repeat presses while held ignored. File, Settings and the dive toolbar expose the same action and update their labels after changes. Escape retains pause/inspection behavior. The sandboxed desktop bridge exposes only fullscreen state, toggle and change notifications. Browser development preview uses the browser Fullscreen API.
+
 Field guide: all 64 creatures, interactive-food descriptions, and glossary. Dialogs pause the simulation. Keyboard focus remains within open dialogs and survives list updates. Separate audio levels, optional verbose feeding dialogs, decorative-motion reduction and hints are stored locally. Three manual save slots and a last-dive save use versioned JSON including RNG, ecosystem, mode and player. Invalid saves and unavailable storage have visible recovery messages.
 
 The HUD's nine-square locator opens an illustrated reef map; M provides the same action. Its three-by-three arrangement matches the actual connected habitats and uses the existing scene paintings. Current, visited and unvisited places have text labels. Selecting a habitat shows food categories currently present and suitable for the player's diet, size and defenses; depleted food, dead animals, cleaner partners and harmful poisonous prey are omitted from those suggestions. Off-screen habitat state can change when the player returns, so this is a planning aid rather than a reserved meal.

@@ -1,6 +1,12 @@
 # Validation record
 
-## Current exploration revision
+## Fullscreen revision and original-design audit
+
+Windows now starts in native fullscreen and offers visible controls in File, Settings and the dive toolbar. The 103 unit/asset tests and full 27-scenario browser suite pass. The new browser scenario covers title/dive/settings entry and exit, state labels, retained button focus, and top-bar fit at 1600 × 900 and 1024 × 768. Native QA verifies startup fullscreen, full monitor coverage, F11 exit, menu re-entry and Escape inspection, alongside existing gameplay checks. Desktop inspection and three native bottom-edge hit tests confirm that the game occupies the taskbar region on this host. Evidence: `artifacts/unit-fullscreen.txt`, `e2e-results.json`, `desktop-report.json`, `fullscreen-controls-*`, `fullscreen-desktop.png` and `fullscreen-bottom-hit-test.json`.
+
+The [original-design audit](ORIGINAL-DESIGN-AUDIT.md) and [measured evidence](AUDIT-EVIDENCE.json) supersede any implication that survival success establishes good predator balance. Census: 14,850 initial habitats. Controlled encounters: 24. Extended exploration: 165 ten-minute scenarios across all 55 species and three seeds; all survived and 91 received no bites. Predator rules are unchanged in this fullscreen delivery. The prior parked ZIP remains available; the new archive is `Atoll-Down-Under-Windows-Fullscreen-2026-09-06.zip`.
+
+## Parked exploration revision (prior snapshot)
 
 This Windows revision is parked for user testing, not a completed-remake acceptance record. The current simulation/asset suite has 103 passing tests. The full browser suite passed 26/26; the map scenario passed again after a compact-window layout correction. New checks cover optional routes, ordinary edge travel, saved destinations, map keyboard controls and food suggestions, alongside the previous feeding, exploration and cleaning behavior. The full report is preserved as `artifacts/e2e-reef-map-full.json`; the latest `e2e-results.json` contains the focused run. Further feature work and natural-history expansion are on hold at the user's request.
 

@@ -2,6 +2,27 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('fullscreen controls are available from the title, dive and settings',async({page})=>{
+ await ready(page);await clickButton(page,{name:'Fullscreen',exact:true});
+ await page.waitForFunction(()=>!!document.fullscreenElement);
+ await practice(page,'Foxface');
+ await expect(page.getByRole('button',{name:'Leave fullscreen',exact:true})).toBeVisible();
+ await clickButton(page,{name:'Leave fullscreen',exact:true});
+ await page.waitForFunction(()=>!document.fullscreenElement);
+ await clickButton(page,{name:'Settings',exact:true});
+ await expect(page.getByRole('dialog')).toContainText('Escape still pauses your dive');
+ await page.getByRole('dialog').getByRole('button',{name:'Fullscreen',exact:true}).click();
+ await page.waitForFunction(()=>!!document.fullscreenElement);
+ await expect(page.getByRole('dialog').getByRole('button',{name:'Leave fullscreen',exact:true})).toBeFocused();
+ await page.getByRole('dialog').getByRole('button',{name:'Leave fullscreen',exact:true}).click();
+ await clickButton(page,{name:'Done',exact:true});
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});
+  expect(await page.locator('.topbar').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
+  await page.screenshot({path:`artifacts/fullscreen-controls-${width}.png`});
+ }
+});
+
 test('the reef map plans an ordinary swim and saves its destination',async({page})=>{
  test.setTimeout(60000);
  for(const [width,height] of [[1600,900],[1024,768]]){

@@ -3,11 +3,22 @@ import {_electron as electron,expect} from '@playwright/test';
 import fs from 'node:fs';
 const executable=process.argv[2];
 const app=await electron.launch({...(executable?{executablePath:executable}:{args:['.']}),env:{...process.env,ATOLL_QA:'1'}});
+try{
 const isolatedProfile=await app.evaluate(({app})=>/[\\/]atoll-qa-/.test(app.getPath('userData')));
-if(!isolatedProfile){await app.close();throw new Error('Native QA must use isolated storage before it enters a dive.');}
+if(!isolatedProfile){throw new Error('Native QA must use isolated storage before it enters a dive.');}
 const page=await app.firstWindow();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.waitForFunction(()=>window.atoll?.renderer.ready);
+const fullscreenStartup=await app.evaluate(({BrowserWindow,screen})=>{const w=BrowserWindow.getAllWindows()[0],b=w.getBounds(),d=screen.getDisplayMatching(b).bounds;return {active:w.isFullScreen(),bounds:b,display:d,coversDisplay:b.x===d.x&&b.y===d.y&&b.width===d.width&&b.height===d.height};});
+await page.keyboard.press('F11');
+await expect.poll(()=>app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isFullScreen())).toBe(false);
+await clickButton(page,{name:'Fullscreen',exact:true});
+await expect.poll(()=>app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isFullScreen())).toBe(true);
 await page.waitForFunction(()=>window.atoll?.renderer.ready);await page.screenshot({path:'artifacts/desktop-splash.png'});await clickButton(page,{name:/Practice Choose/});await clickButton(page,{name:'Enter the reef'});await page.waitForFunction(()=>window.atoll.audio.music?.readyState>=3);
 const report=await page.evaluate(()=>({origin:location.origin,ready:window.atoll.renderer.ready,splashReady:window.atoll.renderer.splash?.naturalWidth>1000,mode:window.atoll.simulation.mode,musicReady:window.atoll.audio.music.readyState,nodeExposed:typeof window.require!=='undefined',species:window.atoll.renderer.sprites.length}));
+report.fullscreenStartup=fullscreenStartup;
+await page.keyboard.press('Escape');
+report.fullscreenVerified=fullscreenStartup.active&&fullscreenStartup.coversDisplay&&await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isFullScreen());
+await page.keyboard.press('Escape');
 await page.screenshot({path:'artifacts/desktop-native.png'});
 // Verify mouse steering through the packaged app, in the isolated QA dive.
 const target=await page.evaluate(()=>{
@@ -75,4 +86,6 @@ await expect(page.locator('#state-badge')).toContainText('Swim');
 await page.keyboard.press('m');await clickButton(page,{name:'Clear route'});
 report.reefMapVerified&&=await page.evaluate(()=>window.atoll.simulation.destination===null);
 await page.keyboard.press('Escape');await expect(page.locator('#reef')).toBeFocused();
-console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified||!report.reefMapVerified)process.exitCode=1;
+console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));if(errors.length||!report.fullscreenVerified||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified||!report.reefMapVerified)process.exitCode=1;
+
+}finally{await app.close();}
