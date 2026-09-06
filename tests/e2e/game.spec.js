@@ -2,6 +2,20 @@ import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 async function practice(page,search=null){await page.getByRole('button',{name:/Practice Choose/}).click();if(search){await page.getByRole('searchbox').fill(search);await page.getByRole('option').first().click();}await page.getByRole('button',{name:'Enter the reef'}).click();}
 
+test('health meter distinguishes poisoning from parasite cleaning',async({page})=>{
+ await ready(page);await practice(page);
+ await page.evaluate(()=>{
+  const s=window.atoll.simulation,c=s.section.entities.find(e=>e.species.ability==='clean');s.section.entities=[c];
+  s.player.x=c.x+30;s.player.y=c.y;s.point(s.player.x,s.player.y);s.player.health=80;
+  s.consume(s.section.food.find(f=>f.food==='sponge'));
+ });
+ const meter=page.getByRole('meter',{name:'Health',exact:true});
+ await expect(meter).toHaveAttribute('aria-valuetext',/20 from parasites.*25 from poison/);
+ await expect(meter).toHaveAttribute('aria-valuenow','75',{timeout:5000});
+ await expect(meter).toHaveAttribute('aria-valuetext',/0 from parasites.*25 from poison/);
+ await expect(meter).toHaveAttribute('title',/Keep Energy at 50/);
+});
+
 test('natural history supports scientific-name search and keyboard reading at both desktop sizes',async({page})=>{
  await ready(page);await page.getByRole('button',{name:'Field guide',exact:true}).click();
  for(const [width,height] of [[1440,810],[1024,768]]){

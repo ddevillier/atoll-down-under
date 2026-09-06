@@ -27,6 +27,6 @@ export const NATURAL_HISTORY={
    'A small cleaner wrasse can approach a much larger fish without becoming its meal. It obtains food by removing parasites from clients. The interaction connects two different needs: the cleaner feeds, while the client loses parasites.',
    'Researchers at Lizard Island study these relationships through observations and experiments. Work on damselfish has linked external parasites with poorer performance in a visual learning task, showing that a cleaning relationship can matter beyond the moment of feeding.'
   ],question:'Watch a client stop at the cleaning station. What does each partner do? Compare this encounter with an ordinary feeding trip.',
-  limit:'Cleaning here restores a combined health meter. Real cleaners remove some parasites; they are not a general treatment for poisoning or injuries. The game does not model the learning experiment.',
+  limit:'Cleaning restores only the parasite-related part of health. Recovery from poison and injuries follows separate game rules. Real cleaners are not a general treatment for either. The learning experiment is not simulated.',
   source:'Australian Museum · Learning from the cleaners and their clients',url:'https://australian.museum/blog/amri-news/news-from-lirs-learning-from-the-cleaners-and-their-clients/'}
 };

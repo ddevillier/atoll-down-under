@@ -53,3 +53,12 @@ Daytime open-water sections include three nearby members of one schooling specie
 ## Species natural history
 
 The Creatures tab offers expandable natural-history text for four researched species. Scientific names are searchable; maximum natural lengths, when sourced, are distinct from sprite size. Readers can compare anatomy, habitat, parental care and ecological relationships, with source URLs available offline. Brief game rules remain below the expansion. A sticky species browser retains navigation while the entry scrolls. The rest of the roster still needs this level of research.
+
+
+## Health, cleaning and recovery
+
+The health meter combines parasite effects, poison damage and bite injury. Poison and bite losses are tracked separately; the remaining deficit is attributed to parasites. Cleaning restores only that parasite portion. It does not erase poisoning, injuries or the recorded cause of harm.
+
+A fed player (Energy at least 50) recovers 0.4 health points per simulation second from poison/bite damage after a 10-second delay following the latest harmful encounter. Recovery is divided proportionally between the two damage types and does not remove parasites. This is a deliberately gentle gameplay abstraction, not a biological rate or a treatment claim. Pausing freezes recovery along with all simulation time. The health meter exposes a breakdown through its hover text and accessible value description.
+
+Save files persist damage and recovery delay. Older saves lack the breakdown: a recorded poisonous meal's existing deficit is retained as poison damage; unlabelled historical loss keeps its former parasite interpretation. The exact causes of older aggregate health loss cannot be reconstructed. New sessions and newly recorded damage use the separated rules.

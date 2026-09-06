@@ -10,7 +10,11 @@ export function edible(predator,prey){
  if(b.armor&&a.ability!=='crush'&&a.size<100)return false;
  return true;
 }
-function entity(species,id,x,y){return {id,species,x,y,vx:0,vy:0,angle:0,facing:1,energy:100,health:100,hidden:false,still:0,cleanTime:0,cooldown:0,abilityTime:0,stun:0,life:100,target:null,alive:true,behavior:'Cruising',biteCooldown:0,think:0};}
+export function healthState(fish){
+ const poison=fish.poisonDamage||0,injury=fish.biteDamage||0;
+ return {poison,injury,parasites:Math.max(0,100-fish.health-poison-injury)};
+}
+function entity(species,id,x,y){return {id,species,x,y,vx:0,vy:0,angle:0,facing:1,energy:100,health:100,poisonDamage:0,biteDamage:0,recoveryDelay:0,hidden:false,still:0,cleanTime:0,cooldown:0,abilityTime:0,stun:0,life:100,target:null,alive:true,behavior:'Cruising',biteCooldown:0,think:0};}
 export class Simulation {
  constructor(seed=123456){this.seed=seed>>>0;this.time=0;this.uid=0;this.events=[];this.mode='practice';this.phase='idle';this.score=0;this.stage=0;this.stageScore=0;this.sequence=[];this.sections=[];this.player=null;this.protected=true;this.paused=false;this.period='day';this.current=4;this.pointer={x:800,y:330};this.difficulty=1;this.visited=[];this.observations=[];}
  random(){this.seed=(Math.imul(1664525,this.seed)+1013904223)>>>0;return this.seed/4294967296;}
@@ -92,7 +96,7 @@ export class Simulation {
   const p=this.player;if(p.biteCooldown>0)return;p.biteCooldown=.45;
   const b=target.species;const good=edible(p,target);const poison=target.kind==='food'?target.food==='sponge'&&!p.species.diet.includes('sponge'):b?.poison&&!['crush','poison'].includes(p.species.ability);
   const name=target.name||b?.name;
-  if(poison){p.health-=25;p.energy-=10;p.lastHarm={type:'poison',name};this.score=Math.max(0,this.score-500);this.event('poison',name+' was poisonous to your fish. Inspect it and compare your diet before another bite.');if(p.health<=0)this.die('Your fish was poisoned by '+name+'.');}
+  if(poison){p.health-=25;p.poisonDamage=(p.poisonDamage||0)+25;p.recoveryDelay=10;p.energy-=10;p.lastHarm={type:'poison',name};this.score=Math.max(0,this.score-500);this.event('poison',name+' was poisonous to your fish. Inspect it and compare your diet before another bite.');if(p.health<=0)this.die('Your fish was poisoned by '+name+'.');}
   else if(!good){p.energy-=2;this.event('reject',b?.armor?name+' is too well armored for your fish.':name+' is not part of your diet.');}
   else{
    const whole=target.kind!=='food';const gain=whole?clamp(b.size*.33,12,65):FOODS[target.food].nutrition;
@@ -128,13 +132,22 @@ export class Simulation {
   if(target&&distance(p,target)<p.species.size*.38+(target.species?.size||target.size)*.25+12)this.consume(target);
   if(this.phase!=='playing')return;
   if(!this.protected){p.energy-=dt*p.species.metabolism*(moving?1.55:.7)*this.difficulty;if(p.species.parasites)p.health-=dt*.105*this.difficulty;if(!p.hidden&&this.mode!=='practice'){this.score+=dt*8;this.stageScore+=dt*8;}}
+  // Recovery is a gentle game abstraction, separate from parasite removal.
+  // Feeding supports recovery; a cleaner cannot undo an injury or toxic meal.
+  p.recoveryDelay=Math.max(0,(p.recoveryDelay||0)-dt);
+  const damage=(p.poisonDamage||0)+(p.biteDamage||0);
+  if(damage>0&&p.energy>=50&&p.recoveryDelay===0){
+   const recovered=Math.min(damage,dt*.4),remaining=Math.max(0,1-recovered/damage);
+   p.poisonDamage*=remaining;p.biteDamage*=remaining;p.health=Math.min(100,p.health+recovered);
+   if(remaining===0){p.lastHarm=null;this.event('recover','Your fish has recovered from its injury or poisonous meal. Cleaning still removes parasites.');}
+  }
   const cleaner=this.section.entities.find(e=>e.alive&&e.species.ability==='clean'&&distance(e,p)<105);
-  if(cleaner&&p.still>.6&&!p.target&&p.health<99){p.cleanTime+=dt;cleaner.behavior='Cleaning';if(p.cleanTime>=2){p.health=100;p.lastHarm=null;p.cleanTime=0;this.event('clean','Parasites removed. Thank you, '+cleaner.species.name+'.');}}else p.cleanTime=0;
+  if(cleaner&&p.still>.6&&!p.target&&healthState(p).parasites>1){p.cleanTime+=dt;cleaner.behavior='Cleaning';if(p.cleanTime>=2){p.health=Math.max(0,100-(p.poisonDamage||0)-(p.biteDamage||0));p.cleanTime=0;this.event('clean','Parasites removed. Thank you, '+cleaner.species.name+'.');}}else p.cleanTime=0;
   if(p.x>W-8&&this.pointer.x>W-10)this.transition(1,0);else if(p.x<8&&this.pointer.x<10)this.transition(-1,0);else if(p.y>H-8&&this.pointer.y>H-10){if(!this.transition(0,1))p.y=H-8;}else if(p.y<8&&this.pointer.y<10){if(!this.transition(0,-1))p.y=8;}
   p.x=clamp(p.x,1,W-1);p.y=clamp(p.y,1,H-1);
   for(const f of this.section.food)f.regrow=Math.max(0,f.regrow-dt);
   for(const e of [...this.section.entities])this.stepNpc(e,dt);
-  if(p.energy<=0)this.die('Your energy ran out. Look for food that suits your fish.');else if(p.health<=0)this.die(p.lastHarm?.type==='poison'?'Your fish did not recover after eating '+p.lastHarm.name+'.':'Parasites overwhelmed your fish. Observe a cleaning station on your next dive.');
+  if(p.energy<=0)this.die('Your energy ran out. Look for food that suits your fish.');else if(p.health<=0)this.die(p.lastHarm?.type==='poison'?'Your fish did not recover after eating '+p.lastHarm.name+'.':p.lastHarm?.type==='bite'?'Your fish did not recover after a bite from '+p.lastHarm.name+'.':'Parasites overwhelmed your fish. Observe a cleaning station on your next dive.');
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
  stepNpc(e,dt){
@@ -192,7 +205,7 @@ export class Simulation {
     const wanted=Math.atan2(dest.y-e.y,dest.x-e.x),da=(wanted-e.angle+Math.PI*3)%(Math.PI*2)-Math.PI;e.angle+=clamp(da,-e.species.agility*dt,e.species.agility*dt);speed=e.species.speed*.55;
     if(distance(e,dest)<(e.species.size+(dest.species?.size||dest.size||0))*.28&&e.biteCooldown<=0){
      e.biteCooldown=2;
-     if(dest===p&&canEatPlayer){p.health-=35;p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
+     if(dest===p&&canEatPlayer){p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
      else if(dest!==p&&dest.kind==='food'){dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
      else if(dest!==p){dest.alive=false;dest.respawn=24;}
      e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
@@ -230,6 +243,12 @@ export class Simulation {
   const d=typeof raw==='string'?JSON.parse(raw):raw;
   if(d.version!==1||!Array.isArray(d.sections)||d.sections.length!==9||!d.player?.species||!Number.isInteger(d.current)||d.current<0||d.current>8||!['practice','challenge','tournament','create'].includes(d.mode))throw new Error('This save is not a compatible Atoll game.');
   for(const k of ['x','y','energy','health'])if(!Number.isFinite(d.player[k]))throw new Error('The saved fish is damaged.');
+  // Older saves only recorded aggregate health. Preserve known poison loss;
+  // unlabelled historical loss retains its former parasite interpretation.
+  if(d.player.poisonDamage===undefined)d.player.poisonDamage=d.player.lastHarm?.type==='poison'?Math.max(0,100-d.player.health):0;
+  if(d.player.biteDamage===undefined)d.player.biteDamage=0;
+  if(d.player.recoveryDelay===undefined)d.player.recoveryDelay=0;
+  for(const k of ['poisonDamage','biteDamage','recoveryDelay'])if(!Number.isFinite(d.player[k])||d.player[k]<0)throw new Error('The saved fish is damaged.');
   const sim=new Simulation();Object.assign(sim,d);sim.events=[];sim.paused=true;return sim;
  }
 }
