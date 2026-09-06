@@ -1,6 +1,62 @@
 // Independently written summaries of cited museum, government, aquarium and university sources.
 // Real-world measurements are separate from sprite size and game balance.
 export const NATURAL_HISTORY={
+ s18:{scientific:'Tylosurus crocodilus',family:'Belonidae · needlefishes',length:'Up to 1.5 m total length',
+  paragraphs:[
+   'Also called the crocodile longtom, this fish has an extremely long upper and lower jaw armed with sharp teeth. Its stretched-out body ends in a deeply forked tail.',
+   'It lives near the surface in tropical coastal waters, including lagoons, bays, estuaries and areas above reefs. Small fishes are its main food. Needlefishes can leap clear of the water when disturbed.'
+  ],question:'Compare this narrow jaw with the broad mouth of a grouper. How might each fish approach a small meal?',
+  limit:'The game also accepts shrimp. Surface leaping and movement into the air are not simulated; the fish stays within the underwater scene.',
+  source:'Dianne J. Bray · Fishes of Australia: Crocodile Longtom',url:'https://fishesofaustralia.net.au/home/species/2097'},
+ s26:{scientific:'Gymnothorax meleagris',family:'Muraenidae · moray eels',length:'Up to 1.2 m total length',
+  paragraphs:[
+   'Small white spots cover the dark body of the whitemouth moray. The inside of its mouth is pale and the tail tip is yellow. Combining these features helps distinguish it from other spotted morays.',
+   'Australian records include Western Australia, the Great Barrier Reef, Coral Sea reefs and islands such as Lord Howe Island. It is associated with reef habitat: its long body has a very different outline from a deep-bodied reef fish.'
+  ],question:'Follow the animal’s outline from head to tail. Which features would still help you recognize it if you could see only its head?',
+  limit:'The game’s fish, shrimp and crab menu and nighttime-only appearance remain simulation rules. This reference supports identification and distribution, not those precise feeding or timing choices.',
+  source:'Dianne J. Bray · Fishes of Australia: Whitemouth Moray',url:'https://fishesofaustralia.net.au/Home/species/3812'},
+ s28:{scientific:'Elagatis bipinnulata',family:'Carangidae · jacks and relatives',
+  paragraphs:[
+   'Rainbow runners use open water, often near the surface over reefs and sometimes farther offshore. They occur around the world in tropical and warm temperate seas, including waters around northern Australia.',
+   'Their food is mostly invertebrates, particularly crustaceans drifting in the plankton, with small fishes also eaten. A large, fast-swimming fish can still depend on very small animals for much of its food.'
+  ],question:'Compare a plankton meal with a fish meal. Why might the size of a predator alone fail to tell you what it eats?',
+  limit:'The game groups this fish with fish-eating hunters and offers fish and shrimp. It does not model the natural proportions of different foods or offshore journeys.',
+  source:'Dianne J. Bray · Fishes of Australia: Rainbow Runner',url:'https://fishesofaustralia.net.au/home/species/4273'},
+ s40:{scientific:'Platax pinnatus',family:'Ephippidae · batfishes',length:'Up to 35 cm',
+  paragraphs:[
+   'Young longfin batfish are dark with an orange outline around the body and long fins. Adults look very different: silver-gray to brown, with a dark bar through the eye and another near the pectoral fins.',
+   'This species uses coastal and coral-reef waters of the tropical Indo-West Pacific. In Australia it occurs around the north and extends south along both coasts. Its changing appearance is a reminder that a young fish need not look like a small adult.'
+  ],question:'Imagine the dark, orange-edged juvenile beside a silver adult. Which body shapes might reveal that they are the same species?',
+  limit:'This entry follows the Australian Museum’s use of the common name; other batfishes can share it. Sprite identity still needs review. Growth and changing markings are not simulated.',
+  source:'Australian Museum · Longfin Batfish',url:'https://australian.museum/learn/animals/fishes/longfin-batfish-platax-pinnatus/'},
+ s5:{scientific:'Paracanthurus hepatus',family:'Acanthuridae · surgeonfishes',
+  paragraphs:[
+   'The bright blue body, dark markings and yellow tail make the palette surgeonfish distinctive. Sharp spines lie on either side of the narrow base of the tail. It lives around Indo-Pacific coral reefs.',
+   'It eats both tiny animal plankton and algae growing on surfaces. Young fish stay close to branching coral, and an alarmed fish can wedge itself between branches. Adults also gather over reef terraces swept by currents.'
+  ],question:'Compare feeding in a current with hiding among branches. What might the same fish gain from each place?',
+  limit:'The game represents selected foods and a timed spine defense. It does not simulate a fish physically wedging into coral or changing habitat as it grows.',
+  source:'Georgia Aquarium · Palette Surgeonfish',url:'https://www.georgiaaquarium.org/animal/palette-surgeonfish/'},
+ s10:{scientific:'Thalassoma hardwicke',family:'Labridae · wrasses',
+  paragraphs:[
+   'Six dark, wedge-shaped bars cross the upper body of this greenish wrasse. They become shorter toward the tail, while pink bands spread outward from the eye. Individuals and small groups use shallow lagoons and outer reef slopes.',
+   'Its varied meals include crustaceans, fish eggs and small fishes, as well as other small organisms on the bottom and in the plankton. Some females change into males during their lives; the male color phase is brighter.'
+  ],question:'Compare the bars near the head with those near the tail. How could their pattern help you recognize this fish?',
+  limit:'The game uses a shrimp, worm and snail menu and one adult appearance. Fish eggs, sex change and different color phases are not simulated.',
+  source:'Dianne J. Bray · Fishes of Australia: Sixbar Wrasse',url:'https://fishesofaustralia.net.au/home/species/284'},
+ s25:{scientific:'Pygoplites diacanthus',family:'Pomacanthidae · angelfishes',
+  paragraphs:[
+   'Pale bars with dark edges cross the yellow-orange body and continue onto the fins. Young regal angelfish have fewer bars and a conspicuous eyespot near the back of the dorsal fin.',
+   'These fish live around coral-rich lagoons and outer reefs, often near caves. Juveniles shelter in narrow cracks. Their natural food includes sponges and tunicates: still-looking animals can be important meals.'
+  ],question:'Find the real eye and imagine an eyespot near the tail. How would you tell a marking from an actual eye?',
+  limit:'The game also accepts algae for this fish; that is a menu simplification rather than the documented sponge-and-tunicate diet. Juvenile markings and growth are not simulated.',
+  source:'Dianne J. Bray · Fishes of Australia: Regal Angelfish',url:'https://fishesofaustralia.net.au/home/species/658'},
+ s54:{scientific:'Antennarius pictus',family:'Antennariidae · frogfishes',length:'Up to 16 cm',
+  paragraphs:[
+   'Also called the painted anglerfish, this fish can be red, yellow, orange, green, brown or black. The pectoral fins often have pale tips, and three spots commonly mark the tail. Color alone is not enough to identify it.',
+   'It often lives alongside sponges in bays and estuaries. Its range includes tropical and temperate parts of the Indo-Pacific, with Australian records extending around the north and down both western and eastern coasts.'
+  ],question:'Compare the outlines of a frogfish and a sponge. What details would you look for to decide which one is a fish?',
+  limit:'The illustration shows one stylized appearance. The lure ability and its effect on nearby prey are game rules; this source verifies identity and habitat rather than lure timing.',
+  source:'Australian Museum · Painted Anglerfish',url:'https://australian.museum/learn/animals/fishes/painted-anglerfish-antennarius-pictus/'},
  s19:{scientific:'Sepiidae (cuttlefishes; family)',family:'Cephalopod molluscs · species not identified',
   paragraphs:[
    'Cuttlefishes are molluscs with remarkable camouflage. One Australian example, the giant cuttlefish, can change its color and raise parts of its skin to resemble the texture of sand, rocks or seaweed.',
