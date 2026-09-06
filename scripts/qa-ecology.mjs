@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+fs.mkdirSync('artifacts',{recursive:true});
 import {Simulation} from '../src/simulation.js';
 const runs=[];
 for(const species of ['s0','s1','s2'])for(let seed=1;seed<=10;seed++){

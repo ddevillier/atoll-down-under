@@ -83,7 +83,7 @@ export class Simulation {
   const p=this.player;if(p.biteCooldown>0)return;p.biteCooldown=.45;
   const b=target.species;const good=edible(p,target);const poison=target.kind==='food'?target.food==='sponge'&&!p.species.diet.includes('sponge'):b?.poison&&!['crush','poison'].includes(p.species.ability);
   const name=target.name||b?.name;
-  if(poison){p.health-=25;p.energy-=10;this.score=Math.max(0,this.score-500);this.event('poison',name+' was poisonous. Find a cleaner.');}
+  if(poison){p.health-=25;p.energy-=10;p.lastHarm={type:'poison',name};this.score=Math.max(0,this.score-500);this.event('poison',name+' was poisonous to your fish. Inspect it and compare your diet before another bite.');if(p.health<=0)this.die('Your fish was poisoned by '+name+'.');}
   else if(!good){p.energy-=2;this.event('reject',b?.armor?name+' is too well armored for your fish.':name+' is not part of your diet.');}
   else{
    const whole=target.kind!=='food';const gain=whole?clamp(b.size*.33,12,65):FOODS[target.food].nutrition;
@@ -117,14 +117,15 @@ export class Simulation {
   if(p.hidden&&!wasHidden)this.event('hide','Hidden. Remain still to stay concealed.');
   if(!p.hidden&&wasHidden)this.event('reveal','Back in open water.');
   if(target&&distance(p,target)<p.species.size*.38+(target.species?.size||target.size)*.25+12)this.consume(target);
+  if(this.phase!=='playing')return;
   if(!this.protected){p.energy-=dt*p.species.metabolism*(moving?1.55:.7)*this.difficulty;if(p.species.parasites)p.health-=dt*.105*this.difficulty;if(!p.hidden&&this.mode!=='practice'){this.score+=dt*8;this.stageScore+=dt*8;}}
   const cleaner=this.section.entities.find(e=>e.alive&&e.species.ability==='clean'&&distance(e,p)<105);
-  if(cleaner&&p.still>.6&&!p.target&&p.health<99){p.cleanTime+=dt;cleaner.behavior='Cleaning';if(p.cleanTime>=2){p.health=100;p.cleanTime=0;this.event('clean','Parasites removed. Thank you, '+cleaner.species.name+'.');}}else p.cleanTime=0;
+  if(cleaner&&p.still>.6&&!p.target&&p.health<99){p.cleanTime+=dt;cleaner.behavior='Cleaning';if(p.cleanTime>=2){p.health=100;p.lastHarm=null;p.cleanTime=0;this.event('clean','Parasites removed. Thank you, '+cleaner.species.name+'.');}}else p.cleanTime=0;
   if(p.x>W-8&&this.pointer.x>W-10)this.transition(1,0);else if(p.x<8&&this.pointer.x<10)this.transition(-1,0);else if(p.y>H-8&&this.pointer.y>H-10){if(!this.transition(0,1))p.y=H-8;}else if(p.y<8&&this.pointer.y<10){if(!this.transition(0,-1))p.y=8;}
   p.x=clamp(p.x,1,W-1);p.y=clamp(p.y,1,H-1);
   for(const f of this.section.food)f.regrow=Math.max(0,f.regrow-dt);
   for(const e of [...this.section.entities])this.stepNpc(e,dt);
-  if(p.energy<=0)this.die('Your energy ran out. Short trips between good meals help you survive.');else if(p.health<=0)this.die('Your health failed. Visit a cleaner before parasites take over.');
+  if(p.energy<=0)this.die('Your energy ran out. Look for food that suits your fish.');else if(p.health<=0)this.die(p.lastHarm?.type==='poison'?'Your fish did not recover after eating '+p.lastHarm.name+'.':'Parasites overwhelmed your fish. Observe a cleaning station on your next dive.');
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
  stepNpc(e,dt){
@@ -153,7 +154,7 @@ export class Simulation {
    return;
   }
   const defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
-  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&edible(e,p);
+  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&edible(e,p);
   if(e.target==='player'&&!canEatPlayer&&e.behavior!=='Following lure'){e.target=null;e.pursuit=0;e.think=0;}
   if(e.target){e.pursuit+=dt;if(e.pursuit>6){e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
   let speed=e.species.speed*.35;

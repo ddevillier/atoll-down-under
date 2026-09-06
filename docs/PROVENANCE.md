@@ -4,7 +4,7 @@
 
 Game code, balance values, interface text, field-guide prose, synthesized music, sound effects and the vector application icon were authored for this project. No audio samples or melodies from Odell Down Under are included.
 
-The nine reef paintings, four 16-creature sprite atlases and eight-item food atlas were created with the built-in image-generation tool. See `ASSET-PROMPTS.json` for prompts. The first repetitive reef variants were superseded after the user's correction requesting distinct original-game-style layouts. No original game's screenshots are distributed in the game assets. Sprite atlas transparency and cell bounds are interpreted by the renderer, with disconnected neighboring-cell fragments removed at runtime.
+The nine reef paintings, four 16-creature sprite atlases and eight-item food atlas were created with the built-in image-generation tool. See `ASSET-PROMPTS.json` for prompts. The first repetitive reef variants were superseded after the user's correction requesting distinct original-game-style layouts. No original game's screenshots are distributed in the game assets. The renderer segments full connected silhouettes across the atlas before assigning creatures to cells, preserving parts that extend over a nominal grid boundary. The original atlas pixels remain unchanged.
 
 ## Historical design references
 

@@ -1,0 +1,21 @@
+import {chromium} from '@playwright/test';
+import fs from 'node:fs';
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1200,height:800},recordVideo:{dir:'artifacts/motion-video',size:{width:1200,height:800}}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+await page.evaluate(async()=>{
+ const {SPECIES}=await import('/src/data.js'),r=window.atoll.renderer;
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=800;canvas.style='position:fixed;inset:0;width:100%;height:100%;z-index:999;background:#f4f0df';document.body.append(canvas);
+ const c=canvas.getContext('2d'),subjects=[1,26,27,19,34,44];window.motionFrames=[];let last=performance.now();
+ function frame(now){const dt=(now-last)/1000;last=now;window.motionFrames.push(dt);c.fillStyle='#f4f0df';c.fillRect(0,0,1200,800);c.fillStyle='#163c43';c.font='32px AtollDisplay';c.fillText('Lives in motion',38,50);c.font='16px AtollSans';c.fillText('Stylized articulation from the game renderer',38,79);
+  subjects.forEach((index,i)=>{const species=SPECIES[index],x=200+i%3*400,y=245+Math.floor(i/3)*340;const width=index===44?70:260;
+   r.drawSprite(c,species,x,y,width,1,now/1000,1,.6);c.fillStyle='#163c43';c.font='21px AtollDisplay';c.textAlign='center';c.fillText(species.name,x,y+125);c.textAlign='left';});
+  requestAnimationFrame(frame);
+ }requestAnimationFrame(frame);
+});
+await page.waitForTimeout(4500);await page.screenshot({path:'artifacts/motion-sheet.png'});
+const timings=await page.evaluate(()=>window.motionFrames.slice(10).sort((a,b)=>a-b));
+const report={errors,frames:timings.length,medianFrameMs:Math.round(timings[Math.floor(timings.length*.5)]*1000),p95FrameMs:Math.round(timings[Math.floor(timings.length*.95)]*1000)};
+const video=page.video();await page.close();await video.saveAs('artifacts/motion-preview.webm');await browser.close();
+fs.writeFileSync('artifacts/motion-report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));if(errors.length)process.exitCode=1;

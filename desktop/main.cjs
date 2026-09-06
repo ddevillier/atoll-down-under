@@ -1,6 +1,12 @@
 const { app, BrowserWindow, Menu, protocol, net, session } = require('electron');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
+// Native checks get their own storage, so entering a test dive cannot replace a player's save.
+if(process.env.ATOLL_QA){
+  const fs=require('node:fs');
+  const qaProfile=fs.mkdtempSync(path.join(app.getPath('temp'),'atoll-qa-'));
+  app.setPath('userData',qaProfile);
+}
 protocol.registerSchemesAsPrivileged([{ scheme: 'atoll', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }]);
 app.whenReady().then(() => {
   protocol.handle('atoll', request => {

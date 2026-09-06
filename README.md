@@ -74,7 +74,7 @@ npm run test:desktop
 npm run package:win
 ```
 
-Browser tests start their own localhost server when one is not already running. The native desktop test launches a hidden test window and verifies the real local protocol, game startup, sprite loading, and music readiness. Windows is the authorized delivery target.
+Browser tests start their own localhost server when one is not already running. The native desktop test uses isolated temporary storage and launches a hidden test window and verifies the real local protocol, game startup, sprite loading, and music readiness. Windows is the authorized delivery target.
 
 Run `python scripts/package-releases.py` after the Windows build to create the Windows portable ZIP, source ZIP, and SHA-256 checksums. Python 3 is required for this archive step.
 
@@ -93,3 +93,5 @@ This is a playable work in progress. Ecological pacing, educational depth, anima
 The image-generation tool produced approximately 1.5K–1.7K source paintings; the renderer scales smoothly to 4K displays. These are new high-resolution illustrations relative to the original game's small screens, not native 4K painted masters. Original prompts are in `docs/ASSET-PROMPTS.json`.
 
 The chosen title has not been commercially cleared. See `docs/PROVENANCE.md` for asset sources and licenses. No account, multiplayer, telemetry, or online leaderboard is required.
+
+The renderer preserves complete sprites that cross atlas grid boundaries. Swimming uses separate stylized articulation for fish, sharks, eels, rays, cuttlefish and seahorses, with smoother turns. These animations illustrate different forms; they are not biomechanical reconstructions.

@@ -5,6 +5,7 @@ import json
 import zipfile
 
 root = Path(__file__).resolve().parent.parent
+(root / 'artifacts').mkdir(exist_ok=True)
 dist = root / 'dist'
 windows = dist / 'Atoll Down Under-win32-x64'
 assert (windows / 'Atoll Down Under.exe').is_file(), 'Build Windows first.'

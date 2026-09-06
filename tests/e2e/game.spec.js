@@ -1,6 +1,22 @@
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 async function practice(page,search=null){await page.getByRole('button',{name:/Practice Choose/}).click();if(search){await page.getByRole('searchbox').fill(search);await page.getByRole('option').first().click();}await page.getByRole('button',{name:'Enter the reef'}).click();}
+test('a poisonous meal shows its actual cause in the ending dialog',async({page})=>{
+ await ready(page);await practice(page);const food=await page.evaluate(()=>{const s=window.atoll.simulation;s.section.entities=[];const f=s.section.food.find(f=>f.food==='sponge');s.player.health=20;s.player.x=f.x-20;s.player.y=f.y;s.player.angle=0;s.point(s.player.x,s.player.y);return {x:f.x,y:f.y};});
+ const box=await page.locator('#reef').boundingBox();await page.mouse.click(box.x+food.x/1600*box.width,box.y+(food.y+55)/900*box.height);
+ await expect(page.getByRole('dialog')).toContainText('poisoned by Sponge');await expect(page.getByRole('dialog')).not.toContainText('parasites take over');
+});
+test('atlas extraction preserves a connected silhouette crossing its nominal cell',async({page})=>{
+ await ready(page);const result=await page.evaluate(()=>{
+  const c=document.createElement('canvas');c.width=400;c.height=400;const ctx=c.getContext('2d');ctx.fillStyle='#ff8800';
+  for(let i=0;i<16;i++){ctx.beginPath();ctx.arc((i%4+.5)*100,(Math.floor(i/4)+.5)*100,18,0,Math.PI*2);ctx.fill();}
+  ctx.fillRect(46,278,8,72);const sprites=window.atoll.renderer.extractAtlas(c);return {count:sprites.length,extended:sprites[12].height,neighbor:sprites[8].height};
+ });expect(result.count).toBe(16);expect(result.extended).toBeGreaterThan(90);expect(result.neighbor).toBeLessThan(45);
+});
+test('turn animation preserves continuity and settles on the new direction',async({page})=>{
+ await ready(page);const result=await page.evaluate(()=>{const r=window.atoll.renderer,c=document.createElement('canvas'),ctx=c.getContext('2d'),s={index:1,id:'test',speed:100,food:'fish'},e={id:'turn-test',species:s,x:50,y:50,facing:1};r.drawCreature(ctx,e,1,1/60);e.facing=-1;r.drawCreature(ctx,e,1,1/60);const first=r.poses.get(e.id).facing;for(let i=0;i<60;i++)r.drawCreature(ctx,e,1,1/60);return {first,last:r.poses.get(e.id).facing};});
+ expect(result.first).toBeGreaterThan(-1);expect(result.first).toBeLessThan(1);expect(result.last).toBeLessThan(-.99);
+});
 test('food-web connections are navigable and sourced reef lessons fit desktop sizes',async({page})=>{
  await ready(page);await page.getByRole('button',{name:'Field guide',exact:true}).click();await page.getByRole('button',{name:'Food web',exact:true}).click();
  await page.getByLabel('Explore a creature').selectOption('s0');await expect(page.locator('.web-center h3')).toHaveText('Silver sprat');await expect(page.locator('.web-resource')).toHaveText('Plankton');

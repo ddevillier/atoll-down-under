@@ -50,3 +50,12 @@ test('non-player fish visit cleaners and can be observed receiving cleaning',()=
  for(let i=0;i<61;i++){s.stepNpc(client,.05);s.stepNpc(cleaner,.05);}
  assert.ok(client.health>99);assert.equal(client.cleanTime,0);assert.equal(client.target,null);assert.equal(s.observations[0].behavior,'Being cleaned');
 });
+test('fatal poisoning explains the meal that caused it instead of blaming parasites',()=>{
+ const s=new Simulation(4);s.start('practice','s1');s.player.health=20;s.consume(s.section.food.find(f=>f.food==='sponge'));
+ assert.equal(s.phase,'dead');const message=s.events.find(e=>e.type==='death').text;assert.match(message,/poisoned by Sponge/);assert.doesNotMatch(message,/parasites/i);
+});
+test('hunters respect poisonous defenses equally for the player and other creatures',()=>{
+ const {s,hunter}=fixture();hunter.species=SPECIES[51];s.player.species=SPECIES[20];hunter.x=s.player.x-10;
+ const other=structuredClone(s.player);other.id='other-lionfish';other.x=hunter.x+5;s.section.entities.push(other);
+ s.stepNpc(hunter,.01);assert.equal(s.player.health,100);assert.equal(other.alive,true);assert.equal(hunter.target,null);
+});

@@ -1,4 +1,5 @@
 import {REEFS,SPECIES,FOODS} from './data.js';
+import {motionKind,bodyMotion} from './motion.js';
 const TOP=55;
 export class ReefRenderer {
  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.reefs=[];this.atlases=[];this.bounds=[];this.sprites=[];this.foodSprites=[];this.customCache=new Map();this.ready=false;this.particles=[];this.clock=0;this.hover=null;this.inspect=false;this.reducedMotion=false;this.effects=[];this.resize();new ResizeObserver(()=>this.resize()).observe(canvas);}
@@ -6,25 +7,62 @@ export class ReefRenderer {
  async load(){
   const img=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error('Could not load '+src));im.src=src;});
   [this.reefs,this.atlases]=await Promise.all([Promise.all(REEFS.map(r=>img(r.image))),Promise.all([0,1,2,3].map(n=>img('assets/creatures/fish-atlas-'+n+'.png')))]);
-  this.atlases.forEach((im,a)=>{for(let cell=0;cell<16;cell++){const sprite=this.extractCell(im,cell,4,4,true);this.sprites[a*16+cell]=sprite;this.bounds[a*16+cell]={x:0,y:0,w:sprite.width,h:sprite.height};}});
+  this.atlases.forEach((im,a)=>{this.extractAtlas(im).forEach((sprite,cell)=>{this.sprites[a*16+cell]=sprite;this.bounds[a*16+cell]={x:0,y:0,w:sprite.width,h:sprite.height};});});
   const food=await img('assets/creatures/food-atlas.png');for(let i=0;i<8;i++)this.foodSprites.push(this.extractCell(food,i,4,2,false));
   this.ready=true;
  }
- extractCell(image,cell,cols,rows,mainOnly){
-  const w=Math.floor(image.width/cols),h=Math.floor(image.height/rows),c=document.createElement('canvas');c.width=w;c.height=h;const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(image,cell%cols*w,Math.floor(cell/cols)*h,w,h,0,0,w,h);const d=cx.getImageData(0,0,w,h),pixels=d.data;
+ extractCell(image,cell,cols,rows,mainOnly,region=null){
+  const w=region?.w||Math.floor(image.width/cols),h=region?.h||Math.floor(image.height/rows),c=document.createElement('canvas');c.width=w;c.height=h;const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(image,region?.x??cell%cols*w,region?.y??Math.floor(cell/cols)*h,w,h,0,0,w,h);const d=cx.getImageData(0,0,w,h),pixels=d.data;
   const labels=new Int32Array(w*h),queue=new Int32Array(w*h);let label=0,biggest=0,biggestLabel=0;
   if(mainOnly){for(let start=0;start<labels.length;start++){if(labels[start]||pixels[start*4+3]<45)continue;label++;let head=0,tail=1;queue[0]=start;labels[start]=label;while(head<tail){const n=queue[head++],x=n%w,y=Math.floor(n/w);for(const dy of [-1,0,1])for(const dx of [-1,0,1]){if(!dx&&!dy||x+dx<0||x+dx>=w||y+dy<0||y+dy>=h)continue;const k=n+dy*w+dx;if(!labels[k]&&pixels[k*4+3]>=45){labels[k]=label;queue[tail++]=k;}}}if(tail>biggest){biggest=tail;biggestLabel=label;}}}
   let minx=w,miny=h,maxx=0,maxy=0;
   for(let y=0;y<h;y++)for(let x=0;x<w;x++){const n=y*w+x;if(mainOnly&&labels[n]!==biggestLabel){let neighbor=false;if(pixels[n*4+3]>0&&pixels[n*4+3]<45){for(let dy=-2;dy<=2&&!neighbor;dy++)for(let dx=-2;dx<=2;dx++){if(x+dx>=0&&x+dx<w&&y+dy>=0&&y+dy<h&&labels[n+dy*w+dx]===biggestLabel){neighbor=true;break;}}}if(!neighbor)pixels[n*4+3]=0;}if(pixels[n*4+3]>40){minx=Math.min(x,minx);maxx=Math.max(x,maxx);miny=Math.min(y,miny);maxy=Math.max(y,maxy);}}
   cx.putImageData(d,0,0);const out=document.createElement('canvas');out.width=Math.max(1,maxx-minx+3);out.height=Math.max(1,maxy-miny+3);out.getContext('2d').drawImage(c,minx,miny,maxx-minx+1,maxy-miny+1,1,1,maxx-minx+1,maxy-miny+1);return out;
  }
- drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1){
+ extractAtlas(image){
+  // Segment the complete atlas before assigning cells. Grid-first cropping amputated
+  // fins, noses and the seahorse's head when artwork crossed an implied cell boundary.
+  const w=image.width,h=image.height,c=document.createElement('canvas');c.width=w;c.height=h;
+  const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(image,0,0);const pixels=cx.getImageData(0,0,w,h).data;
+  const labels=new Int32Array(w*h),queue=new Int32Array(w*h),components=[];let label=0;
+  for(let start=0;start<labels.length;start++){
+   if(labels[start]||pixels[start*4+3]<45)continue;
+   label++;let head=0,tail=1,sumx=0,sumy=0,minx=w,miny=h,maxx=0,maxy=0;queue[0]=start;labels[start]=label;
+   while(head<tail){const n=queue[head++],x=n%w,y=Math.floor(n/w);sumx+=x;sumy+=y;minx=Math.min(minx,x);maxx=Math.max(maxx,x);miny=Math.min(miny,y);maxy=Math.max(maxy,y);
+    for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy||x+dx<0||x+dx>=w||y+dy<0||y+dy>=h)continue;const k=n+dy*w+dx;if(!labels[k]&&pixels[k*4+3]>=45){labels[k]=label;queue[tail++]=k;}}
+   }
+   if(tail>400)components.push({label,area:tail,cx:sumx/tail,cy:sumy/tail,minx,miny,maxx,maxy});
+  }
+  const available=components.sort((a,b)=>b.area-a.area).slice(0,16);if(available.length!==16)throw new Error('A creature atlas does not contain 16 complete silhouettes.');
+  return Array.from({length:16},(_,cell)=>{
+   const px=(cell%4+.5)*w/4,py=(Math.floor(cell/4)+.5)*h/4;
+   const rank=o=>((o.cx-px)/(w/4))**2+((o.cy-py)/(h/4))**2;
+   available.sort((a,b)=>rank(a)-rank(b));const part=available.shift();
+   const left=Math.max(0,part.minx-2),top=Math.max(0,part.miny-2),right=Math.min(w-1,part.maxx+2),bottom=Math.min(h-1,part.maxy+2);
+   const out=document.createElement('canvas');out.width=right-left+3;out.height=bottom-top+3;const oc=out.getContext('2d'),data=oc.createImageData(out.width,out.height);
+   for(let y=top;y<=bottom;y++)for(let x=left;x<=right;x++){
+    const n=y*w+x;let include=labels[n]===part.label;
+    if(!include&&pixels[n*4+3]>0&&pixels[n*4+3]<45){for(let dy=-2;dy<=2&&!include;dy++)for(let dx=-2;dx<=2;dx++){if(x+dx>=0&&x+dx<w&&y+dy>=0&&y+dy<h&&labels[n+dy*w+dx]===part.label){include=true;break;}}}
+    if(include){const dst=((y-top+1)*out.width+x-left+1)*4;data.data.set(pixels.subarray(n*4,n*4+4),dst);}
+   }
+   oc.putImageData(data,0,0);return out;
+  });
+ }
+ drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1,activity=1){
   const b=this.bounds[species.index];let im=this.sprites[species.index];if(!b||!im)return;
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);this.customCache.set(key,tint);}im=this.customCache.get(key);}
-  const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
-  const animate=!this.reducedMotion&&time>0&&species.food==='fish'&&species.index!==44;
-  if(animate){const strips=20,sw=b.w/strips,dw=width/strips;for(let i=0;i<strips;i++){const tail=Math.max(0,1-i/(strips*.65));const offset=Math.sin(time*(3.3+species.speed/90)+i*.22)*tail*tail*width*.035;ctx.drawImage(im,i*sw,0,Math.min(sw+1,b.w-i*sw),b.h,-width/2+i*dw,-h/2+offset,dw+.6,h);}}
+  const h=width*b.h/b.w,kind=motionKind(species);ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
+  const animate=!this.reducedMotion&&time>0;
+  if(animate&&kind==='seahorse')ctx.rotate(Math.sin(time*1.8)*.028);
+  if(animate&&['fish','shark','eel','ray','cuttlefish'].includes(kind)){const strips=28,sw=b.w/strips,dw=width/strips;for(let i=0;i<strips;i++){const m=bodyMotion(kind,i/(strips-1),time,activity),height=h*m.stretch;ctx.drawImage(im,i*sw,0,Math.min(sw+1,b.w-i*sw),b.h,-width/2+i*dw,-height/2+m.offset*width,dw+.6,height);}}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
+ }
+ drawCreature(ctx,e,time,dt,alpha=1,width=e.species.size){
+  this.poses??=new Map();let pose=this.poses.get(e.id);
+  if(!pose){pose={x:e.x,y:e.y,facing:e.facing,activity:.35};this.poses.set(e.id,pose);}
+  if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.facing+=(e.facing-pose.facing)*blend;pose.x=e.x;pose.y=e.y;}
+  const facing=this.reducedMotion?e.facing:Math.sign(pose.facing||e.facing)*Math.max(.16,Math.abs(pose.facing));
+  this.drawSprite(ctx,e.species,e.x,e.y,width,facing,time,alpha,pose.activity);
  }
  portrait(canvas,species){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const b=this.bounds[species.index];if(!b)return;this.drawSprite(ctx,species,canvas.width/2,canvas.height/2,Math.min(canvas.width*.78,canvas.height*.78*b.w/b.h));}
  addEffect(type,x=800,y=350){this.effects.push({type,x,y,t:0});}
@@ -41,14 +79,16 @@ export class ReefRenderer {
    return;
   }
   if(!sim?.player)return;
+  if(this.renderedPlayer!==sim.player){this.poses=new Map();this.renderedPlayer=sim.player;}
+  const motionDt=sim.paused||sim.phase!=='playing'?0:dt;
   c.save();c.translate(0,TOP);
   for(const f of sim.section.food){if(f.regrow>0)continue;this.drawFood(c,f,t);}
   for(const e of sim.section.entities.filter(e=>e.alive).sort((a,b)=>a.species.size-b.species.size)){
-   this.drawSprite(c,e.species,e.x,e.y,e.species.size,e.facing,t+e.id,.98);
+   this.drawCreature(c,e,t+e.id,motionDt,.98);
    if(e.species.ability==='clean'&&this.inspect)this.tag(c,e.x,e.y-30,'Cleaner');
   }
   const p=sim.player;const puff=p.species.ability==='puff'&&p.abilityTime>0?1.5:1;
-  this.drawSprite(c,p.species,p.x,p.y,p.species.size*puff,p.facing,t,p.hidden?.25:1);
+  this.drawCreature(c,p,t,motionDt,p.hidden?.25:1,p.species.size*puff);
   // A small player marker is always readable without outlining the entire fish.
   c.fillStyle=p.hidden?'#b9e0bb':'#fff1bd';c.beginPath();c.moveTo(p.x,p.y-p.species.size*.42-10);c.lineTo(p.x-5,p.y-p.species.size*.42-18);c.lineTo(p.x+5,p.y-p.species.size*.42-18);c.fill();
   if(p.abilityTime>0){const a=p.species.ability;c.save();c.globalAlpha=.22;c.fillStyle=['ink','poison'].includes(a)?'#112f3d':'#caedcf';c.strokeStyle='#e0f6b9';c.lineWidth=2;if(['ink','poison'].includes(a)){c.beginPath();c.ellipse(p.x-p.facing*35,p.y,90,48,Math.sin(t)*.2,0,Math.PI*2);c.fill();}else if(a!=='camouflage'){c.beginPath();c.arc(p.x,p.y,p.species.size*.7+12+Math.sin(t*5)*5,0,Math.PI*2);c.stroke();}c.restore();}
