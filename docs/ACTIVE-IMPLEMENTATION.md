@@ -4,12 +4,14 @@ Continue the original specification and audit work with gentle difficulty. The u
 
 ## Order and evidence
 
-1. Complete sourced natural-history entries for all 64 catalog creatures. Use group-level facts when an ambiguous label cannot support an exact species identification; document that limit. Keep identification, actual diet, habitat and distinctive behavior separate from simulation rules. Current coverage: 52/64; see SPECIES-FACTS-LEDGER.md and LIFE-SCIENCE-SOURCES.md. Sprite identity and original-roster parity remain separate unfinished work.
+1. Complete sourced natural-history entries for all 64 catalog creatures. Use group-level facts when an ambiguous label cannot support an exact species identification; document that limit. Keep identification, actual diet, habitat and distinctive behavior separate from simulation rules. Current coverage: 64/64; see SPECIES-FACTS-LEDGER.md and LIFE-SCIENCE-SOURCES.md. Sprite identity and original-roster parity remain separate unfinished work.
 2. Author different population ranges for all nine habitats, with quiet valleys and busier areas. Outer Blue is the proposed zone for a modestly higher hunter likelihood. Measure initial and sustained densities across species, seeds and periods; preserve usable foods, cleaners, saved populations and safe arrival. Do not increase pursuit speed or damage as part of this change. Population implementation is still pending.
 3. Work through ORIGINAL-DESIGN-AUDIT.md against GAME-DESIGN.md. Begin with confirmed correctness issues such as inconsistent poison stage-score penalties, then species and interaction fidelity. Historical discrepancies need original-game evidence; source uncertainty must not become an invented rule. Keep the user's gentle-difficulty constraint when resolving conflicts with the audit's earlier predator recommendations.
 4. Verify gameplay, guide usability and Windows packaging after the implementation is ready. The existing fullscreen testing ZIP is a preserved baseline and does not include these in-progress facts.
 
 ## Completion boundary
+
+Facts batch 7 completes written coverage for all 64 catalog creatures. Twelve entries were added, including explicitly labeled examples for ambiguous names. Catalog/schema checks passed, and all 64 entries passed scientific-name search, reading and horizontal-overflow checks at 1024 and 1600 widths. This proves delivery of the researched text, not exact sprite identification or original-roster parity. The next implementation step is habitat population variation, preserving gentle difficulty. Audit repairs and refreshed Windows packaging remain required.
 
 Facts batch 6 adds seven entries, bringing sourced coverage to 52/64. Catalog/schema checks passed; all 52 entries passed scientific-name search, reading and horizontal-overflow checks at 1024 and 1600 widths. Group labels retain their identification limits; named examples distinguish Pacific electric rays, splitfin flashlight fish and spotted wobbegongs from the unverified sprites. Twelve entries still need sourced facts. Population, audit repairs and refreshed Windows packaging remain pending.
 

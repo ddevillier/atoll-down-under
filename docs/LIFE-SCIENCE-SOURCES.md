@@ -14,7 +14,7 @@ Each lesson includes an observation or comparison question and states the proces
 
 ## Species natural history (checked 6 September 2026)
 
-Fifty-two entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
+All 64 entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
 
 - Longnose butterflyfish: [Australian Museum](https://australian.museum/learn/animals/fishes/longnose-butterflyfish-forcipiger-longirostris-broussonet-1782/). Supports name, family, maximum length, range, habitat and diagnostic differences from the forcepsfish. The current illustration needs a species-identification art audit; its markings should not be used as a field identification reference.
 - Banggai cardinalfish: [NOAA Fisheries](https://www.fisheries.noaa.gov/species/banggai-cardinalfish). Supports name, family, length (3.4 inches converted to approximately 8.6 cm), native range, copepod diet, mouthbrooding and individually distinctive spots. The simulation's activity period remains a scenario rule pending a species activity audit; reproduction is not simulated.
@@ -46,7 +46,7 @@ Second facts batch (checked 6 September 2026):
 - Banded coral shrimp: [Oregon Coast Aquarium](https://aquarium.org/animals/banded-coral-shrimp/). Identity, approximate body length, markings, habitat, pairing, cleaning, eggs and larval dispersal. No exact larval duration or nocturnal exclusivity claimed.
 - Cuttlefish: [Australian Museum, Giant Cuttlefish](https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/). Named example supporting camouflage, changing texture, diet, communication and daytime activity. The catalog still lacks a species identification; the example is explicitly not asserted to be its identity. No claim that all cuttlefish share the giant cuttlefish's size or distribution.
 
-The remaining 12 catalog entries do not yet have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Do not infer that this partial expansion verifies the full roster's natural history. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
+All 64 catalog entries now have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Written coverage does not verify every sprite identity or the original roster. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
 
 ## Third facts batch (checked 6 September 2026)
 
@@ -90,3 +90,18 @@ Yellowspot emperor name cross-check: [NOAA species table](https://downloads.regu
 - [Wobbegong](https://australian.museum/learn/animals/fishes/spotted-wobbegong-orectolobus-maculatus-bonnaterre-1788/): Spotted wobbegong is a named example for an unresolved generic catalog label. Markings, resting habitat, nighttime feeding and Australian range are supported; conflicting overseas records from other pages were excluded.
 - [Electric ray](https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/pacific-electric-ray): Pacific electric ray is an explicitly non-Australian example. Supports anatomy, electrical predation, nocturnal searching and disc wrapping. Voltage, human effects and ancient medical claims were excluded; aquarium web and teaching-card voltage figures disagree.
 - [Flashlight fish](https://www.aquariumofpacific.org/onlinelearningcenter/species/splitfin_flashlight_fish): Splitfin flashlight fish is a named example. Uses the source’s species-specific Pacific range, rather than its broader introductory range. Supports bacterial light organs, rotation, diet and nocturnal schooling. Inconsistent conservation labels and tentative reproduction were excluded.
+
+## Facts batch 7: coverage completed
+
+- [Silver sprat](https://www.fao.org/4/ad471e/ad471e12.pdf): FAO printed page 33 supports identity, markings, schooling, atoll occurrence and local monsoon variation. Old family placement and maximum-length claim were omitted.
+- [Yellow goatfish](https://www.waikikiaquarium.org/experience/animal-guide/fishes/goatfishes/goatfishes/): Family-level sensory barbels, food and substrate searching; common-name identity remains open. Cultural and human-health claims were not used.
+- [Trumpetfish](https://fishesofaustralia.net.au/home/species/1875): Supports Australian name match, anatomy, camouflage, shadowing, suction feeding and length.
+- [Yellowtail fusilier](https://australian.museum/learn/animals/fishes/yellowtail-fusilier-caesio-cuning-bloch-1791/): Supports name, markings, midwater zooplankton feeding and offshore schooling. No universal school count inferred.
+- [Silver trevally](https://fishesofaustralia.net.au/home/species/4279): Supports name, appearance, schooling and life-stage habitat movements. Temperate range and previous confusion with P. dentex remain explicit.
+- [Purple anthias](https://australian.museum/learn/animals/fishes/purple-queen-pseudanthias-tuka/): Supports purple-anthias name, male/female differences, length and reef-slope aggregations.
+- [Longsnout flathead](https://fishesofaustralia.net.au/home/species/3369): Supports exact name, size, markings and partial burial in sand. The quick-facts venom label was not adopted.
+- [Orange coral goby](https://fishesofaustralia.net.au/home/species/2231): Yellow coralgoby is an explicit example for an unresolved orange-coral-goby label. Supports host, position within coral, juvenile appearance and food. Does not rely on the separately consulted goby-gardening research report.
+- [Squirrelfish](https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/squirrelfish/): Atlantic H. adscensionis is an explicit example; supports shelter, nocturnal feeding, food and swim-bladder sound.
+- [Coral grouper](https://www.fao.org/4/t0540e/t0540e21.pdf): FAO printed pages 132–133 support name, adult/juvenile markings and silty habitat. No diet or chase rate was inferred from the account.
+- [Spotted pufferfish](https://australian.museum/learn/animals/fishes/stars-and-stripes-toadfish-arothron-hispidus-linnaeus-1758/): Stars-and-stripes puffer is an explicit example; supports markings, range, food and tooth plates. No blanket toxin claim for all puffers was adopted.
+- [Blue-spotted stingray](https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/bluespotted-ribbontail-ray/): Taeniura lymma is an explicit example because blue spots do not identify a unique ray. Supports disc shape, spots, tail stripes, feeding and tooth plates. Historical Dasyatis kuhlii naming and uncertain gestation figures were omitted.

@@ -1,6 +1,90 @@
 // Independently written summaries of cited museum, government, aquarium and university sources.
 // Real-world measurements are separate from sprite size and game balance.
 export const NATURAL_HISTORY={
+ s2:{scientific:'Gobiodon (coral gobies; genus)',family:'Gobiidae · gobies',
+  paragraphs:[
+   'Coral gobies are small fishes closely associated with living corals. One named example is the yellow coralgoby, Gobiodon okinawae, which often occupies the outer edges of table-like Acropora colonies on sheltered reefs.',
+   'That species eats both plankton and tissue from its coral host. Its young look different from the bright-yellow adults: they are whitish, with a dark internal stripe and spots on the head and tail. A coral can be both a home and a source of food.'
+  ],question:'Look along a coral colony’s outer edge as well as between its branches. Where might a small resident be easiest to see?',
+  limit:'Orange coral goby has not been matched to an exact species. The yellow coralgoby is an example, not an identification of this sprite; host-specific feeding is not simulated.',
+  source:'Dianne J. Bray · Fishes of Australia: Yellow Coralgoby (named example)',url:'https://fishesofaustralia.net.au/home/species/2231'},
+ s12:{scientific:'Holocentridae (squirrelfishes and soldierfishes; family)',family:'Squirrelfishes · species not identified',
+  paragraphs:[
+   'Squirrelfish is a name shared by several fishes. The Atlantic species Holocentrus adscensionis is a red, large-eyed example. It hides in reef crevices and beneath ledges during the day, then searches over sand and seagrass at night.',
+   'Its food includes crab and shrimp larvae, other small crustaceans and occasional young fishes. It can make sounds with its swim bladder to communicate with other members of its species. Nighttime activity involves more than what a brightly lit view can reveal.'
+  ],question:'Compare a sheltered daytime resting place with an open nighttime feeding area. What changes besides the light?',
+  limit:'The Atlantic species is a named example for an unresolved catalog identity. The game’s nighttime visibility and sound effects do not recreate its natural sensory environment.',
+  source:'Florida Museum · Squirrelfish (named example)',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/squirrelfish/'},
+ s16:{scientific:'Epinephelus corallicola',family:'Groupers and rockcods',
+  paragraphs:[
+   'The coral grouper described in the FAO identification guide is brownish to greenish-grey, with scattered small dark spots on its head, body and fins. It has a rounded tail and darker blotches near the base of the dorsal fin.',
+   'Young fish have conspicuous pale spots that fade as they grow. This western Pacific species inhabits shallow silty reefs and estuarine areas, including Australian waters. Coral reef fish do not all live in perfectly clear water.'
+  ],question:'Compare a spotted juvenile with a larger fish whose pale spots have faded. Which other features would help connect them?',
+  limit:'This follows the FAO coral-grouper name, which still needs comparison with the original roster and sprite. The source does not establish the game’s diet, pursuit speed or prey-size thresholds.',
+  source:'FAO · Groupers of the World, coral grouper, printed page 133',url:'https://www.fao.org/4/t0540e/t0540e21.pdf'},
+ s22:{scientific:'Tetraodontidae (pufferfishes; family)',family:'Pufferfishes · species not identified',
+  paragraphs:[
+   'Several pufferfishes have spots, so spotted pufferfish alone is not a precise identification. One example is the stars-and-stripes puffer, Arothron hispidus, with white spots above, pale lines below, and rings around the gill opening and pectoral-fin base.',
+   'That Indo-Pacific species uses habitats from estuaries to coral reefs. Its varied food includes algae, sponges, corals, molluscs and other invertebrates. Joined teeth form two plates in each jaw, making a beak-like mouth.'
+  ],question:'Compare the marks above and below a pufferfish’s middle. Could stripes, rings and spots together identify it better than spots alone?',
+  limit:'The stars-and-stripes puffer is a named example, not a verified sprite identity. The game’s puff ability and restricted menu are separate simulation rules.',
+  source:'Australian Museum · Stars-and-stripes Puffer (named example)',url:'https://australian.museum/learn/animals/fishes/stars-and-stripes-toadfish-arothron-hispidus-linnaeus-1758/'},
+ s27:{scientific:'Dasyatidae (stingrays; family)',family:'Blue-spotted stingrays · species not identified',
+  paragraphs:[
+   'Blue spots occur on more than one kind of stingray. The bluespotted ribbontail ray, Taeniura lymma, is one example with a rounded oval disc, bright spots on its upper surface and blue stripes beside its tail.',
+   'It feeds in sandy areas beside reefs, including at high tide. Meals include molluscs, worms, shrimps, crabs and small fishes. Small teeth arranged in plates help crush prey; the mouth and gill openings are on the underside of the body.'
+  ],question:'Compare the disc outline and tail as well as the spots. What would help distinguish two similarly colored rays?',
+  limit:'The ribbontail ray is a named example; this catalog label does not resolve the sprite’s species. Tides, crushing teeth and species-specific tail defenses are not fully simulated.',
+  source:'Florida Museum · Bluespotted Ribbontail Ray (named example)',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/bluespotted-ribbontail-ray/'},
+ s0:{scientific:'Spratelloides gracilis',family:'Sprats and round herrings',
+  paragraphs:[
+   'Silver sprats have slender bodies with dark-blue backs and pale undersides. A bright silver band runs along each side from the gill cover to the base of the tail. Their scales are thin and comparatively large.',
+   'These small Indo-Pacific fishes gather in large schools, including inshore waters within atolls. In the Maldives their local abundance changes with the monsoon season. A busy school in one place does not mean the whole reef has the same population.'
+  ],question:'Compare a school with scattered fish. Where are the largest gaps in the water, and how do they change as the school turns?',
+  limit:'This entry follows the FAO guide’s silver-sprat name. School size, seasonal movements and feeding rates are not reconstructed from the original game or measured in this simulation.',
+  source:'FAO · Fishes of the Maldives, Silver sprat, printed page 33',url:'https://www.fao.org/4/ad471e/ad471e12.pdf'},
+ s9:{scientific:'Mullidae (goatfishes; family)',family:'Goatfishes · species not identified',
+  paragraphs:[
+   'Goatfishes have two sensory barbels beneath the lower jaw. These whisker-like structures help them search sand and reef crevices by touch and taste. When not being used, the barbels can be tucked away.',
+   'Their meals include bottom-living worms, crustaceans and small molluscs; some species also eat fish. A goatfish can take sand into its mouth while searching and expel it through the gill openings. Different species feed by day, at night, or during both periods.'
+  ],question:'Watch where a goatfish points its head. How might searching with barbels differ from spotting a meal in open water?',
+  limit:'Yellow goatfish is used for more than one species. This entry gives family-level facts rather than assigning the sprite an unverified scientific name; digging and barbel sensing are not simulated.',
+  source:'Waikīkī Aquarium · Goatfishes',url:'https://www.waikikiaquarium.org/experience/animal-guide/fishes/goatfishes/goatfishes/'},
+ s41:{scientific:'Aulostomus chinensis',family:'Aulostomidae · trumpetfishes',length:'Up to 90 cm total length',
+  paragraphs:[
+   'A trumpetfish has a long, narrow body and a tube-shaped snout. It can change color and sometimes waits head-down among corals. Its outline can be difficult to pick out against long branches.',
+   'It also approaches prey beside a larger fish, using that neighbor as cover. Small fishes and crustaceans are sucked through the snout when the mouth region expands rapidly. Catching a meal can depend on a concealed approach rather than a long chase.'
+  ],question:'Compare a trumpetfish alone with one beside a larger fish. When would its outline be easier to notice?',
+  limit:'The entry follows the Australian trumpetfish name. The game does not reproduce head-down waiting, shadowing larger fish or suction-feeding anatomy.',
+  source:'Dianne J. Bray and Vanessa J. Thompson · Fishes of Australia: Trumpetfish',url:'https://fishesofaustralia.net.au/home/species/1875'},
+ s42:{scientific:'Caesio cuning',family:'Fusiliers and snappers',
+  paragraphs:[
+   'The yellowtail fusilier has a grey-blue body with yellow on its tail and the soft rear part of its dorsal fin. Its pale lower body may have a pinkish-red tint, which explains the alternative name red-bellied fusilier.',
+   'Large schools occur around offshore reef slopes in the tropical Indo-West Pacific, including northern Australia. These fishes feed on animal plankton in midwater. Looking above a reef can reveal feeding activity that is easy to miss when searching only the bottom.'
+  ],question:'Compare fish feeding above a reef with fish feeding against its surface. What different kinds of food might they be finding?',
+  limit:'The common-name match follows the Australian Museum. School numbers and available plankton patches are game settings, not estimates of wild abundance.',
+  source:'Australian Museum · Yellowtail Fusilier',url:'https://australian.museum/learn/animals/fishes/yellowtail-fusilier-caesio-cuning-bloch-1791/'},
+ s55:{scientific:'Pseudocaranx georgianus',family:'Carangidae · jacks and trevallies',
+  paragraphs:[
+   'Silver trevally are greenish-blue above and silver below, with a dark patch high on the gill cover. Younger fish often show yellow stripes. Their deep bodies narrow sharply toward the tail.',
+   'This species forms schools over reefs and nearby sand in southern Australia and New Zealand. Young fish use shallow coastal habitats, while adults often occupy deeper water near headlands. Some larger fish move offshore as they grow.'
+  ],question:'Compare young fish near shore with larger fish farther out. What would you need to observe to tell whether they belong to the same species?',
+  limit:'The museum distinguishes this species from Pseudocaranx dentex, a name used in older accounts. Its temperate range and life-stage movements are not represented by the game’s tropical reef layout.',
+  source:'Dianne J. Bray · Fishes of Australia: Silver Trevally',url:'https://fishesofaustralia.net.au/home/species/4279'},
+ s58:{scientific:'Pseudanthias tuka',family:'Anthias and fairy basslets',length:'Up to 12 cm',
+  paragraphs:[
+   'Purple anthias, also called purple queens, are deep pink to purple. Females have a yellow stripe along the back extending onto the tail. Males have longer soft dorsal-fin rays and a purple patch at the base of that fin.',
+   'They gather along the upper edges of drop-offs and steep outer reef slopes. Their tropical range includes the Great Barrier Reef. A group of differently marked fish may contain males and females of the same species.'
+  ],question:'Compare the backs and fins of fish in a group. Which differences could help you recognize male and female forms?',
+  limit:'This follows the Australian Museum’s purple-anthias name. The game uses one sprite and a simplified feeding role; it does not distinguish sexes or recreate measured group sizes.',
+  source:'Australian Museum · Purple Queen',url:'https://australian.museum/learn/animals/fishes/purple-queen-pseudanthias-tuka/'},
+ s59:{scientific:'Thysanophrys chiltonae',family:'Platycephalidae · flatheads',length:'Up to about 25 cm total length',
+  paragraphs:[
+   'Longsnout flatheads have elongated snouts and low, broad heads. Their tan bodies carry pale spots and darker bands across the back. A dark bar below the eye and alternating pale and dark lip markings provide further identification clues.',
+   'They inhabit sandy areas around coral reefs, including lagoons and bays, and often lie partly buried. Their range extends through the tropical Indo-Pacific and includes northern Australian reefs. Finding one may require looking for a small exposed part of its outline.'
+  ],question:'Imagine most of a fish covered by sand. Which remaining features could reveal its position?',
+  limit:'The species match follows the Australian National Fish Collection and Fishes of Australia. The game’s camouflage timer does not model actual burial or verify the sprite’s anatomy.',
+  source:'Australian National Fish Collection, CSIRO and Dianne J. Bray · Fishes of Australia: Longsnout Flathead',url:'https://fishesofaustralia.net.au/home/species/3369'},
  s7:{scientific:'Amphiprion (anemonefishes; genus)',family:'Pomacentridae · damselfishes',
   paragraphs:[
    'Anemonefishes can nestle among the stinging tentacles of their host anemones. The anemone still has working stinging capsules, and the fish does not have unusually thick skin. Protection is associated with the mucus coating its body.',
