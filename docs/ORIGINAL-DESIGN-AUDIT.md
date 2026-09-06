@@ -101,6 +101,12 @@ The unit/asset suite passes 103 tests; the browser suite passes 27 scenarios, in
 
 Only fullscreen and its supporting UI/documentation are changed in the accompanying build. The audit is a repair plan, not a claim that its open gameplay gaps have already been fixed.
 
+## Tournament preview follow-up
+
+The Windows manual's printed page 6 explicitly describes a complete ordered list of playable creatures, with the first life highlighted and its information shown alongside. The remake previously abbreviated Tournament to seven names, an ellipsis and the final shark. The preview now exposes all 55 entries in a numbered, keyboard-scrollable list beside the first life's information. It uses the actual pending simulation sequence, so preview and play cannot independently reorder the roster. Challenge retains its four-life preview.
+
+This repairs the missing preview behavior, not G08's historical ordering or G09's roster reconciliation. The manual's embedded screenshot is degraded; its text does not enumerate the full order. Current size-based ordering remains provisional. No difficulty, thresholds, species data or saved sequences changed. Verification: 109 unit/asset tests and a focused browser scenario at 1600×900 and 1024×768, checking all 55 unique entries, displayed/played order agreement, first-life identity, keyboard scrolling to the last entry and no horizontal overflow. Screenshots: `artifacts/tournament-preview-1600.png` and `tournament-preview-1024.png`. This source change is subsequent to the parked Windows population ZIP.
+
 ## Population follow-up
 
 The initial audit underemphasized overall animal density. The baseline populated almost every scene with 24–25 NPC animals plus 20–26 food patches. The subsequent user direction requests population hills and valleys while keeping difficulty gentle. New habitat ranges and a modest second-hunter probability increase in Outer Blue now address that request; see [POPULATION-REVISION.md](POPULATION-REVISION.md). This improves G02 but does not establish original community or roster parity, resolve G01, or change the historical measurements above. Food-patch clutter, detailed local food chains and occlusion remain open.

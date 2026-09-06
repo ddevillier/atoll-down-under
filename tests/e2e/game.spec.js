@@ -2,6 +2,29 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('Tournament previews every life in the actual play order and supports keyboard scrolling',async({page})=>{
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);
+  await clickButton(page,{name:/Tournament Journey/});
+  const roster=page.getByRole('region',{name:'Your 55 lives, in order'});
+  const names=await roster.locator('li').evaluateAll(rows=>rows.map(r=>r.firstChild.textContent));
+  expect(names).toHaveLength(55);expect(new Set(names).size).toBe(55);
+  await expect(roster.locator('[aria-current="step"]')).toContainText(names[0]);
+  await expect(page.locator('.journey-layout .species-detail h3')).toHaveText(names[0]);
+  await roster.focus();await page.keyboard.press('End');
+  await expect.poll(()=>roster.evaluate(e=>Math.abs(e.scrollHeight-e.clientHeight-e.scrollTop))).toBeLessThan(2);
+  await expect(roster.locator('li').last()).toHaveText('Great white shark');
+  expect(await page.locator('.panel-body').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
+  await page.keyboard.press('Home');
+  await expect.poll(()=>roster.evaluate(e=>e.scrollTop)).toBe(0);
+  await page.screenshot({path:`artifacts/tournament-preview-${width}.png`});
+  await clickButton(page,{name:'Begin the journey',exact:true});
+  const played=await page.evaluate(async()=>{const {BY_ID}=await import('/src/data.js');return window.atoll.simulation.sequence.map(id=>BY_ID[id].name);});
+  expect(played).toEqual(names);
+  expect(await page.evaluate(()=>window.atoll.simulation.player.species.name)).toBe(names[0]);
+ }
+});
+
 test('fullscreen controls are available from the title, dive and settings',async({page})=>{
  await ready(page);await clickButton(page,{name:'Fullscreen',exact:true});
  await page.waitForFunction(()=>!!document.fullscreenElement);
