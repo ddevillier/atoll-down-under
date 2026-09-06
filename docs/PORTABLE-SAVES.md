@@ -1,6 +1,6 @@
 # Named and portable dives
 
-Source implementation after the Windows population build. The currently parked population ZIP does not include these controls yet.
+Included in the [Windows Saves testing build](WINDOWS-SAVES-BUILD.md). The earlier population ZIP does not include these controls.
 
 Open **Save / load** during a dive. Give it a name, then choose **Save here** for one of the three local slots or **Export dive file** for a portable `.atoll` file. The name stays with later local saves. Export copies the paused dive without depending on available local-storage space. To export an older slot, load it first.
 
@@ -17,4 +17,4 @@ The original Windows manual, printed pages 12–13, documents named Save As and 
 - 113 unit/asset tests pass. Portable round trips cover all 55 playable creatures after simulation updates, identical serialized worlds and the next RNG draw; Challenge/Tournament phases; custom crushing-jaw fish; older health fields; malformed files and Windows filenames.
 - Four focused browser scenarios pass: portable files (including names, invalid input and cancellation), existing save/storage errors, existing reload behavior, and Tournament keyboard preview. Screens inspected at 1600×900 and 1024×768; the compact dialog scrolls its local slots while retaining access to file controls.
 - `node scripts/qa-save-files-desktop.mjs` verifies actual Electron download completion, reads the disk file, imports it through the UI and resumes a Cuttlefish night dive at `atoll://game`. It uses a temporary isolated profile and a test download path. `artifacts/native-save-files-report.json` records `downloaded: true`, `imported: true` and no page errors. The first test attempt incorrectly waited for a browser download event; the file existed, and the corrected check uses Electron's completion event.
-- Packaged-binary verification remains due when the next Windows build is parked. Pass its executable path to the same native script.
+- Packaged-binary verification now passes with the Windows Saves build: completed disk export, successful UI import and resumed night dive, with no page errors. All 30 browser scenarios also passed before parking that build.
