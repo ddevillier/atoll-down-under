@@ -1,4 +1,5 @@
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
+import {creatureWidth} from './geometry.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -79,7 +80,7 @@ export class Simulation {
  get required(){return this.mode==='challenge'?(this.stage+1)*5000:5000;}
  point(x,y){this.pointer={x:clamp(x,0,W),y:clamp(y,0,H)};}
  findAt(x,y){
-  const p={x,y};return this.section?.entities.filter(e=>e.alive).sort((a,b)=>distance(a,p)-distance(b,p)).find(e=>distance(e,p)<Math.max(17,e.species.size*.45))||this.section?.food.find(f=>f.regrow<=0&&distance(f,p)<f.size+9)||null;
+  const p={x,y};return this.section?.entities.filter(e=>e.alive).sort((a,b)=>distance(a,p)-distance(b,p)).find(e=>distance(e,p)<Math.max(17,creatureWidth(e.species)*.45))||this.section?.food.find(f=>f.regrow<=0&&distance(f,p)<f.size+9)||null;
  }
  eatAt(x,y){const t=this.findAt(x,y);if(!t)return false;this.protected=false;this.player.target=t.id;this.pointer={x:t.x,y:t.y};this.player.hidden=false;return true;}
  useAbility(){

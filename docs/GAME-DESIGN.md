@@ -62,3 +62,10 @@ The health meter combines parasite effects, poison damage and bite injury. Poiso
 A fed player (Energy at least 50) recovers 0.4 health points per simulation second from poison/bite damage after a 10-second delay following the latest harmful encounter. Recovery is divided proportionally between the two damage types and does not remove parasites. This is a deliberately gentle gameplay abstraction, not a biological rate or a treatment claim. Pausing freezes recovery along with all simulation time. The health meter exposes a breakdown through its hover text and accessible value description.
 
 Save files persist damage and recovery delay. Older saves lack the breakdown: a recorded poisonous meal's existing deficit is retained as poison damage; unlabelled historical loss keeps its former parasite interpretation. The exact causes of older aggregate health loss cannot be reconstructed. New sessions and newly recorded damage use the separated rules.
+
+
+## Small-creature readability
+
+Widescreen presentation gives small creatures a larger display width (`max(size, 28 + 0.75 × size)`) while preserving ecological size for diet, speed, shelter and feeding rules. Large creatures retain their existing display width. Selection hit areas and inspection hover markers use the same display-size helper. This is a readability treatment, not a change to physical size or a claim of exact original sprite proportions.
+
+Paused inspection presents a close-up of the selected animal using its actual atlas illustration, alongside its activity, diet and relationship. The panel scrolls within the reef area at small desktop sizes. Transient dive messages are suppressed while a selected animal is being inspected so they do not cover the portrait. The original scene composition and current nine background paintings remain intact.

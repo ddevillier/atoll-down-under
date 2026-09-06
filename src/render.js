@@ -1,5 +1,6 @@
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {motionKind,bodyMotion} from './motion.js';
+import {creatureWidth} from './geometry.js';
 const TOP=55;
 export class ReefRenderer {
  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.reefs=[];this.atlases=[];this.bounds=[];this.sprites=[];this.foodSprites=[];this.customCache=new Map();this.ready=false;this.particles=[];this.clock=0;this.hover=null;this.inspect=false;this.reducedMotion=false;this.effects=[];this.resize();new ResizeObserver(()=>this.resize()).observe(canvas);}
@@ -57,7 +58,7 @@ export class ReefRenderer {
   if(animate&&['fish','shark','eel','ray','cuttlefish'].includes(kind)){const strips=28,sw=b.w/strips,dw=width/strips;for(let i=0;i<strips;i++){const m=bodyMotion(kind,i/(strips-1),time,activity),height=h*m.stretch;ctx.drawImage(im,i*sw,0,Math.min(sw+1,b.w-i*sw),b.h,-width/2+i*dw,-height/2+m.offset*width,dw+.6,height);}}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
  }
- drawCreature(ctx,e,time,dt,alpha=1,width=e.species.size){
+ drawCreature(ctx,e,time,dt,alpha=1,width=creatureWidth(e.species)){
   this.poses??=new Map();let pose=this.poses.get(e.id);
   if(!pose){pose={x:e.x,y:e.y,facing:e.facing,activity:.35};this.poses.set(e.id,pose);}
   if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.facing+=(e.facing-pose.facing)*blend;pose.x=e.x;pose.y=e.y;}
@@ -88,13 +89,14 @@ export class ReefRenderer {
    if(e.species.ability==='clean'&&this.inspect)this.tag(c,e.x,e.y-30,'Cleaner');
   }
   const p=sim.player;const puff=p.species.ability==='puff'&&p.abilityTime>0?1.5:1;
-  this.drawCreature(c,p,t,motionDt,p.hidden?.25:1,p.species.size*puff);
+  const playerWidth=creatureWidth(p.species)*puff;
+  this.drawCreature(c,p,t,motionDt,p.hidden?.25:1,playerWidth);
   // A small player marker is always readable without outlining the entire fish.
-  c.fillStyle=p.hidden?'#b9e0bb':'#fff1bd';c.beginPath();c.moveTo(p.x,p.y-p.species.size*.42-10);c.lineTo(p.x-5,p.y-p.species.size*.42-18);c.lineTo(p.x+5,p.y-p.species.size*.42-18);c.fill();
+  c.fillStyle=p.hidden?'#b9e0bb':'#fff1bd';c.beginPath();c.moveTo(p.x,p.y-playerWidth*.42-10);c.lineTo(p.x-5,p.y-playerWidth*.42-18);c.lineTo(p.x+5,p.y-playerWidth*.42-18);c.fill();
   if(p.abilityTime>0){const a=p.species.ability;c.save();c.globalAlpha=.22;c.fillStyle=['ink','poison'].includes(a)?'#112f3d':'#caedcf';c.strokeStyle='#e0f6b9';c.lineWidth=2;if(['ink','poison'].includes(a)){c.beginPath();c.ellipse(p.x-p.facing*35,p.y,90,48,Math.sin(t)*.2,0,Math.PI*2);c.fill();}else if(a!=='camouflage'){c.beginPath();c.arc(p.x,p.y,p.species.size*.7+12+Math.sin(t*5)*5,0,Math.PI*2);c.stroke();}c.restore();}
   if(p.cleanTime>0)this.tag(c,p.x,p.y-45,'Cleaning…');
   if(this.inspect){for(const s of REEFS[sim.current].shelters){c.setLineDash([5,6]);c.strokeStyle='#e2efbba6';c.lineWidth=2;c.beginPath();c.ellipse(s.x,s.y,s.r,s.r*.5,0,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,s.x,s.y-s.r*.5-10,'Shelter');}}
-  if(this.hover){const h=this.hover,sz=h.species?.size||h.size||25;c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(h.x,h.y,sz*.6+8,sz*.4+8,0,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,h.x,Math.max(30,h.y-sz*.4-22),h.name||h.species?.name||'');}
+  if(this.hover){const h=this.hover,sz=h.species?creatureWidth(h.species):h.size||25;c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(h.x,h.y,sz*.6+8,sz*.4+8,0,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,h.x,Math.max(30,h.y-sz*.4-22),h.name||h.species?.name||'');}
   for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='eat'){this.tag(c,e.x,e.y-e.t*32,'+ meal',1-e.t/1.4);}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
   this.effects=this.effects.filter(e=>e.t<1.4);c.restore();
  }

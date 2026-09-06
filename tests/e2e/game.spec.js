@@ -2,6 +2,24 @@ import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 async function practice(page,search=null){await page.getByRole('button',{name:/Practice Choose/}).click();if(search){await page.getByRole('searchbox').fill(search);await page.getByRole('option').first().click();}await page.getByRole('button',{name:'Enter the reef'}).click();}
 
+test('small creature silhouette edges are inspectable with an immediate close-up',async({page})=>{
+ await ready(page);await practice(page,'Silver sprat');await page.keyboard.press('Escape');
+ await page.evaluate(()=>{const s=window.atoll.simulation,e=structuredClone(s.player);Object.assign(e,{id:900,x:500,y:240});s.section.entities=[e];s.section.food=[];});
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});
+  const box=await page.locator('#reef').boundingBox();
+  await page.mouse.click(box.x+520/1600*box.width,box.y+295/900*box.height);
+  const portrait=page.getByRole('img',{name:'Close-up illustration of Silver sprat'});
+  await expect(portrait).toBeVisible();
+  const pixels=await portrait.evaluate(c=>Array.from(c.getContext('2d').getImageData(0,0,c.width,c.height).data).filter((_,i)=>i%4===3).some(a=>a>0));
+  expect(pixels).toBe(true);
+  await page.screenshot({path:`artifacts/inspect-closeup-${width}.png`});
+  await page.getByRole('button',{name:'Field guide entry'}).scrollIntoViewIfNeeded();
+  await expect(page.getByRole('button',{name:'Field guide entry'})).toBeVisible();
+ }
+ await page.keyboard.press('Escape');expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(false);
+});
+
 test('health meter distinguishes poisoning from parasite cleaning',async({page})=>{
  await ready(page);await practice(page);
  await page.evaluate(()=>{

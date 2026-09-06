@@ -2,7 +2,7 @@
 
 ## Current exploration revision
 
-This is an in-progress Windows revision, not a completed-remake acceptance record. The current simulation/asset suite has 49 passing tests. The expanded browser suite passed all 16 tests. Added coverage verifies non-preferential food selection, satiated hunters, rest after unsuccessful pursuits, plant grazing, mixed communities, protected initial swimming, field notes that persist across reloads, navigable feeding connections, and observable non-player cleaning visits. Renderer animation pauses with observation. Food-web and lesson screenshots were checked at 1440 × 810 and 1024 × 768; the food-web compact layout received one correction and confirmation.
+This is an in-progress Windows revision, not a completed-remake acceptance record. The current simulation/asset suite has 51 passing tests. The expanded browser suite passed all 17 tests. Added coverage verifies non-preferential food selection, satiated hunters, rest after unsuccessful pursuits, plant grazing, mixed communities, protected initial swimming, field notes that persist across reloads, navigable feeding connections, and observable non-player cleaning visits. Renderer animation pauses with observation. Food-web and lesson screenshots were checked at 1440 × 810 and 1024 × 768; the food-web compact layout received one correction and confirmation.
 
 An identical seeded comparison ran 30 two-minute open-water circuits as three small species, without food, abilities or deliberate hiding and with initial protection explicitly disabled. Before the revision, 0/30 completed the circuit; afterward, 30/30 completed it, with seven predator bites across the 30 runs. This establishes a substantial reduction in constant predation for that scenario, not complete balance across all creatures and modes. Reports: `artifacts/ecology-before.json` and `artifacts/ecology-after.json`.
 
@@ -73,3 +73,10 @@ Four sourced entries can be expanded inside the creature guide and searched by s
 ## Cleaning and recovery revision
 
 Seven health tests cover cleaning with poison, cleaning with bite injury, no false cleaning without parasites, gradual fed recovery, energy-gated recovery without parasite removal, deterministic saved recovery, and migration/corrupt recovery state. The suite now has 49 passing tests. A new browser scenario follows mixed poison/parasite damage through actual cleaning and verifies the health meter retains and explains the poison portion. The full browser suite has 16 tests. All 55 species again completed the three-minute ordinary-feeding exercise. This bounded check does not establish long-term balance across every mode.
+
+
+## Small-creature inspection revision
+
+Original Windows screenshot contact sheets and the current nine-scene contact sheet were inspected before this change. Small fish had too little screen area in the widescreen view. Two new tests verify readable display sizes without changing ecological size ordering or feeding eligibility, and selection boundaries/dead-entity exclusion. All 51 unit/asset tests passed. The full 17-test browser suite passed; a focused inspection test passed again after suppressing overlapping transient messages.
+
+The browser scenario clicks an enlarged small fish near its visible edge, verifies the close-up contains rendered pixels, and checks access to the field-guide action and resume at 1600 × 900 and 1024 × 768. Both screenshots were reviewed, with a confirmation at the smaller size following the message-overlap correction. Evidence: `artifacts/inspect-closeup-1600.png` and `artifacts/inspect-closeup-1024.png`. All 55 species still completed the ordinary three-minute feeding exercise after selection areas changed. The latest default e2e report contains the focused rerun; do not misread its one-test count as the complete suite.
