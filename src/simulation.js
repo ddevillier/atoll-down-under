@@ -1,6 +1,7 @@
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
 import {creatureWidth} from './geometry.js';
 import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
+import {turnTowards,edgeDestination} from './steering.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -95,7 +96,7 @@ export class Simulation {
  get required(){return this.mode==='challenge'?(this.stage+1)*5000:5000;}
  point(x,y){
   if(!this.player||this.paused||this.phase!=='playing')return;
-  this.pointer={x:clamp(x,0,W),y:clamp(y,0,H)};
+  this.pointer={x:edgeDestination(x,W),y:edgeDestination(y,H)};
   // A meal click assists the approach until the player steers again. Cursor
   // movement must always give control back, including during a pursuit.
   this.player.target=null;
@@ -134,10 +135,11 @@ export class Simulation {
  }
  transition(dx,dy){
   const r=Math.floor(this.current/3),c=this.current%3,nr=clamp(r+dy,0,2),nc=(c+dx+3)%3;if(nr===r&&dy)return false;
-  const old=this.current;this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
-  // Nearby predators retain their pursuit through a section boundary.
+  const old=this.current,departure={x:this.player.x,y:this.player.y};this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
+  // Carry the same relative positions across the boundary. A pursuer can still
+  // be outside the painting; it must swim through that gap before it can bite.
   const pursuing=this.sections[old].entities.filter(e=>e.alive&&e.target==='player');
-  for(const e of pursuing){this.sections[old].entities=this.sections[old].entities.filter(x=>x!==e);e.x=dx?this.player.x-dx*150:clamp(this.player.x+(this.random()-.5)*130,20,W-20);e.y=dy?this.player.y-dy*100:clamp(this.player.y+(this.random()-.5)*100,20,H-20);this.section.entities.push(e);}
+  for(const e of pursuing){this.sections[old].entities=this.sections[old].entities.filter(x=>x!==e);e.x+=this.player.x-departure.x;e.y+=this.player.y-departure.y;e.entering=true;this.section.entities.push(e);}
   this.pointer={x:this.player.x,y:this.player.y};this.player.target=null;this.protected=false;if(!this.visited.includes(this.current))this.visited.push(this.current);this.event('transition',REEFS[this.current].name);return true;
  }
  step(dt){
@@ -147,7 +149,7 @@ export class Simulation {
   if(p.target&&!target)p.target=null;
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y};
   if(dist>7){
-   const wanted=Math.atan2(dy,dx);let da=(wanted-p.angle+Math.PI*3)%(Math.PI*2)-Math.PI;p.angle+=clamp(da,-p.species.agility*dt,p.species.agility*dt);
+   p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);
    const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;p.still=0;
   }else p.still+=dt;
   const moving=distance(old,p)>dt*6;
@@ -186,6 +188,7 @@ export class Simulation {
    if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;}
   }return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
+  if(e.entering&&e.x>=10&&e.x<=W-10&&e.y>=25&&e.y<=H-20)delete e.entering;
   if(BOTTOM_RESIDENTS.has(e.species.id)){
    if(!validGroundState(e))attachToNearestGround(e,REEFS[this.current].bottomRoutes);
    e.target=null;e.satiated=Math.max(0,(e.satiated||0)-dt);
@@ -210,7 +213,7 @@ export class Simulation {
   if(cleaner){
    e.target=cleaner.id;e.pursuit=0;
    const station=cleaner.station||cleaner,dx=station.x+35-e.x,dy=station.y-e.y,dist=Math.hypot(dx,dy);
-   if(dist>12){const wanted=Math.atan2(dy,dx),da=(wanted-e.angle+Math.PI*3)%(Math.PI*2)-Math.PI;e.angle+=clamp(da,-e.species.agility*dt,e.species.agility*dt);e.x+=Math.cos(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.y+=Math.sin(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.facing=Math.cos(e.angle)>=0?1:-1;e.cleanTime=0;e.behavior='Visiting a cleaning station';}
+   if(dist>12){e.angle=turnTowards(e.angle,Math.atan2(dy,dx),e.species.agility*dt);e.x+=Math.cos(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.y+=Math.sin(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.facing=Math.cos(e.angle)>=0?1:-1;e.cleanTime=0;e.behavior='Visiting a cleaning station';}
    else{
     const busy=p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
     e.behavior=busy?'Waiting for a cleaner':'Being cleaned';if(!busy)e.cleanTime+=dt;
@@ -250,7 +253,7 @@ export class Simulation {
   if(e.target){
    const dest=e.target==='player'?p:this.section.entities.find(b=>b.id===e.target&&b.alive)||this.section.food.find(f=>f.id===e.target&&f.regrow<=0);
    if(dest){
-    const wanted=Math.atan2(dest.y-e.y,dest.x-e.x),da=(wanted-e.angle+Math.PI*3)%(Math.PI*2)-Math.PI;e.angle+=clamp(da,-e.species.agility*dt,e.species.agility*dt);speed=e.species.speed*.55;
+    e.angle=turnTowards(e.angle,Math.atan2(dest.y-e.y,dest.x-e.x),e.species.agility*dt);speed=e.species.speed*.55;
     if(distance(e,dest)<(e.species.size+(dest.species?.size||dest.size||0))*.28&&e.biteCooldown<=0){
      e.biteCooldown=2;
      if(dest===p&&canEatPlayer){p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
@@ -276,12 +279,17 @@ export class Simulation {
     x/=neighbors.length;y/=neighbors.length;
     x+=e.x<100?(100-e.x)/35:e.x>W-100?-(e.x-W+100)/35:0;
     y+=e.y<90?(90-e.y)/35:e.y>H-90?-(e.y-H+90)/35:0;
-    if(Math.hypot(x,y)>.01){const da=(Math.atan2(y,x)-e.angle+Math.PI*3)%(Math.PI*2)-Math.PI;e.angle+=clamp(da,-e.species.agility*dt,e.species.agility*dt);}
+    if(Math.hypot(x,y)>.01)e.angle=turnTowards(e.angle,Math.atan2(y,x),e.species.agility*dt);
     e.behavior='Swimming with a school';
    }else if(e.behavior==='Swimming with a school')e.behavior='Exploring';
   }
+  // If the pursuit ends outside the scene, finish entering at cruising speed.
+  // Rest/digestion still applies; entry grants no fresh hunt or instant move.
+  if(e.entering&&!e.target)e.angle=turnTowards(e.angle,Math.atan2(clamp(e.y,45,H-40)-e.y,clamp(e.x,30,W-30)-e.x),e.species.agility*dt);
   e.x+=Math.cos(e.angle)*speed*dt;e.y+=Math.sin(e.angle)*speed*dt;e.facing=Math.cos(e.angle)>=0?1:-1;
-  if(e.x<10||e.x>W-10){e.x=clamp(e.x,10,W-10);e.angle=Math.PI-e.angle;}if(e.y<25||e.y>H-20){e.y=clamp(e.y,25,H-20);e.angle=-e.angle;}
+  if(!e.entering){
+   if(e.x<10||e.x>W-10){e.x=clamp(e.x,10,W-10);e.angle=Math.PI-e.angle;}if(e.y<25||e.y>H-20){e.y=clamp(e.y,25,H-20);e.angle=-e.angle;}
+  }
  }
  next(){if(this.phase==='advance'){this.stage++;this.stageScore=0;this.spawnPlayer(BY_ID[this.sequence[this.stage]]);}}
  die(reason){if(this.phase!=='playing')return;this.phase='dead';this.event('death',reason);}

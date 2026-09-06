@@ -2,6 +2,33 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('mouse edge travel works at both desktop sizes without a pursuer jumping ahead',async({page})=>{
+ test.setTimeout(60000);
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page,'Longnose butterflyfish');
+  for(const [dx,dy,next] of [[1,0,5],[-1,0,3],[0,1,7],[0,-1,1]]){
+   await page.evaluate(({dx,dy})=>{
+    const s=window.atoll.simulation,p=s.player,prototype=s.sections.flatMap(r=>r.entities).find(e=>e.species.id==='s50');
+    window.travelHunter??=structuredClone(prototype);
+    for(const section of s.sections){section.entities=[];section.food=[];}
+    s.current=4;s.paused=false;s.protected=false;
+    Object.assign(p,{x:dx>0?1480:dx<0?120:800,y:dy>0?620:dy<0?120:350,angle:Math.atan2(dy,dx)+Math.PI*10,health:100,energy:100,biteDamage:0,poisonDamage:0});
+    s.point(p.x,p.y);
+    const hunter=structuredClone(window.travelHunter);
+    Object.assign(hunter,{id:'travel-hunter',x:p.x-dx*220,y:p.y-dy*220,angle:Math.atan2(dy,dx),target:'player',pursuit:0,satiated:0,rest:0,think:1,health:100,alive:true});
+    s.section.entities=[hunter];
+   },{dx,dy});
+   const box=await page.locator('#reef').boundingBox(),x=dx>0?1586:dx<0?14:800,y=dy>0?726:dy<0?14:350;
+   await page.mouse.move(box.x+x/1600*box.width,box.y+(y+55)/900*box.height);
+   await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.current),{timeout:5000}).toBe(next);
+   await page.keyboard.press('Escape');
+   const result=await page.evaluate(()=>{const s=window.atoll.simulation,p=s.player,e=s.section.entities.find(e=>e.id==='travel-hunter');return {gap:Math.hypot(e.x-p.x,e.y-p.y),injury:p.biteDamage,entering:e.entering,paused:s.paused};});
+   expect(result.gap).toBeGreaterThan(180);expect(result.injury).toBe(0);expect(result.entering).toBe(true);expect(result.paused).toBe(true);
+  }
+  await page.screenshot({path:`artifacts/habitat-travel-${width}.png`});
+ }
+});
+
 test('a meadow visit supports mouse feeding, resident inspection and a saved return',async({page})=>{
  await ready(page);await practice(page,'Foxface');
  const site=await page.evaluate(()=>{

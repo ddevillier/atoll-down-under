@@ -22,4 +22,18 @@ await page.waitForFunction(id=>window.atoll.simulation.player.target===id,target
 await page.mouse.move(box.x+1100/1600*box.width,box.y+355/900*box.height);
 await page.waitForFunction(()=>window.atoll.simulation.player.target===null&&window.atoll.simulation.player.x>850);
 report.mouseSteeringVerified=true;
-console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified)process.exitCode=1;
+// Exercise the visible edge target and following animal in the packaged build.
+await page.evaluate(()=>{
+ const s=window.atoll.simulation,p=s.player,prototype=s.sections.flatMap(r=>r.entities).find(e=>e.species.id==='s50');
+ const hunter=structuredClone(prototype);
+ for(const section of s.sections){section.entities=[];section.food=[];}
+ s.current=4;s.protected=false;
+ Object.assign(p,{x:1480,y:350,angle:Math.PI*10,health:100,energy:100,biteDamage:0,poisonDamage:0});s.point(p.x,p.y);
+ Object.assign(hunter,{id:'travel-hunter',x:1260,y:350,angle:0,target:'player',pursuit:0,satiated:0,rest:0,think:1,health:100,alive:true});s.section.entities=[hunter];
+});
+await page.mouse.move(box.x+1586/1600*box.width,box.y+405/900*box.height);
+await page.waitForFunction(()=>window.atoll.simulation.current===5);
+await page.keyboard.press('Escape');
+report.edgeTravelVerified=await page.evaluate(()=>{const s=window.atoll.simulation,p=s.player,e=s.section.entities[0];return s.paused&&p.biteDamage===0&&e.entering===true&&Math.hypot(e.x-p.x,e.y-p.y)>180;});
+await page.screenshot({path:'artifacts/desktop-travel.png'});
+console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.edgeTravelVerified)process.exitCode=1;
