@@ -37,7 +37,7 @@ export class Simulation {
    const seekHunter=i%6===5&&hunters<2;
    let pool=available.filter(s=>s.playable&&s.ability!=='clean'&&s.diet.includes('fish')===seekHunter&&(seekHunter||s.size<130));
    const local=pool.filter(s=>s.habitat===reef.habitat);if(local.length)pool=local;
-   const s=pool[Math.floor(this.random()*pool.length)]||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;entities.push(fish);
+   const s=pool[Math.floor(this.random()*pool.length)]||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;fish.health=60+this.random()*40;entities.push(fish);
   }
   const small=available.filter(s=>s.playable&&s.size<50&&!s.diet.includes('fish'));
   for(let i=0;i<3;i++){const s=small[Math.floor(this.random()*small.length)];entities.push(entity(s,++this.uid,100+this.random()*(W-200),100+this.random()*(H-220)));}
@@ -131,9 +131,27 @@ export class Simulation {
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;}return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
   const p=this.player;e.think-=dt;
-  if(e.species.ability==='clean'){const dest=p.cleanTime>0?{x:p.x-p.facing*20,y:p.y+10}:e.station;if(dest){e.x+=(dest.x-e.x)*dt*1.5;e.y+=(dest.y-e.y)*dt*1.5;}e.facing=Math.sin(this.time*.5)>0?1:-1;return;}
+  if(e.species.ability==='clean'){
+   const client=p.cleanTime>0?p:this.section.entities.find(b=>b.alive&&b.cleanTime>0&&b.target===e.id);
+   const dest=client?{x:client.x-client.facing*20,y:client.y+10}:e.station;
+   e.behavior=client?'Cleaning '+client.species.name:'At a cleaning station';
+   if(dest){e.x+=(dest.x-e.x)*dt*1.5;e.y+=(dest.y-e.y)*dt*1.5;}e.facing=client?client.facing:Math.sin(this.time*.5)>0?1:-1;return;
+  }
   if(e.species.speed===0)return;
   e.satiated=Math.max(0,(e.satiated??0)-dt);e.rest=Math.max(0,(e.rest??0)-dt);e.pursuit=e.pursuit??0;
+  if(e.species.parasites)e.health=Math.max(0,e.health-dt*.045);
+  const cleaner=e.species.parasites&&e.health<65?this.section.entities.find(b=>b.alive&&b.species.ability==='clean'):null;
+  if(cleaner){
+   e.target=cleaner.id;e.pursuit=0;
+   const station=cleaner.station||cleaner,dx=station.x+35-e.x,dy=station.y-e.y,dist=Math.hypot(dx,dy);
+   if(dist>12){const wanted=Math.atan2(dy,dx),da=(wanted-e.angle+Math.PI*3)%(Math.PI*2)-Math.PI;e.angle+=clamp(da,-e.species.agility*dt,e.species.agility*dt);e.x+=Math.cos(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.y+=Math.sin(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.facing=Math.cos(e.angle)>=0?1:-1;e.cleanTime=0;e.behavior='Visiting a cleaning station';}
+   else{
+    const busy=p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
+    e.behavior=busy?'Waiting for a cleaner':'Being cleaned';if(!busy)e.cleanTime+=dt;
+    if(e.cleanTime>=3){e.health=100;e.cleanTime=0;e.target=null;e.behavior='Leaving the cleaning station';e.angle+=Math.PI;e.think=2;}
+   }
+   return;
+  }
   const defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
   const canEatPlayer=!p.hidden&&!this.protected&&!defended&&edible(e,p);
   if(e.target==='player'&&!canEatPlayer&&e.behavior!=='Following lure'){e.target=null;e.pursuit=0;e.think=0;}

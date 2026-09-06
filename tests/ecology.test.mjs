@@ -43,3 +43,10 @@ test('observations preserve behavior, habitat and relationship through saving',(
  const loaded=Simulation.restore(s.serialize());assert.deepEqual(loaded.observations,s.observations);
  const old=JSON.parse(s.serialize());delete old.observations;assert.deepEqual(Simulation.restore(old).observations,[]);
 });
+test('non-player fish visit cleaners and can be observed receiving cleaning',()=>{
+ const s=new Simulation(12);s.start('practice','s1');const cleaner=s.section.entities.find(e=>e.species.ability==='clean');const client=s.section.entities.find(e=>e.species.parasites&&e.species.ability!=='clean');
+ s.section.entities=[client,cleaner];client.health=40;client.x=cleaner.station.x+35;client.y=cleaner.station.y;
+ s.stepNpc(client,.05);s.stepNpc(cleaner,.05);assert.equal(client.behavior,'Being cleaned');assert.match(cleaner.behavior,/Cleaning /);s.observe(client);
+ for(let i=0;i<61;i++){s.stepNpc(client,.05);s.stepNpc(cleaner,.05);}
+ assert.ok(client.health>99);assert.equal(client.cleanTime,0);assert.equal(client.target,null);assert.equal(s.observations[0].behavior,'Being cleaned');
+});

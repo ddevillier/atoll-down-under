@@ -1,7 +1,7 @@
 {
   "name": "atoll-down-under",
   "version": "0.1.0",
-  "description": "An original widescreen reef survival game",
+  "description": "An original widescreen life-science exploration game",
   "private": true,
   "type": "module",
   "main": "desktop/main.cjs",

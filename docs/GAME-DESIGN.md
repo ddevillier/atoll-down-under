@@ -1,5 +1,11 @@
 # Implementation design
 
+## Learning surfaces
+
+The field guide includes a navigable food web computed from the current catalog and diet/size/armor rules. Arrows run from food to eater. Selecting a connected creature recenters the web. This is labeled as a model, not a measured natural food web.
+
+Four expandable Reef life lessons introduce coral polyps and symbiosis, plankton, sponge filtration, and grazing. Each includes a comparison question, the simulation's limits, and a named primary source. References are recorded in `LIFE-SCIENCE-SOURCES.md`. Field notes record actual inspected simulation behavior. Pausing for observation freezes both movement and sprite/particle animation.
+
 ## Reef presentation
 
 1600 × 900 logical canvas, maintained at 16:9. Desktop content scales without exposing extra world area on ultrawide displays. Nine hand-composed scene paintings have different habitat silhouettes. Day and night change populations and soundtrack rather than visibility. A small triangle identifies the player's fish. Pause/Inspect labels interactive organisms and shelter areas.
@@ -35,3 +41,5 @@ The original manual and screenshots guide behavior and composition. No exact exe
 Community generation now selects at most two fish-eating hunters per newly populated section, alongside small foragers, grazers and other residents. Migrating animals can change that population. Hunters choose the nearest suitable food within their sensing range, using the same rule for player and non-player prey. Grazers consume renewable plants and other suitable food too. Feeding is followed by 45–80 seconds of digestion. Pursuits end after six seconds and are followed by a 15-second rest. These durations are provisional tuning values, not recovered original constants or real-world biological measurements.
 
 Inspection records the organism's name, activity, habitat, period and relationship to the current fish. Field notes persist with saves and deduplicate repeated observations of the same behavior in the same habitat. Initial protected swimming follows the original manual's opportunity to inspect the reef before eating or leaving an area. All major existing food, health, cleaning, shelter and mode systems remain available, but their presentation is being revised around learning.
+
+Non-player fish also accumulate parasites and visit cleaning stations. One client is cleaned at a time, with the player given priority during an active cleaning interaction. Clients wait, receive cleaning over three seconds, and return to the reef. Inspection exposes these behaviors for observation and field-note recording.

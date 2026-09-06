@@ -1,6 +1,22 @@
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 async function practice(page,search=null){await page.getByRole('button',{name:/Practice Choose/}).click();if(search){await page.getByRole('searchbox').fill(search);await page.getByRole('option').first().click();}await page.getByRole('button',{name:'Enter the reef'}).click();}
+test('food-web connections are navigable and sourced reef lessons fit desktop sizes',async({page})=>{
+ await ready(page);await page.getByRole('button',{name:'Field guide',exact:true}).click();await page.getByRole('button',{name:'Food web',exact:true}).click();
+ await page.getByLabel('Explore a creature').selectOption('s0');await expect(page.locator('.web-center h3')).toHaveText('Silver sprat');await expect(page.locator('.web-resource')).toHaveText('Plankton');
+ await page.getByRole('button',{name:'Coral trout',exact:true}).click();await expect(page.locator('.web-center h3')).toHaveText('Coral trout');await expect(page.getByLabel('Explore a creature')).toBeFocused();
+ for(const width of [1440,1024]){
+  await page.setViewportSize({width,height:width===1440?810:768});await page.screenshot({path:`artifacts/food-web-${width}.png`});
+  expect(await page.locator('.panel-body').evaluate(e=>e.scrollWidth<=e.clientWidth+1)).toBe(true);
+ }
+ await page.getByRole('button',{name:'Reef life',exact:true}).click();await expect(page.locator('details[open]')).toContainText('A coral polyp is an animal');
+ await page.getByText('An animal that filters water',{exact:true}).click();await expect(page.locator('details[open]').last()).toContainText('NOAA Ocean Service');
+ await page.screenshot({path:'artifacts/reef-life-1024.png'});
+});
+test('observation pauses sprite animation as well as the simulation',async({page})=>{
+ await ready(page);await practice(page);await page.keyboard.press('Escape');const clock=await page.evaluate(()=>window.atoll.renderer.clock);await page.waitForTimeout(200);expect(await page.evaluate(()=>window.atoll.renderer.clock)).toBe(clock);
+ await page.keyboard.press('Escape');await expect.poll(()=>page.evaluate(()=>window.atoll.renderer.clock)).toBeGreaterThan(clock);
+});
 test('paused observation explains relationships and saves field notes across reloads',async({page})=>{
  await ready(page);await practice(page);await page.keyboard.press('Escape');
  const subject=await page.evaluate(()=>{const s=window.atoll.simulation;const e=s.section.entities.find(e=>e.x<1100&&e.y>100&&e.y<500&&s.findAt(e.x,e.y)===e);return {x:e.x,y:e.y,name:e.species.name};});

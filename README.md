@@ -84,6 +84,8 @@ The current revision replaces player-first predator targeting with nearest suita
 
 Press Escape and click an organism to inspect its current activity and relationship to your fish. Observations are recorded in **Field guide → Field notes** and saved with the dive. These notes describe the game's model; they are not a substitute for a scientific species reference.
 
+**Field guide → Food web** lets you follow feeding connections through the creature catalog. **Reef life** explains coral animals, plankton, sponges and grazing, with observation questions and NOAA source references. Each explanation distinguishes real biology from the processes simplified or omitted by the game. Inspection now freezes sprite animation as well as the simulation. Other fish visit cleaners too: watch a client arrive, wait, receive cleaning, and leave.
+
 ## Fidelity and limits
 
 This is a playable work in progress. Ecological pacing, educational depth, animation, and visual fidelity are still being refined. Numeric balancing, creature roster, names of habitats, field-guide prose, and ability effects are independently authored. It is not a byte-for-byte emulation or a claim of exact historical parity. Species sizes and diets are game abstractions, not a scientific reference.
