@@ -1,0 +1,648 @@
+{
+  "source": "https://archive.org/download/ODELL_201905/ODELL.zip",
+  "archiveSha256": "ac3754758df34dabf50b1761c3fd9ece7476ba400907c96089d7f06d865b94e7",
+  "infoResourceSha256": "d0d44449f97cec7ce7164666d87c7f74fc44860b22470adc09d9817912c3bedb",
+  "scope": "Current 64 entries compared with original Windows field-guide names. This is not a recovered playable roster or Tournament sequence.",
+  "entries": [
+    {
+      "id": "s0",
+      "name": "Silver sprat",
+      "scientific": "Spratelloides gracilis",
+      "originalNameStringId": 148,
+      "originalName": "Silver Sprat",
+      "originalScientificStringId": 252,
+      "originalScientificSpelling": "Spratelloides gracilis",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s1",
+      "name": "Neon damselfish",
+      "scientific": "Pomacentrus coelestis",
+      "originalNameStringId": 123,
+      "originalName": "Neon Damselfish",
+      "originalScientificStringId": 227,
+      "originalScientificSpelling": "Pomacentrus coelestis",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s2",
+      "name": "Orange coral goby",
+      "scientific": "Gobiodon (coral gobies; genus)",
+      "originalNameStringId": 163,
+      "originalName": "Orange Coral Goby",
+      "originalScientificStringId": 267,
+      "originalScientificSpelling": "Gobiodon okinawae",
+      "assessment": "Original gives an exact species; current entry remains genus-level."
+    },
+    {
+      "id": "s3",
+      "name": "Royal gramma",
+      "scientific": "Gramma loreto",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s4",
+      "name": "Moorish idol",
+      "scientific": "Zanclus cornutus",
+      "originalNameStringId": 120,
+      "originalName": "Moorish Idol",
+      "originalScientificStringId": 224,
+      "originalScientificSpelling": "Zanclus cornutus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s5",
+      "name": "Palette surgeonfish",
+      "scientific": "Paracanthurus hepatus",
+      "originalNameStringId": 128,
+      "originalName": "Palette Surgeonfish",
+      "originalScientificStringId": 232,
+      "originalScientificSpelling": "Paracanthurus hepatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s6",
+      "name": "Longnose butterflyfish",
+      "scientific": "Forcipiger longirostris",
+      "originalNameStringId": 113,
+      "originalName": "Long-nosed Butterflyfish",
+      "originalScientificStringId": 217,
+      "originalScientificSpelling": "Forcipiger flavissimus",
+      "assessment": "Different species: longirostris versus flavissimus."
+    },
+    {
+      "id": "s7",
+      "name": "Anemonefish",
+      "scientific": "Amphiprion (anemonefishes; genus)",
+      "originalNameStringId": 95,
+      "originalName": "Dusky Anemonefish",
+      "originalScientificStringId": 199,
+      "originalScientificSpelling": "Amphiprion rubrocinctus",
+      "assessment": "Original specifies dusky anemonefish; current entry is broad."
+    },
+    {
+      "id": "s8",
+      "name": "Foxface rabbitfish",
+      "scientific": "Siganus vulpinus",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s9",
+      "name": "Yellow goatfish",
+      "scientific": "Mullidae (goatfishes; family)",
+      "originalNameStringId": 91,
+      "originalName": "Dash and Dot Goatfish",
+      "originalScientificStringId": 195,
+      "originalScientificSpelling": "Parupeneus barberinus",
+      "assessment": "Original specifies dash-and-dot goatfish; current entry is broad."
+    },
+    {
+      "id": "s10",
+      "name": "Sixbar wrasse",
+      "scientific": "Thalassoma hardwicke",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s11",
+      "name": "Peach fairy basslet",
+      "scientific": "Nemanthias dispar",
+      "originalNameStringId": 129,
+      "originalName": "Peach Fairy Basslet",
+      "originalScientificStringId": 233,
+      "originalScientificSpelling": "Pseudanthias dispar",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s12",
+      "name": "Squirrelfish",
+      "scientific": "Holocentridae (squirrelfishes and soldierfishes; family)",
+      "originalNameStringId": 71,
+      "originalName": "Bloodspot Squirrelfish",
+      "originalScientificStringId": 175,
+      "originalScientificSpelling": "Neoniphon sammara",
+      "assessment": "Original specifies bloodspot squirrelfish; current entry is broad."
+    },
+    {
+      "id": "s13",
+      "name": "Banggai cardinalfish",
+      "scientific": "Pterapogon kauderni",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s14",
+      "name": "Oriental sweetlip",
+      "scientific": "Plectorhinchus vittatus",
+      "originalNameStringId": 124,
+      "originalName": "Oriental Sweetlip",
+      "originalScientificStringId": 228,
+      "originalScientificSpelling": "Plectorhinchus orientalis",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s15",
+      "name": "Parrotfish",
+      "scientific": "Scarinae (parrotfishes; group)",
+      "originalNameStringId": 135,
+      "originalName": "Pygmy Parrotfish",
+      "originalScientificStringId": 239,
+      "originalScientificSpelling": "Scarus spinus",
+      "assessment": "Original specifies pygmy parrotfish; current entry is broad."
+    },
+    {
+      "id": "s16",
+      "name": "Coral grouper",
+      "scientific": "Epinephelus corallicola",
+      "originalNameStringId": 86,
+      "originalName": "Coral Grouper",
+      "originalScientificStringId": 190,
+      "originalScientificSpelling": "Cephalopholis miniata",
+      "assessment": "Different genera and species: Epinephelus corallicola versus Cephalopholis miniata."
+    },
+    {
+      "id": "s17",
+      "name": "Blackfin barracuda",
+      "scientific": "Sphyraena qenie",
+      "originalNameStringId": 68,
+      "originalName": "Blackfin Barracuda",
+      "originalScientificStringId": 172,
+      "originalScientificSpelling": "Sphyraena genie",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s18",
+      "name": "Crocodile needlefish",
+      "scientific": "Tylosurus crocodilus",
+      "originalNameStringId": 88,
+      "originalName": "Crocodile Needlefish",
+      "originalScientificStringId": 192,
+      "originalScientificSpelling": "Tylosurus crocodilis crocodilis",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s19",
+      "name": "Cuttlefish",
+      "scientific": "Sepiidae (cuttlefishes; family)",
+      "originalNameStringId": 90,
+      "originalName": "Cuttlefish",
+      "originalScientificStringId": 194,
+      "originalScientificSpelling": "Sepiidae (Family)",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s20",
+      "name": "Lionfish",
+      "scientific": "Pterois (lionfishes; genus)",
+      "originalNameStringId": 111,
+      "originalName": "Lionfish",
+      "originalScientificStringId": 215,
+      "originalScientificSpelling": "Pterois volitans",
+      "assessment": "Original specifies Pterois volitans. Crab food omission now repaired."
+    },
+    {
+      "id": "s21",
+      "name": "Devil scorpionfish",
+      "scientific": "Scorpaenopsis diabolus",
+      "originalNameStringId": 92,
+      "originalName": "Devil Scorpionfish",
+      "originalScientificStringId": 196,
+      "originalScientificSpelling": "Scorpaenopsis diabolus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s22",
+      "name": "Spotted pufferfish",
+      "scientific": "Tetraodontidae (pufferfishes; family)",
+      "originalNameStringId": 69,
+      "originalName": "Blackspotted Puffer",
+      "originalScientificStringId": 173,
+      "originalScientificSpelling": "Arothron nigropunctatus",
+      "assessment": "Original specifies Arothron nigropunctatus; current example is not that species."
+    },
+    {
+      "id": "s23",
+      "name": "Longhorn cowfish",
+      "scientific": "Lactoria cornuta",
+      "originalNameStringId": 115,
+      "originalName": "Longhorn Cowfish",
+      "originalScientificStringId": 219,
+      "originalScientificSpelling": "Lactoria cornuta",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s24",
+      "name": "Clown triggerfish",
+      "scientific": "Balistoides conspicillum",
+      "originalNameStringId": 83,
+      "originalName": "Clown Triggerfish",
+      "originalScientificStringId": 187,
+      "originalScientificSpelling": "Balistoides conspicillum",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s25",
+      "name": "Regal angelfish",
+      "scientific": "Pygoplites diacanthus",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s26",
+      "name": "Whitemouth moray",
+      "scientific": "Gymnothorax meleagris",
+      "originalNameStringId": 160,
+      "originalName": "Whitemouth Moray Eel",
+      "originalScientificStringId": 264,
+      "originalScientificSpelling": "Gymnothorax meleagris",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s27",
+      "name": "Blue-spotted stingray",
+      "scientific": "Dasyatidae (stingrays; family)",
+      "originalNameStringId": 74,
+      "originalName": "Bluespotted Ray",
+      "originalScientificStringId": 178,
+      "originalScientificSpelling": "Dasyatis kuhlii",
+      "assessment": "Original gives Dasyatis kuhlii; current named example Taeniura lymma is a different ray."
+    },
+    {
+      "id": "s28",
+      "name": "Rainbow runner",
+      "scientific": "Elagatis bipinnulata",
+      "originalNameStringId": 136,
+      "originalName": "Rainbow Runner",
+      "originalScientificStringId": 240,
+      "originalScientificSpelling": "Elagatis bipinnulatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s29",
+      "name": "Humphead wrasse",
+      "scientific": "Cheilinus undulatus",
+      "originalNameStringId": 107,
+      "originalName": "Humphead Wrasse",
+      "originalScientificStringId": 211,
+      "originalScientificSpelling": "Cheilinus undulatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s30",
+      "name": "Humbug damselfish",
+      "scientific": "Dascyllus aruanus",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s31",
+      "name": "Whitespot hawkfish",
+      "scientific": "Paracirrhites hemistictus",
+      "originalNameStringId": 161,
+      "originalName": "Whitespot Hawkfish",
+      "originalScientificStringId": 265,
+      "originalScientificSpelling": "Paracirrhites hemistictus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s32",
+      "name": "Blacktip reef shark",
+      "scientific": "Carcharhinus melanopterus",
+      "originalNameStringId": 70,
+      "originalName": "Blacktip Shark",
+      "originalScientificStringId": 174,
+      "originalScientificSpelling": "Carcharinus spellanzani",
+      "assessment": "Historical name/spelling needs taxonomic reconciliation; do not assume reef-shark equivalence."
+    },
+    {
+      "id": "s33",
+      "name": "Whitetip reef shark",
+      "scientific": "Triaenodon obesus",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s34",
+      "name": "Great white shark",
+      "scientific": "Carcharodon carcharias",
+      "originalNameStringId": 105,
+      "originalName": "Great White Shark",
+      "originalScientificStringId": 209,
+      "originalScientificSpelling": "Carcharodon carcharias",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s35",
+      "name": "Tiger shark",
+      "scientific": "Galeocerdo cuvier",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s36",
+      "name": "Wobbegong",
+      "scientific": "Orectolobidae (wobbegongs; family)",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s37",
+      "name": "Electric ray",
+      "scientific": "Torpediniformes (electric rays; group)",
+      "originalNameStringId": 146,
+      "originalName": "Short-tail Electric Ray",
+      "originalScientificStringId": 250,
+      "originalScientificSpelling": "Hypnos monopterygium",
+      "assessment": "Original specifies short-tail electric ray; current Pacific-ray example differs."
+    },
+    {
+      "id": "s38",
+      "name": "Giant grouper",
+      "scientific": "Epinephelus lanceolatus",
+      "originalNameStringId": 102,
+      "originalName": "Giant Grouper",
+      "originalScientificStringId": 206,
+      "originalScientificSpelling": "Epinephelus lanceolatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s39",
+      "name": "Coral trout",
+      "scientific": "Plectropomus leopardus",
+      "originalNameStringId": 117,
+      "originalName": "Lyretail Coral Trout",
+      "originalScientificStringId": 221,
+      "originalScientificSpelling": "Variola louti",
+      "assessment": "Different genera and species: Plectropomus leopardus versus Variola louti."
+    },
+    {
+      "id": "s40",
+      "name": "Longfin batfish",
+      "scientific": "Platax pinnatus",
+      "originalNameStringId": 114,
+      "originalName": "Longfin Spadefish",
+      "originalScientificStringId": 218,
+      "originalScientificSpelling": "Platax teira",
+      "assessment": "Different species: Platax pinnatus versus Platax teira."
+    },
+    {
+      "id": "s41",
+      "name": "Trumpetfish",
+      "scientific": "Aulostomus chinensis",
+      "originalNameStringId": 126,
+      "originalName": "Painted Flutemouth",
+      "originalScientificStringId": 230,
+      "originalScientificSpelling": "Aulostomus chinensis",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s42",
+      "name": "Yellowtail fusilier",
+      "scientific": "Caesio cuning",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s43",
+      "name": "Bluestreak cleaner wrasse",
+      "scientific": "Labroides dimidiatus",
+      "originalNameStringId": 75,
+      "originalName": "Bluestreak Cleaner Wrasse",
+      "originalScientificStringId": 179,
+      "originalScientificSpelling": "Labroides dimidiatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s44",
+      "name": "Yellow seahorse",
+      "scientific": "Hippocampus kuda",
+      "originalNameStringId": 164,
+      "originalName": "Yellow Seahorse",
+      "originalScientificStringId": 268,
+      "originalScientificSpelling": "Hippocampus kuda",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s45",
+      "name": "Banded coral shrimp",
+      "scientific": "Stenopus hispidus",
+      "originalNameStringId": 66,
+      "originalName": "Banded Coral Shrimp",
+      "originalScientificStringId": 170,
+      "originalScientificSpelling": "Stenopus hispidus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s46",
+      "name": "Reef crab",
+      "scientific": "Brachyura (true crabs; group)",
+      "originalNameStringId": 87,
+      "originalName": "Crab",
+      "originalScientificStringId": 191,
+      "originalScientificSpelling": "Reptantia (sub-order)",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s47",
+      "name": "Red sea star",
+      "scientific": "Asteroidea (sea stars; group)",
+      "originalNameStringId": 138,
+      "originalName": "Reef Starfish",
+      "originalScientificStringId": 242,
+      "originalScientificSpelling": "Pentagonaster duebeni",
+      "assessment": "Original specifies Pentagonaster duebeni; current entry is broad."
+    },
+    {
+      "id": "s48",
+      "name": "Orange-spotted filefish",
+      "scientific": "Oxymonacanthus longirostris",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s49",
+      "name": "Doublelined mackerel",
+      "scientific": "Grammatorcynus bilineatus",
+      "originalNameStringId": 94,
+      "originalName": "Doublelined Mackerel",
+      "originalScientificStringId": 198,
+      "originalScientificSpelling": "Grammatorcynos bilineatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s50",
+      "name": "Yellowspot emperor",
+      "scientific": "Gnathodentex aureolineatus",
+      "originalNameStringId": 165,
+      "originalName": "Yellowspot Emperor",
+      "originalScientificStringId": 269,
+      "originalScientificSpelling": "Gnathodentex aurolineatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s51",
+      "name": "Golden snapper",
+      "scientific": "Lutjanus johnii",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s52",
+      "name": "Pencilled rabbitfish",
+      "scientific": "Siganus doliatus",
+      "originalNameStringId": 130,
+      "originalName": "Pencile Streaked Rabbitfish",
+      "originalScientificStringId": 234,
+      "originalScientificSpelling": "Siganus doliatus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s53",
+      "name": "Flashlight fish",
+      "scientific": "Anomalopidae (flashlight fishes; family)",
+      "originalNameStringId": 99,
+      "originalName": "Flashlightfish",
+      "originalScientificStringId": 203,
+      "originalScientificSpelling": "Anomalops katoptron",
+      "assessment": "Original specifies Anomalops katoptron."
+    },
+    {
+      "id": "s54",
+      "name": "Painted frogfish",
+      "scientific": "Antennarius pictus",
+      "originalNameStringId": 127,
+      "originalName": "Painted Frogfish",
+      "originalScientificStringId": 231,
+      "originalScientificSpelling": "Antennarius pictus",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s55",
+      "name": "Silver trevally",
+      "scientific": "Pseudocaranx georgianus",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s56",
+      "name": "Longfin bannerfish",
+      "scientific": "Heniochus acuminatus",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s57",
+      "name": "Checkerboard hawkfish",
+      "scientific": "Cirrhitidae (hawkfishes; family)",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s58",
+      "name": "Purple anthias",
+      "scientific": "Pseudanthias tuka",
+      "originalNameStringId": null,
+      "originalName": null,
+      "originalScientificStringId": null,
+      "originalScientificSpelling": null,
+      "assessment": "No named counterpart identified in the original Windows guide inventory."
+    },
+    {
+      "id": "s59",
+      "name": "Longsnout flathead",
+      "scientific": "Thysanophrys chiltonae",
+      "originalNameStringId": 116,
+      "originalName": "Longsnout Flathead",
+      "originalScientificStringId": 220,
+      "originalScientificSpelling": "Platycephalus chiltonae",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s60",
+      "name": "Nudibranch",
+      "scientific": "Nudibranchia (nudibranchs; group)",
+      "originalNameStringId": 142,
+      "originalName": "Sea Slug",
+      "originalScientificStringId": 246,
+      "originalScientificSpelling": "Nudibranch (Class)",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s61",
+      "name": "Spiral snail",
+      "scientific": "Gastropoda (snails and slugs; group)",
+      "originalNameStringId": 150,
+      "originalName": "Snail",
+      "originalScientificStringId": 254,
+      "originalScientificSpelling": "Gastropods (Class)",
+      "assessment": "Compare spelling, synonyms, sprite and game traits before declaring parity."
+    },
+    {
+      "id": "s62",
+      "name": "Needle-spined urchin",
+      "scientific": "Echinoidea (sea urchins; group)",
+      "originalNameStringId": 122,
+      "originalName": "Needle Spined Sea Urchin",
+      "originalScientificStringId": 226,
+      "originalScientificSpelling": "Diadema setosum",
+      "assessment": "Original specifies Diadema setosum."
+    },
+    {
+      "id": "s63",
+      "name": "Sea anemone",
+      "scientific": "Actiniaria (sea anemones; group)",
+      "originalNameStringId": 84,
+      "originalName": "Cluster Anemone",
+      "originalScientificStringId": 188,
+      "originalScientificSpelling": "Entacmaea quadricolor",
+      "assessment": "Original specifies Entacmaea quadricolor; current entry is broad."
+    }
+  ]
+}

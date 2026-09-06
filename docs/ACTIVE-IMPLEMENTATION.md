@@ -11,6 +11,8 @@ Continue the original specification and audit work with gentle difficulty. The u
 
 ## Completion boundary
 
+Original Windows binary-resource inspection now supplies a 64-entry comparison ledger (ORIGINAL-ROSTER-LEDGER.md/JSON) and confirms missing creatures and several scientific-identity mismatches. Original playable membership/order and runtime rules still need evidence. The verified lionfish crab diet omission is fixed in source with a narrow saved-fish migration; all 115 unit/asset checks pass. This correction is newer than the parked Windows Saves ZIP. Next prioritize original roster and identity reconciliation with asset/fact consistency, not more global predator difficulty.
+
 A Windows testing milestone is parked as Atoll-Down-Under-Windows-Saves-2026-09-06.zip, runtime source dae2b94. All 113 unit/asset checks and all 30 browser scenarios pass. Native packaged checks verify gameplay, fullscreen, facts/populations/scoring and an actual portable-file export/import. Ninety packaged files matched the source at packaging; all 73 files in the ZIP match the tested runnable folder and ZIP CRC passes. This delivers current work for testing while the remaining audit/specification work stays active. It does not complete the overall objective.
 
 Recent audit progress: Tournament now previews all 55 lives in actual play order; historical ordering remains unverified. G27 now has named local saves and portable file export/import with validation and a preview. Ctrl+S retains the modern local Last-dive behavior. These changes do not increase difficulty. Earlier entries below retain their milestone-specific test counts.

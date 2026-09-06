@@ -5,7 +5,7 @@ import {SPECIES,PLAYABLE,FOODS,createSpecies} from '../src/data.js';
 import {foodWeb} from '../src/learning.js';
 const ticks=(s,seconds)=>{for(let i=0;i<seconds*60;i++)s.step(1/60);};
 
-for(const [fish,prey] of [[10,61],[12,46],[22,61],[22,46],[19,46],[14,61]]){
+for(const [fish,prey] of [[10,61],[12,46],[22,61],[22,46],[19,46],[14,61],[20,46]]){
  test(`${SPECIES[fish].name} can approach and eat its listed ${SPECIES[prey].name} meal`,()=>{
   const s=new Simulation(42);s.start('practice','s'+fish);
   const meal=s.section.entities.find(e=>e.species.id==='s'+prey);
@@ -22,6 +22,18 @@ test('every listed playable diet category has at least one usable model food',()
  for(const s of PLAYABLE)for(const tag of s.diet){
   assert.ok(FOODS[tag]||SPECIES.some(p=>p.food===tag&&!p.poison&&edible(s,p)),`${s.name}: ${tag}`);
  }
+});
+
+test('old lionfish saves gain the verified crab food without rerolling animals or RNG',()=>{
+ const s=new Simulation(42);s.start('practice','s20');
+ const old=JSON.parse(s.serialize());old.player.species.diet=['fish','shrimp'];
+ const lion=old.sections.flatMap(r=>r.entities).find(e=>e.species.id==='s20');
+ assert.ok(lion);lion.species.diet=['fish','shrimp'];
+ const expected=structuredClone(old);expected.player.species.diet.push('crab');
+ for(const e of expected.sections.flatMap(r=>r.entities))if(e.species.id==='s20'&&!e.species.diet.includes('crab'))e.species.diet.push('crab');
+ const restored=Simulation.restore(old);
+ assert.deepEqual(JSON.parse(restored.serialize()),expected);
+ assert.ok(edible(restored.player,SPECIES[46]));
 });
 
 test('shellfish feeding retains diet, large-shell, spiny-prey and armored-fish restrictions',()=>{

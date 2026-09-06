@@ -101,6 +101,16 @@ The unit/asset suite passes 103 tests; the browser suite passes 27 scenarios, in
 
 Only fullscreen and its supporting UI/documentation are changed in the accompanying build. The audit is a repair plan, not a claim that its open gameplay gaps have already been fixed.
 
+## Primary Windows resource evidence follow-up
+
+Static inspection of the archived original Windows game now adds direct evidence beyond the manual/screenshots and Macintosh walkthrough. See [ORIGINAL-ROSTER-LEDGER.md](ORIGINAL-ROSTER-LEDGER.md) and its JSON companion for all 64 current catalog comparisons, exact string IDs and source hashes. The 104 original guide names include scenery and nonplayable organisms; they do not constitute the playable Tournament roster. The executable has also been inventoried, but the original game has not yet been executed in this audit.
+
+G09 is more concrete: sixteen current entries have no named counterpart identified in the original guide, and several comparison entries describe different species. Coral grouper, long-nosed butterflyfish, longfin spadefish and lyretail coral trout are specific mismatches. Original scientific spellings can also be obsolete or erroneous, so string differences alone are not sufficient to classify every mismatch. Full fact coverage remains useful, but does not prove original-species fidelity.
+
+G10/G11 now have primary Windows confirmation for the cleaner mimic blenny and its deceptive bite description, plus giant clam, brittle star, lobster and sea wasp entries. Behavior timing/spawning remains unverified. G17's missing lionfish crab food is confirmed by information resource 547 and repaired in source; players and NPCs share the existing size/armor eligibility. A targeted save migration applies the correction to saved lionfish while preserving custom diets, animals, positions and RNG. All 115 unit/asset checks pass, including approaching/eating a crab and exact saved-state comparison apart from the diet correction. Lionfish activity and the great-white sponge exception remain unresolved. The original lionfish enemy description also undermines universal poison immunity, but predator pressure is unchanged under the user's gentle-difficulty direction.
+
+The parked Windows Saves ZIP precedes this lionfish data correction. No original binaries, images, audio or educational paragraphs are added to the product.
+
 ## Named-save follow-up: G27 portability implemented in source
 
 Dive names, portable `.atoll` export, validated import with preview, and named local-slot persistence now cover the missing naming/backup capabilities. Old local saves remain loadable; invalid or cancelled imports leave the active dive intact. See [PORTABLE-SAVES.md](PORTABLE-SAVES.md) for validation and limits. Ctrl+S remains a local Last-dive save, rather than overwriting an exported file. This is subsequent to the parked population ZIP. No ecology or difficulty rules changed.
