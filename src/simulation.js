@@ -10,7 +10,10 @@ export function edible(predator,prey){
  const food=prey.kind==='food'?prey.food:b.food||'fish';
  if(!a.diet.includes(food))return false;
  if(food==='fish' && b.size>=a.size*.77)return false;
- if(b.armor&&a.ability!=='crush'&&a.size<100)return false;
+ // A listed crab/snail diet includes smaller shells that the mouth can handle.
+ // Larger shells, spiny urchins and armored fish retain the stronger-jaw gate.
+ const smallShellfish=['crab','snail'].includes(food)&&b.size<a.size*.77;
+ if(b.armor&&!smallShellfish&&a.ability!=='crush'&&a.size<100)return false;
  return true;
 }
 export function healthState(fish){
@@ -116,6 +119,7 @@ export class Simulation {
  useAbility(){
   const p=this.player;if(!p||this.phase!=='playing'||this.paused)return false;
   if(p.species.ability==='none'){this.event('message','This species relies on swimming and shelter.');return false;}
+  if(p.species.ability==='crush'){this.event('message','Crushing jaws are always available. Click a food in your diet to use them.');return false;}
   if(p.cooldown>0){this.event('message','Your ability is recovering.');return false;}
   if(p.energy<12){this.event('message','Find food before using more energy.');return false;}
   this.protected=false;p.energy-=8;p.cooldown=12;p.abilityTime=['lure','camouflage'].includes(p.species.ability)?6:4;
@@ -128,7 +132,11 @@ export class Simulation {
   const b=target.species;const good=edible(p,target);const poison=target.kind==='food'?target.food==='sponge'&&!p.species.diet.includes('sponge'):b?.poison&&!['crush','poison'].includes(p.species.ability);
   const name=target.name||b?.name;
   if(poison){p.health-=25;p.poisonDamage=(p.poisonDamage||0)+25;p.recoveryDelay=10;p.energy-=10;p.lastHarm={type:'poison',name};this.score=Math.max(0,this.score-500);this.event('poison',name+' was poisonous to your fish. Inspect it and compare your diet before another bite.');if(p.health<=0)this.die('Your fish was poisoned by '+name+'.');}
-  else if(!good){p.energy-=2;this.event('reject',b?.armor?name+' is too well armored for your fish.':name+' is not part of your diet.');}
+  else if(!good){
+   p.energy-=2;const food=target.kind==='food'?target.food:b?.food||'fish';
+   const reason=!p.species.diet.includes(food)?' is not part of your diet.':b?.armor?' is too well armored for your fish.':' is too large for your fish.';
+   this.event('reject',name+reason);
+  }
   else{
    const whole=target.kind!=='food';const gain=whole?clamp(b.size*.33,12,65):FOODS[target.food].nutrition;
    const energyBefore=p.energy;p.energy=clamp(p.energy+gain,0,100);const points=whole?1000:500;if(this.mode!=='practice'){this.score+=points;this.stageScore+=points;}
@@ -309,6 +317,10 @@ export class Simulation {
   if(d.player.biteDamage===undefined)d.player.biteDamage=0;
   if(d.player.recoveryDelay===undefined)d.player.recoveryDelay=0;
   for(const k of ['poisonDamage','biteDamage','recoveryDelay'])if(!Number.isFinite(d.player[k])||d.player[k]<0)throw new Error('The saved fish is damaged.');
+  if(d.player.species.ability==='crush'){
+   d.player.cooldown=0;d.player.abilityTime=0;
+   if(d.player.species.id==='custom'&&d.custom)d.player.species.diet=createSpecies({...d.custom,ability:'crush'}).diet;
+  }
   const sim=new Simulation();Object.assign(sim,d);sim.events=[];sim.paused=true;return sim;
  }
 }

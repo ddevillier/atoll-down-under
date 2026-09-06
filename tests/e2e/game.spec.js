@@ -2,6 +2,52 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('a pufferfish can feed on the crabs and snails offered by its diet',async({page})=>{
+ await ready(page);await practice(page,'Spotted pufferfish');
+ const meals=await page.evaluate(()=>{
+  const s=window.atoll.simulation;
+  s.section.entities=s.section.entities.filter(e=>['s46','s61'].includes(e.species.id));s.section.food=[];
+  const crab=s.section.entities[0];Object.assign(s.player,{x:crab.x-160,y:crab.y,angle:0,energy:40});s.point(s.player.x,s.player.y);
+  return s.section.entities.map(e=>({id:e.id,x:e.x,y:e.y}));
+ });
+ const box=await page.locator('#reef').boundingBox();
+ for(const meal of meals){
+  await page.mouse.click(box.x+meal.x/1600*box.width,box.y+(meal.y+55)/900*box.height);
+  await page.waitForFunction(id=>!window.atoll.simulation.section.entities.find(e=>e.id===id).alive,meal.id,{timeout:15000});
+ }
+ await page.keyboard.press('Escape');
+ expect(await page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(50);
+ await expect(page.locator('.toast')).toContainText('A good meal: Spiral snail');
+ await page.screenshot({path:'artifacts/puffer-shellfish-meals.png'});
+});
+
+test('crushing jaws show their food choices before creation and stay available without activation',async({page})=>{
+ test.setTimeout(60000);
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);await clickButton(page,{name:/Create a fish/});
+  await page.locator('[data-config="diet"]').selectOption('grazer');
+  await page.locator('[data-config="ability"]').selectOption('crush');
+  await expect(page.locator('#created-diet')).toContainText('Coral polyps');
+  await expect(page.locator('#created-diet')).not.toContainText('crabs');
+  await page.locator('[data-config="diet"]').selectOption('hunter');
+  await expect(page.locator('#created-diet')).toContainText('crabs · snails · urchins');
+  await page.locator('[data-config="diet"]').selectOption('omnivore');
+  await expect(page.locator('#created-diet')).toContainText('Algae · Small shrimp · Sand worm · Plankton · crabs · snails · urchins');
+  await page.locator('[data-config="ability"]').focus();
+  await page.locator('#ability-note').scrollIntoViewIfNeeded();
+  await expect(page.locator('#ability-note')).toContainText('no activation or energy cost');
+  await page.screenshot({path:`artifacts/crushing-jaws-create-${width}.png`});
+  await clickButton(page,{name:'Meet the reef'});
+  await expect(page.locator('.passive-ability')).toContainText('Always active');
+  await expect(page.locator('[data-action="ability"]')).toHaveCount(0);
+  await page.keyboard.press('Space');await expect(page.locator('.toast')).toContainText('Crushing jaws are always available');
+  expect(await page.evaluate(()=>{const s=window.atoll.simulation;return {energy:s.player.energy,protected:s.protected,cooldown:s.player.cooldown};})).toEqual({energy:100,protected:true,cooldown:0});
+  await page.keyboard.press('Escape');
+  const fits=await page.locator('.hud').evaluate(h=>{const b=h.getBoundingClientRect();return [...h.children,...h.querySelectorAll('.diet-reminder,.passive-ability')].every(e=>{const r=e.getBoundingClientRect();return r.left>=b.left&&r.right<=b.right&&r.top>=b.top&&r.bottom<=b.bottom;});});
+  expect(fits).toBe(true);await page.screenshot({path:`artifacts/crushing-jaws-hud-${width}.png`});
+ }
+});
+
 test('feeding shows the chosen meal, actual reward and a diminishing patch at both sizes',async({page})=>{
  test.setTimeout(70000);
  for(const [width,height] of [[1600,900],[1024,768]]){

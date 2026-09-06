@@ -252,11 +252,15 @@ Creature portraits sit on a crop of the reef painting. Fit the complete sprite i
 
 Create-a-Fish text fields and selects share the light surface and thin border. Sliders use a teal accent; their labels and current values remain paired. The budget uses Spectral at 19px, changing to an earthy red when exceeded; the start action is then disabled.
 
+The creation preview shows the resulting diet below the body description, updating as diet and trait choices change. A short description below "Ability or trait" explains the selected effect before entry. These use the existing subtle text style and scroll within the dialog body at compact sizes.
+
 ### Survival bar and habitat map
 
 Two slim labeled meters show energy and health as a fill plus numeric value. Each row uses columns of 47px, a flexible track, and 30px, with 8px gaps. The three-by-three map highlights the current section and sits beside the day/night icon. Creature identity, meters, map, score, and actions occupy one compact horizontal bar.
 
 A persistent diet reminder sits below the current fish's name and mode, using the existing food types in readable words. It uses 11px ink text with a muted "Diet:" label, a 220px maximum width and a 3px top gap. At the compact breakpoint it uses 10.5px text, a 195px maximum width and a 1px gap; HUD vertical padding becomes 7px. Long diets wrap within the existing bar height. This is a game-diet reminder; individual prey still obey size, armor and poison rules.
+
+Crushing jaws is a passive feeding trait. Its HUD position contains a plain, non-interactive readout with 13px text and an 11px muted "Always active" line, separated by 3px. It has no button border, cooldown or Space key hint. Active abilities retain the existing action button. The creation selector and creature facts use the same trait name and explain that it needs no activation.
 
 ### Feedback and tags
 

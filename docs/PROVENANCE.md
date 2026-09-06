@@ -25,6 +25,8 @@ Spectral and DM Sans are self-hosted from their Fontsource packages. Their SIL O
 
 No publication rights or trademark clearance are implied by this project. The user selected the working title Atoll Down Under.
 
+The feeding-rule review checked the [Australian Museum's Stars-and-stripes Puffer account](https://australian.museum/learn/animals/fishes/stars-and-stripes-toadfish-arothron-hispidus-linnaeus-1758/), whose diet includes molluscs and other invertebrates. This is a broad check against making the game's puffer a sponge-only feeder, not a taxonomic identification of the project's "Spotted pufferfish" or evidence for its numeric shell-size threshold. No new natural-history entry was added.
+
 
 ## Original-layout splash revision
 

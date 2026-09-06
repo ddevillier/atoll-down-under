@@ -45,4 +45,21 @@ await page.waitForFunction(()=>window.atoll.simulation.current===5);
 await page.keyboard.press('Escape');
 report.edgeTravelVerified=await page.evaluate(()=>{const s=window.atoll.simulation,c=window.travelCrossing;return s.paused&&s.player.biteDamage===0&&c?.entering===true&&c.after>180&&Math.abs(c.after-c.before)<1e-8;});
 await page.screenshot({path:'artifacts/desktop-travel.png'});
-console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified)process.exitCode=1;
+// Check the new feeding choices through the native menus and ordinary click.
+await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/Practice Choose/});
+await page.getByRole('searchbox').fill('Spotted pufferfish');await page.getByRole('option').click();await clickButton(page,{name:'Enter the reef'});
+const shell=await page.evaluate(()=>{
+ const s=window.atoll.simulation,crab=s.section.entities.find(e=>e.species.id==='s46');
+ s.section.entities=[crab];s.section.food=[];Object.assign(s.player,{x:crab.x-160,y:crab.y,angle:0,energy:40});s.point(s.player.x,s.player.y);
+ return {id:crab.id,x:crab.x,y:crab.y};
+});
+await page.mouse.click(box.x+shell.x/1600*box.width,box.y+(shell.y+55)/900*box.height);
+await page.waitForFunction(id=>!window.atoll.simulation.section.entities.find(e=>e.id===id).alive,shell.id,{timeout:15000});
+report.shellfishFeedingVerified=await page.evaluate(()=>window.atoll.simulation.player.energy>48);
+await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/Practice Choose/});
+await page.getByRole('searchbox').fill('Clown triggerfish');await page.getByRole('option').click();await clickButton(page,{name:'Enter the reef'});
+await expect(page.locator('.passive-ability')).toContainText('Always active');await expect(page.locator('[data-action="ability"]')).toHaveCount(0);
+await page.keyboard.press('Space');await expect(page.locator('.toast')).toContainText('Crushing jaws are always available');
+report.passiveJawsVerified=await page.evaluate(()=>{const s=window.atoll.simulation;return s.protected&&s.player.energy===100&&s.player.cooldown===0;});
+await page.screenshot({path:'artifacts/desktop-feeding-adaptations.png'});
+console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified)process.exitCode=1;

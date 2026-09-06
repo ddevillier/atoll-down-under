@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T19:28:52.593Z",
+  "generatedAt": "2026-09-06T19:42:41.330Z",
   "title": "Design System: Atoll Down Under",
   "extensions": {
     "colorMeta": {
@@ -388,6 +388,13 @@
       "description": "Read-only food categories beside the current fish. Individual prey still obey size, armor and poison rules.",
       "html": "<small class=\"ds-diet\"><span>Diet:</span> crabs · snails · urchins · smaller fish</small>",
       "css": ".ds-diet{display:block;max-width:220px;margin-top:3px;font:11px/1.25 AtollSans,Arial,sans-serif;color:var(--ink,#163c43)}.ds-diet span{color:var(--muted,#426269)}@media(max-width:1100px){.ds-diet{max-width:195px;margin-top:1px;font-size:10.5px;line-height:1.2}}"
+    },
+    {
+      "name": "Passive Feeding Trait",
+      "kind": "custom",
+      "description": "Crushing jaws needs no activation. Plain text occupies the ability slot, with no button or key hint.",
+      "html": "<div class=\"ds-passive-ability\"><span>Crushing jaws</span><small>Always active</small></div>",
+      "css": ".ds-passive-ability{font-family:AtollSans,Arial,sans-serif;color:var(--ink,#163c43);font-size:13px;line-height:1.25;text-align:right}.ds-passive-ability small{display:block;margin-top:3px;color:var(--muted,#426269);font-size:11px}"
     }
   ],
   "narrative": {
