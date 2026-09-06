@@ -162,7 +162,12 @@ export class Simulation {
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
  stepNpc(e,dt){
-  if(!e.alive){e.respawn-=dt;if(e.respawn<=0){e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;}return;}
+  if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
+   e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;
+   // A returning cleaner belongs to the established station, where players
+   // and clients know to wait, rather than an arbitrary point in open water.
+   if(e.species.ability==='clean'&&e.station){e.x=e.station.x;e.y=e.station.y;}
+  }return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
   const p=this.player;e.think-=dt;
   if(e.species.ability==='clean'){
@@ -186,6 +191,9 @@ export class Simulation {
    }
    return;
   }
+  // Old saves can contain a meal target aimed at a cleaner. A healthy client
+  // releases that target; parasite-driven visits are handled above.
+  if(e.target&&this.section.entities.some(b=>b.id===e.target&&b.species.ability==='clean')){e.target=null;e.pursuit=0;e.think=0;}
   const defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
   const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&edible(e,p);
   if(e.target==='player'&&!canEatPlayer&&e.behavior!=='Following lure'){e.target=null;e.pursuit=0;e.think=0;}
@@ -200,7 +208,9 @@ export class Simulation {
    if(threat){e.target=null;e.pursuit=0;e.angle=Math.atan2(e.y-threat.y,e.x-threat.x);e.behavior='Moving away from '+threat.species.name;}
    else if(!e.target){
     const candidates=e.satiated<=0&&e.rest<=0?[
-     ...this.section.entities.filter(b=>b!==e&&b.alive&&edible(e,b)&&!b.species.poison),
+     // Routine foraging recognizes cleaning partners. The player's explicit
+     // food choices still use the ordinary diet rules, including cleaners.
+     ...this.section.entities.filter(b=>b!==e&&b.alive&&b.species.ability!=='clean'&&edible(e,b)&&!b.species.poison),
      ...this.section.food.filter(f=>f.regrow<=0&&edible(e,f)),
      ...(canEatPlayer?[p]:[])
     ].filter(b=>distance(e,b)<165).sort((a,b)=>distance(e,a)-distance(e,b)):[];

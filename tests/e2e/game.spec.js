@@ -2,6 +2,28 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('a night cleaning visit works while a hungry neighbor forages beside the station',async({page})=>{
+ await page.setViewportSize({width:1440,height:810});await ready(page);await practice(page,'flashlight');
+ const station=await page.evaluate(()=>{
+  const s=window.atoll.simulation,cleaner=s.section.entities.find(e=>e.species.ability==='clean');
+  const neighbor=structuredClone(s.player);Object.assign(neighbor,{id:'hungry-neighbor',x:cleaner.x-30,y:cleaner.y,health:100,satiated:0,target:null,think:0});
+  s.section.entities=[cleaner,neighbor];
+  Object.assign(s.player,{x:cleaner.x+250,y:cleaner.y,health:60,energy:90,angle:Math.PI});
+  s.point(s.player.x,s.player.y);s.protected=false;
+  return {x:cleaner.station.x+35,y:cleaner.station.y,id:cleaner.id};
+ });
+ const box=await page.locator('#reef').boundingBox();
+ await page.mouse.move(box.x+station.x/1600*box.width,box.y+(station.y+55)/900*box.height);
+ await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.health),{timeout:10000}).toBeGreaterThan(95);
+ expect(await page.evaluate(id=>window.atoll.simulation.section.entities.find(e=>e.id===id).alive,station.id)).toBe(true);
+ await page.keyboard.press('Escape');
+ const cleaner=await page.evaluate(id=>{const e=window.atoll.simulation.section.entities.find(e=>e.id===id);return {x:e.x,y:e.y};},station.id);
+ await page.mouse.click(box.x+cleaner.x/1600*box.width,box.y+(cleaner.y+55)/900*box.height);
+ await expect(page.locator('.inspect-card')).toContainText('Banded coral shrimp');
+ await expect(page.locator('.inspect-card')).toContainText('A cleaning partner');
+ await page.screenshot({path:'artifacts/night-cleaning-visit.png'});
+});
+
 test('steering out of a meal approach returns control and a later click still feeds',async({page})=>{
  test.setTimeout(60000);
  for(const [width,height] of [[1600,900],[1024,768]]){

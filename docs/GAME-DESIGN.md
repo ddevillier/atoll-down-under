@@ -18,6 +18,8 @@ The player initially has an undrained protected state. Swimming within the arriv
 
 NPCs forage, hunt smaller suitable creatures, flee threatening player fish, return to cleaner stations, and repopulate after consumption. Renewable stationary food regrows after depletion. Population and food state persist in the save. Off-screen sections retain their state rather than running a second independent simulation.
 
+Routine NPC feeding recognizes both the cleaner wrasse and cleaner shrimp as partners and leaves them out of food selection. An old saved feeding target aimed at a cleaner is released; parasite-driven cleaning visits retain their target. This is a gameplay convention supporting observable cleaning relationships, not a claim that cleaners are never prey in nature. The player's deliberate food choices still follow the usual diet rules. If a player eats a cleaner, its replacement returns at the established station after the existing respawn interval. Cleaner stations and health recovery otherwise keep their existing rules.
+
 ## Abilities
 
 Burst swim; raised spines; camouflage; ink; inflation; chemical defense; crushing bite; tail sting; electric pulse; sonic pulse; startling flash; and lure. Active use costs eight energy, requires at least twelve energy, and has a twelve-second recovery. The effect lasts four seconds, or six for lure/camouflage. Crushing also grants access to armored prey. Defenses interrupt or deter attacks; lure attracts edible fish; camouflage works while still. These are independently balanced game effects.
