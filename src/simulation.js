@@ -34,6 +34,7 @@ export class Simulation {
   this.event('start','Welcome to '+REEFS[this.current].name+'. Swim and look around; press Esc to observe.');
  }
  spawnPlayer(species){
+  this.destination=null;
   this.player=entity(species,'player',800,300);this.period=species.active==='night'?'night':'day';this.current=species.habitat==='sand'?7:species.habitat==='open'||species.habitat==='school'?1:4;
   this.pointer={x:800,y:300};this.protected=true;this.paused=false;this.sections=REEFS.map(r=>this.populate(r));this.visited.push(this.current);this.phase='playing';
  }
@@ -101,6 +102,10 @@ export class Simulation {
   this.observations.push({subject,name:e.species?.name||e.name,behavior,habitat:this.current,period:this.period,time:this.time,relationship:this.relationship(e)});
  }
  get required(){return this.mode==='challenge'?(this.stage+1)*5000:5000;}
+ setDestination(id){
+  if(!this.player||this.phase!=='playing'||(id!==null&&(!Number.isInteger(id)||!REEFS[id])))return false;
+  this.destination=id===this.current?null:id;return true;
+ }
  point(x,y){
   if(!this.player||this.paused||this.phase!=='playing')return;
   this.pointer={x:edgeDestination(x,W),y:edgeDestination(y,H)};
@@ -152,7 +157,9 @@ export class Simulation {
   // be outside the painting; it must swim through that gap before it can bite.
   const pursuing=this.sections[old].entities.filter(e=>e.alive&&e.target==='player');
   for(const e of pursuing){this.sections[old].entities=this.sections[old].entities.filter(x=>x!==e);e.x+=this.player.x-departure.x;e.y+=this.player.y-departure.y;e.entering=true;this.section.entities.push(e);}
-  this.pointer={x:this.player.x,y:this.player.y};this.player.target=null;this.protected=false;if(!this.visited.includes(this.current))this.visited.push(this.current);this.event('transition',REEFS[this.current].name);return true;
+  this.pointer={x:this.player.x,y:this.player.y};this.player.target=null;this.protected=false;if(!this.visited.includes(this.current))this.visited.push(this.current);
+  const arrived=this.destination===this.current;if(arrived)this.destination=null;
+  this.event('transition',arrived?'Reached '+REEFS[this.current].name+'. '+new Set(this.visited).size+' of 9 habitats visited.':REEFS[this.current].name);return true;
  }
  step(dt){
   if(this.paused||this.phase!=='playing'||!this.player)return;
@@ -306,7 +313,7 @@ export class Simulation {
  next(){if(this.phase==='advance'){this.stage++;this.stageScore=0;this.spawnPlayer(BY_ID[this.sequence[this.stage]]);}}
  die(reason){if(this.phase!=='playing')return;this.phase='dead';this.event('death',reason);}
  continueRun(){this.score=0;this.stageScore=0;this.spawnPlayer(this.player.species);}
- serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,visited:this.visited,difficulty:this.difficulty,observations:this.observations});}
+ serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,visited:this.visited,destination:this.destination,difficulty:this.difficulty,observations:this.observations});}
  static restore(raw){
   const d=typeof raw==='string'?JSON.parse(raw):raw;
   if(d.version!==1||!Array.isArray(d.sections)||d.sections.length!==9||!d.player?.species||!Number.isInteger(d.current)||d.current<0||d.current>8||!['practice','challenge','tournament','create'].includes(d.mode))throw new Error('This save is not a compatible Atoll game.');
@@ -321,6 +328,7 @@ export class Simulation {
    d.player.cooldown=0;d.player.abilityTime=0;
    if(d.player.species.id==='custom'&&d.custom)d.player.species.diet=createSpecies({...d.custom,ability:'crush'}).diet;
   }
+  if(!Number.isInteger(d.destination)||!REEFS[d.destination]||d.destination===d.current)d.destination=null;
   const sim=new Simulation();Object.assign(sim,d);sim.events=[];sim.paused=true;return sim;
  }
 }

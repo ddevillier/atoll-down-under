@@ -62,4 +62,17 @@ await expect(page.locator('.passive-ability')).toContainText('Always active');aw
 await page.keyboard.press('Space');await expect(page.locator('.toast')).toContainText('Crushing jaws are always available');
 report.passiveJawsVerified=await page.evaluate(()=>{const s=window.atoll.simulation;return s.protected&&s.player.energy===100&&s.player.cooldown===0;});
 await page.screenshot({path:'artifacts/desktop-feeding-adaptations.png'});
-console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified)process.exitCode=1;
+// The optional map plans a route without taking over the fish's movement.
+await page.getByRole('button',{name:/Open reef map/}).click();
+await expect(page.locator('.reef-map-tile')).toHaveCount(9);
+const mapBefore=await page.evaluate(()=>{const s=window.atoll.simulation;return {current:s.current,x:s.player.x,y:s.player.y};});
+const destination=(mapBefore.current+1)%9;
+await page.locator(`.reef-map-tile[data-reef="${destination}"]`).click();
+await page.screenshot({path:'artifacts/desktop-reef-map.png'});
+await clickButton(page,{name:'Guide my swim'});
+report.reefMapVerified=await page.evaluate(({mapBefore,destination})=>{const s=window.atoll.simulation;return s.destination===destination&&s.current===mapBefore.current&&s.player.x===mapBefore.x&&s.player.y===mapBefore.y;},{mapBefore,destination});
+await expect(page.locator('#state-badge')).toContainText('Swim');
+await page.keyboard.press('m');await clickButton(page,{name:'Clear route'});
+report.reefMapVerified&&=await page.evaluate(()=>window.atoll.simulation.destination===null);
+await page.keyboard.press('Escape');await expect(page.locator('#reef')).toBeFocused();
+console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));await app.close();if(errors.length||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified||!report.reefMapVerified)process.exitCode=1;

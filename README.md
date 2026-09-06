@@ -6,6 +6,8 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
+The parked testing snapshot is `dist/Atoll-Down-Under-Windows-Testing-2026-09-06.zip`. Extract it completely before opening the executable. See [the testing guide](docs/TESTING.md) for a short gameplay check.
+
 From source (Node.js 22 or later):
 
 ```sh
@@ -22,6 +24,7 @@ For a local browser development preview: `npm run dev`, then open http://127.0.0
 - Practice, four-life Challenge, full-roster Tournament, and a configurable Create-a-Fish mode.
 - Species-specific diets, food rejection, poison, energy use, parasites, day/night cleaners, concealment, predator pursuit across reef boundaries, renewable food, abilities, scoring, and advancement.
 - Paused inspection, a searchable field guide and glossary, three manual save slots plus a last-dive save, and local Reef Rulers scores.
+- An illustrated nine-habitat map with visited places, suitable meals and optional directions for your next swim.
 - Three original stereo music loops and 26 effects. Editable synthesis source and uncompressed WAV masters are included.
 
 See the [nine-scene contact sheet](docs/REEF-CONTACT-SHEET.jpg) for the revised habitat compositions. The [implementation specification](docs/GAME-DESIGN.md), [visual system](DESIGN.md), and [validation record](docs/VALIDATION.md) explain the shipped design.
@@ -38,6 +41,7 @@ See the [nine-scene contact sheet](docs/REEF-CONTACT-SHEET.jpg) for the revised 
 | Escape | Pause and inspect; resume |
 | P | Pause / resume |
 | F | Field guide |
+| M | Reef map and optional swim directions |
 | Ctrl/Cmd + S | Save the last dive |
 | F11 | Desktop fullscreen |
 

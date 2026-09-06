@@ -2,13 +2,21 @@
 
 ## Current exploration revision
 
-This is an in-progress Windows revision, not a completed-remake acceptance record. The current simulation/asset suite has 97 passing tests. The full browser suite passed 25/25; three focused scenarios passed again after the final rejection-message correction and expanded creation-diet coverage. New checks cover usable shellfish diets, passive crushing jaws, created feeding choices and saved traits, alongside the previous feeding, travel, exploration and cleaning behavior. The full report is preserved as `artifacts/e2e-feeding-adaptations-full.json`; the latest `e2e-results.json` contains the focused run. Gameplay remains the priority; natural-history expansion is on hold.
+This Windows revision is parked for user testing, not a completed-remake acceptance record. The current simulation/asset suite has 103 passing tests. The full browser suite passed 26/26; the map scenario passed again after a compact-window layout correction. New checks cover optional routes, ordinary edge travel, saved destinations, map keyboard controls and food suggestions, alongside the previous feeding, exploration and cleaning behavior. The full report is preserved as `artifacts/e2e-reef-map-full.json`; the latest `e2e-results.json` contains the focused run. Further feature work and natural-history expansion are on hold at the user's request.
 
 An identical seeded comparison ran 30 two-minute open-water circuits as three small species, without food, abilities or deliberate hiding and with initial protection explicitly disabled. Before the revision, 0/30 completed the circuit; afterward, 30/30 completed it, with seven predator bites across the 30 runs. This establishes a substantial reduction in constant predation for that scenario, not complete balance across all creatures and modes. Reports: `artifacts/ecology-before.json` and `artifacts/ecology-after.json`.
 
 The original Windows manual (pages 3–4, 8 and 11) supports exploratory Practice play, arrival protection before feeding/leaving an area, and paused observation with a field guide. Appetite and rest timings are newly authored approximations. Field notes are a new learning aid, not a claimed original feature.
 
 Remaining acceptance work includes wider species and mode playtesting, predator balance, visual integration, and animation fidelity. The earlier finish review below applies only to the initial UI implementation and does not prove these broader requirements. Current release work targets Windows x64 only; the platform evidence below is historical.
+
+## Illustrated map and parked testing snapshot
+
+The map extension starts from commit `8db3724`. Six new unit tests cover every pair of the nine habitats through real simulation transitions, destination-only state changes, arrival, detours, saved routes, legacy marker handling and meal suggestions. All 103 unit/asset tests pass; `artifacts/unit-reef-map.txt` records the result.
+
+The browser scenario uses ordinary mouse movement to travel from Coral Cathedral through Sea Fan Garden to Seagrass Meadow. It checks paused planning, no movement or energy change when setting a route, save/reload, updated directions after the first crossing, arrival feedback, visited labels, spatial keyboard selection, route clearing and focus restoration. Both 1600 × 900 and 1024 × 768 viewports pass. The initial small-window capture clipped the map's bottom row; a scoped layout correction and no-overflow assertion resolved it. The final screenshots are `artifacts/reef-map-1600.png`, `reef-map-1024.png` and the corresponding `reef-map-visited-*` captures.
+
+Native verification is reproducible with `scripts/qa-desktop.mjs` against the packaged Windows executable. It checks map planning and clearing in addition to startup, audio, steering, edge travel and feeding, using a separate temporary profile. Release results are recorded in `artifacts/desktop-report.json`, `artifacts/packaged-source-report.json` and `artifacts/release-report.json`. The parked archive is `dist/Atoll-Down-Under-Windows-Testing-2026-09-06.zip`; [TESTING.md](TESTING.md) supplies the hands-on checklist. Automated checks establish these bounded behaviors, not completed gameplay balance or historical fidelity.
 
 ## Initial build evidence (historical)
 

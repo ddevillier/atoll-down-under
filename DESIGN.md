@@ -262,6 +262,14 @@ A persistent diet reminder sits below the current fish's name and mode, using th
 
 Crushing jaws is a passive feeding trait. Its HUD position contains a plain, non-interactive readout with 13px text and an 11px muted "Always active" line, separated by 3px. It has no button border, cooldown or Space key hint. Active abilities retain the existing action button. The creation selector and creature facts use the same trait name and explain that it needs no activation.
 
+### Reef map
+
+The survival bar's miniature map is a button with a compact "Map" label. Its cells distinguish the current habitat in teal and visited habitats in survival green. It opens the existing paper dialog, also available with M. The dialog presents the nine existing habitat paintings in their connected three-by-three order beside a detail column. Horizontal edges wrap; the top and bottom end the reef.
+
+Habitat tiles use cropped paintings with dark water caption strips, cream names, and explicit "You are here", "Visited", or "Not yet visited" labels. A sand-colored border marks selection; keyboard focus uses a teal outline. Arrow keys move focus through the topology, while Enter or Space selects a habitat. Selection updates the heading, suitable meal suggestions, and swimming directions without moving the player. "Guide my swim" saves the destination and returns to play; "Clear route" removes it. The footer retains the visited count and a Return action.
+
+The grid uses 7px gaps and tiles with a 16:10 aspect ratio. The detail column is 220px wide, separated by 22px. At the existing compact desktop breakpoint, the map overlay uses 2% padding, the detail column becomes 185px with a 15px gap, and tiles become 2:1. The three-by-three topology remains intact. Visual evidence is recorded in `artifacts/reef-map-1600.png`, `artifacts/reef-map-1024.png`, and the `reef-map-visited-*` screenshots.
+
 ### Feedback and tags
 
 World notifications appear near the top center in a dark translucent toast. Survival-state feedback sits above the bottom bar; control reminders sit at the lower left. Canvas tags use 15px DM Sans inside small dark rectangles.

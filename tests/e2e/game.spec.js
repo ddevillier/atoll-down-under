@@ -2,6 +2,48 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('the reef map plans an ordinary swim and saves its destination',async({page})=>{
+ test.setTimeout(60000);
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page,'Foxface');
+  await page.getByRole('button',{name:/Open reef map/}).click();
+  await expect(page.getByRole('dialog')).toContainText('1 of 9 habitats visited');
+  await expect(page.locator('.reef-map-tile')).toHaveCount(9);
+  expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(true);
+  await page.locator('.reef-map-tile[data-reef="6"]').click();
+  await expect(page.locator('.reef-map-detail')).toContainText('Seagrass');
+  await expect(page.locator('.reef-map-detail')).toContainText('Swim left');
+  await expect(page.locator('.reef-map-detail')).toContainText('Swim down');
+  expect(await page.locator('.panel-body').evaluate(el=>el.scrollHeight<=el.clientHeight+1)).toBe(true);
+  await page.screenshot({path:`artifacts/reef-map-${width}.png`});
+  const before=await page.evaluate(()=>{const s=window.atoll.simulation;return {x:s.player.x,y:s.player.y,current:s.current,energy:s.player.energy};});
+  await clickButton(page,{name:'Guide my swim'});
+  expect(await page.evaluate(()=>{const s=window.atoll.simulation;return {x:s.player.x,y:s.player.y,current:s.current,energy:s.player.energy};})).toEqual(before);
+  await expect(page.locator('#state-badge')).toContainText('Swim left to Sea Fan Garden');
+  await page.keyboard.press('Control+s');await ready(page);await clickButton(page,{name:'Saved dives'});await clickButton(page,{name:'Load dive'});
+  expect(await page.evaluate(()=>window.atoll.simulation.destination)).toBe(6);
+  await page.evaluate(()=>{const s=window.atoll.simulation;for(const section of s.sections)section.entities=[];Object.assign(s.player,{x:120,y:350,angle:Math.PI});s.point(120,350);});
+  const box=await page.locator('#reef').boundingBox();
+  await page.mouse.move(box.x+14/1600*box.width,box.y+405/900*box.height);
+  await page.waitForFunction(()=>window.atoll.simulation.current===3,null,{timeout:5000});
+  await expect(page.locator('#state-badge')).toContainText('Swim down to Seagrass Meadow');
+  const arrivalX=await page.evaluate(()=>window.atoll.simulation.player.x);
+  await page.mouse.move(box.x+arrivalX/1600*box.width,box.y+781/900*box.height);
+  await page.waitForFunction(()=>window.atoll.simulation.current===6,null,{timeout:7000});
+  await expect(page.locator('.toast')).toContainText('Reached Seagrass Meadow. 3 of 9 habitats visited');
+  expect(await page.evaluate(()=>window.atoll.simulation.destination)).toBeNull();
+  await page.keyboard.press('m');await expect(page.getByRole('dialog')).toContainText('3 of 9 habitats visited');
+  await expect(page.locator('.reef-map-tile[aria-current="location"]')).toContainText('Seagrass Meadow');
+  await page.locator('.reef-map-tile[data-reef="6"]').focus();await page.keyboard.press('ArrowLeft');
+  await expect(page.locator('.reef-map-tile[data-reef="8"]')).toBeFocused();
+  await page.keyboard.press('Enter');await expect(page.locator('.reef-map-detail')).toContainText('Quiet Grotto');
+  await clickButton(page,{name:'Guide my swim'});await page.keyboard.press('m');await clickButton(page,{name:'Clear route'});
+  expect(await page.evaluate(()=>window.atoll.simulation.destination)).toBeNull();
+  await page.screenshot({path:`artifacts/reef-map-visited-${width}.png`});
+  await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.locator('#reef')).toBeFocused();
+ }
+});
+
 test('a pufferfish can feed on the crabs and snails offered by its diet',async({page})=>{
  await ready(page);await practice(page,'Spotted pufferfish');
  const meals=await page.evaluate(()=>{
