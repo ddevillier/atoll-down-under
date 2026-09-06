@@ -76,7 +76,7 @@ Daytime open-water sections include three nearby members of one schooling specie
 
 ## Species natural history
 
-The Creatures tab offers expandable natural-history text for four researched species. Scientific names are searchable; maximum natural lengths, when sourced, are distinct from sprite size. Readers can compare anatomy, habitat, parental care and ecological relationships, with source URLs available offline. Brief game rules remain below the expansion. A sticky species browser retains navigation while the entry scrolls. The rest of the roster still needs this level of research.
+The Creatures tab offers expandable natural-history text for thirteen researched species. Scientific names are searchable; maximum natural lengths, when sourced, are distinct from sprite size. Readers can compare anatomy, habitat, parental care and ecological relationships, with source URLs available offline. Brief game rules remain below the expansion. A sticky species browser retains navigation while the entry scrolls. The remaining 51 catalog creatures still need this level of research; SPECIES-FACTS-LEDGER.md tracks each entry.
 
 
 ## Health, cleaning and recovery
