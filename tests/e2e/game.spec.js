@@ -1,6 +1,44 @@
 import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
+import fs from 'node:fs/promises';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
+
+test('named dive files round-trip through download and import without overwriting other slots',async({page})=>{
+ await ready(page);await practice(page,'Foxface');await clickButton(page,{name:'Save / load'});
+ await page.getByLabel('Dive name').fill('Zoë’s <reef> 🐠');
+ await page.getByRole('button',{name:'Save here'}).first().click();
+ const otherSlot=await page.evaluate(()=>localStorage.getItem('atoll-save-1'));
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});
+  expect(await page.locator('.panel-body').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
+  await page.screenshot({path:`artifacts/saved-dives-${width}.png`});
+ }
+ const downloading=page.waitForEvent('download');await page.getByRole('button',{name:'Export dive file'}).click();
+ const download=await downloading;expect(download.suggestedFilename()).toBe('Zoë’s -reef- 🐠.atoll');
+ const raw=await fs.readFile(await download.path(),'utf8'),file=JSON.parse(raw);
+ expect(file.name).toBe('Zoë’s <reef> 🐠');
+ await page.getByRole('button',{name:'Done',exact:true}).click();
+ await page.evaluate(()=>{window.atoll.simulation.score=12345;});
+ await clickButton(page,{name:'Save / load'});
+ await page.locator('#dive-file').setInputFiles({name:'broken.atoll',mimeType:'application/json',buffer:Buffer.from('{}')});
+ await expect(page.getByRole('status')).toContainText('not a supported');
+ expect(await page.evaluate(()=>window.atoll.simulation.score)).toBe(12345);
+ await expect(page.getByRole('button',{name:'Import dive file'})).toBeFocused();
+ await page.locator('#dive-file').setInputFiles({name:'reef.atoll',mimeType:'application/json',buffer:Buffer.from(raw)});
+ await expect(page.getByRole('dialog')).toContainText('Open this dive?');
+ expect(await page.evaluate(()=>window.atoll.simulation.score)).toBe(12345);
+ await page.getByRole('button',{name:'Back',exact:true}).click();
+ expect(await page.evaluate(()=>window.atoll.simulation.score)).toBe(12345);
+ await page.locator('#dive-file').setInputFiles({name:'reef.atoll',mimeType:'application/json',buffer:Buffer.from(raw)});
+ await page.getByRole('button',{name:'Open dive',exact:true}).click();
+ expect(await page.evaluate(()=>window.atoll.simulation.score)).toBe(file.state.score);
+ expect(await page.evaluate(()=>localStorage.getItem('atoll-save-1'))).toBe(otherSlot);
+ await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ await clickButton(page,{name:'Saved dives'});
+ await expect(page.locator('.save-row').first()).toContainText('Zoë’s <reef> 🐠');
+ await page.locator('.save-row').first().getByRole('button',{name:'Load dive'}).click();
+ await clickButton(page,{name:'Save / load'});await expect(page.getByLabel('Dive name')).toHaveValue('Zoë’s <reef> 🐠');
+});
 
 test('Tournament previews every life in the actual play order and supports keyboard scrolling',async({page})=>{
  for(const [width,height] of [[1600,900],[1024,768]]){

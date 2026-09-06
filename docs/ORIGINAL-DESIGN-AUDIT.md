@@ -101,6 +101,10 @@ The unit/asset suite passes 103 tests; the browser suite passes 27 scenarios, in
 
 Only fullscreen and its supporting UI/documentation are changed in the accompanying build. The audit is a repair plan, not a claim that its open gameplay gaps have already been fixed.
 
+## Named-save follow-up: G27 portability implemented in source
+
+Dive names, portable `.atoll` export, validated import with preview, and named local-slot persistence now cover the missing naming/backup capabilities. Old local saves remain loadable; invalid or cancelled imports leave the active dive intact. See [PORTABLE-SAVES.md](PORTABLE-SAVES.md) for validation and limits. Ctrl+S remains a local Last-dive save, rather than overwriting an exported file. This is subsequent to the parked population ZIP. No ecology or difficulty rules changed.
+
 ## Tournament preview follow-up
 
 The Windows manual's printed page 6 explicitly describes a complete ordered list of playable creatures, with the first life highlighted and its information shown alongside. The remake previously abbreviated Tournament to seven names, an ellipsis and the final shark. The preview now exposes all 55 entries in a numbered, keyboard-scrollable list beside the first life's information. It uses the actual pending simulation sequence, so preview and play cannot independently reorder the roster. Challenge retains its four-life preview.

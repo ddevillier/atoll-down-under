@@ -10,6 +10,8 @@ The current testing build is `dist/Atoll-Down-Under-Windows-Populations-2026-09-
 
 The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations and consistent poison score penalties. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-POPULATIONS-BUILD.md).
 
+Newer source also has the complete Tournament roster preview and [named, portable dive files](docs/PORTABLE-SAVES.md). These two follow-ups are not yet in the parked population ZIP.
+
 From source (Node.js 22 or later):
 
 ```sh
