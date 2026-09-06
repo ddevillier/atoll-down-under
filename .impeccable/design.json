@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-06T17:48:06.548Z",
+  "generatedAt": "2026-09-06T19:28:52.593Z",
   "title": "Design System: Atoll Down Under",
   "extensions": {
     "colorMeta": {
@@ -235,6 +235,14 @@
       "micro": {
         "displayName": "DM Sans Micro",
         "purpose": "Meter labels and sequence chips."
+      },
+      "diet": {
+        "displayName": "DM Sans Diet",
+        "purpose": "Persistent game diet in the current fish identity; 11px with 1.25 line height."
+      },
+      "diet-compact": {
+        "displayName": "DM Sans Compact Diet",
+        "purpose": "Diet at desktop widths up to 1100px; 10.5px with 1.2 line height."
       }
     },
     "shadows": [
@@ -279,6 +287,11 @@
         "name": "splash-menu-state",
         "value": "transition: none",
         "purpose": "Splash dropdown hover and keyboard focus colors change immediately; no hover brightness filter."
+      },
+      {
+        "name": "meal-reward",
+        "value": "2.2s total; 1s hold, 1.2s fade",
+        "purpose": "Show actual energy gained above a meal. Rise at 20 logical pixels per second; reduced motion holds the label still and observation pauses its lifetime."
       }
     ],
     "breakpoints": [
@@ -367,6 +380,14 @@
       "description": "Two slim numeric meters and a nine-cell map, extracted from the survival bar.",
       "html": "<div class=\"ds-instruments\"><div class=\"ds-meters\"><div class=\"ds-meter-row\"><span>Energy</span><div class=\"ds-meter\" role=\"meter\" aria-label=\"Energy\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"100\"><i></i></div><span>100</span></div><div class=\"ds-meter-row\"><span>Health</span><div class=\"ds-meter\" role=\"meter\" aria-label=\"Health\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"100\"><i></i></div><span>100</span></div></div><div class=\"ds-map\" aria-label=\"Reef section 5 of 9\"><span></span><span></span><span></span><span></span><span class=\"ds-map-active\"></span><span></span><span></span><span></span><span></span></div></div>",
       "css": ".ds-instruments{font-family:AtollSans,Arial,sans-serif;color:var(--ink,#163c43);display:flex;align-items:center;gap:22px;padding:9px 2%;background:#f4f0e0f5;border-top:1px solid #d9d5bd}.ds-meters{display:grid;gap:7px;min-width:175px;flex:1;max-width:290px}.ds-meter-row{display:grid;grid-template-columns:47px 1fr 30px;gap:8px;align-items:center;font-size:10px}.ds-meter{height:9px;background:#d1d9cd;border:1px solid #b4c2b8}.ds-meter i{display:block;height:100%;background:#6e9b66;transition:background .18s linear}.ds-meter i.ds-warning{background:#c7a34b}.ds-meter i.ds-danger{background:#c36850}.ds-map{display:grid;grid-template-columns:repeat(3,13px);grid-template-rows:repeat(3,11px);gap:3px;padding:4px}.ds-map span{border:1px solid #809e94;background:#d7dfcd}.ds-map span.ds-map-active{background:#256a6e}@media(prefers-reduced-motion:reduce){.ds-meter i{transition:none}}@media(max-width:1100px){.ds-instruments{gap:12px}.ds-meters{min-width:150px}}"
+    },
+    {
+      "name": "Current Fish Diet",
+      "kind": "custom",
+      "refersTo": "diet-reminder",
+      "description": "Read-only food categories beside the current fish. Individual prey still obey size, armor and poison rules.",
+      "html": "<small class=\"ds-diet\"><span>Diet:</span> crabs · snails · urchins · smaller fish</small>",
+      "css": ".ds-diet{display:block;max-width:220px;margin-top:3px;font:11px/1.25 AtollSans,Arial,sans-serif;color:var(--ink,#163c43)}.ds-diet span{color:var(--muted,#426269)}@media(max-width:1100px){.ds-diet{max-width:195px;margin-top:1px;font-size:10.5px;line-height:1.2}}"
     }
   ],
   "narrative": {

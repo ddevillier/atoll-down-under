@@ -37,6 +37,14 @@ typography:
   micro:
     fontFamily: "AtollSans, Arial, sans-serif"
     fontSize: "10px"
+  diet:
+    fontFamily: "AtollSans, Arial, sans-serif"
+    fontSize: "11px"
+    lineHeight: 1.25
+  diet-compact:
+    fontFamily: "AtollSans, Arial, sans-serif"
+    fontSize: "10.5px"
+    lineHeight: 1.2
 rounded:
   toast: "3px"
   panel: "4px"
@@ -49,6 +57,10 @@ spacing:
   panel-inset: "27px"
   two-column-gap: "28px"
 components:
+  diet-reminder:
+    textColor: "{colors.ink}"
+    typography: "{typography.diet}"
+    width: "220px"
   button-primary:
     backgroundColor: "{colors.teal}"
     textColor: "{colors.on-teal}"
@@ -244,9 +256,15 @@ Create-a-Fish text fields and selects share the light surface and thin border. S
 
 Two slim labeled meters show energy and health as a fill plus numeric value. Each row uses columns of 47px, a flexible track, and 30px, with 8px gaps. The three-by-three map highlights the current section and sits beside the day/night icon. Creature identity, meters, map, score, and actions occupy one compact horizontal bar.
 
+A persistent diet reminder sits below the current fish's name and mode, using the existing food types in readable words. It uses 11px ink text with a muted "Diet:" label, a 220px maximum width and a 3px top gap. At the compact breakpoint it uses 10.5px text, a 195px maximum width and a 1px gap; HUD vertical padding becomes 7px. Long diets wrap within the existing bar height. This is a game-diet reminder; individual prey still obey size, armor and poison rules.
+
 ### Feedback and tags
 
 World notifications appear near the top center in a dark translucent toast. Survival-state feedback sits above the bottom bar; control reminders sit at the lower left. Canvas tags use 15px DM Sans inside small dark rectangles.
+
+A clicked meal has a cream ellipse with a dark under-stroke and a name tag while the fish approaches it. The status badge explains that moving the cursor cancels the approach; the usual control hint is hidden during that state. The marker follows moving prey and disappears on cancellation, completion, disappearance or observation pause. After a successful meal, a nearby tag shows the rounded energy actually gained, or "Meal taken" when the gain is below one point. It holds briefly, fades out over a 2.2-second lifetime, and freezes with observation; reduced motion keeps the tag stationary above the meal.
+
+Renewable food patches reduce their rendered scale with the remaining food, and plankton clouds lose visible particles. Their selection areas remain generous and unchanged. Full depletion and regrowth follow the existing simulation; this is readable game feedback rather than a depiction of biological growth rates. No artwork files are modified by these renderer treatments.
 
 When a dialog is open, feedback appears in a visible sand-colored status strip directly below its heading, not behind the modal. The shipped strip uses 12px text, a 1.5 line height, and 10px by 27px padding. Notification text is also announced accessibly.
 

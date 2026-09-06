@@ -40,3 +40,28 @@ test('an observation pause does not accept swimming or eating commands',()=>{
  s.point(1100,200);assert.equal(s.eatAt(food.x,food.y),false);
  assert.equal(s.serialize(),before);
 });
+
+test('a meal consumed by a neighbor cancels the approach without pursuing an empty spot',()=>{
+ const {s,food}=fixture();s.eatAt(food.x,food.y);ticks(s,.25);
+ const before={x:s.player.x,y:s.player.y};food.regrow=8;
+ s.step(1/60);assert.equal(s.mealTarget,null);assert.equal(s.player.target,null);
+ assert.deepEqual({x:s.player.x,y:s.player.y},before);
+ assert.match(s.events.at(-1).text,/meal is no longer available/);
+ ticks(s,9);assert.deepEqual({x:s.player.x,y:s.player.y},before);
+ assert.equal(s.events.filter(e=>e.text.includes('no longer available')).length,1);
+ assert.equal(s.eatAt(food.x,food.y),true);assert.equal(s.mealTarget,food);ticks(s,5);
+ assert.equal(food.amount,65);
+});
+
+test('a vanished animal meal is also released and new steering works immediately',()=>{
+ const {s}=fixture(),prey=structuredClone(s.player);Object.assign(prey,{id:'meal',x:350,y:300});s.section.entities=[prey];
+ s.eatAt(prey.x,prey.y);prey.alive=false;prey.respawn=24;s.step(1/60);
+ assert.equal(s.mealTarget,null);assert.equal(s.player.target,null);
+ s.point(1100,250);ticks(s,5);assert.ok(distance(s.player,s.pointer)<8);
+});
+
+test('meal feedback reports the energy actually gained when the meter is nearly full',()=>{
+ const {s,food}=fixture();s.player.energy=98;s.consume(food);
+ const meal=s.events.find(e=>e.type==='eat');assert.equal(meal.energyGained,2);assert.equal(s.player.energy,100);
+ s.player.biteCooldown=0;s.consume(food);assert.equal(s.events.at(-1).energyGained,0);
+});

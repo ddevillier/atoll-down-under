@@ -79,6 +79,10 @@ export class Simulation {
   return {entities,food};
  }
  get section(){return this.sections[this.current];}
+ get mealTarget(){
+  const id=this.player?.target;
+  return id?(this.section?.entities.find(e=>e.id===id&&e.alive)||this.section?.food.find(f=>f.id===id&&f.regrow<=0)||null):null;
+ }
  relationship(e){
   if(e.species?.ability==='clean')return 'A cleaning partner. Wait nearby to observe the cleaning interaction; clicking during swimming attempts to eat it.';
   if(e.species?.poison||(e.food==='sponge'&&!this.player.species.diet.includes('sponge')))return 'Unsuitable food for many reef dwellers. Compare this organism with your fish’s diet in the field guide.';
@@ -127,9 +131,9 @@ export class Simulation {
   else if(!good){p.energy-=2;this.event('reject',b?.armor?name+' is too well armored for your fish.':name+' is not part of your diet.');}
   else{
    const whole=target.kind!=='food';const gain=whole?clamp(b.size*.33,12,65):FOODS[target.food].nutrition;
-   p.energy=clamp(p.energy+gain,0,100);const points=whole?1000:500;if(this.mode!=='practice'){this.score+=points;this.stageScore+=points;}
+   const energyBefore=p.energy;p.energy=clamp(p.energy+gain,0,100);const points=whole?1000:500;if(this.mode!=='practice'){this.score+=points;this.stageScore+=points;}
    if(whole){target.alive=false;target.respawn=20;}else{target.amount-=35;if(target.amount<=0){target.regrow=8;target.amount=100;}}
-   this.event('eat','A good meal: '+name+'.',{points:this.mode==='practice'?0:points,x:target.x,y:target.y});
+   this.event('eat','A good meal: '+name+'.',{points:this.mode==='practice'?0:points,energyGained:p.energy-energyBefore,x:target.x,y:target.y});
   }
   p.target=null;this.pointer={x:p.x,y:p.y};
  }
@@ -145,8 +149,8 @@ export class Simulation {
  step(dt){
   if(this.paused||this.phase!=='playing'||!this.player)return;
   dt=Math.min(dt,.05);this.time+=dt;const p=this.player;p.cooldown=Math.max(0,p.cooldown-dt);p.abilityTime=Math.max(0,p.abilityTime-dt);p.biteCooldown=Math.max(0,p.biteCooldown-dt);
-  let target=p.target?this.section.entities.find(e=>e.id===p.target&&e.alive)||this.section.food.find(f=>f.id===p.target&&f.regrow<=0):null;
-  if(p.target&&!target)p.target=null;
+  const target=this.mealTarget;
+  if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y};
   if(dist>7){
    p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);

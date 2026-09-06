@@ -2,6 +2,51 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('feeding shows the chosen meal, actual reward and a diminishing patch at both sizes',async({page})=>{
+ test.setTimeout(70000);
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page);
+  await expect(page.locator('.diet-reminder')).toContainText('Plankton · Algae');
+  const site=await page.evaluate(()=>{
+   const s=window.atoll.simulation,f=s.section.food.find(f=>f.food==='algae');
+   s.section.entities=[];s.section.food=[f];Object.assign(f,{x:300,y:300});
+   Object.assign(s.player,{x:900,y:300,angle:Math.PI,energy:40});s.point(900,300);window.atoll.renderer.reducedMotion=true;
+   window.foodCoverage=()=>{const c=document.createElement('canvas');c.width=128;c.height=128;const ctx=c.getContext('2d');window.atoll.renderer.drawFood(ctx,{...f,x:64,y:64},0);return Array.from(ctx.getImageData(0,0,128,128).data).filter((a,i)=>i%4===3&&a>25).length;};
+   return {x:f.x,y:f.y,full:window.foodCoverage()};
+  });
+  const box=await page.locator('#reef').boundingBox(),meal={x:box.x+site.x/1600*box.width,y:box.y+(site.y+55)/900*box.height};
+  await page.mouse.click(meal.x,meal.y);await expect(page.locator('#state-badge')).toContainText('Approaching Algae');
+  await expect(page.locator('.controls-hint')).toBeHidden();
+  await page.screenshot({path:`artifacts/feeding-target-${width}.png`});
+  await page.mouse.move(box.x+1100/1600*box.width,box.y+305/900*box.height);
+  await expect(page.locator('#state-badge')).toBeHidden();expect(await page.evaluate(()=>window.atoll.simulation.mealTarget)).toBeNull();
+  await page.mouse.click(meal.x,meal.y);
+  await page.evaluate(()=>{window.atoll.simulation.section.food[0].regrow=8;});
+  await expect(page.locator('.toast')).toContainText('That meal is no longer available');
+  await expect(page.locator('#state-badge')).toBeHidden();
+  await page.evaluate(()=>{window.atoll.simulation.section.food[0].regrow=0;});
+  await page.mouse.click(meal.x,meal.y);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].amount),{timeout:10000}).toBe(65);
+  await page.keyboard.press('Escape');
+  expect(await page.evaluate(()=>window.atoll.renderer.effects.find(e=>e.type==='eat')?.label)).toBe('+15 energy');
+  expect(await page.evaluate(()=>window.foodCoverage())).toBeLessThan(site.full*.85);
+  await page.screenshot({path:`artifacts/feeding-meal-${width}.png`});
+  await page.keyboard.press('Escape');
+  for(const amount of [30,100]){
+   await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.biteCooldown)).toBe(0);
+   await page.mouse.click(meal.x,meal.y);await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].amount)).toBe(amount);
+  }
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].regrow)).toBeGreaterThan(0);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].regrow),{timeout:10000}).toBe(0);
+  expect(await page.evaluate(()=>window.foodCoverage())).toBe(site.full);
+  // A long diet must fit the same HUD without hiding controls or overflowing.
+  await ready(page);await practice(page,'Humphead wrasse');await page.keyboard.press('Escape');
+  await expect(page.locator('.diet-reminder')).toContainText('crabs · snails · urchins · smaller fish');
+  const fits=await page.locator('.hud').evaluate(h=>{const box=h.getBoundingClientRect();return [...h.children,...h.querySelectorAll('.diet-reminder,.tool-button')].every(e=>{const r=e.getBoundingClientRect();return r.left>=box.left&&r.right<=box.right&&r.top>=box.top&&r.bottom<=box.bottom;});});
+  expect(fits).toBe(true);await page.screenshot({path:`artifacts/feeding-hud-long-${width}.png`});
+ }
+});
+
 test('mouse edge travel works at both desktop sizes without a pursuer jumping ahead',async({page})=>{
  test.setTimeout(60000);
  for(const [width,height] of [[1600,900],[1024,768]]){
@@ -17,13 +62,21 @@ test('mouse edge travel works at both desktop sizes without a pursuer jumping ah
     const hunter=structuredClone(window.travelHunter);
     Object.assign(hunter,{id:'travel-hunter',x:p.x-dx*220,y:p.y-dy*220,angle:Math.atan2(dy,dx),target:'player',pursuit:0,satiated:0,rest:0,think:1,health:100,alive:true});
     s.section.entities=[hunter];
+    const transition=Object.getPrototypeOf(s).transition;
+    window.travelCrossing=null;
+    s.transition=function(dx,dy){
+     const before=Math.hypot(hunter.x-p.x,hunter.y-p.y),changed=transition.call(this,dx,dy);
+     if(changed)window.travelCrossing={before,after:Math.hypot(hunter.x-p.x,hunter.y-p.y),entering:hunter.entering};
+     return changed;
+    };
    },{dx,dy});
    const box=await page.locator('#reef').boundingBox(),x=dx>0?1586:dx<0?14:800,y=dy>0?726:dy<0?14:350;
    await page.mouse.move(box.x+x/1600*box.width,box.y+(y+55)/900*box.height);
-   await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.current),{timeout:5000}).toBe(next);
+   await page.waitForFunction(next=>window.atoll.simulation.current===next,next,{timeout:5000});
    await page.keyboard.press('Escape');
-   const result=await page.evaluate(()=>{const s=window.atoll.simulation,p=s.player,e=s.section.entities.find(e=>e.id==='travel-hunter');return {gap:Math.hypot(e.x-p.x,e.y-p.y),injury:p.biteDamage,entering:e.entering,paused:s.paused};});
-   expect(result.gap).toBeGreaterThan(180);expect(result.injury).toBe(0);expect(result.entering).toBe(true);expect(result.paused).toBe(true);
+   const result=await page.evaluate(()=>{const s=window.atoll.simulation;return {crossing:window.travelCrossing,injury:s.player.biteDamage,paused:s.paused};});
+   expect(result.crossing.after).toBeCloseTo(result.crossing.before,8);expect(result.crossing.after).toBeGreaterThan(180);
+   expect(result.crossing.entering).toBe(true);expect(result.injury).toBe(0);expect(result.paused).toBe(true);
   }
   await page.screenshot({path:`artifacts/habitat-travel-${width}.png`});
  }
