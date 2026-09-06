@@ -21,7 +21,7 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s14 | Oriental sweetlip | Pending identification and sourced facts |
 | s15 | Parrotfish | Pending identification and sourced facts |
 | s16 | Coral grouper | Pending identification and sourced facts |
-| s17 | Blackfin barracuda | Pending identification and sourced facts |
+| s17 | Blackfin barracuda | Written: Sphyraena qenie; source in guide |
 | s18 | Crocodile needlefish | Written: Tylosurus crocodilus; source in guide |
 | s19 | Cuttlefish | Written: Sepiidae (cuttlefishes; family); source in guide |
 | s20 | Lionfish | Written: Pterois (lionfishes; genus); source in guide |
@@ -33,7 +33,7 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s26 | Whitemouth moray | Written: Gymnothorax meleagris; source in guide |
 | s27 | Blue-spotted stingray | Pending identification and sourced facts |
 | s28 | Rainbow runner | Written: Elagatis bipinnulata; source in guide |
-| s29 | Humphead wrasse | Pending identification and sourced facts |
+| s29 | Humphead wrasse | Written: Cheilinus undulatus; source in guide |
 | s30 | Humbug damselfish | Written: Dascyllus aruanus; source in guide |
 | s31 | Whitespot hawkfish | Pending identification and sourced facts |
 | s32 | Blacktip reef shark | Written: Carcharhinus melanopterus; source in guide |
@@ -42,8 +42,8 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s35 | Tiger shark | Written: Galeocerdo cuvier; source in guide |
 | s36 | Wobbegong | Pending identification and sourced facts |
 | s37 | Electric ray | Pending identification and sourced facts |
-| s38 | Giant grouper | Pending identification and sourced facts |
-| s39 | Coral trout | Pending identification and sourced facts |
+| s38 | Giant grouper | Written: Epinephelus lanceolatus; source in guide |
+| s39 | Coral trout | Written: Plectropomus leopardus; source in guide |
 | s40 | Longfin batfish | Written: Platax pinnatus; source in guide |
 | s41 | Trumpetfish | Pending identification and sourced facts |
 | s42 | Yellowtail fusilier | Pending identification and sourced facts |
@@ -53,14 +53,14 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s46 | Reef crab | Written: Brachyura (true crabs; group); source in guide |
 | s47 | Red sea star | Written: Asteroidea (sea stars; group); source in guide |
 | s48 | Orange-spotted filefish | Written: Oxymonacanthus longirostris; source in guide |
-| s49 | Doublelined mackerel | Pending identification and sourced facts |
-| s50 | Yellowspot emperor | Pending identification and sourced facts |
-| s51 | Golden snapper | Pending identification and sourced facts |
-| s52 | Pencilled rabbitfish | Pending identification and sourced facts |
+| s49 | Doublelined mackerel | Written: Grammatorcynus bilineatus; source in guide |
+| s50 | Yellowspot emperor | Written: Gnathodentex aureolineatus; source in guide |
+| s51 | Golden snapper | Written: Lutjanus johnii; source in guide |
+| s52 | Pencilled rabbitfish | Written: Siganus doliatus; source in guide |
 | s53 | Flashlight fish | Pending identification and sourced facts |
 | s54 | Painted frogfish | Written: Antennarius pictus; source in guide |
 | s55 | Silver trevally | Pending identification and sourced facts |
-| s56 | Longfin bannerfish | Pending identification and sourced facts |
+| s56 | Longfin bannerfish | Written: Heniochus acuminatus; source in guide |
 | s57 | Checkerboard hawkfish | Pending identification and sourced facts |
 | s58 | Purple anthias | Pending identification and sourced facts |
 | s59 | Longsnout flathead | Pending identification and sourced facts |

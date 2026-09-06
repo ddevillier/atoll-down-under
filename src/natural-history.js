@@ -1,6 +1,69 @@
 // Independently written summaries of cited museum, government, aquarium and university sources.
 // Real-world measurements are separate from sprite size and game balance.
 export const NATURAL_HISTORY={
+ s50:{scientific:'Gnathodentex aureolineatus',family:'Lethrinidae · emperors',length:'Up to 30 cm total length',
+  paragraphs:[
+   'A bright yellow blotch below the rear dorsal fin stands out on this striped fish. Also called the goldspot seabream, it has rows of pale spots on the upper body and brownish-orange stripes below.',
+   'It lives around coastal reefs, lagoons and outer slopes, sometimes gathering in large daytime schools. Feeding takes place at night, when it takes bottom-dwelling animals such as crabs and snails, with small fishes sometimes included.'
+  ],question:'Would a fish seen in a daytime school necessarily be feeding? What behavior would provide better evidence?',
+  limit:'The game currently puts this fish in daytime scenes. Its documented nighttime feeding is stated here separately; a future activity correction needs gameplay checks.',
+  source:'Dianne J. Bray · Fishes of Australia: Goldspot Seabream',url:'https://fishesofaustralia.net.au/home/species/2222'},
+ s56:{scientific:'Heniochus acuminatus',family:'Chaetodontidae · butterflyfishes',length:'Up to 25 cm',
+  paragraphs:[
+   'A long dorsal streamer trails above a pale body crossed by two broad black bands. Yellow on the tail and soft dorsal fin adds another useful identification clue.',
+   'Longfin bannerfish live in sheltered coastal bays and coral-reef waters of the tropical Indo-Pacific. Their food includes animal plankton and bottom-living invertebrates. The similar schooling bannerfish has a shorter snout and a more rounded outline beneath the head.'
+  ],question:'Compare this fish with the Moorish idol. Which markings and body shapes are alike, and which are different?',
+  limit:'The game simplifies its food to plankton and worms. A long streamer alone does not verify species identity; closely related bannerfishes need careful comparison.',
+  source:'Australian Museum · Longfin Bannerfish',url:'https://australian.museum/learn/animals/fishes/longfin-bannerfish-heniochus-acuminatus-linnaeus-1758/'},
+ s49:{scientific:'Grammatorcynus bilineatus',family:'Scombridae · mackerels',
+  paragraphs:[
+   'This slender fish is blue-green above and silver below. Its lateral line divides, with one branch curving down behind the pectoral fin before following the lower side. That feature gives the doublelined mackerel its name.',
+   'Also called the scad mackerel, it forms dense schools near reefs, especially outer walls and deep, clear slopes. It eats small fishes and crustaceans. A school of hunters can be part of a reef community as well as schools of smaller prey.'
+  ],question:'Compare a compact school with scattered individuals. How does grouping change the amount of open water between fish?',
+  limit:'The game does not give this species a dedicated schooling routine or its full crustacean diet. Its chase speed is a balance setting.',
+  source:'Dianne J. Bray and S. Schultz · Fishes of Australia: Scad Mackerel',url:'https://fishesofaustralia.net.au/home/species/722'},
+ s51:{scientific:'Lutjanus johnii',family:'Lutjanidae · snappers',
+  paragraphs:[
+   'Golden snapper have a yellowish, bronze-to-silver body with a large dark blotch high on the side. Small reddish-brown marks on the scales form fine lines along the body.',
+   'They use coastal and estuarine reefs, including silty places where the water is less clear. Young fish occur among mangroves. Their meals include fishes, shrimps, crabs and cephalopods; a muddy habitat can support a rich food supply.'
+  ],question:'Compare a clear outer reef with a silty coastal reef. What might change about the distance at which animals can see one another?',
+  limit:'The game keeps every nighttime scene clear enough to play. It does not simulate mangrove nurseries, turbidity or life-stage habitat changes.',
+  source:'Dianne J. Bray · Fishes of Australia: Golden Snapper',url:'https://fishesofaustralia.net.au/home/species/558'},
+ s52:{scientific:'Siganus doliatus',family:'Siganidae · rabbitfishes',
+  paragraphs:[
+   'Also called the bluelined or pencil-streaked rabbitfish, this fish has fine blue lines and two slanting dark bands near the head. Its dorsal and tail fins are yellow, and its stout fin spines are venomous.',
+   'Pairs and schools graze turf algae, larger seaweeds and seagrass in shallow, sheltered reef habitats. A pair is not always isolated: tracking studies have found coordinated movements involving many pairs.'
+  ],question:'Compare a rabbitfish pair with a whole school. What observations would help tell whether the same two fish stay together?',
+  limit:'The catalog name is matched to the pencil-streaked rabbitfish; the sprite still needs identification review. Pair bonds and coordinated migrations are not simulated.',
+  source:'Dianne J. Bray · Fishes of Australia: Bluelined Rabbitfish',url:'https://fishesofaustralia.net.au/home/species/1049'},
+ s17:{scientific:'Sphyraena qenie',family:'Sphyraenidae · barracudas',length:'Up to 1.7 m total length',
+  paragraphs:[
+   'Dark bars run along this large barracuda’s body. Each bar slopes above the middle of the side and becomes more upright below it. The tail is mostly dark, with two small lobes along its rear edge in adults.',
+   'Blackfin barracudas use coastal waters and coral reefs. Australian records extend from Ningaloo Reef around the tropical north to New South Wales. Similar barracudas have different tail colors or fin shapes, so several features are needed for identification.'
+  ],question:'Compare the bars and tail with another long, silver fish. Which details would be easiest to see at a distance?',
+  limit:'The game’s speed and burst ability are authored values. This source supports identification, size and habitat, rather than the exact chase behavior.',
+  source:'Dianne J. Bray · Fishes of Australia: Blackfin Barracuda',url:'https://fishesofaustralia.net.au/home/species/2554'},
+ s29:{scientific:'Cheilinus undulatus',family:'Labridae · wrasses',
+  paragraphs:[
+   'A large adult has thick lips and a rounded hump above the eyes. Young humphead wrasses look different, with wavy dark lines behind the eye and a yellow edge on the tail. They live on tropical Indo-Pacific reefs.',
+   'Their food includes crustaceans, molluscs, fishes and echinoderms such as sea urchins. These long-lived fish take years to mature. Some females later become males, and adults gather to spawn on outer reefs.'
+  ],question:'Compare its mouth with the cleaner wrasse’s mouth. How can relatives have very different ways of finding food?',
+  limit:'The game’s crushing trait represents access to selected hard foods. Growth, sex change and spawning gatherings are not simulated.',
+  source:'Fishes of Australia · Humphead Maori Wrasse',url:'https://fishesofaustralia.net.au/home/species/2962'},
+ s38:{scientific:'Epinephelus lanceolatus',family:'Groupers',
+  paragraphs:[
+   'Also called the Queensland groper, this is a huge, heavy-bodied reef fish. Small juveniles are yellow with broad dark markings; adults become mottled gray-brown with darker or yellowish fins.',
+   'It usually lives alone, using habitats that include caves, wrecks, rocky shores, estuaries and reefs. A large individual may hover in the water or remain still on the bottom. A big fish does not need to be constantly on the move.'
+  ],question:'Watch a large fish hovering. How is staying in one place different from being unable to move?',
+  limit:'The game uses one size and one appearance. Its food list and crushing rules are simplified, and juvenile color changes are not simulated.',
+  source:'Dianne J. Bray · Fishes of Australia: Queensland Groper',url:'https://fishesofaustralia.net.au/home/species/4672'},
+ s39:{scientific:'Plectropomus leopardus',family:'Coral groupers',
+  paragraphs:[
+   'The common coral trout has many small blue spots and a blue ring around the eye. Its body can be olive, brownish or orange-red. It can quickly change color and may become mottled while hunting.',
+   'Individuals or pairs may swim slowly near schools of smaller fish or rest on coral outcrops. Closely related coral trout can look similar; elongated spots on the head help distinguish the barcheek coral trout from this species.'
+  ],question:'Compare round spots with long dashes on a fish’s head. Why might that small detail matter more than overall color?',
+  limit:'This entry uses common coral trout as the catalog’s intended species; artwork identification remains open. The game does not change its markings during a hunt.',
+  source:'Dianne J. Bray · Fishes of Australia: Common Coral Trout',url:'https://fishesofaustralia.net.au/home/species/4518'},
  s18:{scientific:'Tylosurus crocodilus',family:'Belonidae · needlefishes',length:'Up to 1.5 m total length',
   paragraphs:[
    'Also called the crocodile longtom, this fish has an extremely long upper and lower jaw armed with sharp teeth. Its stretched-out body ends in a deeply forked tail.',

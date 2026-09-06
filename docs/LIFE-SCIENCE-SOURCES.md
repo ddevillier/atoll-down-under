@@ -14,7 +14,7 @@ Each lesson includes an observation or comparison question and states the proces
 
 ## Species natural history (checked 6 September 2026)
 
-Thirty-one entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
+Forty entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
 
 - Longnose butterflyfish: [Australian Museum](https://australian.museum/learn/animals/fishes/longnose-butterflyfish-forcipiger-longirostris-broussonet-1782/). Supports name, family, maximum length, range, habitat and diagnostic differences from the forcepsfish. The current illustration needs a species-identification art audit; its markings should not be used as a field identification reference.
 - Banggai cardinalfish: [NOAA Fisheries](https://www.fisheries.noaa.gov/species/banggai-cardinalfish). Supports name, family, length (3.4 inches converted to approximately 8.6 cm), native range, copepod diet, mouthbrooding and individually distinctive spots. The simulation's activity period remains a scenario rule pending a species activity audit; reproduction is not simulated.
@@ -46,7 +46,7 @@ Second facts batch (checked 6 September 2026):
 - Banded coral shrimp: [Oregon Coast Aquarium](https://aquarium.org/animals/banded-coral-shrimp/). Identity, approximate body length, markings, habitat, pairing, cleaning, eggs and larval dispersal. No exact larval duration or nocturnal exclusivity claimed.
 - Cuttlefish: [Australian Museum, Giant Cuttlefish](https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/). Named example supporting camouflage, changing texture, diet, communication and daytime activity. The catalog still lacks a species identification; the example is explicitly not asserted to be its identity. No claim that all cuttlefish share the giant cuttlefish's size or distribution.
 
-The remaining 33 catalog entries do not yet have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Do not infer that this partial expansion verifies the full roster's natural history. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
+The remaining 24 catalog entries do not yet have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Do not infer that this partial expansion verifies the full roster's natural history. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
 
 ## Third facts batch (checked 6 September 2026)
 
@@ -58,3 +58,17 @@ The remaining 33 catalog entries do not yet have sourced natural-history expansi
 - Whitemouth moray: [Dianne J. Bray · Fishes of Australia: Whitemouth Moray](https://fishesofaustralia.net.au/Home/species/3812). Markings, pale mouth, length and reef distribution. Natural diet and daily activity remain unverified by this source.
 - Rainbow runner: [Dianne J. Bray · Fishes of Australia: Rainbow Runner](https://fishesofaustralia.net.au/home/species/4273). Pelagic habitat, range and predominantly invertebrate feeding. No inference that the game hunter category represents dominant natural diet.
 - Longfin batfish: [Australian Museum · Longfin Batfish](https://australian.museum/learn/animals/fishes/longfin-batfish-platax-pinnatus/). Life-stage appearance, length and distribution. Common-name overlap with other Platax species is explicitly disclosed; artwork identification remains open.
+
+## Fourth facts batch (checked 6 September 2026)
+
+- Blackfin barracuda: [Dianne J. Bray · Fishes of Australia: Blackfin Barracuda](https://fishesofaustralia.net.au/home/species/2554). Markings, tail shape, length and reef distribution; no chase-speed evidence claimed.
+- Humphead wrasse: [Fishes of Australia · Humphead Maori Wrasse](https://fishesofaustralia.net.au/home/species/2962). Adult/juvenile appearance, diet, reef habitat and life cycle; no current legal or conservation status adopted.
+- Giant grouper: [Dianne J. Bray · Fishes of Australia: Queensland Groper](https://fishesofaustralia.net.au/home/species/4672). Life-stage coloration, solitary behavior and use of caves, wrecks and coastal habitats. No record-size superlative adopted.
+- Coral trout: [Dianne J. Bray · Fishes of Australia: Common Coral Trout](https://fishesofaustralia.net.au/home/species/4518). Blue spots, color changes, hunting/resting behavior and differences from related coral trout. Source biology line contradicts its own term protogynous; the sex-change claim was deliberately omitted.
+- Doublelined mackerel: [Dianne J. Bray and S. Schultz · Fishes of Australia: Scad Mackerel](https://fishesofaustralia.net.au/home/species/722). Divided lateral line, outer reef schooling, diet and appearance. Conflicting source size fields were omitted.
+- Golden snapper: [Dianne J. Bray · Fishes of Australia: Golden Snapper](https://fishesofaustralia.net.au/home/species/558). Markings, coastal/estuarine habitat, mangrove juveniles and food. No nocturnal exclusivity established.
+- Pencilled rabbitfish: [Dianne J. Bray · Fishes of Australia: Bluelined Rabbitfish](https://fishesofaustralia.net.au/home/species/1049). Common-name match, markings, venomous spines, grazing and paired movements; sprite identity still needs checking.
+- Yellowspot emperor: [Dianne J. Bray · Fishes of Australia: Goldspot Seabream](https://fishesofaustralia.net.au/home/species/2222). Markings, reef habitats, daytime schools and nighttime feeding. Common-name mapping additionally supported by NOAA species table; game daytime setting remains a documented discrepancy.
+- Longfin bannerfish: [Australian Museum · Longfin Bannerfish](https://australian.museum/learn/animals/fishes/longfin-bannerfish-heniochus-acuminatus-linnaeus-1758/). Identification, length, habitat, diet and distinction from schooling bannerfish.
+
+Yellowspot emperor name cross-check: [NOAA species table](https://downloads.regulations.gov/NOAA-NMFS-2014-0130-0016/content.pdf); its spelling aurolineatus is reconciled to the museum account aureolineatus. No fisheries rules are adopted.
