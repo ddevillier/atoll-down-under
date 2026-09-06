@@ -1,6 +1,27 @@
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 async function practice(page,search=null){await page.getByRole('button',{name:/Practice Choose/}).click();if(search){await page.getByRole('searchbox').fill(search);await page.getByRole('option').first().click();}await page.getByRole('button',{name:'Enter the reef'}).click();}
+
+test('natural history supports scientific-name search and keyboard reading at both desktop sizes',async({page})=>{
+ await ready(page);await page.getByRole('button',{name:'Field guide',exact:true}).click();
+ for(const [width,height] of [[1440,810],[1024,768]]){
+  await page.setViewportSize({width,height});await page.getByRole('searchbox').fill('Pterapogon');
+  await page.getByRole('option').click();
+  const summary=page.locator('.natural-history>summary');await summary.focus();await page.keyboard.press('Enter');
+  await expect(page.locator('.natural-history')).toHaveAttribute('open','');
+  await expect(page.locator('.natural-history-body')).toContainText('Males shelter eggs');
+  await page.locator('.history-source>summary').click();
+  await expect(page.locator('.history-source .source-url')).toContainText('fisheries.noaa.gov');
+  await page.locator('.history-source').scrollIntoViewIfNeeded();
+  const bounds=await page.locator('.natural-history-body').evaluate(e=>({scroll:e.scrollWidth,client:e.clientWidth}));
+  expect(bounds.scroll).toBeLessThanOrEqual(bounds.client+1);
+  await page.screenshot({path:`artifacts/natural-history-${width}.png`});
+  await page.getByRole('button',{name:'Return',exact:true}).scrollIntoViewIfNeeded();
+  await expect(page.getByRole('button',{name:'Return',exact:true})).toBeVisible();
+  await page.getByRole('searchbox').fill('Clown triggerfish');await page.getByRole('option').click();
+  await expect(page.locator('.natural-history>summary')).toContainText('Balistoides conspicillum');
+ }
+});
 test('a poisonous meal shows its actual cause in the ending dialog',async({page})=>{
  await ready(page);await practice(page);const food=await page.evaluate(()=>{const s=window.atoll.simulation;s.section.entities=[];const f=s.section.food.find(f=>f.food==='sponge');s.player.health=20;s.player.x=f.x-20;s.player.y=f.y;s.player.angle=0;s.point(s.player.x,s.player.y);return {x:f.x,y:f.y};});
  const box=await page.locator('#reef').boundingBox();await page.mouse.click(box.x+food.x/1600*box.width,box.y+(food.y+55)/900*box.height);

@@ -48,3 +48,8 @@ NPC predators use the same avoidance rule for poisonous player and non-player sp
 # Observable schooling
 
 Daytime open-water sections include three nearby members of one schooling species. If the player selects a schooling species, these groups match it. Idle group members align, maintain space and stay near each other; feeding, avoidance and cleaner visits take precedence. A matching player fish can swim alongside them without automatic steering being applied to the player. Inspect records the schooling behavior in field notes. This is a simplified model, not a measured simulation of species-specific schooling or a claim about an original-game mechanic. Existing saves retain their populations; eligible fish use the new behavior when they have nearby same-species neighbors.
+
+
+## Species natural history
+
+The Creatures tab offers expandable natural-history text for four researched species. Scientific names are searchable; maximum natural lengths, when sourced, are distinct from sprite size. Readers can compare anatomy, habitat, parental care and ecological relationships, with source URLs available offline. Brief game rules remain below the expansion. A sticky species browser retains navigation while the entry scrolls. The rest of the roster still needs this level of research.
