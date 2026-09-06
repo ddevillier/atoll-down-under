@@ -1,0 +1,21 @@
+import {chromium} from '@playwright/test';
+import fs from 'node:fs';
+fs.mkdirSync('artifacts',{recursive:true});
+const browser=await chromium.launch();
+const page=await browser.newPage({viewport:{width:1600,height:900},recordVideo:{dir:'artifacts/schooling-video',size:{width:1600,height:900}}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+await page.getByRole('button',{name:/Practice Choose/}).click();
+await page.getByRole('searchbox').fill('Silver sprat');await page.getByRole('option').first().click();
+await page.getByRole('button',{name:'Enter the reef'}).click();
+await page.waitForTimeout(5000);await page.screenshot({path:'artifacts/schooling-dive.png'});
+await page.waitForTimeout(5000);
+const report=await page.evaluate(()=>{
+ const s=window.atoll.simulation,group=s.section.entities.filter(e=>e.behavior==='Swimming with a school');
+ if(group[0])s.observe(group[0]);
+ return {phase:s.phase,protected:s.protected,schoolMembers:group.length,observations:s.observations};
+});
+const video=page.video();await page.close();await video.saveAs('artifacts/schooling-preview.webm');await browser.close();
+fs.writeFileSync('artifacts/schooling-report.json',JSON.stringify({...report,errors},null,2));
+console.log(JSON.stringify({...report,errors}));
+if(errors.length||report.phase!=='playing'||report.schoolMembers<2)process.exitCode=1;

@@ -40,7 +40,15 @@ export class Simulation {
    const s=pool[Math.floor(this.random()*pool.length)]||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;fish.health=60+this.random()*40;entities.push(fish);
   }
   const small=available.filter(s=>s.playable&&s.size<50&&!s.diet.includes('fish'));
-  for(let i=0;i<3;i++){const s=small[Math.floor(this.random()*small.length)];entities.push(entity(s,++this.uid,100+this.random()*(W-200),100+this.random()*(H-220)));}
+  const schooling=available.filter(s=>s.habitat==='school');
+  const school=reef.habitat==='open'&&schooling.length?(schooling.find(s=>s.id===this.player.species.id)||schooling[Math.floor(this.random()*schooling.length)]):null;
+  const schoolX=500+this.random()*450,schoolY=170+this.random()*140,schoolAngle=this.random()*Math.PI*2;
+  for(let i=0;i<3;i++){
+   const s=school||small[Math.floor(this.random()*small.length)];
+   const fish=entity(s,++this.uid,school?schoolX+i*55:100+this.random()*(W-200),school?schoolY+(i%2)*35:100+this.random()*(H-220));
+   if(school){fish.angle=schoolAngle;fish.satiated=20+this.random()*20;fish.behavior='Swimming with a school';}
+   entities.push(fish);
+  }
   const clean=entity(SPECIES[this.period==='day'?43:45],++this.uid,reef.cleaner.x,reef.cleaner.y);clean.station={...reef.cleaner};entities.push(clean);
   const food=[];let n=0;
   for(const [kind,def]of Object.entries(FOODS))for(let k=0;k<(kind==='plankton'?6:3);k++){
@@ -55,6 +63,7 @@ export class Simulation {
   if(e.species?.poison||(e.food==='sponge'&&!this.player.species.diet.includes('sponge')))return 'Unsuitable food for many reef dwellers. Compare this organism with your fish’s diet in the field guide.';
   if(edible(this.player,e))return 'Part of your fish’s food web in this model. Compare its size and food type with the diet in your field guide.';
   if(e.species&&edible(e,this.player))return 'Your fish is potential prey in this model. Watch whether this animal is feeding, digesting, or resting; it does not hunt continuously.';
+  if(e.behavior==='Swimming with a school')return 'These fish coordinate their direction and spacing with nearby members of the same species. Watch one leave to feed, then look for it rejoining the group. This is a simplified schooling model.';
   return 'A neighbor rather than a meal for your fish. Compare its diet and activity with yours to see how different lives share the reef.';
  }
  observe(e){
@@ -191,6 +200,25 @@ export class Simulation {
    }else{e.target=null;e.pursuit=0;}
   }
   else if(e.behavior.startsWith('Moving away'))speed=e.species.speed*.65;
+  // Group movement is a simplified observation model. Feeding, cleaning and
+  // immediate avoidance take precedence, so schools can separate and re-form.
+  if(e.species.habitat==='school'&&!e.target&&!e.behavior.startsWith('Moving away')){
+   const neighbors=[...this.section.entities,p].filter(b=>b!==e&&b.alive&&!b.hidden&&b.species.id===e.species.id&&distance(e,b)<260);
+   if(neighbors.length){
+    let x=0,y=0;
+    for(const b of neighbors){
+     const dx=b.x-e.x,dy=b.y-e.y,d=Math.max(1,Math.hypot(dx,dy)),spacing=Math.max(38,e.species.size*.85);
+     x+=Math.cos(b.angle)*.9+dx/120;y+=Math.sin(b.angle)*.9+dy/120;
+     if(d<spacing){const repel=(spacing-d)/spacing*4;x-=dx/d*repel;y-=dy/d*repel;}
+    }
+    // Turn the group before it piles up against the rectangular world edge.
+    x/=neighbors.length;y/=neighbors.length;
+    x+=e.x<100?(100-e.x)/35:e.x>W-100?-(e.x-W+100)/35:0;
+    y+=e.y<90?(90-e.y)/35:e.y>H-90?-(e.y-H+90)/35:0;
+    if(Math.hypot(x,y)>.01){const da=(Math.atan2(y,x)-e.angle+Math.PI*3)%(Math.PI*2)-Math.PI;e.angle+=clamp(da,-e.species.agility*dt,e.species.agility*dt);}
+    e.behavior='Swimming with a school';
+   }else if(e.behavior==='Swimming with a school')e.behavior='Exploring';
+  }
   e.x+=Math.cos(e.angle)*speed*dt;e.y+=Math.sin(e.angle)*speed*dt;e.facing=Math.cos(e.angle)>=0?1:-1;
   if(e.x<10||e.x>W-10){e.x=clamp(e.x,10,W-10);e.angle=Math.PI-e.angle;}if(e.y<25||e.y>H-20){e.y=clamp(e.y,25,H-20);e.angle=-e.angle;}
  }

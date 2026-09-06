@@ -60,3 +60,6 @@ A three-minute feeding exercise covered all 55 playable species through ordinary
 Native QA now creates a separate temporary user-data profile before entering any dive. The check refuses to proceed unless it verifies that isolation. Reproducible tools include `scripts/qa-sprites.mjs`, `scripts/qa-motion.mjs`, `scripts/qa-roster.mjs` and `scripts/qa-package.mjs`.
 
 Fatal poisoning now identifies the poisonous meal rather than incorrectly blaming parasites. A unit check and browser interaction cover that causal feedback.
+# Schooling revision
+
+Current checks: 42 unit/asset tests and 14 browser tests passed. Five new tests cover same-species groups, spacing through an extended swim, leaving to feed, coordination with a player without taking control, and deterministic save/restore. A normal Silver sprat dive showed three schooling neighbors after ten seconds, remained in protected exploration, and recorded the behavior in field notes without renderer errors. Screenshot inspected; recording: `artifacts/schooling-preview.webm`. This verifies one live example, not long-term behavior for every population. The original-game fidelity and broader educational-content audit remain unfinished.
