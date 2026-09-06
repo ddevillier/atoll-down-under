@@ -19,14 +19,17 @@ app.whenReady().then(() => {
   const window = new BrowserWindow({ width: 1440, height: 850, minWidth: 960, minHeight: 600, fullscreen: true, backgroundColor: '#082e39', icon: path.join(app.getAppPath(),'assets/icon.png'), title: 'Atoll Down Under', show: false, webPreferences: { preload: path.join(__dirname,'preload.cjs'), nodeIntegration: false, contextIsolation: true, sandbox: true } });
   const ownFrame=event=>event.sender===window.webContents&&event.senderFrame===window.webContents.mainFrame&&event.senderFrame.url.startsWith('atoll://game/');
   ipcMain.handle('atoll:fullscreen-state',event=>{if(!ownFrame(event))throw new Error('Unavailable');return window.isFullScreen();});
-  ipcMain.handle('atoll:fullscreen-toggle',event=>{if(!ownFrame(event))throw new Error('Unavailable');window.setFullScreen(!window.isFullScreen());return window.isFullScreen();});
-  const publishFullscreen=()=>window.webContents.send('atoll:fullscreen-changed',window.isFullScreen());
-  window.on('enter-full-screen',publishFullscreen);window.on('leave-full-screen',publishFullscreen);
+  const toggleFullscreen=()=>{const next=!window.isFullScreen();window.setFullScreen(next);return next;};
+  ipcMain.handle('atoll:fullscreen-toggle',event=>{if(!ownFrame(event))throw new Error('Unavailable');return toggleFullscreen();});
+  // Windows can emit these events before isFullScreen() reflects the change.
+  // The event itself supplies the state; querying in its handler sends stale UI.
+  const publishFullscreen=value=>window.webContents.send('atoll:fullscreen-changed',value);
+  window.on('enter-full-screen',()=>publishFullscreen(true));window.on('leave-full-screen',()=>publishFullscreen(false));
   Menu.setApplicationMenu(null);
   window.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   window.webContents.on('will-navigate', (event,url)=>{if(!url.startsWith('atoll://game/'))event.preventDefault();});
   window.loadURL('atoll://game/index.html');
   window.once('ready-to-show',()=>{if(!process.env.ATOLL_QA)window.show();});
-  window.webContents.on('before-input-event',(event,input)=>{if(input.key==='F11'&&input.type==='keyDown'){event.preventDefault();if(!input.isAutoRepeat)window.setFullScreen(!window.isFullScreen());}});
+  window.webContents.on('before-input-event',(event,input)=>{if(input.key==='F11'&&input.type==='keyDown'){event.preventDefault();if(!input.isAutoRepeat)toggleFullscreen();}});
 });
 app.on('window-all-closed',()=>app.quit());
