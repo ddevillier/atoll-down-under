@@ -14,7 +14,7 @@ Each lesson includes an observation or comparison question and states the proces
 
 ## Species natural history (checked 6 September 2026)
 
-Forty-five entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
+Fifty-two entries in `src/natural-history.js` add independently written natural-history summaries and observation questions. Scientific names and real-world lengths are separate from simulation parameters. Source text and photographs are not bundled.
 
 - Longnose butterflyfish: [Australian Museum](https://australian.museum/learn/animals/fishes/longnose-butterflyfish-forcipiger-longirostris-broussonet-1782/). Supports name, family, maximum length, range, habitat and diagnostic differences from the forcepsfish. The current illustration needs a species-identification art audit; its markings should not be used as a field identification reference.
 - Banggai cardinalfish: [NOAA Fisheries](https://www.fisheries.noaa.gov/species/banggai-cardinalfish). Supports name, family, length (3.4 inches converted to approximately 8.6 cm), native range, copepod diet, mouthbrooding and individually distinctive spots. The simulation's activity period remains a scenario rule pending a species activity audit; reproduction is not simulated.
@@ -46,7 +46,7 @@ Second facts batch (checked 6 September 2026):
 - Banded coral shrimp: [Oregon Coast Aquarium](https://aquarium.org/animals/banded-coral-shrimp/). Identity, approximate body length, markings, habitat, pairing, cleaning, eggs and larval dispersal. No exact larval duration or nocturnal exclusivity claimed.
 - Cuttlefish: [Australian Museum, Giant Cuttlefish](https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/). Named example supporting camouflage, changing texture, diet, communication and daytime activity. The catalog still lacks a species identification; the example is explicitly not asserted to be its identity. No claim that all cuttlefish share the giant cuttlefish's size or distribution.
 
-The remaining 19 catalog entries do not yet have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Do not infer that this partial expansion verifies the full roster's natural history. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
+The remaining 12 catalog entries do not yet have sourced natural-history expansions. Brief game descriptions remain available for all 64. Common names, artwork, activity periods and species-specific diets still need a complete consistency audit. Group entries provide useful facts but do not resolve species identification. Do not infer that this partial expansion verifies the full roster's natural history. See [SPECIES-FACTS-LEDGER.md](SPECIES-FACTS-LEDGER.md) for per-entry coverage.
 
 ## Third facts batch (checked 6 September 2026)
 
@@ -80,3 +80,13 @@ Yellowspot emperor name cross-check: [NOAA species table](https://downloads.regu
 - [Whitespot hawkfish](https://churaumi.okinawa/en/fishbook/1610175140/): Okinawa Churaumi Aquarium supports identity, size, markings, bottom habitat and small-fish/crustacean diet.
 - [Checkerboard hawkfish](https://fishesofaustralia.net.au/home/species/2428): Exact identity remains unresolved. Fishes of Australia provides Oxycirrhites typus as a clearly named example: patterned body, long snout, perching habitat and crustacean diet. It is not presented as the sprite identification.
 - [Royal gramma](https://www.aquarium-larochelle.com/en/species-encyclopedia/royal-gramma/): Aquarium La Rochelle supports identity, size, Atlantic distribution, ledge orientation, crustacean diet, occasional cleaning and nest care. Geography is explicitly flagged as inconsistent with a strictly Australian roster. Reproductive timing and sex-development claims were omitted.
+
+## Facts batch 6
+
+- [Anemonefish](https://australian.museum/learn/animals/fishes/why-dont-anemonefishes-get-stung/): Group-level protection and mucus explanations, with competing mechanisms retained as explanations rather than settled chemistry.
+- [Oriental sweetlip](https://www.aquariumbiarritz.com/en/oriental-sweetlips/): Identity, juvenile markings, Indo-Pacific distribution, benthic invertebrate feeding and sound production. The reported maximum size was not needed for this entry.
+- [Parrotfish](https://ocean.si.edu/ocean-life/fish/tough-teeth-and-parrotfish-poop): Group-level beak feeding, grazing and sand production. Does not generalize the source’s numerical sand output, tooth count or coral-feeding rate to every species.
+- [Devil scorpionfish](https://australian.museum/learn/animals/fishes/false-stonefish-scorpaenopsis-diabolus/): Museum common-name match, body form, range, length and pectoral-fin display. The proposed startle function remains qualified.
+- [Wobbegong](https://australian.museum/learn/animals/fishes/spotted-wobbegong-orectolobus-maculatus-bonnaterre-1788/): Spotted wobbegong is a named example for an unresolved generic catalog label. Markings, resting habitat, nighttime feeding and Australian range are supported; conflicting overseas records from other pages were excluded.
+- [Electric ray](https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/pacific-electric-ray): Pacific electric ray is an explicitly non-Australian example. Supports anatomy, electrical predation, nocturnal searching and disc wrapping. Voltage, human effects and ancient medical claims were excluded; aquarium web and teaching-card voltage figures disagree.
+- [Flashlight fish](https://www.aquariumofpacific.org/onlinelearningcenter/species/splitfin_flashlight_fish): Splitfin flashlight fish is a named example. Uses the source’s species-specific Pacific range, rather than its broader introductory range. Supports bacterial light organs, rotation, diet and nocturnal schooling. Inconsistent conservation labels and tentative reproduction were excluded.

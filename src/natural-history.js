@@ -1,6 +1,55 @@
 // Independently written summaries of cited museum, government, aquarium and university sources.
 // Real-world measurements are separate from sprite size and game balance.
 export const NATURAL_HISTORY={
+ s7:{scientific:'Amphiprion (anemonefishes; genus)',family:'Pomacentridae · damselfishes',
+  paragraphs:[
+   'Anemonefishes can nestle among the stinging tentacles of their host anemones. The anemone still has working stinging capsules, and the fish does not have unusually thick skin. Protection is associated with the mucus coating its body.',
+   'How that coating protects a fish is an interesting research question. The Australian Museum describes evidence for acquiring mucus from the host and for fish mucus lacking substances that trigger stings. Different host relationships may involve different explanations.'
+  ],question:'Compare a fish resting among tentacles with one swimming outside them. What observations would help explain the partnership?',
+  limit:'The catalog label covers a group, not a verified species. The game’s shelter rule does not reproduce host selection, acclimatisation or mucus chemistry.',
+  source:'Australian Museum · Why don’t anemonefishes get stung?',url:'https://australian.museum/learn/animals/fishes/why-dont-anemonefishes-get-stung/'},
+ s14:{scientific:'Plectorhinchus vittatus',family:'Haemulidae · grunts and sweetlips',
+  paragraphs:[
+   'Oriental sweetlips occur in the tropical Indo-Pacific. Young fish have a brown background with pale, creamy-yellow spots. A juvenile’s markings can be an important clue when comparing it with an adult.',
+   'These fish eat invertebrates living on or near the seabed. They can also make sounds with their teeth, with the swim bladder helping amplify the sound. Watching a fish tells only part of its story: underwater animals can produce sounds too.'
+  ],question:'Compare a young fish with an adult. Which features might change as it grows, and which would you check to identify it?',
+  limit:'The game uses one illustration and does not simulate growth-related markings or species-specific tooth sounds. Its feeding menu remains a simplified rule.',
+  source:'Aquarium de Biarritz · Oriental sweetlips',url:'https://www.aquariumbiarritz.com/en/oriental-sweetlips/'},
+ s15:{scientific:'Scarinae (parrotfishes; group)',family:'Parrotfishes · species not identified',
+  paragraphs:[
+   'Many parrotfishes bite reef surfaces with teeth joined into a beak-like structure. Feeding can remove algae and other living material along with pieces of the hard coral skeleton. Parrotfish is a group name, so one feeding description does not identify every species.',
+   'After food is digested, swallowed coral material can pass out as sand. A fish’s meals can therefore help change the reef around it. Grazing also removes algae that compete with corals for space.'
+  ],question:'Look at a grazing fish’s mouth and the surface beneath it. What traces might a meal leave behind?',
+  limit:'No exact parrotfish species has been verified for this sprite. The game does not grind reef surfaces into sand or model changes in algae and coral cover.',
+  source:'Smithsonian Ocean · Tough Teeth and Parrotfish Poop',url:'https://ocean.si.edu/ocean-life/fish/tough-teeth-and-parrotfish-poop'},
+ s21:{scientific:'Scorpaenopsis diabolus',family:'Scorpaenidae · scorpionfishes',length:'Up to 30 cm',
+  paragraphs:[
+   'Also called the false stonefish, this fish has a humped back, large head and pointed snout. Its colors vary considerably. It occurs in tropical and subtropical Indo-Pacific waters, including Australia.',
+   'The inner surfaces of its pectoral fins are yellowish with a large dark spot. When threatened, the fish spreads these fins to reveal the bright pattern. This display is thought to startle an approaching predator.'
+  ],question:'How could a fish be difficult to notice while resting, yet suddenly reveal a conspicuous pattern?',
+  limit:'This follows the Australian Museum’s devil-scorpionfish name; it does not certify the sprite. The game’s universal poison protection is an authored simplification, not a biological guarantee.',
+  source:'Australian Museum · False Stonefish',url:'https://australian.museum/learn/animals/fishes/false-stonefish-scorpaenopsis-diabolus/'},
+ s36:{scientific:'Orectolobidae (wobbegongs; family)',family:'Carpet sharks · species not identified',
+  paragraphs:[
+   'Wobbegong names several species of carpet shark. One Australian example is the spotted wobbegong, Orectolobus maculatus. It has skin flaps around the snout and pale rings over a yellowish to greenish-brown body with dark saddle markings.',
+   'Spotted wobbegongs often rest on sand or rocky reef bottoms in shallow coastal water. They feed mainly at night, taking fishes, crayfish, crabs and octopuses. A resting shark and a swimming shark need not be different kinds of animal.'
+  ],question:'Search for a shark’s outline on the seabed. Which markings make the outline harder to follow?',
+  limit:'The spotted wobbegong is a named example, not a confirmed identification of this sprite. Its documented range is largely southern Australia; the catalog’s generic wobbegong needs a separate identity review.',
+  source:'Australian Museum · Spotted Wobbegong (named example)',url:'https://australian.museum/learn/animals/fishes/spotted-wobbegong-orectolobus-maculatus-bonnaterre-1788/'},
+ s37:{scientific:'Torpediniformes (electric rays; group)',family:'Electric rays · species not identified',
+  paragraphs:[
+   'Electric rays can use electrical discharges to stun prey and discourage predators. One example is the Pacific electric ray, Tetronarce californica, which has a rounded body, small eyes and a short, thick tail.',
+   'That species lives along the Pacific coast of North America. At night it searches above sandy bottoms and nearby reefs for fishes. During capture it can curl its body disc around the prey, concentrating the electrical field and helping position the meal.'
+  ],question:'Compare this broad-bodied hunter with a narrow-bodied fish. How might their body shapes support different ways of catching food?',
+  limit:'The Pacific electric ray is an example, not an Australian species identification for the sprite. The game’s shock radius, duration and energy cost are balance settings; they are not measured electrical properties.',
+  source:'Monterey Bay Aquarium · Pacific electric ray (named example)',url:'https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/pacific-electric-ray'},
+ s53:{scientific:'Anomalopidae (flashlight fishes; family)',family:'Flashlight fishes · species not identified',
+  paragraphs:[
+   'Flashlight fishes carry light-producing bacteria in organs beneath their eyes. In the splitfin flashlight fish, Anomalops katoptron, those organs can rotate so their light is hidden or revealed. The fish controls a living light source rather than making sparks.',
+   'Splitfin flashlight fish shelter in caves and dark overhangs by day and form schools at night. They eat animal plankton and use light to help find it. This species occurs in the Pacific, including the Great Barrier Reef.'
+  ],question:'Imagine watching only the lights in a dark school. What could you learn from their spacing and changes in visibility?',
+  limit:'Splitfin flashlight fish is a named example; the sprite’s exact species remains unresolved. The game simplifies its light into an ability and does not simulate bacterial partners or coordinated flashing.',
+  source:'Aquarium of the Pacific · Splitfin Flashlight Fish (named example)',url:'https://www.aquariumofpacific.org/onlinelearningcenter/species/splitfin_flashlight_fish'},
  s3:{scientific:'Gramma loreto',family:'Royal grammas and their relatives',length:'About 8 cm',
   paragraphs:[
    'Royal grammas live around Caribbean and western Atlantic reefs, often close to caves and overhangs. They can swim belly-up beneath a ledge, orienting themselves to the nearby reef surface.',
