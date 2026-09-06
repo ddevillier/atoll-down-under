@@ -69,3 +69,8 @@ Save files persist damage and recovery delay. Older saves lack the breakdown: a 
 Widescreen presentation gives small creatures a larger display width (`max(size, 28 + 0.75 × size)`) while preserving ecological size for diet, speed, shelter and feeding rules. Large creatures retain their existing display width. Selection hit areas and inspection hover markers use the same display-size helper. This is a readability treatment, not a change to physical size or a claim of exact original sprite proportions.
 
 Paused inspection presents a close-up of the selected animal using its actual atlas illustration, alongside its activity, diet and relationship. The panel scrolls within the reef area at small desktop sizes. Transient dive messages are suppressed while a selected animal is being inspected so they do not cover the portrait. The original scene composition and current nine background paintings remain intact.
+
+
+## Splash screen
+
+The splash follows the original Windows title-screen composition in a widescreen painting: centered three-line stone title, open deep-blue water above, leaning wreck at left, upper-right light, bottom coral and swimming fish. It uses new project art and Atoll branding. The old left-aligned heading and large mode stack are replaced by a compact File / Game / Help strip. File contains saves, reef rulers, settings and an available current-dive continuation; Game contains the four modes; Help contains the field guide and instructions. Menus support pointer, arrows and Escape. Opening a modal makes the splash bar inert and puts it below the modal veil.

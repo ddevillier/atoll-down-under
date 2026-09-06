@@ -24,3 +24,10 @@ References established the broad mechanics and illustrated visual language. Wrec
 Spectral and DM Sans are self-hosted from their Fontsource packages. Their SIL Open Font License texts are included beside the fonts in `assets/fonts`. Electron and its bundled Chromium components retain their distribution license notices in the packaged application. Development dependencies are recorded in `package-lock.json` with their own licenses.
 
 No publication rights or trademark clearance are implied by this project. The user selected the working title Atoll Down Under.
+
+
+## Original-layout splash revision
+
+`assets/title/splash.png` is newly generated project artwork with Atoll Down Under lettering, using the original Windows title-screen screenshot as a composition reference. It recreates the arrangement of a centered three-line stone title, leaning wreck, blue water, upper-right light and coral foreground. A second generation corrected the title's vertical footprint. The original screenshot is not included in the application or source archive. Animated animals are the project's existing sprites drawn over the painting.
+
+The actual title-painting resolution is 1672 × 941. The generator did not supply native 4K output; rendering on a larger display does not make it a native 4K asset. Prompt summaries are recorded in `ASSET-PROMPTS.json`, and the selected output hash is recorded in `ASSET-MANIFEST.json`.

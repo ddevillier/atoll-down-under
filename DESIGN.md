@@ -13,18 +13,11 @@ colors:
   selection: "#216f71"
   tool-surface: "#e1e7d8"
   tool-primary: "#1a686b"
-  practice: "#e5c17d"
   focus: "#f4c76e"
   meter-safe: "#6e9b66"
   meter-warning: "#c7a34b"
   meter-danger: "#c36850"
 typography:
-  display:
-    fontFamily: "AtollDisplay, Georgia, serif"
-    fontSize: "clamp(58px, 7.3vw, 118px)"
-    fontWeight: 600
-    lineHeight: 0.93
-    letterSpacing: "-0.025em"
   headline:
     fontFamily: "AtollDisplay, Georgia, serif"
     fontSize: "29px"
@@ -77,14 +70,19 @@ components:
     backgroundColor: "{colors.tool-primary}"
     textColor: "#fff6d8"
     padding: "9px 12px"
-  button-mode:
-    backgroundColor: "#f5f0dfee"
-    textColor: "#123b43"
-    padding: "13px 18px"
-  button-mode-practice:
-    backgroundColor: "{colors.practice}"
-    textColor: "#123b43"
-    padding: "13px 18px"
+  splash-menu-bar:
+    backgroundColor: "#eeeedf"
+    textColor: "#153c43"
+    typography: "{typography.label}"
+    height: "30px"
+  splash-menu-item:
+    backgroundColor: "transparent"
+    textColor: "#153c43"
+    typography: "{typography.label}"
+    padding: "10px 12px"
+  splash-menu-item-hover:
+    backgroundColor: "{colors.selection}"
+    textColor: "{colors.on-teal}"
   search:
     backgroundColor: "#fffdf3"
     textColor: "{colors.ink}"
@@ -110,7 +108,7 @@ components:
 
 Richly textured natural-history reef illustrations and crisp side-profile fish carry the experience. Jewel-tone coral, luminous turquoise water, cream sand, and deep cave shadows give the world its detail. Compact warm cream and gray-green controls, dark teal lettering, and Spectral headings provide the field-guide frame.
 
-The reef dominates this desktop 16:9 scene-driven game. Menus and educational dialogs sit over the same illustrated world; interface density stays compact so the habitat and creatures remain visible. Original artwork, typography, and branding preserve the approved visual direction without copying game marks.
+The reef dominates this Windows desktop 16:9 scene-driven game. Menus and educational dialogs sit over the same illustrated world; interface density stays compact so the habitat and creatures remain visible. The splash uses centered, three-line stone Atoll Down Under lettering in deep blue water, a leaning wreck on the left, upper-right light, and a coral foreground. Original artwork and branding preserve the approved Windows Odell Down Under composition reference without bundling original game assets.
 
 **Key Characteristics:**
 
@@ -118,13 +116,14 @@ The reef dominates this desktop 16:9 scene-driven game. Menus and educational di
 - Nine distinct habitat compositions with scene-specific shelter and food placement.
 - Warm paper surfaces, restrained teal actions, and compact ecological instruments.
 - Spectral headings paired with readable DM Sans controls.
+- A painted stone splash title beneath a compact File / Game / Help menu strip.
 - Full reef readability in both daytime and nighttime play.
 
-This document merges the provisional direction from this build with the shipped implementation. Token values come from `src/style.css`; canvas-specific treatments come from `src/render.js`. Visual evidence includes the title, species selection, gameplay, inspection, error-feedback screenshots, and nine-scene contact sheet in `artifacts/`.
+This document merges the provisional direction from this build with the shipped implementation. Token values come from `src/style.css`; canvas-specific treatments come from `src/render.js`. Visual evidence includes species selection, gameplay, inspection, error-feedback screenshots, and the nine-scene contact sheet in `artifacts/`. The current splash is documented by `artifacts/splash-1600.png`, `splash-1024.png`, `splash-menu-1600.png`, `splash-menu-1024.png`, and `splash-dialog-1024.png`.
 
 ## Colors
 
-The interface uses warm paper and muted greens against the saturated turquoise, coral, violet, and sandy colors supplied by the paintings.
+The interface uses warm paper and muted greens against the saturated turquoise, coral, violet, and sandy colors supplied by the habitat paintings. The splash painting uses deeper blue water with warm stone lettering and coral.
 
 ### Primary
 
@@ -134,7 +133,6 @@ The interface uses warm paper and muted greens against the saturated turquoise, 
 
 ### Secondary
 
-- **Practice sand:** The first mode choice on the title screen.
 - **Focus gold:** Keyboard focus outlines on buttons and form controls.
 - **Survival green, warning ochre, and danger coral:** The two meter fills change with their values; textual numbers remain visible.
 
@@ -149,7 +147,7 @@ The interface uses warm paper and muted greens against the saturated turquoise, 
 - **On-teal cream:** Text on primary dialog actions.
 - **Tool surface:** Quiet survival-bar buttons.
 
-The top bar and survival bar use translucent warm paper; the artwork remains faintly visible through them. Toasts, scene labels, and inspection labels use dark translucent water tones for legibility over dense reef texture. Those literal component treatments are recorded in the sidecar.
+The gameplay top bar and survival bar use translucent warm paper; the artwork remains faintly visible through them. The splash menu strip is opaque pale paper with ink labels, and its open and hovered items use selection teal with cream text. Toasts, scene labels, and inspection labels use dark translucent water tones for legibility over dense reef texture. Those literal component treatments are recorded in the sidecar.
 
 The sidecar's tonal ramps are derived swatch previews for the design panel. They are not an additional shipped palette; the frontmatter and extracted component values remain normative.
 
@@ -157,13 +155,13 @@ The sidecar's tonal ramps are derived swatch previews for the design panel. They
 
 ## Typography
 
-**Display Font:** Spectral, loaded locally as `AtollDisplay`, with Georgia/serif fallbacks. The bundled face is weight 600.
+**Heading Font:** Spectral, loaded locally as `AtollDisplay`, with Georgia/serif fallbacks. The bundled face is weight 600.
 
 **Body Font:** DM Sans, loaded locally as `AtollSans`, with Arial/sans-serif fallbacks. The bundled variable face supports weights 100–900.
 
-Spectral gives the title and creature headings a natural-history book character. DM Sans keeps the small labels and dense facts readable. Use the frontmatter hierarchy as the normal desktop reference.
+Spectral gives dialog and creature headings a natural-history book character. DM Sans keeps the small labels and dense facts readable. Use the frontmatter hierarchy as the normal desktop reference.
 
-- **Display:** The main title uses the display token; its second line is scaled to 0.44em with a 1.5 line height and 0.04em tracking.
+- **Splash title:** The visible three-line stone lettering is part of `assets/title/splash.png`, not a font-rendered heading. The DOM supplies a visually hidden `h1` with the game name. Preserve the title as artwork; no display typography token governs it.
 - **Headline:** Dialog headings use the headline token.
 - **Title:** Creature headings use the title token; inspection headings are slightly smaller (22px).
 - **Body:** Creature descriptions use the body token. Most explanatory text and facts use 12px; dialog paragraphs use a 1.6 line height.
@@ -171,13 +169,15 @@ Spectral gives the title and creature headings a natural-history book character.
 - **Micro:** Meter labels and sequence chips use the micro token; survival-bar captions use 10–11px.
 - **Scores:** Survival scores use 18px with tabular numerals. End-state headings and large scores use 42px.
 
-At the compact desktop breakpoint, dialog headings reduce to 25px and creature headings to 22px. The title description becomes 13px; top-bar actions use 11px. These are established density adjustments, not a separate mobile type system.
+At the compact desktop breakpoint, dialog headings reduce to 25px and creature headings to 22px. Gameplay top-bar actions and scene names use 11px. The splash menu stays at 13px with 11px mode descriptions. These are established density adjustments, not a separate mobile type system.
 
 ## Layout
 
 The app is a centered 16:9 stage with width `min(100vw, 177.777vh)` and height `min(100vh, 56.25vw)`. The canvas and DOM overlay share this stage; surrounding space uses the shell background. The original desktop brief sets 1280×720 as the minimum and 1920×1080 as the reference. The renderer uses a 1600×900 logical scene and caps device-pixel-ratio scaling at 2. Compact screenshots at 1024px document the existing fallback layout, not a separate phone experience.
 
-The top navigation occupies 6.2% of stage height with a minimum of 38px. The survival bar occupies 11% with a minimum of 69px. Both use 2% horizontal insets. The title sits 6% from the left and 15% from the top; its mode menu begins at 48% of stage height with 32% stage width and 8px gaps.
+The gameplay top navigation occupies 6.2% of stage height with a minimum of 38px. The survival bar occupies 11% with a minimum of 69px. Both use 2% horizontal insets.
+
+The splash painting fills the whole stage. Its centered three-line title, left-leaning wreck, upper-right light, and bottom coral stay in the artwork's composition as the widescreen stage scales. `assets/title/splash.png` is a 1672×941 raster drawn into the renderer's 1600×900 logical scene; it is not native 4K artwork. The splash menu spans the top edge at a fixed 30px height, with File and Game at the left and Help at the right. Dropdowns open directly below the strip: File and Help are 220px wide, and Game is 310px wide. Help aligns its dropdown to the right edge. This arrangement remains intact in the 1024px compact desktop fallback.
 
 Dialogs are centered within an overlay padded by 5.5% vertically and 5% horizontally. The standard width is in frontmatter; the small dialog uses `min(520px, 85%)`. The implementation also provides a wide variant of `min(1120px, 94%)`. Dialog bodies scroll internally. Header/body/footer horizontal padding is 27px; body vertical padding is 23px.
 
@@ -193,16 +193,16 @@ The accepted scene set includes Sunlit Crest's open water, Table Coral Terrace's
 
 ## Elevation & Depth
 
-The paintings supply most depth through coral overlap, side-facing caves, textured sand, and luminous water. Interface surfaces use thin borders and tonal separation; only dialogs and inspection cards need lifted shadows. The title has a restrained dark text shadow and local gradient backing for legibility.
+The paintings supply most depth through coral overlap, side-facing caves, textured sand, and luminous water. Interface surfaces use thin borders and tonal separation; dialogs, inspection cards, and open splash dropdowns use lifted shadows. Splash lettering, its stone depth, and the surrounding light are baked into the painting; the title has no CSS text shadow or gradient backing.
 
 - **Dialog shadow:** `0 12px 50px #082b3880`; lifts the paused educational surface above the reef.
 - **Inspection shadow:** `0 6px 22px #173d4660`; separates a small field note from the painting.
-- **Title text shadow:** `0 3px 20px #09323c99`; supports cream display lettering.
+- **Splash dropdown shadow:** `3px 6px 16px #061c3460`; separates an open menu from the painting.
 - **Modal veil:** `#082c3978`; marks the paused layer while retaining the habitat beneath.
 
 **The Readable Night Rule.** Keep nighttime habitats as readable as daytime. The renderer deliberately applies no dark night filter or obscuring fog.
 
-Decorative movement consists of fine suspended particles, subtle fish motion, and small food sways. Reduced-motion preferences remove CSS animation and transitions and reduce renderer decoration. Brief meal and ability effects stay near the action; a small triangular player marker identifies the fish without a full-body outline.
+Decorative movement consists of fine suspended particles, subtle fish motion, and small food sways. On the splash, live side-profile fish swim over the static title painting. Reduced-motion preferences remove CSS animation and transitions and reduce renderer decoration, including the splash fish's horizontal travel. Brief meal and ability effects stay near the action; a small triangular player marker identifies the fish without a full-body outline.
 
 ## Shapes
 
@@ -216,9 +216,15 @@ Icons are thin inline strokes, usually 19px in buttons with a 1.7 stroke width a
 
 Primary dialog actions are teal with cream text; secondary actions are light with an ink label and a thin muted border. Both use 13px semibold type and a 9px icon gap. Text navigation is transparent at rest and gains a pale green backing on hover. Toolbar actions use 12px text and small keycaps; the inspection/continue action uses tool teal.
 
-Global button transitions cover background and text color (0.16s). Hover brightens buttons to 1.06; pressing moves them down 1px. Disabled buttons use 0.48 opacity. Keyboard focus uses a 3px gold outline with a 3px offset. Preserve visible focus when selecting creatures or switching guide tabs.
+Global button transitions cover background and text color (0.16s). Hover brightens buttons to 1.06; pressing moves them down 1px. Disabled buttons use 0.48 opacity. Keyboard focus uses a 3px gold outline with a 3px offset. Preserve visible focus when selecting creatures or switching guide tabs. The splash menu has the immediate state treatment described below.
 
-Title mode rows are broad, flat, translucent paper rectangles with the action name, a small explanation, and an arrow. Practice uses the sand accent. Rows have a 60px minimum height, reduced to 49px at the compact breakpoint.
+### Splash menu
+
+The compact File / Game / Help strip is the splash's only visible interface at rest. Native disclosure controls open warm paper dropdowns; Game contains Practice, Challenge, Tournament, and Create a fish with short descriptions. Mode rows share the same treatment, with semibold names and muted descriptions. File contains saved dives, scores, settings, and a continue action when a dive exists; Help contains the field guide and instructions.
+
+Hover and focus states change immediately. Summary hover and open states use selection teal; summary keyboard focus is a 2px inset teal outline. Dropdown items use selection teal with cream text on hover or focus, including their descriptions, and a 2px inset gold focus outline. Dropdown buttons have no color transition or hover brightness filter.
+
+Only one dropdown stays open. Clicking outside closes menus; Up and Down cycle through the current menu's actions, Left and Right switch menus, and Escape closes the menu and returns focus to its summary. When a modal opens, the strip becomes inert and hidden from assistive technology; its layer (3) remains beneath the modal overlay (10).
 
 ### Dialogs and inspection cards
 
@@ -253,7 +259,8 @@ Sequence chips are small rectangular labels with pale green backgrounds and 10px
 - **Do** let original reef paintings and side-profile creatures dominate the stage.
 - **Do** preserve nine distinct scene silhouettes, negative spaces, and habitat topologies.
 - **Do** place shelters and food against each painting's actual terrain.
-- **Do** use Spectral for titles and DM Sans for controls and facts.
+- **Do** use Spectral for dialog and creature headings and DM Sans for controls and facts.
+- **Do** preserve the splash's centered three-line stone title and compact top menu as the widescreen stage scales.
 - **Do** keep energy and health compact, labeled, and numerically readable.
 - **Do** preserve visible keyboard focus, modal focus containment, and in-dialog feedback.
 - **Do** keep the night reef fully readable and honor reduced-motion preferences.

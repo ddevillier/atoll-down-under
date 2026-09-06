@@ -1,3 +1,4 @@
+import {clickButton} from './ui-actions.mjs';
 import {chromium} from '@playwright/test';
 import fs from 'node:fs';
 fs.mkdirSync('artifacts',{recursive:true});
@@ -5,9 +6,9 @@ const browser=await chromium.launch();
 const page=await browser.newPage({viewport:{width:1600,height:900},recordVideo:{dir:'artifacts/schooling-video',size:{width:1600,height:900}}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>window.atoll?.renderer.ready);
-await page.getByRole('button',{name:/Practice Choose/}).click();
+await clickButton(page,{name:/Practice Choose/});
 await page.getByRole('searchbox').fill('Silver sprat');await page.getByRole('option').first().click();
-await page.getByRole('button',{name:'Enter the reef'}).click();
+await clickButton(page,{name:'Enter the reef'});
 await page.waitForTimeout(5000);await page.screenshot({path:'artifacts/schooling-dive.png'});
 await page.waitForTimeout(5000);
 const report=await page.evaluate(()=>{

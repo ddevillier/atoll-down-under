@@ -26,12 +26,14 @@ function updateToast(){
 }
 function drawUI(){
  ui.innerHTML=home?homeHTML():gameHTML();
+ canvas.setAttribute('aria-label',home?'Atoll Down Under: a stone title in a blue reef, with a shipwreck and swimming fish. Use the Game menu to choose a life.':'Interactive coral reef');
  if(modal)ui.insertAdjacentHTML('beforeend',modalHTML());
  if(!home&&renderer.ready){const port=$('#hud-fish');if(port)renderer.portrait(port,sim.player.species);}
  paintPortraits();updateToast();
 }
 function homeHTML(){
- return `<div class="title-shade"></div><header class="topbar"><div class="brand">${icon('fish')}<span>Atoll Down Under</span></div><nav class="actions" aria-label="Main menu">${sim?button('resume','Continue dive','play'):""}${button('guide','Field guide','book')}${button('saves','Saved dives','save')}${button('scores','Reef rulers','trophy')}${button('settings','Settings','gear')}</nav></header><section class="title-block"><h1>Atoll<span>Down Under</span></h1><p>A little fish. A living world.<br>Find your place in the reef.</p></section><nav class="mode-menu" aria-label="Game modes">${[['practice','Practice','Choose a creature. Explore its life.'],['challenge','Challenge','Four lives, from small fry to reef ruler.'],['tournament','Tournament','Journey through all 55 playable species.'],['create','Create a fish','Shape a life of your own.']].map(([m,title,sub])=>`<button class="mode-button" data-action="mode-${m}"><span><b>${title}</b><small>${sub}</small></span>${icon('arrow')}</button>`).join('')}</nav><div class="home-note">Nine habitats. One connected food web.</div><div class="footer-note">${button('help','How to play','info')} Original art & music · Offline edition</div>`;
+ const modes=[['practice','Practice','Choose a creature. Explore its life.'],['challenge','Challenge','Four lives, from small fry to reef ruler.'],['tournament','Tournament','Journey through all 55 playable species.'],['create','Create a fish','Shape a life of your own.']];
+ return `<h1 class="sr-only">Atoll Down Under</h1><nav class="splash-bar" aria-label="Main menu" ${modal?'inert aria-hidden="true"':''}><details class="splash-menu"><summary>File</summary><div class="splash-dropdown">${sim?button('resume','Continue dive','play'):''}${button('saves','Saved dives','save')}${button('scores','Reef rulers','trophy')}${button('settings','Settings','gear')}</div></details><details class="splash-menu"><summary>Game</summary><div class="splash-dropdown splash-modes">${modes.map(([m,title,sub])=>`<button data-action="mode-${m}"><span><b>${title}</b><small>${sub}</small></span></button>`).join('')}</div></details><details class="splash-menu splash-help"><summary>Help</summary><div class="splash-dropdown">${button('guide','Field guide','book')}${button('help','How to play','info')}</div></details></nav>`;
 }
 function gameHTML(){
  const p=sim.player,a=ABILITIES[p.species.ability]||ABILITIES.none;
@@ -79,6 +81,16 @@ function closeModal(){modal=null;if(sim&&!home){if(sim.phase==='advance'){modal=
 function enter(s){sim=s;home=false;modal=null;sim.paused=false;inspected=null;renderer.inspect=false;audio.setTrack(sim.period==='night'?'moon-through-water':'glasswater');drawUI();canvas.focus();saveSlot(0,false);}
 function saveSlot(slot,announce=true){if(!sim)return;const success=write('atoll-save-'+slot,{date:Date.now(),species:sim.player.species.name,mode:sim.mode,state:sim.serialize()});if(success&&announce){audio.effect('save');notify('Dive saved.');}return success;}
 function recordScore(){if(!sim||sim.mode==='practice'||sim.recorded)return;const name=$('#ruler-name')?.value.trim()||'Reef explorer';const scores=read('atoll-scores',[]);scores.push({name,score:sim.score,mode:sim.mode,species:sim.player.species.name,date:Date.now()});scores.sort((a,b)=>b.score-a.score);if(write('atoll-scores',scores.slice(0,30)))sim.recorded=true;}
+function closeSplashMenus(){for(const menu of document.querySelectorAll('.splash-menu[open]'))menu.open=false;}
+ui.addEventListener('toggle',e=>{if(e.target.matches('.splash-menu')&&e.target.open)for(const other of document.querySelectorAll('.splash-menu[open]'))if(other!==e.target)other.open=false;},true);
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('.splash-menu'))closeSplashMenus();});
+ui.addEventListener('keydown',e=>{
+ const menu=e.target.closest('.splash-menu');if(!menu)return;
+ const summary=menu.querySelector('summary'),buttons=[...menu.querySelectorAll('button')];
+ if(e.key==='Escape'){e.preventDefault();menu.open=false;summary.focus();}
+ else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();menu.open=true;const i=buttons.indexOf(document.activeElement),next=i<0?(e.key==='ArrowDown'?0:buttons.length-1):(i+(e.key==='ArrowDown'?1:-1)+buttons.length)%buttons.length;buttons[next]?.focus();}
+ else if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();const menus=[...document.querySelectorAll('.splash-menu')],i=menus.indexOf(menu),next=menus[(i+(e.key==='ArrowRight'?1:-1)+menus.length)%menus.length];closeSplashMenus();next.open=true;next.querySelector('summary').focus();}
+});
 ui.addEventListener('click',event=>{
  audio.unlock();
  const specie=event.target.closest('button[data-species]');if(specie){selection=specie.dataset.species;const listScroll=$('.species-list')?.scrollTop||0;drawUI();if($('.species-list'))$('.species-list').scrollTop=listScroll;document.querySelector('button[data-species="'+selection+'"]')?.focus({preventScroll:true});audio.effect('ui');return;}
@@ -115,7 +127,7 @@ canvas.addEventListener('pointerdown',e=>{audio.unlock();if(home||modal||!sim)re
 document.addEventListener('keydown',e=>{
  if(e.key==='Tab'&&modal){const nodes=[...document.querySelectorAll('.panel button:not(:disabled),.panel input,.panel select')].filter(n=>n.offsetParent!==null);const first=nodes[0],last=nodes.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}return;}
  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveSlot(0);return;}
- if(e.key==='Escape'){e.preventDefault();if(modal){if(!['dead','won','advance'].includes(modal))closeModal();}else if(sim&&!home){sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;drawUI();}return;}
+ if(e.key==='Escape'){e.preventDefault();if(home&&!modal){closeSplashMenus();return;}if(modal){if(!['dead','won','advance'].includes(modal))closeModal();}else if(sim&&!home){sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;drawUI();}return;}
  if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))return;
  if(e.key===' '&&!home&&!modal){e.preventDefault();audio.unlock();sim.useAbility();}
  if(e.key.toLowerCase()==='f'&&!modal){selection=sim?.player.species.id==='custom'?'s1':sim?.player.species.id||selection;openModal('guide');}

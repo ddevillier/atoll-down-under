@@ -62,5 +62,16 @@
   {
     "id": "food-atlas",
     "prompt": "A single production game sprite atlas of EIGHT separate stationary reef food assets, perfectly arranged in FOUR COLUMNS by TWO ROWS equal cells, generous transparent space around every item. Truly transparent background. No text, no labels, no shadows, no scenery. Exact subjects left to right top row: a small tuft of leafy green reef algae attached to one tiny limestone chip; a flowing clump of long ribbon seagrass; a delicate branching red and peach coral fan; three clustered purple tubular sponges with dark hollow openings. Bottom row left to right: a curled pink-brown marine bristleworm seen from side; a small translucent orange shrimp side view; a small cluster of golden suspended plankton specks; a handful of tiny white spiral seashells. Richly detailed painted natural-history illustrations matching a 1990s educational reef game's realistic colorful assets upgraded to modern high resolution. Fine material detail, natural branching shapes, soft modeled shading, crisp clean cutouts, NOT simplistic vector shapes or cartoon icons. All eight objects complete and isolated, not touching cell boundaries."
+  },
+  {
+    "id": "splash",
+    "type": "original composition with reference",
+    "reference": "Original Windows title-screen screenshot, used for layout only; no original assets bundled",
+    "prompt_summary": "New original 16:9 ATOLL / DOWN / UNDER title painting. Dominant three-line hand-hewn limestone lettering centered inside deep cobalt reef water; leaning abandoned mast on left, pale light upper right, dark side rocks, dense warm coral along bottom. Detailed painted natural-history illustration. No UI, fish or extra text. Requested highest practical resolution; actual output 1672 × 941."
+  },
+  {
+    "id": "splash-layout-revision",
+    "type": "edit of newly generated project art",
+    "prompt_summary": "Reduce and lower the three-line title, restoring open blue water above it and preserving its approximately 79% bottom anchor. Retain exact spelling, stone medium, central composition, left mast, side rocks, upper-right light, bottom coral and all other scene relationships. No new interface, fish or words. The revised image is the shipped assets/title/splash.png."
   }
 ]

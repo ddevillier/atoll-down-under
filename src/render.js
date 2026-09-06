@@ -7,7 +7,7 @@ export class ReefRenderer {
  resize(){const r=this.canvas.getBoundingClientRect();const d=Math.min(window.devicePixelRatio||1,2);this.canvas.width=Math.round(r.width*d);this.canvas.height=Math.round(r.height*d);}
  async load(){
   const img=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error('Could not load '+src));im.src=src;});
-  [this.reefs,this.atlases]=await Promise.all([Promise.all(REEFS.map(r=>img(r.image))),Promise.all([0,1,2,3].map(n=>img('assets/creatures/fish-atlas-'+n+'.png')))]);
+  [this.reefs,this.atlases,this.splash]=await Promise.all([Promise.all(REEFS.map(r=>img(r.image))),Promise.all([0,1,2,3].map(n=>img('assets/creatures/fish-atlas-'+n+'.png'))),img('assets/title/splash.png')]);
   this.atlases.forEach((im,a)=>{this.extractAtlas(im).forEach((sprite,cell)=>{this.sprites[a*16+cell]=sprite;this.bounds[a*16+cell]={x:0,y:0,w:sprite.width,h:sprite.height};});});
   const food=await img('assets/creatures/food-atlas.png');for(let i=0;i<8;i++)this.foodSprites.push(this.extractCell(food,i,4,2,false));
   this.ready=true;
@@ -69,13 +69,13 @@ export class ReefRenderer {
  addEffect(type,x=800,y=350){this.effects.push({type,x,y,t:0});}
  draw(sim,dt,home=false){
   if(home||!sim||(!sim.paused&&sim.phase==='playing'))this.clock+=dt;const c=this.ctx;c.setTransform(this.canvas.width/1600,0,0,this.canvas.height/900,0,0);c.clearRect(0,0,1600,900);
-  const reef=this.reefs[home?0:sim?.current??0];if(reef)c.drawImage(reef,0,0,1600,900);else{c.fillStyle='#1b6c7d';c.fillRect(0,0,1600,900);}
+  const reef=home?this.splash:this.reefs[sim?.current??0];if(reef)c.drawImage(reef,0,0,1600,900);else{c.fillStyle='#1b6c7d';c.fillRect(0,0,1600,900);}
   if(!this.ready)return;
   const t=this.clock;
   // Very fine suspended particles, not a screen-obscuring fog or dark night filter.
   if(!this.reducedMotion){c.fillStyle='#f6f5d3';for(let i=0;i<38;i++){const x=(i*137.53+Math.sin(t*.2+i)*18)%1600,y=(i*73.91-t*(2+i%4)+1800)%900;c.globalAlpha=.07+(i%3)*.025;c.beginPath();c.arc(x,y,.7+i%2*.6,0,Math.PI*2);c.fill();}c.globalAlpha=1;}
   if(home){
-   const homeFish=[{i:5,x:1140,y:410,w:150,v:9},{i:7,x:1340,y:660,w:85,v:-14},{i:4,x:830,y:575,w:94,v:6},{i:15,x:1360,y:350,w:155,v:-8},{i:11,x:740,y:250,w:50,v:13},{i:1,x:1030,y:700,w:62,v:-6}];
+   const homeFish=[{i:5,x:1330,y:390,w:120,v:-9},{i:7,x:1390,y:705,w:68,v:-8},{i:4,x:310,y:680,w:80,v:7},...[0,1,2,3,4].map(n=>({i:0,x:140+n*48,y:455+n%2*23,w:43,v:12}))];
    for(const f of homeFish){const x=(f.x+(this.reducedMotion?0:t*f.v)+1800)%1800-100;this.drawSprite(c,SPECIES[f.i],x,f.y+Math.sin(t+f.i)*8,f.w,f.v>0?1:-1,t);}
    return;
   }

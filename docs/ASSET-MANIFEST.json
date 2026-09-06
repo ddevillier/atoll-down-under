@@ -448,5 +448,13 @@
     "width": 1672,
     "height": 941,
     "alpha": false
+  },
+  {
+    "path": "assets/title/splash.png",
+    "bytes": 3213517,
+    "sha256": "86e4ced13313c11eeba59c333eb2260a6ba6f78442b57aede4d933721b330e8c",
+    "width": 1672,
+    "height": 941,
+    "alpha": false
   }
 ]
