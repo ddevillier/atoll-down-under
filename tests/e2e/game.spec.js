@@ -349,6 +349,18 @@ test('natural history supports scientific-name search and keyboard reading at bo
   await expect(page.locator('.natural-history>summary')).toContainText('Balistoides conspicillum');
  }
 });
+test('poison feedback updates score and the next-life target together',async({page})=>{
+ await ready(page);await practice(page);
+ await page.evaluate(()=>{
+  const s=window.atoll.simulation;s.mode='tournament';s.score=9000;s.stageScore=4900;
+  s.consume(s.section.food.find(f=>f.food==='sponge'));s.paused=true;
+ });
+ await expect(page.locator('#score')).toHaveText('8,500');
+ await expect(page.locator('#goal-label')).toHaveText('600 to next life');
+ await expect(page.locator('.toast')).toContainText('Lost 500 points');
+ await expect(page.locator('#announcer')).toContainText('Lost 500 points');
+});
+
 test('a poisonous meal shows its actual cause in the ending dialog',async({page})=>{
  await ready(page);await practice(page);const food=await page.evaluate(()=>{const s=window.atoll.simulation;s.section.entities=[];const f=s.section.food.find(f=>f.food==='sponge');s.player.health=20;s.player.x=f.x-20;s.player.y=f.y;s.player.angle=0;s.point(s.player.x,s.player.y);return {x:f.x,y:f.y};});
  const box=await page.locator('#reef').boundingBox();await page.mouse.click(box.x+food.x/1600*box.width,box.y+(food.y+55)/900*box.height);

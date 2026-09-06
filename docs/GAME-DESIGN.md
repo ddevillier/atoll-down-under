@@ -42,7 +42,7 @@ Crushing jaws is always active while eating suitable food. It has no activation 
 
 ## Modes and scoring
 
-Practice selects any of 55 playable species and has no score. Challenge selects four increasing size bands and requires 5,000 / 10,000 / 15,000 / 20,000 stage points. Tournament visits every playable species once, ending as the Great White Shark, with 5,000 points per life. Whole prey earns 1,000; renewable food earns 500; survival outside hiding earns eight points per second; stage completion earns 1,500. Continuing after death resets points and stage progress while retaining the current life. Local rankings can record finished or lost scored runs.
+Practice selects any of 55 playable species and has no score. Challenge selects four increasing size bands and requires 5,000 / 10,000 / 15,000 / 20,000 stage points. Tournament visits every playable species once, ending as the Great White Shark, with 5,000 points per life. Whole prey earns 1,000; renewable food earns 500; survival outside hiding earns eight points per second; stage completion earns 1,500. Poisonous meals deduct up to 500 from total score and current-life progress independently, with both floored at zero. The feedback reports the actual total points lost. Practice remains unscored. Continuing after death resets points and stage progress while retaining the current life. Local rankings can record finished or lost scored runs.
 
 Create-a-Fish offers a 1,600-point budget: body size, speed, endurance, agility, ability, active period, color, diet, and name. Dominant attributes choose one of three base silhouettes; the renderer recolors the created fish. Overspending disables entry. The created fish uses the same survival simulation and can be saved.
 

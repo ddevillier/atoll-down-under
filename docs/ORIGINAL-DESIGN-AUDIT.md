@@ -104,3 +104,9 @@ Only fullscreen and its supporting UI/documentation are changed in the accompany
 ## Population follow-up
 
 The initial audit underemphasized overall animal density. The baseline populated almost every scene with 24–25 NPC animals plus 20–26 food patches. The subsequent user direction requests population hills and valleys while keeping difficulty gentle. New habitat ranges and a modest second-hunter probability increase in Outer Blue now address that request; see [POPULATION-REVISION.md](POPULATION-REVISION.md). This improves G02 but does not establish original community or roster parity, resolve G01, or change the historical measurements above. Food-patch clutter, detailed local food chains and occlusion remain open.
+
+## Scoring correctness follow-up: G06 resolved
+
+Poison now reduces total score and current-life progress by up to 500 each, independently floored at zero, in scored modes. A low current-life score does not protect points earned in earlier lives; progress never becomes debt. Practice has no score penalty. The message reports actual total points lost, including a smaller loss near zero. Existing saves retain their recorded totals; prior poisoning history is insufficient to recalculate past progress. This repairs consistency within the authored scoring model, not historical formula parity. G05 and G07 remain open.
+
+Regression checks cover poisoning just below Challenge/Tournament advancement, recovery of the threshold through a later valid meal, save/restore, floor behavior, Practice, created fish and valid specialist sponge feeding. Browser verification checks both displayed counters, visible and accessible penalty feedback, fatal-poison messaging and stage advancement.

@@ -137,7 +137,17 @@ export class Simulation {
   const p=this.player;if(p.biteCooldown>0)return;p.biteCooldown=.45;
   const b=target.species;const good=edible(p,target);const poison=target.kind==='food'?target.food==='sponge'&&!p.species.diet.includes('sponge'):b?.poison&&!['crush','poison'].includes(p.species.ability);
   const name=target.name||b?.name;
-  if(poison){p.health-=25;p.poisonDamage=(p.poisonDamage||0)+25;p.recoveryDelay=10;p.energy-=10;p.lastHarm={type:'poison',name};this.score=Math.max(0,this.score-500);this.event('poison',name+' was poisonous to your fish. Inspect it and compare your diet before another bite.');if(p.health<=0)this.die('Your fish was poisoned by '+name+'.');}
+  if(poison){
+   p.health-=25;p.poisonDamage=(p.poisonDamage||0)+25;p.recoveryDelay=10;p.energy-=10;p.lastHarm={type:'poison',name};
+   let pointsLost=0,progressLost=0;
+   if(this.mode!=='practice'){
+    pointsLost=Math.min(500,this.score);progressLost=Math.min(500,this.stageScore);
+    this.score-=pointsLost;this.stageScore-=progressLost;
+   }
+   const penalty=pointsLost>0?' Lost '+pointsLost+' points.':'';
+   this.event('poison',name+' was poisonous to your fish.'+penalty+' Inspect it and compare your diet before another bite.',{pointsLost,progressLost});
+   if(p.health<=0)this.die('Your fish was poisoned by '+name+'.');
+  }
   else if(!good){
    p.energy-=2;const food=target.kind==='food'?target.food:b?.food||'fish';
    const reason=!p.species.diet.includes(food)?' is not part of your diet.':b?.armor?' is too well armored for your fish.':' is too large for your fish.';
