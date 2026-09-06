@@ -2,6 +2,31 @@ import {clickButton} from '../../scripts/ui-actions.mjs';
 import {test,expect} from '@playwright/test';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('a meadow visit supports mouse feeding, resident inspection and a saved return',async({page})=>{
+ await ready(page);await practice(page,'Foxface');
+ const site=await page.evaluate(()=>{
+  const s=window.atoll.simulation;s.transition(-1,0);s.transition(0,1);
+  const f=s.section.food.find(f=>f.food==='grass'),resident=s.section.entities.find(e=>e.species.id==='s44');
+  // Isolate the interaction from random passing fish, keeping authored sites.
+  s.section.entities=[resident];Object.assign(s.player,{x:f.x-160,y:f.y,angle:0,energy:40});s.point(s.player.x,s.player.y);
+  return {x:f.x,y:f.y,id:f.id};
+ });
+ const box=await page.locator('#reef').boundingBox();
+ await page.mouse.click(box.x+site.x/1600*box.width,box.y+(site.y+55)/900*box.height);
+ await expect.poll(()=>page.evaluate(id=>window.atoll.simulation.section.food.find(f=>f.id===id).amount,site.id)).toBe(65);
+ expect(await page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(50);
+ await page.keyboard.press('Escape');
+ const resident=await page.evaluate(()=>{const e=window.atoll.simulation.section.entities[0];return {x:e.x,y:e.y};});
+ await page.mouse.click(box.x+resident.x/1600*box.width,box.y+(resident.y+55)/900*box.height);
+ await expect(page.locator('.inspect-card')).toContainText('Yellow seahorse');
+ await expect(page.locator('.inspect-card')).toContainText('Among the seagrass');
+ await page.screenshot({path:'artifacts/meadow-gameplay.png'});
+ await page.keyboard.press('Control+s');await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ await clickButton(page,{name:'Saved dives'});await clickButton(page,{name:'Load dive'});
+ const restored=await page.evaluate(id=>{const s=window.atoll.simulation,f=s.section.food.find(f=>f.id===id);return {habitat:s.current,visited:s.visited,amount:f.amount,x:f.x,y:f.y,holdfast:s.section.entities[0].holdfast,paused:s.paused};},site.id);
+ expect(restored).toEqual({habitat:6,visited:[4,3,6],amount:65,x:site.x,y:site.y,holdfast:resident,paused:false});
+});
+
 test('a night cleaning visit works while a hungry neighbor forages beside the station',async({page})=>{
  await page.setViewportSize({width:1440,height:810});await ready(page);await practice(page,'flashlight');
  const station=await page.evaluate(()=>{

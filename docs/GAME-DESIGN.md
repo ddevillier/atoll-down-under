@@ -18,6 +18,12 @@ The player initially has an undrained protected state. Swimming within the arriv
 
 NPCs forage, hunt smaller suitable creatures, flee threatening player fish, return to cleaner stations, and repopulate after consumption. Renewable stationary food regrows after depletion. Population and food state persist in the save. Off-screen sections retain their state rather than running a second independent simulation.
 
+Each new dive has authored feeding sites matched to the nine paintings. Plankton occupies open-water channels; terrace food occurs at different heights; meadow plants and worms spread over the shallow floor; sponge feeding is more prominent in the grotto. The kinds and amounts differ by habitat. Depleted patches regrow at the same location so a player can learn a feeding route and return to it. Food nutrition, diet rules and regrowth timing retain their existing values.
+
+Crabs, lobsters, snails, stars, urchins and anemones occupy short routes on sand or individual ledges. Crawlers turn at route ends and graze suitable nearby patches; stationary residents remain attached. They remain selectable and edible under the usual diet rules, and replacements return on their route. A non-player seahorse occurs beside the daytime meadow's seagrass. Initial community selection prefers local species but stops favoring a species once three copies are present, when other eligible species remain. The separate schooling groups and two-hunter population limit remain in place.
+
+Existing saves preserve their food coordinates, depletion and populations. Older bottom residents attach to the nearest local substrate route when play resumes. New food layouts, community variety and the meadow seahorse require a new dive; loading an earlier save does not repopulate it. These placements and routes are authored gameplay abstractions, not measured animal behavior.
+
 Routine NPC feeding recognizes both the cleaner wrasse and cleaner shrimp as partners and leaves them out of food selection. An old saved feeding target aimed at a cleaner is released; parasite-driven cleaning visits retain their target. This is a gameplay convention supporting observable cleaning relationships, not a claim that cleaners are never prey in nature. The player's deliberate food choices still follow the usual diet rules. If a player eats a cleaner, its replacement returns at the established station after the existing respawn interval. Cleaner stations and health recovery otherwise keep their existing rules.
 
 ## Abilities

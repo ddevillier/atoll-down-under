@@ -1,5 +1,6 @@
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
 import {creatureWidth} from './geometry.js';
+import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -41,6 +42,9 @@ export class Simulation {
    const hunters=entities.filter(e=>e.species.diet.includes('fish')).length;
    const seekHunter=i%6===5&&hunters<2;
    let pool=available.filter(s=>s.playable&&s.ability!=='clean'&&s.diet.includes('fish')===seekHunter&&(seekHunter||s.size<130));
+   // Prefer local residents without filling an entire habitat with copies of
+   // its one eligible forager. Small explicit schools are added separately.
+   const varied=pool.filter(s=>entities.filter(e=>e.species.id===s.id).length<3);if(varied.length)pool=varied;
    const local=pool.filter(s=>s.habitat===reef.habitat);if(local.length)pool=local;
    const s=pool[Math.floor(this.random()*pool.length)]||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;fish.health=60+this.random()*40;entities.push(fish);
   }
@@ -55,11 +59,22 @@ export class Simulation {
    entities.push(fish);
   }
   const clean=entity(SPECIES[this.period==='day'?43:45],++this.uid,reef.cleaner.x,reef.cleaner.y);clean.station={...reef.cleaner};entities.push(clean);
-  const food=[];let n=0;
-  for(const [kind,def]of Object.entries(FOODS))for(let k=0;k<(kind==='plankton'?6:3);k++){
-   food.push({id:'f'+(++this.uid),kind:'food',food:kind,name:def.name,x:90+((n++*181+reef.id*83)%1400),y:kind==='plankton'?90+this.random()*310:470+this.random()*205,size:def.size,amount:100,regrow:0,phase:this.random()*6});
+  const food=[];
+  for(const [kind,sites]of Object.entries(reef.feedingSites))for(const [x,y]of sites){
+   const def=FOODS[kind];
+   food.push({id:'f'+(++this.uid),kind:'food',food:kind,name:def.name,x,y,size:def.size,amount:100,regrow:0,phase:this.random()*6});
   }
-  for(const i of [46,47,61,62,60,63])if(SPECIES[i].active!=='night'||this.period==='night')entities.push(entity(SPECIES[i],++this.uid,100+this.random()*1400,565+this.random()*140));
+  const residents=[46,47,61,62,60,63].filter(i=>SPECIES[i].active!=='night'||this.period==='night');
+  residents.forEach((i,n)=>{
+   const resident=entity(SPECIES[i],++this.uid,0,0),route=reef.bottomRoutes[n%reef.bottomRoutes.length];
+   placeOnGround(resident,route,n<reef.bottomRoutes.length?.2:.8);
+   resident.behavior=resident.species.speed>0?'Crawling along the reef':i===63?'Attached to the reef':'On the reef floor';entities.push(resident);
+  });
+  // The catalog's non-playable seahorse now occurs beside meadow plants.
+  if(this.period==='day'&&reef.id===6){
+   const [x,y]=reef.feedingSites.grass[2],seahorse=entity(SPECIES[44],++this.uid,x+12,y-22);
+   seahorse.holdfast={x:seahorse.x,y:seahorse.y};seahorse.behavior='Among the seagrass';entities.push(seahorse);
+  }
   return {entities,food};
  }
  get section(){return this.sections[this.current];}
@@ -167,8 +182,20 @@ export class Simulation {
    // A returning cleaner belongs to the established station, where players
    // and clients know to wait, rather than an arbitrary point in open water.
    if(e.species.ability==='clean'&&e.station){e.x=e.station.x;e.y=e.station.y;}
+   if(validGroundState(e))positionOnGround(e);
+   if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;}
   }return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
+  if(BOTTOM_RESIDENTS.has(e.species.id)){
+   if(!validGroundState(e))attachToNearestGround(e,REEFS[this.current].bottomRoutes);
+   e.target=null;e.satiated=Math.max(0,(e.satiated||0)-dt);
+   walkOnGround(e,dt);
+   e.behavior=e.species.speed>0?(e.satiated>0?'Digesting a meal':'Crawling along the reef'):e.species.id==='s63'?'Attached to the reef':'On the reef floor';
+   const food=e.satiated<=0?this.section.food.find(f=>f.regrow<=0&&edible(e,f)&&distance(e,f)<e.species.size*.4+f.size+10):null;
+   if(food){food.amount-=12;if(food.amount<=0){food.regrow=8;food.amount=100;}e.satiated=45+this.random()*35;e.behavior='Feeding on '+food.name;}
+   return;
+  }
+  if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;e.behavior='Among the seagrass';return;}
   const p=this.player;e.think-=dt;
   if(e.species.ability==='clean'){
    const client=p.cleanTime>0?p:this.section.entities.find(b=>b.alive&&b.cleanTime>0&&b.target===e.id);
