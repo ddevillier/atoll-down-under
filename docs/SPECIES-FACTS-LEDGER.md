@@ -1,6 +1,6 @@
 # Species facts coverage ledger
 
-Coverage records written, sourced guide content; it does not certify sprite identification or parity with the original roster. Every unsourced entry remains required work.
+Coverage records written, sourced guide content; it does not certify sprite identification or parity with the original roster. Group entries are explicitly labeled; species identification remains open for those catalog labels. Every unsourced entry remains required work.
 
 | ID | Catalog entry | Natural-history coverage |
 |---|---|---|
@@ -23,8 +23,8 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s16 | Coral grouper | Pending identification and sourced facts |
 | s17 | Blackfin barracuda | Pending identification and sourced facts |
 | s18 | Crocodile needlefish | Pending identification and sourced facts |
-| s19 | Cuttlefish | Pending identification and sourced facts |
-| s20 | Lionfish | Pending identification and sourced facts |
+| s19 | Cuttlefish | Written: Sepiidae (cuttlefishes; family); source in guide |
+| s20 | Lionfish | Written: Pterois (lionfishes; genus); source in guide |
 | s21 | Devil scorpionfish | Pending identification and sourced facts |
 | s22 | Spotted pufferfish | Pending identification and sourced facts |
 | s23 | Longhorn cowfish | Written: Lactoria cornuta; source in guide |
@@ -48,10 +48,10 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s41 | Trumpetfish | Pending identification and sourced facts |
 | s42 | Yellowtail fusilier | Pending identification and sourced facts |
 | s43 | Bluestreak cleaner wrasse | Written: Labroides dimidiatus; source in guide |
-| s44 | Yellow seahorse | Pending identification and sourced facts |
-| s45 | Banded coral shrimp | Pending identification and sourced facts |
-| s46 | Reef crab | Pending identification and sourced facts |
-| s47 | Red sea star | Pending identification and sourced facts |
+| s44 | Yellow seahorse | Written: Hippocampus kuda; source in guide |
+| s45 | Banded coral shrimp | Written: Stenopus hispidus; source in guide |
+| s46 | Reef crab | Written: Brachyura (true crabs; group); source in guide |
+| s47 | Red sea star | Written: Asteroidea (sea stars; group); source in guide |
 | s48 | Orange-spotted filefish | Written: Oxymonacanthus longirostris; source in guide |
 | s49 | Doublelined mackerel | Pending identification and sourced facts |
 | s50 | Yellowspot emperor | Pending identification and sourced facts |
@@ -64,7 +64,7 @@ Coverage records written, sourced guide content; it does not certify sprite iden
 | s57 | Checkerboard hawkfish | Pending identification and sourced facts |
 | s58 | Purple anthias | Pending identification and sourced facts |
 | s59 | Longsnout flathead | Pending identification and sourced facts |
-| s60 | Nudibranch | Pending identification and sourced facts |
-| s61 | Spiral snail | Pending identification and sourced facts |
-| s62 | Needle-spined urchin | Pending identification and sourced facts |
-| s63 | Sea anemone | Pending identification and sourced facts |
+| s60 | Nudibranch | Written: Nudibranchia (nudibranchs; group); source in guide |
+| s61 | Spiral snail | Written: Gastropoda (snails and slugs; group); source in guide |
+| s62 | Needle-spined urchin | Written: Echinoidea (sea urchins; group); source in guide |
+| s63 | Sea anemone | Written: Actiniaria (sea anemones; group); source in guide |

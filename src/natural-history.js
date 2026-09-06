@@ -1,6 +1,76 @@
-// Independently written summaries of the cited primary educational sources.
+// Independently written summaries of cited museum, government, aquarium and university sources.
 // Real-world measurements are separate from sprite size and game balance.
 export const NATURAL_HISTORY={
+ s19:{scientific:'Sepiidae (cuttlefishes; family)',family:'Cephalopod molluscs · species not identified',
+  paragraphs:[
+   'Cuttlefishes are molluscs with remarkable camouflage. One Australian example, the giant cuttlefish, can change its color and raise parts of its skin to resemble the texture of sand, rocks or seaweed.',
+   'Giant cuttlefish eat fishes, crabs and other crustaceans. Their changing patterns also help them communicate, especially when breeding. They are mainly active by day: the behavior of a real species can differ from a game’s general label.'
+  ],question:'Compare changes in color with changes in texture. Would matching only one of those always hide an animal?',
+  limit:'The game does not identify its cuttlefish as a giant cuttlefish. That species is a named example here, not an identification of the sprite. The game uses night-only activity and a simplified ink defense.',
+  source:'Australian Museum · Giant Cuttlefish (named example)',url:'https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/'},
+ s20:{scientific:'Pterois (lionfishes; genus)',family:'Scorpaenidae · exact species not identified',
+  paragraphs:[
+   'Broad, fan-like pectoral fins and separate spines along the back make a lionfish easy to notice. The red lionfish and devil firefish have contrasting pale and brown or maroon bands across the head and body.',
+   'Lionfish spines can deliver venom through a wound. Their native home is the Indo-Pacific. A familiar-looking fish can belong to more than one species, so a striped body alone is not enough to tell closely related lionfishes apart.'
+  ],question:'Compare the fan-shaped fins with the thin spines. Which structures spread into a broad surface, and which end in a sharp point?',
+  limit:'The illustration is not identified to species. The game treats this fish as harmful food and makes its defensive display a timed ability; those are not a biological description of venom delivery.',
+  source:'NOAA Ocean Service · What is a lionfish?',url:'https://oceanservice.noaa.gov/facts/lionfish-facts.html'},
+ s44:{scientific:'Hippocampus kuda',family:'Syngnathidae · seahorses and pipefishes',
+  paragraphs:[
+   'A seahorse is a fish with a very unusual outline: an upright body, a long snout and a gripping tail. This species can be pale yellow or dark, so color by itself is not a reliable identification. It uses shallow coastal habitats such as seagrass beds, bays and estuaries.',
+   'Its tail holds onto a support while its snout draws in tiny moving prey, including small crustaceans. The female transfers eggs into the male’s brood pouch. He carries the developing young and releases them when they are ready to live independently.'
+  ],question:'Compare a seahorse’s gripping tail with a shark’s swimming tail. How does each shape help its owner?',
+  limit:'This entry describes the yellow or common seahorse associated with the catalog name; the stylized sprite still needs identification review. Brood care and suction feeding are not animated.',
+  source:'Micheleen Hashikawa · University of Michigan Animal Diversity Web',url:'https://animaldiversity.org/accounts/Hippocampus_kuda/'},
+ s45:{scientific:'Stenopus hispidus',family:'Stenopodidae · banded coral shrimps',length:'Body length up to about 5 cm',
+  paragraphs:[
+   'Red-and-white bands, prominent claws and long white antennae distinguish this shrimp. It shelters beneath reef ledges and in crevices. Pairs are often seen together, with the male smaller than the female.',
+   'A cleaner shrimp finds food on larger fishes by removing external parasites and other material. Its long antennae help attract visiting fish. Females carry eggs beneath the abdomen; after hatching, the larvae drift in open water before settling near a reef.'
+  ],question:'Watch a fish waiting beside the shrimp. What is food for one animal and an unwanted passenger for the other?',
+  limit:'The game provides one nighttime cleaner per habitat. Pairing, eggs and drifting larvae are not simulated, and cleaning only repairs the parasite part of the health meter.',
+  source:'Oregon Coast Aquarium · Banded Coral Shrimp',url:'https://aquarium.org/animals/banded-coral-shrimp/'},
+ s46:{scientific:'Brachyura (true crabs; group)',family:'Crustaceans · species not identified',
+  paragraphs:[
+   'A crab wears its supporting skeleton on the outside. Jointed legs allow it to move despite this hard covering. Crabs belong to the crustaceans, a group that also includes shrimps, lobsters and tiny plankton animals.',
+   'Look for paired antennae and compare the crab’s jointed limbs with a snail’s soft body. A hard outer covering and a shell may look similar, but they belong to animals with very different body plans.'
+  ],question:'Count the visible joints as a crab walks. Where does its body bend, and where does it stay stiff?',
+  limit:'Reef crab is a broad game label, not a verified species name. Its scavenging diet, size and shell-breaking rules describe the game creature; they do not describe every crab.',
+  source:'Australian Museum · Crustaceans',url:'https://australian.museum/learn/animals/crustaceans/'},
+ s47:{scientific:'Asteroidea (sea stars; group)',family:'Echinoderms · species not identified',
+  paragraphs:[
+   'Sea stars are animals, but they are not fish. They have no fins or scales and live in salt water. Their relatives include sea urchins and sea cucumbers.',
+   'Small tube feet on the underside help a sea star move and hold food. Not every species has five arms: some have many more. Sea stars can regrow lost arms, although a game-sized moment is far too short to show that process.'
+  ],question:'Compare a sea star with an urchin. What similarities might be hidden underneath their very different outlines?',
+  limit:'Red sea star does not identify one species. This entry describes the group; the game’s stationary pose and detritus diet are simplified choices, not universal sea-star behavior.',
+  source:'NOAA Ocean Service · Are starfish really fish?',url:'https://oceanservice.noaa.gov/facts/starfish.html'},
+ s60:{scientific:'Nudibranchia (nudibranchs; group)',family:'Gastropod molluscs · species not identified',
+  paragraphs:[
+   'Nudibranchs are sea slugs whose adult bodies have no protective shell. Many carry an exposed ring of gills on the back. Their name means naked gills, but the shapes and positions of these structures vary.',
+   'They eat other animals, often specializing in a particular prey. Some eat sponges; others use different foods. Defenses vary too: some make unpleasant chemicals, some conceal themselves, and some can store stinging cells taken from their prey.'
+  ],question:'A sponge looks still, but it is an animal. Does eating a sponge make a nudibranch a plant-eater or an animal-eater?',
+  limit:'The catalog has a representative nudibranch, not a verified species. Its sponge-only menu and poisonous-food flag model one combination of traits rather than every nudibranch.',
+  source:'Western Australia DBCA · Nudibranches (sea slugs)',url:'https://www.dbca.wa.gov.au/wildlife-and-ecosystems/marine/marine-parks/fun-facts/nudibranches-sea-slugs'},
+ s61:{scientific:'Gastropoda (snails and slugs; group)',family:'Molluscs · species not identified',
+  paragraphs:[
+   'A snail is soft-bodied underneath its shell. Snails and slugs belong to the gastropods, one of the major groups of molluscs. Molluscs also include very different-looking animals such as clams, octopuses and cuttlefish.',
+   'A layer of tissue called the mantle can produce the shell. A muscular foot helps many molluscs move, and many have a tooth-bearing feeding structure called a radula. Shells, feet and feeding structures offer clues to how these animals live.'
+  ],question:'Compare the shell-carrying snail with the nudibranch. What does the shell reveal, and what parts of the animal does it hide?',
+  limit:'Spiral snail is an invented descriptive label, not an identified species. Algae grazing is this creature’s game diet; the entry does not assign that diet to every marine snail.',
+  source:'Australian Museum · Molluscs',url:'https://australian.museum/learn/animals/molluscs/'},
+ s62:{scientific:'Echinoidea (sea urchins; group)',family:'Echinoderms · species not identified',
+  paragraphs:[
+   'Sea urchins come in many forms: some have long, fine spines, while others have thick spines like pencils. Different species live in rock pools, on reefs and among kelp. Long spines alone do not identify a species.',
+   'Grazing urchins can change the vegetation around them. On some Australian rocky reefs, their feeding helps maintain patches with little kelp. These patches still support other life; a place without tall plants is not necessarily empty.'
+  ],question:'Compare a grazed patch with a patch of tall vegetation. Which animals might find shelter or food in each?',
+  limit:'Needle-spined urchin is a visual game label. These examples describe sea-urchin diversity, not an identification of the sprite. Its night-only appearance and fixed position are game rules.',
+  source:'Emily McLaren · Australian Museum: The sea urchins of Sydney',url:'https://australian.museum/blog/amri-news/the-sea-urchins-of-sydney/'},
+ s63:{scientific:'Actiniaria (sea anemones; group)',family:'Cnidarians · species not identified',
+  paragraphs:[
+   'Sea anemones are animals related to corals and jellyfish. Their soft bodies and tentacles may resemble flowers, but they belong to a very different branch of life.',
+   'Some anemones share their tissues with microscopic algae. Others provide homes for animal partners, including anemonefish. Anemones can even live on a hermit crab’s shell or on a boxing crab’s claws. These relationships differ between species.'
+  ],question:'Look at the anemone and the nearby fish. What would you need to observe to show that both animals benefit from living together?',
+  limit:'The catalog does not identify an anemone species. Its fixed location and harmful-food rule simplify the animal; partnerships with fish and crabs are not simulated.',
+  source:'Australian Museum · Jellyfish, anemones and corals',url:'https://australian.museum/learn/animals/jellyfish/'},
  s32:{scientific:'Carcharhinus melanopterus',family:'Carcharhinidae · requiem sharks',length:'Recorded up to 1.8 m',
   paragraphs:[
    'Dark fin tips edged with pale markings help identify the blacktip reef shark. It favors shallow, clear water around reefs, sand flats and lagoons in the tropical Indo-Pacific.',
