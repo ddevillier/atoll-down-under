@@ -17,7 +17,7 @@ test('local habitat preferences allow varied neighbors without adding extra hunt
  for(const [id,minimum] of [['s1',5],['s53',4]])for(const seed of [7,42,91]){
   const s=new Simulation(seed);s.start('practice',id);
   for(const section of s.sections){
-   const initial=section.entities.slice(0,15),foragers=initial.filter(e=>!e.species.diet.includes('fish'));
+   const initial=section.entities,foragers=initial.filter(e=>!e.species.diet.includes('fish'));
    assert.ok(new Set(foragers.map(e=>e.species.id)).size>=minimum);
    assert.ok(initial.filter(e=>e.species.diet.includes('fish')).length<=2);
    assert.ok(initial.every(e=>e.species.active===s.period||e.species.active==='both'));

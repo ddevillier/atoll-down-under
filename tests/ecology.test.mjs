@@ -34,7 +34,7 @@ test('grazers actually eat plant food in the same ecosystem',()=>{
 test('new reef sections have mixed communities rather than mandatory large predators',()=>{
  for(let seed=1;seed<=10;seed++)for(const id of ['s1','s19']){
   const s=new Simulation(seed);s.start('practice',id);
-  for(const section of s.sections){assert.ok(section.entities.filter(e=>e.species.diet.includes('fish')).length<=2);assert.ok(section.entities.filter(e=>!e.species.diet.includes('fish')).length>=16);}
+  for(const section of s.sections){assert.ok(section.entities.filter(e=>e.species.diet.includes('fish')).length<=2);assert.ok(section.entities.filter(e=>!e.species.diet.includes('fish')).length>=3*section.entities.filter(e=>e.species.diet.includes('fish')).length);}
  }
 });
 test('observations preserve behavior, habitat and relationship through saving',()=>{

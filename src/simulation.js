@@ -2,6 +2,7 @@ import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
 import {creatureWidth} from './geometry.js';
 import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
 import {turnTowards,edgeDestination} from './steering.js';
+import {populationFor} from './populations.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -41,11 +42,11 @@ export class Simulation {
  populate(reef){
   const available=SPECIES.filter(s=>s.active===this.period||s.active==='both');
   const entities=[];
-  for(let i=0;i<15;i++){
-   // A community of grazers and small foragers, with occasional hunters.
-   // No habitat is required to contain a shark or a predator for the player.
-   const hunters=entities.filter(e=>e.species.diet.includes('fish')).length;
-   const seekHunter=i%6===5&&hunters<2;
+  const population=populationFor(reef.id,()=>this.random());
+  for(let i=0;i<population.foragers+population.hunters;i++){
+   // One hunter plus a possible second: Outer Blue has a modestly higher
+   // second-hunter chance, without requiring a shark or targeting the player.
+   const seekHunter=i>=population.foragers;
    let pool=available.filter(s=>s.playable&&s.ability!=='clean'&&s.diet.includes('fish')===seekHunter&&(seekHunter||s.size<130));
    // Prefer local residents without filling an entire habitat with copies of
    // its one eligible forager. Small explicit schools are added separately.
@@ -57,7 +58,7 @@ export class Simulation {
   const schooling=available.filter(s=>s.habitat==='school');
   const school=reef.habitat==='open'&&schooling.length?(schooling.find(s=>s.id===this.player.species.id)||schooling[Math.floor(this.random()*schooling.length)]):null;
   const schoolX=500+this.random()*450,schoolY=170+this.random()*140,schoolAngle=this.random()*Math.PI*2;
-  for(let i=0;i<3;i++){
+  for(let i=0;i<population.companions;i++){
    const s=school||small[Math.floor(this.random()*small.length)];
    const fish=entity(s,++this.uid,school?schoolX+i*55:100+this.random()*(W-200),school?schoolY+(i%2)*35:100+this.random()*(H-220));
    if(school){fish.angle=schoolAngle;fish.satiated=20+this.random()*20;fish.behavior='Swimming with a school';}
