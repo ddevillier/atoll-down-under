@@ -297,12 +297,14 @@ export class Simulation {
    const station=cleaner.station||cleaner,dx=station.x+35-e.x,dy=station.y-e.y,dist=Math.hypot(dx,dy);
    if(dist>12){e.angle=turnTowards(e.angle,Math.atan2(dy,dx),e.species.agility*dt);e.x+=Math.cos(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.y+=Math.sin(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.facing=Math.cos(e.angle)>=0?1:-1;e.cleanTime=0;e.behavior='Visiting a cleaning station';}
    else{
-    const busy=p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
+    const busy=cleaner.stun>0||p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
     e.behavior=busy?'Waiting for a cleaner':'Being cleaned';if(!busy)e.cleanTime+=dt;
     if(e.cleanTime>=3){e.health=100;e.cleanTime=0;e.target=null;e.behavior='Leaving the cleaning station';e.angle+=Math.PI;e.think=2;}
    }
    return;
   }
+  // A finished or unavailable visit must not retain treatment progress.
+  e.cleanTime=0;
   // Old saves can contain a meal target aimed at a cleaner. A healthy client
   // releases that target; parasite-driven visits are handled above.
   if(e.target&&this.section.entities.some(b=>b.id===e.target&&b.species.ability==='clean')){e.target=null;e.pursuit=0;e.think=0;}

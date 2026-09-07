@@ -20,6 +20,8 @@ One treatment label replaces the station label during player cleaning, preventin
 
 ## Verification
 
+Source follow-up after the Windows Cleaners milestone: NPC treatment now pauses while its cleaner is stunned, then resumes; clients also discard stale treatment progress after recovery or loss of the visit. Both regression cases failed before the repair and pass afterward. All 133 unit/asset checks pass. This follow-up is not yet in the parked Windows Cleaners ZIP; its receipt remains accurate for runtime 9cdeab3.
+
 All 131 unit/asset checks pass, including day/night request clicks, gradual recovery, steering cancellation, NPC queue order, missing/healthy partners, saved treatment, legacy targets and injury/poison separation. The dedicated browser cases exercise both day and night at 1024×768 and 1600×900 with actual mouse and keyboard controls.
 
 The first sustained check exposed an inconsistent food predicate: callers still offered cleaners as meals even though clicks now requested treatment. That was repaired in the shared rule, rather than teaching only the test to ignore them. The corrected ten-minute seed-42 exploration exercise completes for all 55 playable species, compared with 41 in that intermediate version. Evidence is retained in artifacts/exploration-cleaner-loop.json and exploration-cleaner-loop-corrected.json. These automated runs are bounded regression evidence, not a prediction of a child's play.

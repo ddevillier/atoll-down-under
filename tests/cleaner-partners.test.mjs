@@ -45,6 +45,27 @@ test('clients still approach and receive parasite removal instead of losing thei
  assert.ok(client.health>99);assert.equal(client.target,null);assert.equal(cleaner.alive,true);
 });
 
+test('a stunned cleaner pauses NPC service and resumes when it can help again',()=>{
+ const {s,client,cleaner}=fixture();client.health=40;client.x=cleaner.station.x+35;
+ client.target=cleaner.id;client.cleanTime=1;cleaner.stun=5;
+ for(let i=0;i<60;i++){s.stepNpc(client,1/60);s.stepNpc(cleaner,1/60);}
+ assert.equal(client.cleanTime,1);assert.ok(client.health<41);
+ assert.equal(client.behavior,'Waiting for a cleaner');
+ cleaner.stun=0;
+ for(let i=0;i<130;i++){s.stepNpc(client,1/60);s.stepNpc(cleaner,1/60);}
+ assert.ok(client.health>99);assert.equal(client.target,null);
+});
+
+test('a recovered saved client releases stale treatment so the player can use the station',()=>{
+ const {s,client,cleaner}=fixture();Object.assign(client,{health:100,target:cleaner.id,cleanTime:1});
+ Object.assign(s.player,{health:40,x:cleaner.station.x+35,y:cleaner.station.y});
+ s.requestCleaning(cleaner);
+ const restored=Simulation.restore(s.serialize());restored.paused=false;
+ for(let i=0;i<300;i++)restored.step(1/60);
+ assert.equal(restored.player.health,100);
+ assert.equal(restored.section.entities.find(e=>e.id===client.id).cleanTime,0);
+});
+
 test('cleaners reject direct consumption and legacy absent partners return to their station',()=>{
  const {s,cleaner}=fixture();s.player.species=SPECIES[53];s.player.energy=40;
  s.consume(cleaner);assert.equal(cleaner.alive,true);assert.equal(s.player.energy,40);
