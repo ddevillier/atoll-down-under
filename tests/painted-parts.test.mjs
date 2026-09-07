@@ -1,6 +1,23 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {PART_RIGS,bodyPoint,partPose} from '../src/part-motion.js';
 import {ANIMAL_RIGS} from '../src/animal-rigs.js';
+import {SPECIES} from '../src/data.js';
+import {contactDelay,mealContact,tickFeeding,feedingEnvelope} from '../src/feeding-motion.js';
+
+test('hunter jaws follow one real meal contact and return to rest without an idle gape loop',()=>{
+ for(const id of ['s16','s21','s38','s39']){
+  const species=SPECIES.find(s=>s.id===id),target={id:123,x:10,y:20},e={species,alive:true,target:123},delay=contactDelay(species),angle=()=>partPose(id,'jaw',10,1,{feed:feedingEnvelope(e)}).angle;
+  for(const time of [0,.2,2,20])assert.equal(partPose(id,'jaw',time,1).angle,0);
+  assert.equal(mealContact(e,target,delay/2),false);const preparation=angle();assert.ok(preparation>0);
+  assert.equal(mealContact(e,target,delay/2),true);const contact=angle();assert.ok(contact>preparation);
+  assert.equal(mealContact(e,target,.01),false);
+  tickFeeding(e,.18);assert.ok(angle()<preparation&&angle()>0);
+  tickFeeding(e,.19);assert.equal(angle(),0);assert.equal(e.feeding,null);
+  const jaw=PART_RIGS[id].parts.find(p=>p.mode==='jaw'),eye=ANIMAL_RIGS[id].eye;
+  assert.ok(eye[1]<Math.min(...jaw.polygon.map(p=>p[1])),id+' eye stays above the mouth cut');
+  if(PART_RIGS[id].spine)assert.ok(Math.min(...jaw.polygon.map(p=>p[0]))>PART_RIGS[id].spine.front,id+' jaw remains on rigid snout');
+ }
+});
 
 test('trumpetfish keeps its tube snout and body rigid while rear fins work at rest',()=>{
  for(let i=0;i<24;i++)for(let x=.14;x<1;x+=.04)for(const y of [.35,.5,.65])assert.deepEqual(bodyPoint('s41',x,y,i/24,1,{turn:1}),{x,y});

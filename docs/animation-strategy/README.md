@@ -144,3 +144,7 @@ The user finds the fish/shark progressions too similar and specifically likes th
 ## Hovering reef fish continuation
 
 The [hovering fin review](hover-parts-review.md) covers neon damselfish, orange coral goby, anemonefish and humbug damselfish. Painted pectorals now scull at rest while tail strokes settle, with fixed body cores. Four phase views and eight ordinary gameplay captures were inspected. All 249 unit tests and seven targeted browser checks pass, including cropped-canvas alignment across all sixteen painted-part species and preserved cuttlefish camouflage. The live preview now includes these hoverers. Small-player readability, continuous perceptual acceptance and native delivery remain open.
+
+## Reef hunter fins and jaws
+
+The [hunter review](hunter-parts-review.md) adds four heavy reef hunters with independent fins and feeding-driven lower jaws, bringing painted-part coverage to 27 species. Initial strips exposed angular mouth fills; four confirmation strips verify the corrected painted silhouettes. Eight ordinary gameplay views were inspected at both desktop sizes. All 256 unit tests and four targeted browser checks pass. The live preview includes these hunters and a feeding gesture control. Continuous perceptual acceptance, complete roster work and native Windows delivery remain open.
