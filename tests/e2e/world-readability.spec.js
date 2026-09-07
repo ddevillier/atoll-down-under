@@ -12,3 +12,12 @@ test('world labels clear each other and the player, remain legible, and freeze d
   expect(result.same).toBe(true);expect(result.cleaner).toBe(true);expect(result.shelter).toBe(true);expect(result.count).toBeGreaterThan(2);expect(result.collisions).toBe(0);expect(result.playerCovered).toBe(false);expect(result.pixelFont).toBeGreaterThanOrEqual(14.9);expect(result.inside).toBe(true);
  }
 });
+
+test('inspecting a natural feeding pair keeps labels off both companions',async({page})=>{
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+  const result=await page.evaluate(async()=>{
+   const {Simulation}=await import('/src/simulation.js'),{overlaps}=await import('/src/world-labels.js'),s=new Simulation(42),r=window.atoll.renderer;s.start('practice','s8');s.current=0;for(let i=0;i<645;i++)s.step(1/60);s.paused=true;const fish=s.section.entities.find(e=>e.id===1),partner=s.section.entities.find(e=>e.id===fish.ecology?.partner);if(!partner)throw Error('Expected an existing linked pair');r.inspect=true;r.hover=fish;r.draw(s,0);const bodies=[fish,partner].map(e=>r.labelObstacles.find(b=>b.id===e.id));return {protected:bodies.every(Boolean),clear:bodies.every(b=>b&&r.labelLayout.every(l=>!overlaps(l,b))),named:r.labelLayout.some(l=>l.text===fish.species.name)};
+  });expect(result.protected).toBe(true);expect(result.clear).toBe(true);expect(result.named).toBe(true);
+ }
+});

@@ -182,6 +182,10 @@ export class ReefRenderer {
   for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='sand'){c.save();c.globalAlpha=Math.max(0,.6-e.t*.4);c.fillStyle='#e5d4a7';for(let i=0;i<14;i++){const age=this.reducedMotion?0:e.t;c.beginPath();c.arc(e.x+Math.sin(i*2.4)*(12+age*40),e.y-Math.cos(i*1.7)*8-age*18,1.5+i%3,0,Math.PI*2);c.fill();}c.restore();}else if(e.type==='eat'){this.tag(c,e.x,e.y-28-(this.reducedMotion?0:e.t*20),e.label||'Meal taken',Math.min(1,(2.2-e.t)/1.2));}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
   this.effects=this.effects.filter(e=>e.t<(e.type==='eat'?2.2:1.4));
   const interacting=new Set(living.filter(e=>e.activity==='shadowing'||e.activity==='probing'||e.activity==='investigating-lure'||lureDisplay(e)>.1||e.activity==='at-home'&&e.ecology?.watch||e.cleanTime>0||foregroundCleaner(e)));
+  // Inspection should reveal the fish and its nearby companions, including
+  // a partner waiting above a meal where the hover label used to cover it.
+  const focus=living.find(e=>e===this.hover);
+  if(focus){interacting.add(focus);for(const e of living)if(e.id===focus.ecology?.partner||focus.activity==='schooling'&&e.species.id===focus.species.id&&Math.hypot(e.x-focus.x,e.y-focus.y)<260)interacting.add(e);}
   for(const e of [...interacting]){const host=living.find(h=>h.id===(e.ecology?.watch?.id??e.ecology?.host));if(host)interacting.add(host);}
   const clearFrames=[...interacting].map(e=>({...projectedBounds(this.poses.get(e.id)?.frame||creatureFrame(e),4*this.uiUnit),id:e.id}));
   this.drawPlayerMarker(c,p.hidden);this.drawTags(c,clearFrames);c.restore();

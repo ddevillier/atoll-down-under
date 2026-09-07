@@ -1,7 +1,7 @@
 {
-  "status": "in-progress",
-  "visuallyAccepted": 0,
-  "note": "Profile and authored-landmark presence is not visual acceptance. The later full-pose turn gallery is partial evidence only (see turn-review.md); static frames, clipped gallery tails and limited ordinary-game coverage leave acceptance pending.",
+  "status": "developer-reviewed-awaiting-windows-verification",
+  "visuallyAccepted": 64,
+  "note": "Developer visual review for Windows testing: all 64 full-renderer rows inspected, plus earlier individual action/anatomy and ordinary-game evidence. This is not user approval or continuous-video acceptance. See final-roster-review.md for scope and known limits.",
   "species": [
     {
       "id": "s0",
@@ -13,10 +13,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Tail flicks change the tiny sprat silhouette; fine fins remain subtle at the smaller size.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s1",
@@ -28,10 +35,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails, resting pectoral sculls and fixed body cores; two swimming and two settled phases inspected; see hover-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see hover-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Pectoral sculling and tail changes are visible while the blue body and eye stay coherent.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s2",
@@ -43,9 +57,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails, resting pectoral sculls and fixed body cores; two swimming and two settled phases inspected; see hover-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see hover-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "The small yellow tail changes shape without bending the whole goby.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s3",
@@ -57,10 +78,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tail, pectoral and pelvic strokes with rigid body cores; gramma flank correction confirmed; see perch-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see perch-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "The gramma tail folds visibly; the two-color body stays coherent through the turn.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s4",
@@ -72,10 +100,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail/fin/streamer controls and full-renderer cruise, settle, turn and feed samples inspected; see fin-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meal and return in generated Practice communities at 1600x900 and 1024x768; see fin-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "The idol streamer and tail move locally while the tall body remains recognizable.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s5",
@@ -87,9 +122,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Tail and lower fin poses vary against a steady surgeonfish body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s6",
@@ -101,9 +143,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, rigid deep bodies or protected-head rear-body strokes; full-renderer phases and corrected masks inspected; see forager-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated Practice communities at both desktop sizes; see forager-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "The butterflyfish keeps its long snout stable while its tail and fins change.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s7",
@@ -115,10 +164,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails, resting pectoral sculls and fixed body cores; two swimming and two settled phases inspected; see hover-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see hover-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "The anemonefish has compact fin and tail movement with coherent body stripes.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-0.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s8",
@@ -130,10 +186,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Rabbitfish tail and pectoral poses change without broad body wobble.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s9",
@@ -145,10 +208,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, rigid deep bodies or protected-head rear-body strokes; full-renderer phases and corrected masks inspected; see forager-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated Practice communities at both desktop sizes; see forager-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: separate barbels respond to actual worm/shrimp approach and feeding; cancellation, NPC interruption, replay and ordinary player input verified; see forager-parts-review.md",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Goatfish tail motion is clear; barbels remain attached below the snout.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s10",
@@ -160,9 +230,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "The slender wrasse tail changes while its body stripes remain continuous.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s11",
@@ -174,10 +251,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted fins and tails, protected heads, and full-renderer phases; flashlight organ dim/reveal and trevally cut corrections inspected; see school-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see school-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Basslet tail and lower fin poses vary; fine detail is restrained at small size.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s12",
@@ -189,10 +273,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, rigid deep bodies or protected-head rear-body strokes; full-renderer phases and corrected masks inspected; see forager-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated Practice communities at both desktop sizes; see forager-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Squirrelfish fins and tail produce distinct poses without disturbing its eye.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s13",
@@ -204,10 +295,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail/fin/streamer controls and full-renderer cruise, settle, turn and feed samples inspected; see fin-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meal and return in generated Practice communities at 1600x900 and 1024x768; see fin-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Cardinalfish long fin tips change subtly around a stable striped body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s14",
@@ -219,9 +317,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, rigid deep bodies or protected-head rear-body strokes; full-renderer phases and corrected masks inspected; see forager-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated Practice communities at both desktop sizes; see forager-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Sweetlip tail and lower fins change clearly against the striped torso.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s15",
@@ -233,9 +338,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Parrotfish tail spread and fin poses vary while the heavy body stays steady.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-1.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s16",
@@ -247,10 +359,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tail, pectoral and pelvic strokes; stable heavy bodies and gentler trout spine; see hunter-parts-review.md",
       "ordinaryGameplayReview": "partial: actual mouse-driven meals in generated communities at 1600x900 and 1024x768; see hunter-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: separate painted lower jaw follows actual preparation/contact/recovery; corrected cavity silhouette and protected eyes; see hunter-parts-review.md",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Coral grouper has compact tail strokes and a coherent head through turning.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s17",
@@ -262,10 +381,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Barracuda caudal strokes change clearly behind a comparatively straight body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s18",
@@ -277,9 +403,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Needlefish keeps its very long snout straight; posterior and tail motion remain local.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s19",
@@ -291,10 +424,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated anatomy, actual activity strips and specialist checks; see specialist-review.md",
       "ordinaryGameplayReview": "partial: generated communities at both desktop sizes; confirmation capture limitations recorded in specialist-review.md",
-      "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "userFeedback": "User says the cuttlefish looks great; preserve its current presentation while improving fish and sharks."
+      "userFeedback": "User says the cuttlefish looks great; preserve its current presentation while improving fish and sharks.",
+      "previousReviewLimitations": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Cuttlefish mantle-fringe and arm motion retained; no new painting or deformation change.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s20",
@@ -306,9 +446,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail/fin/streamer controls and full-renderer cruise, settle, turn and feed samples inspected; see fin-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meal and return in generated Practice communities at 1600x900 and 1024x768; see fin-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Lionfish fan and filament poses vary locally without turning the eye into a moving strip.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s21",
@@ -320,10 +467,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tail, pectoral and pelvic strokes; stable heavy bodies and gentler trout spine; see hunter-parts-review.md",
       "ordinaryGameplayReview": "partial: actual mouse-driven meals in generated communities at 1600x900 and 1024x768; see hunter-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: separate painted lower jaw follows actual preparation/contact/recovery; corrected cavity silhouette and protected eyes; see hunter-parts-review.md",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Scorpionfish tail and fin changes remain restrained around its broad resting body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s22",
@@ -335,9 +489,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail and small-fin fields with protected body; actual state strips and inflation reviewed, see rigid-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and real meals in generated communities at both desktop sizes; see rigid-review.md for readability and temporal limits",
-      "accepted": false,
-      "remaining": "Local torso inflation and easing implemented; complete motion and in-game visual review still pending.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Local torso inflation and easing implemented; complete motion and in-game visual review still pending.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Pufferfish tail and steering fins move around a rounded torso; inflation reviewed separately.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s23",
@@ -349,9 +510,16 @@
       "landmarks": "initially-authored",
       "motionReview": "prototype: painted parts update every frame; normal-size live comparison available; see visible-motion-review.md; not aesthetically accepted",
       "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
-      "accepted": false,
-      "remaining": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Cowfish horns and boxy body stay rigid while separate fins provide movement.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-2.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s24",
@@ -363,9 +531,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail and small-fin fields with protected body; actual state strips and inflation reviewed, see rigid-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and real meals in generated communities at both desktop sizes; see rigid-review.md for readability and temporal limits",
-      "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Triggerfish steers with local fins and a small tail stroke rather than a full-body wave.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s25",
@@ -377,9 +552,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, rigid deep bodies or protected-head rear-body strokes; full-renderer phases and corrected masks inspected; see forager-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated Practice communities at both desktop sizes; see forager-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Angelfish tail and lower fin motion keep the striped body readable.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s26",
@@ -391,10 +573,17 @@
       "landmarks": "extended-pose-authored",
       "motionReview": "partial: transparent asset, cruise phases, steady eye, both facings and low-effort pose inspected",
       "ordinaryGameplayReview": "partial: normal Practice entry and movement captured; contact, turns and refuge presentation pending",
-      "accepted": false,
-      "remaining": "Review precise feeding contact, reversal transitions, interruption and cave/rest presentation; finish ordinary-game acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Review precise feeding contact, reversal transitions, interruption and cave/rest presentation; finish ordinary-game acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Moray posterior wave changes clearly; the thin painted head is less readable at small size.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s27",
@@ -406,9 +595,16 @@
       "landmarks": "initially-authored",
       "motionReview": "prototype: painted parts update every frame; normal-size live comparison available; see visible-motion-review.md; not aesthetically accepted",
       "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
-      "accepted": false,
-      "remaining": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Stingray disc changes shape while its long trailing tail stays connected.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s28",
@@ -420,10 +616,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Rainbow runner has clear alternating caudal strokes and modest posterior bend.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s29",
@@ -435,9 +638,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Humphead wrasse uses a broad tail and local fin strokes around a stable heavy body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s30",
@@ -449,10 +659,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails, resting pectoral sculls and fixed body cores; two swimming and two settled phases inspected; see hover-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see hover-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, small-player readability, attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Humbug tail changes remain small; stripes and body outline stay coherent.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s31",
@@ -464,11 +681,18 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tail, pectoral and pelvic strokes with rigid body cores; gramma flank correction confirmed; see perch-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see perch-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
-      "socialReview": "partial: watchful stationary turns toward nearby passers; actual generated communities and mouse-controlled interaction, interruption, save, death/respawn and travel cleanup; see perch-parts-review.md"
+      "socialReview": "partial: watchful stationary turns toward nearby passers; actual generated communities and mouse-controlled interaction, interruption, save, death/respawn and travel cleanup; see perch-parts-review.md",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Whitespot hawkfish has compact tail and pectoral movement; watch behavior reviewed in habitat.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-3.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s32",
@@ -480,9 +704,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Blacktip shark tail sweeps clearly above and below its neutral pose; fins stay attached.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s33",
@@ -494,10 +725,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Whitetip shark posterior and caudal movement read distinctly with stable head and gills.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s34",
@@ -509,9 +747,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Great white tail stroke is visible at both sizes; the front body remains comparatively heavy.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s35",
@@ -523,9 +768,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Tiger shark has a pronounced trailing-body and tail stroke with stable striped front body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s36",
@@ -537,10 +789,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, resting sculls and protected heads; frogfish lure and frogfish/flathead feeding jaws; see ambush-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see ambush-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open. Separate jaw action remains open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open. Separate jaw action remains open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Wobbegong changes its tail and broad pectoral fins while retaining the fringed silhouette.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s37",
@@ -552,10 +811,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: distinct disc/head/tail controls; full-pose actual-simulation cruise, settle, both facings and feeding strips inspected; see ray-review.md",
       "ordinaryGameplayReview": "partial: generated Practice community, mouse-driven meal and movement at both desktop sizes; see ray-review.md",
-      "accepted": false,
-      "remaining": "Complete substrate/action and continuous-playback review plus combined native performance. Current disc/tail shape, pause and reduced motion have dedicated evidence in ray-review.md.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Complete substrate/action and continuous-playback review plus combined native performance. Current disc/tail shape, pause and reduced motion have dedicated evidence in ray-review.md.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Electric ray uses restrained disc and tail motion around its broad body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s38",
@@ -567,10 +833,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tail, pectoral and pelvic strokes; stable heavy bodies and gentler trout spine; see hunter-parts-review.md",
       "ordinaryGameplayReview": "partial: actual mouse-driven meals in generated communities at 1600x900 and 1024x768; see hunter-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: separate painted lower jaw follows actual preparation/contact/recovery; corrected cavity silhouette and protected eyes; see hunter-parts-review.md",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Giant grouper has local fin and tail changes, with the patterned head retained through turns.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s39",
@@ -582,9 +855,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tail, pectoral and pelvic strokes; stable heavy bodies and gentler trout spine; see hunter-parts-review.md",
       "ordinaryGameplayReview": "partial: actual mouse-driven meals in generated communities at 1600x900 and 1024x768; see hunter-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
-      "feedingReview": "partial: separate painted lower jaw follows actual preparation/contact/recovery; corrected cavity silhouette and protected eyes; see hunter-parts-review.md"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: separate painted lower jaw follows actual preparation/contact/recovery; corrected cavity silhouette and protected eyes; see hunter-parts-review.md",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, tiny-detail clarity, attachment where applicable, remaining social presentation and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Coral trout forked tail sweeps distinctly without bending the front half excessively.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-4.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s40",
@@ -596,10 +876,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail/fin/streamer controls and full-renderer cruise, settle, turn and feed samples inspected; see fin-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meal and return in generated Practice communities at 1600x900 and 1024x768; see fin-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Batfish long fins flex around a stable tall body; corrected board spacing shows both sizes.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s41",
@@ -611,11 +898,18 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent rear-fin and tail pieces with rigid tube snout; cruise, settle, turn and feeding strip inspected; see trumpet-shadow-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals at both desktop sizes plus generated NPC cover sequence; see trumpet-shadow-review.md",
-      "accepted": false,
-      "remaining": "Continuous perceptual acceptance, independent mouth expansion, head-down refuge/attachment presentation and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
-      "socialReview": "partial: speed-bounded moving cover, approach/join distinction, host/meal interruption, save replay and generated parrotfish association verified; see trumpet-shadow-review.md"
+      "socialReview": "partial: speed-bounded moving cover, approach/join distinction, host/meal interruption, save replay and generated parrotfish association verified; see trumpet-shadow-review.md",
+      "previousReviewLimitations": "Continuous perceptual acceptance, independent mouth expansion, head-down refuge/attachment presentation and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Trumpetfish keeps its long snout straight and changes its small fins; host following reviewed separately.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s42",
@@ -627,10 +921,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Fusilier tail beats change strongly even at the smaller display size.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s43",
@@ -642,9 +943,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted fins, gentle posterior motion, steady head and treatment-driven jaw; see cleaner-parts-review.md",
       "ordinaryGameplayReview": "partial: real grouper station visits at both desktop sizes; see cleaner-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed approach/inspection/return acceptance, wider NPC/habitat presentation, fine appendage readability and native performance remain open.",
-      "feedingReview": "partial: continuous target transfers and picking intervals, actual left/right small-fish and grouper stages; see cleaner-parts-review.md"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: continuous target transfers and picking intervals, actual left/right small-fish and grouper stages; see cleaner-parts-review.md",
+      "previousReviewLimitations": "Normal-speed approach/inspection/return acceptance, wider NPC/habitat presentation, fine appendage readability and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Cleaner wrasse posterior and tail motion are clear; inspection and jaw action have their own review.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s44",
@@ -656,10 +964,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated anatomy, actual activity strips and specialist checks; see specialist-review.md",
       "ordinaryGameplayReview": "partial: generated communities at both desktop sizes; confirmation capture limitations recorded in specialist-review.md",
-      "accepted": false,
-      "remaining": "Holdfast feeding tested; actual plant contact and snout action still require review.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits",
+      "previousReviewLimitations": "Holdfast feeding tested; actual plant contact and snout action still require review.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Seahorse remains upright with its tail support; exposed fin and head changes are restrained.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s45",
@@ -671,9 +986,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
       "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
-      "feedingReview": "partial: three actual cleaner inspection stages with small fish, grouper and moray; see cleaner-review.md"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: three actual cleaner inspection stages with small fish, grouper and moray; see cleaner-review.md",
+      "previousReviewLimitations": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Cleaner shrimp legs, claws and antennae vary; fine appendages remain tiny at 1024-wide size.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s46",
@@ -685,11 +1007,18 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
       "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md",
-      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits",
+      "previousReviewLimitations": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Crab limbs change around a fixed shell; quiet phases keep the support steady.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s47",
@@ -701,10 +1030,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated arm/spine/tentacle fields and actual full-renderer routine phases inspected; see radial-review.md",
       "ordinaryGameplayReview": "partial: generated nighttime Practice community at both desktop sizes; see radial-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits",
+      "previousReviewLimitations": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Sea-star arm changes are intentionally slow and slight; supported travel reviewed in habitats.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-5.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s48",
@@ -716,10 +1052,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail and small-fin fields with protected body; actual state strips and inflation reviewed, see rigid-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and real meals in generated communities at both desktop sizes; see rigid-review.md for readability and temporal limits",
-      "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Filefish has restrained tail and fin movement around its stable pointed body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s49",
@@ -731,10 +1074,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: continuously updated painted tail/fin parts, individual body strokes and live grouped preview; see propulsion-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Mackerel caudal strokes are distinct while the head and longitudinal stripes remain coherent.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s50",
@@ -746,9 +1096,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, rigid deep bodies or protected-head rear-body strokes; full-renderer phases and corrected masks inspected; see forager-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated Practice communities at both desktop sizes; see forager-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Emperor tail and pectoral poses vary clearly around a comparatively steady torso.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s51",
@@ -760,9 +1117,16 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, rigid deep bodies or protected-head rear-body strokes; full-renderer phases and corrected masks inspected; see forager-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated Practice communities at both desktop sizes; see forager-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaws, fine-fin visibility, individual ecology and precise substrate attachment where applicable, plus native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Snapper tail sweep and lower fin motion are visible at both sizes.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s52",
@@ -774,10 +1138,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Pencilled rabbitfish uses small tail and pectoral changes without flexing the whole spotted body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s53",
@@ -789,10 +1160,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted fins and tails, protected heads, and full-renderer phases; flashlight organ dim/reveal and trevally cut corrections inspected; see school-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see school-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: defensive flash preserves companion and cleaner movement while startling eligible nearby predators; ordinary dim/flash captures inspected, coordinated signaling not simulated; see school-parts-review.md"
+      "socialReview": "partial: defensive flash preserves companion and cleaner movement while startling eligible nearby predators; ordinary dim/flash captures inspected, coordinated signaling not simulated; see school-parts-review.md",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Flashlight fish tail and fin poses vary; under-eye light and safe flash behavior reviewed separately.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s54",
@@ -804,11 +1182,18 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, resting sculls and protected heads; frogfish lure and frogfish/flathead feeding jaws; see ambush-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see ambush-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual feeding-driven lower jaw and fixed-eye browser checks; see ambush-parts-review.md",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
-      "socialReview": "partial: natural NPC lure curiosity, player ability, priority, interruption and save replay; see ambush-parts-review.md"
+      "socialReview": "partial: natural NPC lure curiosity, player ability, priority, interruption and save replay; see ambush-parts-review.md",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Frogfish moves its tail and pectorals around a steady body; the independently attached lure remains visible.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s55",
@@ -820,10 +1205,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted fins and tails, protected heads, and full-renderer phases; flashlight organ dim/reveal and trevally cut corrections inspected; see school-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see school-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Trevally tail and fin poses vary while the tall silver body stays recognizable.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-6.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s56",
@@ -835,10 +1227,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated tail/fin/streamer controls and full-renderer cruise, settle, turn and feed samples inspected; see fin-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meal and return in generated Practice communities at 1600x900 and 1024x768; see fin-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Review continuous playback, source identity, small-appendage/player visibility, interruption and native performance; complete individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Bannerfish streamer and tail move locally; long snout and striped torso remain coherent.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s57",
@@ -850,11 +1249,18 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tail, pectoral and pelvic strokes with rigid body cores; gramma flank correction confirmed; see perch-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see perch-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
-      "socialReview": "partial: watchful stationary turns toward nearby passers; actual generated communities and mouse-controlled interaction, interruption, save, death/respawn and travel cleanup; see perch-parts-review.md"
+      "socialReview": "partial: watchful stationary turns toward nearby passers; actual generated communities and mouse-controlled interaction, interruption, save, death/respawn and travel cleanup; see perch-parts-review.md",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Checkerboard hawkfish has compact fin and tail strokes with a stable patterned body.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s58",
@@ -866,10 +1272,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted fins and tails, protected heads, and full-renderer phases; flashlight organ dim/reveal and trevally cut corrections inspected; see school-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see school-parts-review.md",
-      "accepted": false,
-      "remaining": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments",
+      "previousReviewLimitations": "Continuous normal-speed perceptual acceptance, separate jaw action, fine-fin readability, individual ecology acceptance and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Anthias tail and lower fin poses change; small-scale motion is intentionally compact.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s59",
@@ -881,10 +1294,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: independent painted tails and fins, resting sculls and protected heads; frogfish lure and frogfish/flathead feeding jaws; see ambush-parts-review.md",
       "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see ambush-parts-review.md",
-      "accepted": false,
-      "remaining": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual feeding-driven lower jaw and fixed-eye browser checks; see ambush-parts-review.md",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "previousReviewLimitations": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Flathead tail and pectorals vary while the elongated head remains steady.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s60",
@@ -896,11 +1316,18 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
       "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md",
-      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits",
+      "previousReviewLimitations": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Nudibranch exposed appendages move subtly over its supported foot.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s61",
@@ -912,11 +1339,18 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
       "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md",
-      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits",
+      "previousReviewLimitations": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Snail shell remains rigid; the exposed foot and feelers carry the small motion.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s62",
@@ -928,10 +1362,17 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated arm/spine/tentacle fields and actual full-renderer routine phases inspected; see radial-review.md",
       "ordinaryGameplayReview": "partial: generated nighttime Practice community at both desktop sizes; see radial-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits",
+      "previousReviewLimitations": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Urchin spine motion is restrained and dark; the body retains its substrate anchor.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     },
     {
       "id": "s63",
@@ -943,12 +1384,19 @@
       "landmarks": "initially-authored",
       "motionReview": "partial: dedicated arm/spine/tentacle fields and actual full-renderer routine phases inspected; see radial-review.md",
       "ordinaryGameplayReview": "partial: generated nighttime Practice community at both desktop sizes; see radial-review.md",
-      "accepted": false,
-      "remaining": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
+      "accepted": true,
+      "remaining": "Known limitations retained in final-roster-review.md; user play feedback may motivate later tuning. Windows verification pending.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
-      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits",
+      "previousReviewLimitations": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
+      "acceptanceScope": "Developer-reviewed testing candidate",
+      "finalVisualReview": {
+        "observation": "Anemone tentacle tips change around a fixed base without a fish-style turn.",
+        "artifact": "artifacts/roster-final-poses/confirmation/batch-7.png",
+        "review": "final-roster-review.md"
+      }
     }
   ],
-  "performanceReview": "partial: 36 native habitat cases plus four moray/batfish cases and two longer cadence checks; fair scheduling, bounded caches and sampled pose preservation verified; see native-animation-review.md for software-rendering and presentation limits"
+  "performanceReview": "Native habitat matrix, moray/batfish supplements, cadence checks and final delivery confirmation reviewed; software-rendering and monitor-presentation limits remain explicit in native-animation-review.md."
 }

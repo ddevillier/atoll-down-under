@@ -1,5 +1,12 @@
 # Whole-roster animation strategy
 
+Current handoff: all 64 animals have a developer visual review for the Windows testing candidate. See [final roster review](final-roster-review.md) for the final findings, social-meal evidence, combined checks and explicit visual limits. Windows package verification is the remaining delivery step.
+
+The entries below are a historical work log. Their earlier pending counts and unresolved lists describe those checkpoints; the final review and coverage ledger supersede them.
+
+## Historical work log
+
+
 Current animation state: 45 species use continuously posed painted parts, while nineteen retain dedicated mesh deformation. All 64 have individual review records. The latest [native animation review](native-animation-review.md) adds fair scheduling for deferred poses and finer slow-radial timing, with native habitat measurements and 114 matching baseline pose comparisons. Full-roster visual acceptance and the combined Windows archive remain open.
 
 Latest species checkpoint: [cleaner wrasse and continuous inspection](cleaner-parts-review.md). Independent wrasse fins and a treatment-driven jaw accompany smooth transfers between inspection areas for both cleaner species. The preceding [ambush pass](ambush-parts-review.md) adds frogfish lure curiosity. All 275 unit tests pass; the last simulation pressure check retains 26 bites, zero deaths and unchanged initial populations across 110 scenarios.
