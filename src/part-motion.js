@@ -4,19 +4,60 @@
 const clamp=x=>Math.max(0,Math.min(1,x)),TAU=Math.PI*2;
 const part=(name,polygon,hinge,fold,sweep,phase=0)=>({name,polygon,hinge,fold,sweep,phase});
 export const PART_RIGS={
+ s0:{frequency:2.7,spine:{root:.19,front:.79,axis:.52,amplitude:.045,lag:2.0},parts:[
+  part('tail',[[0,0],[.19,0],[.19,1],[0,1]],[[.19,.435],[.19,.615]],.35,.38,1.6),
+  part('dorsal',[[.397,.335],[.397,0],[.615,0],[.615,.285]],[[.407,.322],[.601,.283]],.30,.08,.4),
+  part('pelvic',[[.532,.78],[.632,.774],[.64,1.02],[.51,1.02]],[[.537,.786],[.626,.777]],.48,.14,1.2)
+ ]},
+ s17:{frequency:1.65,spine:{root:.20,front:.79,axis:.54,amplitude:.031,lag:1.5},parts:[
+  part('tail',[[0,0],[.20,0],[.20,1],[0,1]],[[.20,.45],[.20,.63]],.28,.34,1.6),
+  part('dorsal',[[.325,.368],[.325,0],[.513,0],[.513,.341]],[[.337,.36],[.505,.346]],.22,.07,.3),
+  part('rear dorsal',[[.657,.347],[.657,.1],[.744,.1],[.744,.355]],[[.662,.347],[.735,.351]],.18,.05,.7),
+  part('pelvic',[[.687,.714],[.748,.699],[.75,1.02],[.674,1.02]],[[.690,.719],[.743,.706]],.43,.15,1.0)
+ ]},
+ s18:{frequency:2.15,spine:{root:.106,front:.585,axis:.56,amplitude:.020,lag:1.45},parts:[
+  part('tail',[[0,0],[.106,0],[.106,1],[0,1]],[[.106,.49],[.106,.66]],.42,.42,1.6),
+  part('dorsal',[[.171,.447],[.171,0],[.298,0],[.298,.356]],[[.181,.432],[.289,.367]],.38,.09,.4),
+  part('pelvic',[[.339,.735],[.391,.722],[.40,1.02],[.32,1.02]],[[.343,.738],[.384,.726]],.48,.11,1.1)
+ ]},
  s23:{frequency:2.5,parts:[
   part('tail',[[0,0],[.198,0],[.198,1],[0,1]],[[.198,.49],[.198,.64]],.24,.18),
   part('dorsal',[[.28,.45],[.29,0],[.48,0],[.48,.35],[.43,.385],[.33,.445]],[[.33,.435],[.46,.36]],.62,.12,.8),
   part('pectoral',[[.708,.632],[.741,.622],[.751,.711],[.711,.843],[.611,.921],[.629,.853],[.671,.729]],[[.716,.638],[.740,.687]],.72,.32,1.4)
  ]},
+ s28:{frequency:1.95,spine:{root:.20,front:.78,axis:.535,amplitude:.044,lag:1.8},parts:[
+  part('tail',[[0,0],[.20,0],[.20,1],[0,1]],[[.20,.466],[.20,.604]],.30,.40,1.6),
+  part('dorsal',[[.443,.292],[.44,0],[.64,0],[.64,.215],[.585,.215],[.51,.237]],[[.448,.289],[.626,.214]],.25,.07,.3),
+  part('pelvic',[[.664,.757],[.748,.742],[.76,1.02],[.65,1.02]],[[.670,.764],[.741,.748]],.44,.18,1.1)
+ ]},
  s32:{frequency:1.05,spine:true,parts:[
   part('tail',[[0,0],[.21,0],[.21,1],[0,1]],[[.21,.425],[.21,.65]],.22,.25,1.7),
   part('dorsal',[[.435,.37],[.435,0],[.60,0],[.623,.345]],[[.445,.366],[.613,.345]],.12,.04,.3),
-  part('pectoral',[[.605,.633],[.725,.607],[.725,.64],[.647,.877],[.548,1.02],[.557,.88]],[[.610,.640],[.721,.621]],.43,.17,1.1)
+  part('pectoral',[[.605,.633],[.728,.606],[.725,.652],[.69,.800],[.627,.92],[.562,1.08],[.50,1.08],[.545,.84]],[[.610,.640],[.721,.621]],.43,.17,1.1)
+ ]},
+ s33:{frequency:.90,spine:{root:.20,front:.79,axis:.56,amplitude:.070,lag:2.4},parts:[
+  part('tail',[[0,0],[.20,0],[.20,1],[0,1]],[[.20,.455],[.20,.643]],.16,.23,1.8),
+  part('dorsal',[[.43,.412],[.43,0],[.624,0],[.624,.34]],[[.440,.401],[.615,.348]],.11,.04,.3),
+  part('pectoral',[[.627,.660],[.732,.61],[.73,.73],[.61,.96],[.55,1.03],[.575,.86]],[[.638,.661],[.725,.632]],.40,.16,1.1)
+ ]},
+ s34:{frequency:.72,spine:{root:.188,front:.76,axis:.56,amplitude:.040,lag:1.7},parts:[
+  part('tail',[[0,0],[.188,0],[.188,1],[0,1]],[[.188,.476],[.188,.614]],.15,.20,1.8),
+  part('dorsal',[[.430,.32],[.43,0],[.632,0],[.632,.28]],[[.443,.308],[.620,.287]],.085,.025,.3),
+  part('pectoral',[[.515,.712],[.670,.604],[.68,.650],[.626,.81],[.55,.94],[.48,1.10],[.405,1.10],[.448,.89]],[[.529,.692],[.664,.628]],.32,.12,1.1)
+ ]},
+ s35:{frequency:.82,spine:{root:.18,front:.78,axis:.58,amplitude:.060,lag:2.4},parts:[
+  part('tail',[[0,0],[.18,0],[.18,1],[0,1]],[[.18,.507],[.18,.657]],.20,.27,1.8),
+  part('dorsal',[[.430,.367],[.43,0],[.631,0],[.631,.303]],[[.444,.359],[.621,.312]],.12,.04,.3),
+  part('pectoral',[[.578,.72],[.711,.631],[.713,.69],[.665,.80],[.603,.90],[.54,1.1],[.465,1.1],[.525,.87]],[[.591,.704],[.698,.655]],.37,.16,1.1)
  ]},
  s42:{frequency:2.2,spine:true,parts:[
   part('tail',[[0,0],[.21,0],[.21,1],[0,1]],[[.21,.46],[.21,.59]],.30,.34,1.7),
   part('pelvic',[[.625,.765],[.754,.719],[.75,1.02],[.58,1.02]],[[.630,.765],[.742,.730]],.38,.14,1.1)
+ ]},
+ s49:{frequency:2.25,spine:{root:.20,front:.78,axis:.52,amplitude:.031,lag:1.7},parts:[
+  part('tail',[[0,0],[.20,0],[.20,1],[0,1]],[[.20,.420],[.20,.609]],.35,.37,1.6),
+  part('dorsal',[[.365,.337],[.365,0],[.593,0],[.593,.260]],[[.375,.328],[.583,.268]],.25,.08,.3),
+  part('pelvic',[[.632,.797],[.709,.787],[.72,1.02],[.61,1.02]],[[.638,.802],[.702,.793]],.45,.17,1.1)
  ]},
  s27:{frequency:.82,parts:[
   part('tail',[[0,0],[.44,0],[.44,1],[0,1]],[[.44,.38],[.44,.51]],.015,.035,.9),
@@ -37,12 +78,15 @@ export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0}={}){
 
 export function bodyPoint(id,u,v,time,effort=1,state={}){
  if(!PART_RIGS[id]?.spine)return {x:u,y:v};
- const a=clamp(effort),rear=clamp((.78-u)/.57),phase=time*PART_RIGS[id].frequency*TAU;
+ const rig=PART_RIGS[id],f=rig.spine===true?{root:.21,front:.78,axis:.54,amplitude:.060,lag:1.8}:rig.spine;
+ const a=clamp(effort),span=f.front-f.root,rear=clamp((f.front-u)/span),phase=time*rig.frequency*TAU;
  const drive=(.035+.965*Math.sqrt(a))*(1-clamp(state.feed||0)*.75),aspect=state.aspect||.44;
- const bend=q=>Math.sin(phase+q*1.8)*q*q*.060*drive+(state.turn||0)*q*q*.026;
- const offset=bend(rear),derivative=u<.78&&u>.21?(bend(Math.min(1,rear+.001))-bend(Math.max(0,rear-.001)))/.002/-.57:0;
- const angle=Math.atan(derivative),cross=(v-.54)*aspect;
- return {x:u-cross*Math.sin(angle),y:.54+(cross*Math.cos(angle)+offset)/aspect};
+ const bend=q=>Math.sin(phase+q*f.lag)*q*q*f.amplitude*drive+(state.turn||0)*q*q*.026;
+ // The tail hinge uses the same tangent as the final body section. Switching
+ // to zero slope exactly at the joint made that cross-section discontinuous.
+ const derivative=u<f.front?-(Math.cos(phase+rear*f.lag)*f.lag*rear*rear*f.amplitude*drive+Math.sin(phase+rear*f.lag)*2*rear*f.amplitude*drive+(state.turn||0)*2*rear*.026)/span:0;
+ const angle=Math.atan(derivative),cross=(v-f.axis)*aspect;
+ return {x:u-cross*Math.sin(angle),y:f.axis+(cross*Math.cos(angle)+bend(rear))/aspect};
 }
 
 function path(c,points,w,h){c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x*w,y*h):c.moveTo(x*w,y*h));c.closePath();}
@@ -65,7 +109,8 @@ export class PaintedParts{
   // Fourteen small triangles replace hundreds of full-image triangle draws.
   // All fin pieces use one affine draw each and have no pose-cache fallback.
   if(PART_RIGS[id].spine){
-   const xs=[.21,.30,.40,.50,.60,.70,.78,1];
+   const f=PART_RIGS[id].spine,root=f.root??.21,front=f.front??.78;
+   const xs=[0,.16,.33,.50,.67,.85,1].map(t=>root+(front-root)*t);xs.push(1);
    for(let i=0;i<xs.length-1;i++){const l=xs[i],r=xs[i+1],source=[[l,0],[r,0],[l,1],[r,1]],dest=source.map(([u,v])=>bodyPoint(id,u,v,time,effort,s));
     triangle(c,body,source[0],source[1],source[2],dest[0],dest[1],dest[2],width,height);
     triangle(c,body,source[1],source[3],source[2],dest[1],dest[3],dest[2],width,height);

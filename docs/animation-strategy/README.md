@@ -127,6 +127,10 @@ The [rigid-fish review](rigid-review.md) records separate tail, median and pecto
 ## Tail-driven swimmers and glides
 
 The [swimmer review](swim-review.md) records ten dedicated posterior-body/caudal/fin rigs and individual drive/glide intervals shared by NPC movement and rendering. Actual gameplay exposed and resolved an endless moving-meal approach without increasing speed or bite reach. All 246 unit tests and nine targeted browser scenarios pass (the new chase fixture required a menu-helper correction). Ten initial strips, twenty ordinary gameplay views, a four-shark routine sheet and two confirmation strips were inspected. Final pressure checks record 31 bites, zero deaths and unchanged initial counts across 110 scenarios. All species remain partially reviewed; shared readability, remaining anatomy, continuous playback, native performance and Windows delivery remain open.
+
+## More visible fast-fish and shark propulsion
+
+The [painted propulsion review](propulsion-parts-review.md) extends the new continuously updated part renderer to all ten streamlined swimmers. It records individual cutouts and stroke differences, corrected shark fin remnants, a grouped live preview, sixteen ordinary gameplay views and 248 passing unit tests. Pause/reduced motion, real NPC glides, mouse feeding, school rejoining and preview layout checks pass. The new shark path no longer defers to cached poses in the bounded diagnostic; other species still do. Shared readability, remaining anatomy and full native/gameplay acceptance remain open. The cuttlefish stays unchanged.
 # Current direction after user visual feedback
 
 The user finds the fish/shark progressions too similar and specifically likes the cuttlefish. Earlier rig counts, static strips and passing geometry checks overstate the perceptual result. The [visible-motion review](visible-motion-review.md) records four lightweight moving-part prototypes, a live normal-size comparison, and the discovered cached-pose starvation. Preserve the cuttlefish and prioritize readable fish/shark propulsion before further roster-wide parameter authoring. Full-roster acceptance and Windows delivery remain open.
