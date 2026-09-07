@@ -58,6 +58,8 @@ Create-a-Fish offers a 1,600-point budget: body size, speed, endurance, agility,
 
 ## Interface and persistence
 
+An optional food-visibility aid toggles through H during a dive or through Settings. It marks at most three suitable meals within 480 world units and labels the nearest, applying the current fish's diet, size, armor and poison-resistance rules. Depleted patches, dead prey and cleaners are excluded. The locally saved preference starts off. It adds no automatic movement or feeding and recedes during inspection, a selected meal or active cleaning. See FOOD-VISIBILITY.md.
+
 The Windows application starts in native fullscreen on each launch. F11 toggles the native window state, with repeat presses while held ignored. File, Settings and the dive toolbar expose the same action and update their labels after changes. Escape retains pause/inspection behavior. The sandboxed desktop bridge exposes only fullscreen state, toggle and change notifications. Browser development preview uses the browser Fullscreen API.
 
 Field guide: all 64 creatures, interactive-food descriptions, and glossary. Dialogs pause the simulation. Keyboard focus remains within open dialogs and survives list updates. Separate audio levels, optional verbose feeding dialogs, decorative-motion reduction and hints are stored locally. Three manual save slots and a last-dive save use versioned JSON including RNG, ecosystem, mode and player. Invalid saves and unavailable storage have visible recovery messages.

@@ -3,6 +3,33 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('optional food highlights persist, respect keyboard focus and leave feeding under player control',async({page})=>{
+ await ready(page);await practice(page,'Neon');
+ expect(await page.evaluate(()=>!!window.atoll.renderer.foodHints)).toBe(false);
+ await page.evaluate(()=>{
+  const s=window.atoll.simulation;s.section.entities=[];
+  const algae=s.section.food.find(f=>f.food==='algae');
+  s.section.food=[{...algae,id:'hint-food',x:700,y:300},{...algae,id:'hint-food-2',x:950,y:390}];
+  Object.assign(s.player,{x:800,y:300,angle:Math.PI,energy:40});s.point(800,300);
+ });
+ await page.keyboard.press('h');expect(await page.evaluate(()=>window.atoll.renderer.foodHints)).toBe(true);
+ expect(await page.evaluate(()=>window.atoll.simulation.player.target)).toBeNull();
+ for(const [width,height] of [[1024,768],[1600,900]]){
+  await page.setViewportSize({width,height});await page.waitForTimeout(100);
+  await page.screenshot({path:`artifacts/food-hints-${width}.png`});
+ }
+ const box=await page.locator('#reef').boundingBox();await page.mouse.click(box.x+700/1600*box.width,box.y+355/900*box.height);
+ await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(45);
+ await page.getByRole('button',{name:'Settings',exact:true}).click();
+ await expect(page.getByLabel('Highlight nearby suitable food (H)')).toBeChecked();
+ await page.getByLabel('Highlight nearby suitable food (H)').uncheck();
+ expect(await page.evaluate(()=>window.atoll.renderer.foodHints)).toBe(false);
+ await page.getByLabel('Highlight nearby suitable food (H)').check();await page.reload();
+ await page.waitForFunction(()=>window.atoll?.renderer.ready);expect(await page.evaluate(()=>window.atoll.renderer.foodHints)).toBe(true);
+ await clickButton(page,{name:'Field guide',exact:true});await page.getByRole('searchbox').fill('h');
+ expect(await page.evaluate(()=>window.atoll.renderer.foodHints)).toBe(true);
+});
+
 test('cleaner queues spread waiting fish and complete after a temporary interruption',async({page})=>{
  for(const [species,width,height] of [['Neon',1024,768],['Flashlight',1600,900]]){
   await page.setViewportSize({width,height});await ready(page);await practice(page,species);

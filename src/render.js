@@ -3,6 +3,7 @@ import {motionKind,bodyMotion} from './motion.js';
 import {creatureWidth} from './geometry.js';
 import {SPECIES_SPRITES} from './sprite-assets.js';
 import {canUseShelter} from './shelter.js';
+import {nearbyFoodHints} from './food-hints.js';
 const TOP=55;
 export class ReefRenderer {
  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.reefs=[];this.atlases=[];this.bounds=[];this.sprites=[];this.foodSprites=[];this.customCache=new Map();this.ready=false;this.particles=[];this.clock=0;this.hover=null;this.inspect=false;this.reducedMotion=false;this.effects=[];this.resize();new ResizeObserver(()=>this.resize()).observe(canvas);}
@@ -101,6 +102,17 @@ export class ReefRenderer {
   c.fillStyle=p.hidden?'#b9e0bb':'#fff1bd';c.beginPath();c.moveTo(p.x,p.y-playerWidth*.42-10);c.lineTo(p.x-5,p.y-playerWidth*.42-18);c.lineTo(p.x+5,p.y-playerWidth*.42-18);c.fill();
   if(p.abilityTime>0){const a=p.species.ability;c.save();c.globalAlpha=.22;c.fillStyle=['ink','poison'].includes(a)?'#112f3d':'#caedcf';c.strokeStyle='#e0f6b9';c.lineWidth=2;if(['ink','poison'].includes(a)){c.beginPath();c.ellipse(p.x-p.facing*35,p.y,90,48,Math.sin(t)*.2,0,Math.PI*2);c.fill();}else if(a!=='camouflage'){c.beginPath();c.arc(p.x,p.y,p.species.size*.7+12+Math.sin(t*5)*5,0,Math.PI*2);c.stroke();}c.restore();}
   if(p.cleanTime>0)this.tag(c,p.x,p.y-45,'Removing parasites');
+  if(this.foodHints&&!this.inspect&&!p.cleanTime&&!sim.mealTarget){
+   const hints=nearbyFoodHints(sim);
+   for(const [i,food] of hints.entries()){
+    const width=food.species?creatureWidth(food.species):food.size||25;
+    const x=food.x,y=food.y,r=width*.6+8;
+    c.save();c.beginPath();
+    for(const side of [-1,1]){c.moveTo(x+side*(r-7),y-r*.65);c.lineTo(x+side*r,y-r*.65);c.lineTo(x+side*r,y+r*.65);c.lineTo(x+side*(r-7),y+r*.65);}
+    c.strokeStyle='#103944';c.lineWidth=4;c.stroke();c.strokeStyle='#fce5a2';c.lineWidth=1.8;c.stroke();c.restore();
+    if(i===0)this.tag(c,x,Math.max(30,y-r*.65-22),'Food · '+(food.name||food.species.name));
+   }
+  }
   const meal=sim.mealTarget;
   if(meal&&!sim.paused&&sim.phase==='playing'){
    const width=meal.species?creatureWidth(meal.species):meal.size||25;
