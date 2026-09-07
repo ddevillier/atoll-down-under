@@ -27,6 +27,6 @@ Still exclude live day/night changes and offscreen ecosystem simulation unless s
 
 Existing independently written species facts and source URLs in src/natural-history.js are the biology baseline. Additional locomotion references: Caltech-hosted primary paper, *Boxfishes as a model system for fishes swimming with many fins: kinematics* (https://authors.library.caltech.edu/records/p0b68-kgz96), describes a rigid armored body controlled by multiple fins; NOAA *Are starfish really fish?* (https://oceanservice.noaa.gov/facts/starfish.html) describes locomotion with tube feet. These motivate body-plan differences, not exact timing values. No new original-game reference research.
 
-Current status: implementation and developer visual review complete for the testing candidate; combined Windows verification remains. All 64 entries have individual acceptance observations, with limits stated in animation-strategy/final-roster-review.md.
+Current status: implementation, developer visual review and combined Windows verification complete; the build is parked for testing. All 64 entries have individual acceptance observations, with limits stated in animation-strategy/final-roster-review.md.
 
 The four requested planning reviews, integration decisions, implementation checkpoint and outstanding evidence are collected in [animation-strategy/README.md](animation-strategy/README.md). Its 64-species coverage ledger records the developer review and links the earlier evidence.

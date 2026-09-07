@@ -1,6 +1,6 @@
 # Whole-roster animation strategy
 
-Current handoff: all 64 animals have a developer visual review for the Windows testing candidate. See [final roster review](final-roster-review.md) for the final findings, social-meal evidence, combined checks and explicit visual limits. Windows package verification is the remaining delivery step.
+Current handoff: all 64 animals have a developer visual review for the Windows testing candidate. See [final roster review](final-roster-review.md) for the final findings, social-meal evidence, combined checks and explicit visual limits. The [verified Windows build](../WINDOWS-ROSTER-UPLIFT-BUILD.md) is parked for testing; this work front is complete.
 
 The entries below are a historical work log. Their earlier pending counts and unresolved lists describe those checkpoints; the final review and coverage ledger supersede them.
 
