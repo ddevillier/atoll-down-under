@@ -23,4 +23,6 @@ Preserve ecological decisions, make each species feel different, retain full day
 ## Current user direction
 Windows only. Treat this as life-science exploration, with time to observe organisms and discover ecological relationships. Predator avoidance must not dominate small-fish play. Completion remains unproven while educational depth, visual fidelity and playtesting are still in progress.
 
-The user has explicitly prioritized gameplay before further natural-history expansion. Work on swimming, feeding, cleaning, habitat exploration and playability first. The four existing sourced guide entries remain available.
+The user has explicitly prioritized gameplay before further natural-history expansion. Work on swimming, feeding, cleaning, habitat exploration and playability first. All 64 catalog species now have sourced natural-history entries, with explicit identity limits where appropriate.
+
+Capture the spirit of the game rather than copying it verbatim. Ask before further original-game reference research or comparisons. Practice/exploration takes priority over Tournament reconstruction. The cleaner loop, station queues and optional food highlights are implemented; see docs/ACTIVE-IMPLEMENTATION.md for current evidence and unresolved work. Historical milestone notes are retained separately and must not restart completed tasks.
