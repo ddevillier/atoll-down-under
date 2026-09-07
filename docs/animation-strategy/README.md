@@ -87,3 +87,7 @@ The [cleaner review](cleaner-review.md) records a foreground ordering fix, anato
 ## Social spacing and individual excursions
 
 The [social review](social-review.md) records body-aware separation, limited shared-meal excursions, stable pair lead/follow behavior and paired browsers in existing forager slots. In 32 generated-community samples, the body-overlap estimate falls from 35.9% to 1.2% for schools and 7.6% to 1.2% for pairs. These are geometric estimates, not universal visual acceptance. All 213 unit tests and the browser fusilier join/eat/rejoin adventure pass. Eight ordinary-community views and one confirmation batch cover four species at both desktop sizes. Pressure checks still report 31 bites and zero deaths with initial counts unchanged. Refuge, host, shadowing and complete animation review remain open.
+
+## Refuges and host partnerships
+
+The [refuge review](refuge-review.md) records persistent individual resting places, separate anemone berths, compatible player/NPC hosts for trumpetfish, and drawing behind the host. All 217 unit tests and two targeted browser scenarios pass. Nine habitat views, a partnership close-up and mouse-controlled batfish scenes at both desktop sizes were inspected. Pressure checks record 27 bites and no deaths over 110 runs with initial counts unchanged. Painted substrate contact and continuous motion quality remain open; no species is marked fully accepted and no new Windows archive has been created.

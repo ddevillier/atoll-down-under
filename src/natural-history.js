@@ -55,7 +55,7 @@ export const NATURAL_HISTORY={
    'A trumpetfish has a long, narrow body and a tube-shaped snout. It can change color and sometimes waits head-down among corals. Its outline can be difficult to pick out against long branches.',
    'It also approaches prey beside a larger fish, using that neighbor as cover. Small fishes and crustaceans are sucked through the snout when the mouth region expands rapidly. Catching a meal can depend on a concealed approach rather than a long chase.'
   ],question:'Compare a trumpetfish alone with one beside a larger fish. When would its outline be easier to notice?',
-  limit:'The entry follows the Australian trumpetfish name. The game does not reproduce head-down waiting, shadowing larger fish or suction-feeding anatomy.',
+  limit:'The entry follows the Australian trumpetfish name. Head-down waiting and following a broader neighbor are simplified game behaviors. Cover is chosen by body size and game diet rules; suction feeding is not simulated.',
   source:'Dianne J. Bray and Vanessa J. Thompson · Fishes of Australia: Trumpetfish',url:'https://fishesofaustralia.net.au/home/species/1875'},
  s42:{scientific:'Caesio cuning',family:'Fusiliers and snappers',
   paragraphs:[
@@ -90,7 +90,7 @@ export const NATURAL_HISTORY={
    'Anemonefishes can nestle among the stinging tentacles of their host anemones. The anemone still has working stinging capsules, and the fish does not have unusually thick skin. Protection is associated with the mucus coating its body.',
    'How that coating protects a fish is an interesting research question. The Australian Museum describes evidence for acquiring mucus from the host and for fish mucus lacking substances that trigger stings. Different host relationships may involve different explanations.'
   ],question:'Compare a fish resting among tentacles with one swimming outside them. What observations would help explain the partnership?',
-  limit:'The catalog label covers a group, not a verified species. The game’s shelter rule does not reproduce host selection, acclimatisation or mucus chemistry.',
+  limit:'The catalog label covers a group, not a verified species. Nearby anemones offer individual resting places in the game. This does not reproduce species-specific host preferences, acclimatisation or mucus chemistry.',
   source:'Australian Museum · Why don’t anemonefishes get stung?',url:'https://australian.museum/learn/animals/fishes/why-dont-anemonefishes-get-stung/'},
  s14:{scientific:'Plectorhinchus vittatus',family:'Haemulidae · grunts and sweetlips',
   paragraphs:[
@@ -356,7 +356,7 @@ export const NATURAL_HISTORY={
    'Sea anemones are animals related to corals and jellyfish. Their soft bodies and tentacles may resemble flowers, but they belong to a very different branch of life.',
    'Some anemones share their tissues with microscopic algae. Others provide homes for animal partners, including anemonefish. Anemones can even live on a hermit crab’s shell or on a boxing crab’s claws. These relationships differ between species.'
   ],question:'Look at the anemone and the nearby fish. What would you need to observe to show that both animals benefit from living together?',
-  limit:'The catalog does not identify an anemone species. Its fixed location and harmful-food rule simplify the animal; partnerships with fish and crabs are not simulated.',
+  limit:'The catalog does not identify an anemone species. Anemonefish can rest beside its tentacles, but the game does not model the benefits exchanged by partners or partnerships with crabs. Its fixed location and harmful-food rule are simplifications.',
   source:'Australian Museum · Jellyfish, anemones and corals',url:'https://australian.museum/learn/animals/jellyfish/'},
  s32:{scientific:'Carcharhinus melanopterus',family:'Carcharhinidae · requiem sharks',length:'Recorded up to 1.8 m',
   paragraphs:[

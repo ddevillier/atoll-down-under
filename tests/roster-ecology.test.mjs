@@ -15,8 +15,8 @@ test('anemonefish returns to a living host then releases a missing host',()=>{
  assert.equal(fish.ecology.host,host.id);assert.ok(distance(fish,host)<before/2);assert.equal(fish.activity,'at-home');
  host.alive=false;localRoutine(s,fish,.1,20);assert.equal(fish.ecology.host,null);
 });
-test('trumpetfish shadows a larger neighbor without overriding a meal or avoidance',()=>{
- const s=scene([41,29]),[fish,host]=s.section.entities;localRoutine(s,fish,.1,20);assert.equal(fish.ecology.host,host.id);assert.equal(fish.activity,'shadowing');
+test('trumpetfish shadows a broader compatible neighbor without overriding a meal or avoidance',()=>{
+ const s=scene([41,40]),[fish,host]=s.section.entities;localRoutine(s,fish,.1,20);assert.equal(fish.ecology.host,host.id);assert.equal(fish.activity,'shadowing');
  fish.target='meal';fish.activity='feeding';assert.equal(localRoutine(s,fish,.1,35),35);assert.equal(fish.activity,'feeding');
  fish.target=null;fish.activity='avoiding';assert.equal(localRoutine(s,fish,.1,40),40);
 });

@@ -30,7 +30,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s2",
@@ -58,7 +59,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s4",
@@ -115,7 +117,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s8",
@@ -188,7 +191,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s13",
@@ -202,7 +206,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s14",
@@ -244,7 +249,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s17",
@@ -315,7 +321,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s22",
@@ -385,7 +392,8 @@
       "ordinaryGameplayReview": "partial: normal Practice entry and movement captured; contact, turns and refuge presentation pending",
       "accepted": false,
       "remaining": "Review precise feeding contact, reversal transitions, interruption and cave/rest presentation; finish ordinary-game acceptance.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s27",
@@ -442,7 +450,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s31",
@@ -456,7 +465,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s32",
@@ -484,7 +494,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s34",
@@ -526,7 +537,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s37",
@@ -540,7 +552,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s38",
@@ -554,7 +567,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s39",
@@ -597,7 +611,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s42",
@@ -784,7 +799,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s55",
@@ -828,7 +844,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s58",
@@ -857,7 +874,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {
       "id": "s60",
@@ -913,7 +931,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Actual food/retraction state exists; host occlusion and attachment still require review.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     }
   ]
 }

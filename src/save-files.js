@@ -4,6 +4,7 @@ import {BY_ID,FOODS,ABILITIES} from './data.js';
 import {validGroundState} from './ground-motion.js';
 import {validFeeding} from './feeding-motion.js';
 import {validResidentMeal} from './resident-life.js';
+import {validHome} from './refuge-motion.js';
 
 export const MAX_SAVE_BYTES=8*1024*1024;
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -50,6 +51,7 @@ function animal(e,player=false){
  if(!validFeeding(e.feeding))fail();
  if(!validResidentMeal(e.residentMeal))fail();
  if(e.ecology!=null){
+  if(!validHome(e.ecology.home))fail();
   numbers(e.ecology,['reef','clock','point','wait']);
   if(!Number.isInteger(e.ecology.reef)||e.ecology.reef<0||e.ecology.reef>8||e.ecology.clock<0||!Number.isInteger(e.ecology.point)||e.ecology.point<0||e.ecology.wait<0)fail();
   for(const key of ['partner','host'])if(e.ecology[key]!=null&&!['string','number'].includes(typeof e.ecology[key]))fail();

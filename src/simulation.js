@@ -15,6 +15,7 @@ import {chooseForager,COMMUNITIES} from './communities.js';
 import {planCleaning,approachCleaning} from './cleaning-stations.js';
 import {moveCleaner} from './cleaner-motion.js';
 import {separateCompanions,sharedMealAvailable} from './social-motion.js';
+import {validHome} from './refuge-motion.js';
 import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -456,6 +457,7 @@ export class Simulation {
   // Restore verified original-game food omissions without repopulating saves.
   // Custom fish keep their chosen diets, regardless of their illustrations.
   for(const fish of [d.player,...d.sections.flatMap(section=>section.entities||[])]){
+   if(!validHome(fish.ecology?.home))throw new Error('The saved refuge is damaged.');
    if(!validFeeding(fish.feeding))throw new Error('The saved feeding action is damaged.');
    if(!validResidentMeal(fish.residentMeal))throw new Error('The saved resident meal is damaged.');
    if(fish.species?.id==='s20'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('crab'))fish.species={...fish.species,diet:[...fish.species.diet,'crab']};

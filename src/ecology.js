@@ -4,6 +4,7 @@ import {creatureWidth,creatureFrame} from './geometry.js';
 import {turnTowards} from './steering.js';
 import {individualSeed} from './individual-motion.js';
 import {socialOrder,separateCompanions} from './social-motion.js';
+import {refugeHome,anemoneHome,approachRefuge,compatibleShadow} from './refuge-motion.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const refugeRoutines=new Set(['coral-resident','ledge','ambush-ledge','cave','cave-rest','perch','ambush-bottom','lure']);
@@ -23,7 +24,7 @@ function separateDestination(e,point,seed,radius=30){
 }
 export function clearRelationships(sim,e){
  if(!e.ecology)return;
- for(const key of ['partner','host'])if(e.ecology[key]!=null&&!sim.section.entities.some(b=>b.alive&&b.id===e.ecology[key]))e.ecology[key]=null;
+ for(const key of ['partner','host'])if(e.ecology[key]!=null&&![...sim.section.entities,sim.player].some(b=>b?.alive&&b.id===e.ecology[key])){e.ecology[key]=null;if(key==='host'&&e.ecology.home?.host)e.ecology.home=null;}
 }
 // Local choices are authored timing/spacing, grounded in the guide where stated.
 // No extra animals, damage, meals, calories or random draws are introduced here.
@@ -61,28 +62,28 @@ export function localRoutine(sim,e,dt,speed){
   let host=others.find(b=>b.id===state.host&&b.species.id==='s63');
   if(!host){host=others.filter(b=>b.species.id==='s63').sort((a,b)=>distance(e,a)-distance(e,b))[0];state.host=host?.id??null;}
   const hostFrame=host?creatureFrame(host):null;
-  const refuge=hostFrame?{x:hostFrame.x,y:hostFrame.y-hostFrame.height*.13}:REEFS[sim.current].shelters[seed%REEFS[sim.current].shelters.length];
+  const refuge=host?anemoneHome(sim,e,host):refugeHome(sim,e,REEFS[sim.current]);
   const excursion=e.satiated>0?0:Math.sin(state.clock*.32+seed)*24;
-  const dest=separateDestination(e,{x:refuge.x,y:refuge.y-18+excursion},seed,host?creatureWidth(host.species)*.3:28);
+  const side=hostFrame&&refuge.x<hostFrame.x?-1:1;
+  const dest={x:refuge.x+side*(host?.retract||0)*12,y:refuge.y+excursion};
   e.activity=distance(e,dest)<22?'at-home':'returning-home';e.behavior=e.activity==='at-home'?(host?'Nestling beside an anemone':'Resting beside coral'):(host?'Returning to its anemone':'Returning to coral');
-  return steer(e,dest,dt,speed,12);
+  return approachRefuge(e,dest,dt,speed,8,side<0?Math.PI:0);
  }
  if(profile.routine==='shadow'){
-  let host=others.find(b=>b.id===state.host&&b.species.size>e.species.size*1.12&&!b.cleanTime&&!b.target);
-  if(!host){host=others.filter(b=>b.species.size>e.species.size*1.12&&!b.cleanTime&&!b.target&&distance(e,b)<300).sort((a,b)=>distance(e,a)-distance(e,b))[0];state.host=host?.id??null;}
+  const candidates=[...others,sim.player].filter(b=>b&&compatibleShadow(e,b));
+  let host=candidates.find(b=>b.id===state.host);
+  if(!host){host=candidates.filter(b=>distance(e,b)<300).sort((a,b)=>distance(e,a)-distance(e,b))[0];state.host=host?.id??null;}
   if(host&&distance(e,host)<430){
-   const side=(seed%2?1:-1),spacing=(creatureWidth(host.species)+creatureWidth(e.species))*.3;
+   const side=(seed%2?1:-1),spacing=(creatureFrame(host).height+creatureFrame(e).height)*.36;
    const dest={x:host.x-Math.sin(host.angle)*spacing*side,y:host.y+Math.cos(host.angle)*spacing*side};
-   e.activity='shadowing';e.behavior='Swimming in a larger neighbor’s cover';
-   if(distance(e,dest)<25){e.angle=turnTowards(e.angle,host.angle,e.species.agility*dt);return Math.min(speed,host.species.speed*.35);}
-   return steer(e,dest,dt,speed,8);
+   e.activity='shadowing';e.behavior='Swimming in a broader neighbor’s cover';
+   return approachRefuge(e,dest,dt,speed,8,host.angle);
   }
   state.host=null;
  }
  if(refugeRoutines.has(profile.routine)||profile.routine==='shadow'){
-  const sites=REEFS[sim.current].shelters,home=separateDestination(e,sites[seed%sites.length],seed,20);
   const bottom=['ambush-bottom','lure'].includes(profile.routine);
-  if(bottom){const route=REEFS[sim.current].bottomRoutes[seed%REEFS[sim.current].bottomRoutes.length],p=route[seed%route.length];home.x=p[0];home.y=p[1]-creatureWidth(e.species)*.1;}
+  const home=refugeHome(sim,e,REEFS[sim.current],bottom);
   // Continuous-swimming sharks use circuits instead of this settling branch.
   // Short excursions make watchful rest different from a permanently frozen NPC.
   const rest=e.satiated>0||state.clock%(18+seed%9)>7;
@@ -92,7 +93,7 @@ export function localRoutine(sim,e,dt,speed){
   e.behavior=rest?(near?(bottom?'Waiting close to the bottom':profile.routine==='perch'?'Watching from a perch':'Resting beside a familiar refuge'):'Returning to a familiar refuge'):'Making a short feeding excursion';
   if(bottom&&near&&e.species.id==='s59'){e.blending={kind:'sand',x:e.x,y:e.y};e.blendTime=Math.min(2,(e.blendTime||0)+dt);}
   else if(e.species.id==='s59'){e.blending=null;e.blendTime=0;}
-  return steer(e,dest,dt,speed,16);
+  return approachRefuge(e,dest,dt,speed,12,home.x<800?0:Math.PI);
  }
  if(forageRoutines.has(profile.routine)&&e.activity!=='schooling'){
   const patches=sim.section.food.filter(f=>e.species.diet.includes(f.food)&&f.regrow<=0);
