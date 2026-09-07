@@ -22,7 +22,7 @@ Preserve ecological decisions, make each species feel different, retain full day
 
 ## Current user direction
 
-**Parked after completing the approved work front, September 6, 2026.** The living title, peaceful score, Family Journal and care progression are in the verified Windows Family Journal build (`a16e4c6`); see docs/WINDOWS-FAMILY-JOURNAL-BUILD.md. Stop feature work, research and extra builds until the user asks to resume. The broader project remains open.
+**September 7, 2026 — approved Species Adventures work front.** Four optional Practice adventures, visible local routines, activity animation, Ways of living discoveries and 64 narrated field-guide introductions extend the living title and Family Journal. Shared adult-and-child exploration is the focus. Narration plays only by explicit choice in the guide. No live day/night cycle or offscreen ecosystem this pass. See docs/SPECIES-ADVENTURES.md and the Windows delivery receipt. Park after verifying this complete work front; the broader project remains open.
 Windows only. Treat this as life-science exploration, with time to observe organisms and discover ecological relationships. Predator avoidance must not dominate small-fish play. Completion remains unproven while educational depth, visual fidelity and playtesting are still in progress.
 
 The user has explicitly prioritized gameplay before further natural-history expansion. Work on swimming, feeding, cleaning, habitat exploration and playability first. All 64 catalog species now have sourced natural-history entries, with explicit identity limits where appropriate.

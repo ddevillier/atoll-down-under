@@ -17,3 +17,11 @@ export function bodyMotion(kind,u,time,activity=1){
  if(kind==='fish'||kind==='shark')return {offset:Math.sin(time*(kind==='shark'?3.1:5.2)+u*4)*Math.max(0,1-u/.65)**2*(kind==='shark'?.017:.03)*effort,stretch:1};
  return {offset:0,stretch:1};
 }
+
+export function poseFor(fish,time,reduced=false){
+ if(reduced)return {pitch:0,squash:1};
+ const feeding=(fish.actionTime||0)>0||fish.activity==='searching-sand';
+ const climb=Math.sin(fish.angle||0)*.12*(fish.facing||1);
+ const settle=['at-home','blending'].includes(fish.activity);
+ return {pitch:settle?Math.sin(time*.7)*.015:feeding?.12*(fish.facing||1)+Math.sin(time*8)*.025:climb,squash:feeding?1+Math.sin(time*9)*.025:1};
+}

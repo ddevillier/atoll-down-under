@@ -1,0 +1,4 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {Simulation} from '../src/simulation.js';
+const baseline=JSON.parse(fs.readFileSync('artifacts/adventures-baseline.json','utf8')),results=[];
+for(const b of baseline){const s=new Simulation(b.seed);s.start('practice',b.id);s.protected=false;const counts=s.sections.map(s=>s.entities.length);assert.deepEqual(counts,b.counts);for(let i=0;i<3600;i++)s.step(1/60);results.push({id:b.id,seed:b.seed,counts,health:s.player.health,baselineHealth:b.health,energy:s.player.energy,phase:s.phase,healthChange:s.player.health-b.health});}
+const report={scenarios:results.length,populationsUnchanged:true,deaths:results.filter(r=>r.phase==='dead').length,results};fs.writeFileSync('artifacts/adventures-simulation-report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));

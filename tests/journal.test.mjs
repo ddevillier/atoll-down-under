@@ -31,7 +31,7 @@ test('care needs food and continuous good condition; played time and stamps chec
 test('pause freezes every care timer and restart resets local counters',()=>{const s=harness();s.paused=true;const before=structuredClone(s.careProgress);s.step(30);assert.deepEqual(s.careProgress,before);s.careProgress.played=50;s.continueRun();assert.equal(s.careProgress.played,0);});
 test('camouflage in open water never counts as physical shelter; school needs three live nearby schooling peers',()=>{
  const s=harness();s.player.hidden=true;tickCare(s,6,false);assert.equal(s.careProgress.shelter,0);tickCare(s,5,true);assert.ok(s.events.some(e=>e.value==='shelter'));
- s.section.entities=Array.from({length:3},()=>({...s.player,alive:true,behavior:'Swimming with a school'}));s.section.entities[2].alive=false;tickCare(s,11,false);assert.equal(s.careProgress.school,0);
+ s.section.entities=Array.from({length:3},()=>({...s.player,alive:true,behavior:'Swimming with a school',activity:'schooling'}));s.section.entities[2].alive=false;tickCare(s,11,false);assert.equal(s.careProgress.school,0);
  s.section.entities[2].alive=true;tickCare(s,9,false);assert.ok(!s.events.some(e=>e.value==='school'));s.section.entities[0].x+=200;tickCare(s,1,false);assert.equal(s.careProgress.school,0);s.section.entities[0].x-=200;tickCare(s,10,false);assert.ok(s.events.some(e=>e.value==='school'));
 });
 test('meal and night badges use actual restored energy, not a food click',()=>{

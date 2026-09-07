@@ -1,0 +1,647 @@
+{
+  "version": 1,
+  "model": "gpt-realtime-2.1-mini",
+  "voice": "marin",
+  "clips": {
+    "s2": {
+      "file": "s2.ogg",
+      "scriptHash": "643b73dc14f6178df8d93f26eaa765b82dc4cc86abe6601b2ffea9adfda1882e",
+      "audioHash": "1d56cbc11eff67f8d3bbf019aacbf113af73f2b0f389f4fc5fe15f5621ead9c5",
+      "duration": 23.4,
+      "generatedAt": "2026-09-07T05:37:29.416Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2231",
+      "transcript": "Adults are bright yellow, sometimes with a pale cheek patch. Young fish are whitish, with an internal dark stripe and spots on the head and tail. It lives on sheltered reefs, often near the outer edges of table-like Acropora colonies. It eats plankton and tissue from its coral host. The coral therefore provides both a place to live and part of its food.",
+      "transcriptFromService": true
+    },
+    "s19": {
+      "file": "s19.ogg",
+      "scriptHash": "2e885a95bb349f8a324fae2cc313a1a1fef19a90aad288a2ca73f7333178dd1f",
+      "audioHash": "aa257434c6a0e96b7dc754ef2d98f16b3d1e27480b76c69e95f263900dc3ff6e",
+      "duration": 21.1,
+      "generatedAt": "2026-09-07T05:38:09.706Z",
+      "source": "https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/",
+      "transcript": "Cuttlefishes are molluscs with remarkable camouflage. One Australian example, the giant cuttlefish, can change its color and raise parts of its skin to resemble the texture of sand, rocks or seaweed. Giant cuttlefish eat fishes, crabs and other crustaceans. Their changing patterns also help them communicate, especially when breeding.",
+      "transcriptFromService": true
+    },
+    "s23": {
+      "file": "s23.ogg",
+      "scriptHash": "82fa0ec99801d8ede707cffa2565910798aa5c6773cbbf07e08cf209c6b51716",
+      "audioHash": "07374dc9a6ad65fff20957d923fc2ba502ecb7ac166d54b839b3e2606cf63c98",
+      "duration": 23.2,
+      "generatedAt": "2026-09-07T05:43:31.954Z",
+      "source": "https://fishesofaustralia.net.au/home/species/837",
+      "transcript": "Long spines project in front of the eyes, with another pair extending from the lower rear of the armored body. Individuals can be greenish, yellow or orange with blue spots. Shape is a useful clue even when colors differ. Longhorn cowfish search sandy and weedy places near reefs. They blow water at the sand to uncover small bottom-living animals to eat.",
+      "transcriptFromService": true
+    },
+    "s42": {
+      "file": "s42.ogg",
+      "scriptHash": "eb5d7a207393119b48e4d3573ed0e25429fb7b3f2ec95513d618f207a36ccb94",
+      "audioHash": "868a75fe563c81c9916f628f9783273ca17a6f55742262e1baf18b123c40c7c5",
+      "duration": 22.4,
+      "generatedAt": "2026-09-07T05:36:09.355Z",
+      "source": "https://australian.museum/learn/animals/fishes/yellowtail-fusilier-caesio-cuning-bloch-1791/",
+      "transcript": "The yellowtail fusilier has a grey-blue body with yellow on its tail and the soft rear part of its dorsal fin. Its pale lower body may have a pinkish-red tint, which explains the alternative name red-bellied fusilier. Large schools occur around offshore reef slopes in the tropical Indo-West Pacific, including northern Australia. These fishes feed on animal plankton in midwater.",
+      "transcriptFromService": true
+    },
+    "s1": {
+      "file": "s1.ogg",
+      "scriptHash": "f978bfe895f931a219bf23249af8677b0d0ee131ac59e5dd60eabdf583a94e7f",
+      "audioHash": "5d98c3eff0045ea75bc7105bfd84728cb4ac722550be6206d8d94e01f0feb8ed",
+      "duration": 24.1,
+      "generatedAt": "2026-09-07T05:37:21.981Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2341",
+      "transcript": "Brilliant blue covers the neon damsel’s body, with yellow on the tail and sometimes the lower fins. It is a small reef fish found across a broad part of the Indo-Pacific, including northern Australian reefs. Other blue damselfishes can be confusingly similar. The related blue damsel, Pomacentrus pavo, has dark streaks on its scales and a dark mark high on the gill cover.",
+      "transcriptFromService": true
+    },
+    "s0": {
+      "file": "s0.ogg",
+      "scriptHash": "149ac487a39c58e2e839bf943f7aa8f7e8129f248970f723085e7f82bfacf604",
+      "audioHash": "efb022f0710a95376e5ebf8f719aa2e6656c005ce17db6ad8f23c994b03d9b01",
+      "duration": 26.1,
+      "generatedAt": "2026-09-07T05:37:23.119Z",
+      "source": "https://www.fao.org/4/ad471e/ad471e12.pdf",
+      "transcript": "Silver sprats have slender bodies with dark-blue backs and pale undersides. A bright silver band runs along each side from the gill cover to the base of the tail. Their scales are thin and comparatively large. These small Indo-Pacific fishes gather in large schools, including inshore waters within atolls. In the Maldives their local abundance changes with the monsoon season.",
+      "transcriptFromService": true
+    },
+    "s3": {
+      "file": "s3.ogg",
+      "scriptHash": "67db7d9aa8e8e2111ea0a040d42dddff17a86129e74905892f1e3ce0d54ae3db",
+      "audioHash": "bbc5295b09aeb41abdc8c60b6efcc7230eabe16b58b8afa03ca6aafcb7920c0a",
+      "duration": 25.8,
+      "generatedAt": "2026-09-07T05:37:28.191Z",
+      "source": "https://www.aquarium-larochelle.com/en/species-encyclopedia/royal-gramma/",
+      "transcript": "Royal grammas live around Caribbean and western Atlantic reefs, often close to caves and overhangs. They can swim belly-up beneath a ledge, orienting themselves to the nearby reef surface. Their food includes tiny crustaceans drifting in the water or living near the bottom. They sometimes pick parasites from other fishes. A male prepares a sheltered nest with algae and other material, then tends the eggs.",
+      "transcriptFromService": true
+    },
+    "s4": {
+      "file": "s4.ogg",
+      "scriptHash": "b4f60e24b242a8610d7356ad3f42c9c64f6cc57ebb411b7abca2390792eead27",
+      "audioHash": "1eec87b7a62c2ea8bb47f0cdba5cb1e544fa667475bddb15214e724a0cba2cf9",
+      "duration": 23.7,
+      "generatedAt": "2026-09-07T05:37:33.951Z",
+      "source": "https://lifg.australian.museum/Group.html?groupId=5W64cXWZ&hierarchyId=qBHH2Q3E",
+      "transcript": "Look for the tall, thin body, bold dark bands and long streamer extending from the dorsal fin. The Moorish idol belongs to a family with just one living species and is related to surgeonfishes. Around Lizard Island it uses reef fronts, flats and sheltered lagoons. Young fish hold small territories; larger fish often travel in groups of two to five.",
+      "transcriptFromService": true
+    },
+    "s5": {
+      "file": "s5.ogg",
+      "scriptHash": "bc9dab6dce30fd0b2c6aafcc9b5f0f5a29d028f5fff5cc4e8d4e943771e45d33",
+      "audioHash": "a530527a2535d62f15fc457bde8af2d7746ead6ca0c84c737b3809959d15b5bb",
+      "duration": 23.4,
+      "generatedAt": "2026-09-07T05:37:34.982Z",
+      "source": "https://www.georgiaaquarium.org/animal/palette-surgeonfish/",
+      "transcript": "The bright blue body, dark markings and yellow tail make the palette surgeonfish distinctive. Sharp spines lie on either side of the narrow base of the tail. It lives around Indo-Pacific coral reefs. It eats both tiny animal plankton and algae growing on surfaces. Young fish stay close to branching coral, and an alarmed fish can wedge itself between branches.",
+      "transcriptFromService": true
+    },
+    "s7": {
+      "file": "s7.ogg",
+      "scriptHash": "f9f5a2efa2d552c55e3629c414ddb37f5ffd10aa7c40591fb26213d1213d8ce4",
+      "audioHash": "d6eb66f7ef8f9a9c9a6a9694f8c128915017051b129863afd1ea5d70bbbbc152",
+      "duration": 19.5,
+      "generatedAt": "2026-09-07T05:37:39.180Z",
+      "source": "https://australian.museum/learn/animals/fishes/why-dont-anemonefishes-get-stung/",
+      "transcript": "Anemonefishes can nestle among the stinging tentacles of their host anemones. The anemone still has working stinging capsules, and the fish does not have unusually thick skin. Protection is associated with the mucus coating its body. How that coating protects a fish is an interesting research question.",
+      "transcriptFromService": true
+    },
+    "s6": {
+      "file": "s6.ogg",
+      "scriptHash": "248f53c3e2592099e534a9d96705016a48253ded15a06ad4382eb34de9d0cccf",
+      "audioHash": "81d2026c2c5a7587e7eebb2a09c291cda96311263fbc2e8fe62ce7b7b1827fd0",
+      "duration": 19.9,
+      "generatedAt": "2026-09-07T05:37:40.353Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2410",
+      "transcript": "The forceps fish has a yellow body, a black upper head and a pale lower face. A dark spot sits near the back of its anal fin. Its narrow snout reaches toward small foods around the reef. It eats a variety of invertebrates, including corals, small crustaceans and parts of worms and echinoderms, as well as fish eggs.",
+      "transcriptFromService": true
+    },
+    "s8": {
+      "file": "s8.ogg",
+      "scriptHash": "29500c4f1c6fef92e869e4dd57c948b3a52f5b9b59e44779fd29d8a54baf313c",
+      "audioHash": "4cd96902e6fbb96c7e49e4926d37f1fc31048fb6be71f7a18a1173822c7456e9",
+      "duration": 19.1,
+      "generatedAt": "2026-09-07T05:37:43.323Z",
+      "source": "https://australian.museum/learn/animals/fishes/foxface-siganus-vulpinus/",
+      "transcript": "The foxface has a pointed snout, a dark band through the eye and a yellow rear body. Its snout helps explain the family name rabbitfish. It lives in the western Pacific, including tropical northern Australia. Young foxfaces gather in schools and shelter among coral. Fish form pairs by about ten centimetres long.",
+      "transcriptFromService": true
+    },
+    "s9": {
+      "file": "s9.ogg",
+      "scriptHash": "9d0dec053024b3c00443840f56ad7225ba40bf248934c7cd44f0008466cfe177",
+      "audioHash": "cdef8a0274debaa242b7d270cb282f977fef16d6fe08a597155e17fa2f9bd464",
+      "duration": 25.8,
+      "generatedAt": "2026-09-07T05:37:45.454Z",
+      "source": "https://www.waikikiaquarium.org/experience/animal-guide/fishes/goatfishes/goatfishes/",
+      "transcript": "Goatfishes have two sensory barbels beneath the lower jaw. These whisker-like structures help them search sand and reef crevices by touch and taste. When not being used, the barbels can be tucked away. Their meals include bottom-living worms, crustaceans and small molluscs; some species also eat fish. A goatfish can take sand into its mouth while searching and expel it through the gill openings.",
+      "transcriptFromService": true
+    },
+    "s10": {
+      "file": "s10.ogg",
+      "scriptHash": "2230c0f9107da9dfbeb6ff4232f3ce5bef188c2598f4ea3d840fd67bb68df1ad",
+      "audioHash": "3c6a1e08b6dfaec9874bf5b4c7de7c437cf272f98d694c7a46a822e9ddd441b8",
+      "duration": 23.5,
+      "generatedAt": "2026-09-07T05:37:47.965Z",
+      "source": "https://fishesofaustralia.net.au/home/species/284",
+      "transcript": "Six dark, wedge-shaped bars cross the upper body of this greenish wrasse. They become shorter toward the tail, while pink bands spread outward from the eye. Individuals and small groups use shallow lagoons and outer reef slopes. Its varied meals include crustaceans, fish eggs and small fishes, as well as other small organisms on the bottom and in the plankton.",
+      "transcriptFromService": true
+    },
+    "s11": {
+      "file": "s11.ogg",
+      "scriptHash": "33f46d9fd17c8d7a51fe298d0e14c4fbb1fa28348df5ae5b9e3fa3af631cca08",
+      "audioHash": "43c5d645cb1d96b2d9c71017c99ded9c93d47357a34b61bb39dc6e431874cc73",
+      "duration": 18.7,
+      "generatedAt": "2026-09-07T05:37:49.331Z",
+      "source": "https://fishesofaustralia.net.au/home/species/4390",
+      "transcript": "Peach fairy basslets show different male and female appearances. Males have a bright red dorsal fin, purple-pink areas on the head and belly, and long pelvic fins. Females have shorter pelvic fins and a yellowish tail. Both have an orange line passing through the lower part of the eye toward the pectoral fin.",
+      "transcriptFromService": true
+    },
+    "s13": {
+      "file": "s13.ogg",
+      "scriptHash": "9883388a6874787e6c37fa09062d410d16d2af2a10773f44f6a40ddf0d8c0aa6",
+      "audioHash": "f442f495acd17143cccab23585be0badaee7f893ec16bb1e29694d4ec950ae39",
+      "duration": 22.4,
+      "generatedAt": "2026-09-07T05:37:53.631Z",
+      "source": "https://www.fisheries.noaa.gov/species/banggai-cardinalfish",
+      "transcript": "This small fish is native to Indonesia’s Banggai Archipelago, where it occupies shallow, sheltered reef and seagrass habitats. Populations elsewhere can result from introductions; the collection of animals in this game is not a map of their natural ranges. Its food includes copepods, tiny crustaceans in the plankton. Males shelter eggs in their mouths and release developed young.",
+      "transcriptFromService": true
+    },
+    "s12": {
+      "file": "s12.ogg",
+      "scriptHash": "a6405293b765d88be4d88c3dd813731bb8877cd50d7ff0ea6ad2ceb61f826486",
+      "audioHash": "e26ec954ed50e662bcc8de6426f4f913e1de8786d930b46c3b00f15273a5f4a7",
+      "duration": 24.3,
+      "generatedAt": "2026-09-07T05:37:54.850Z",
+      "source": "https://fishesofaustralia.net.au/home/species/4445",
+      "transcript": "The bloodspot squirrelfish, also called the slender squirrelfish, has a silvery-gold body with narrow dark red stripes. A conspicuous black patch marks the front of its spiny dorsal fin. Its large eyes and pale-tipped fin spines are useful identification clues. This Indo-Pacific fish shelters near caves, coral overhangs and branching corals by day. At night it hunts crabs, shrimp, small fish and larger zooplankton.",
+      "transcriptFromService": true
+    },
+    "s14": {
+      "file": "s14.ogg",
+      "scriptHash": "f1a01b16222da6182eeaaac06603f22da37102b22702354ac907b139f2374dc4",
+      "audioHash": "fe862f3f4670ffe6398154bd0f23adf6896cc3baef08920650bce315a35f152d",
+      "duration": 21.1,
+      "generatedAt": "2026-09-07T05:37:58.881Z",
+      "source": "https://www.aquariumbiarritz.com/en/oriental-sweetlips/",
+      "transcript": "Oriental sweetlips occur in the tropical Indo-Pacific. Young fish have a brown background with pale, creamy-yellow spots. A juvenile’s markings can be an important clue when comparing it with an adult. These fish eat invertebrates living on or near the seabed. They can also make sounds with their teeth, with the swim bladder helping amplify the sound.",
+      "transcriptFromService": true
+    },
+    "s15": {
+      "file": "s15.ogg",
+      "scriptHash": "98b8d948d03a76ce6c6c616e3bde3f69bf8f4fe3c6d9f7adebb1357524dc6de1",
+      "audioHash": "a5bf038f8f8748f6242a52da86a8c97ac03a9bf0be1b728e59627052e6014982",
+      "duration": 25.3,
+      "generatedAt": "2026-09-07T05:38:00.140Z",
+      "source": "https://ocean.si.edu/ocean-life/fish/tough-teeth-and-parrotfish-poop",
+      "transcript": "Many parrotfishes bite reef surfaces with teeth joined into a beak-like structure. Feeding can remove algae and other living material along with pieces of the hard coral skeleton. Parrotfish is a group name, so one feeding description does not identify every species. After food is digested, swallowed coral material can pass out as sand. A fish’s meals can therefore help change the reef around it.",
+      "transcriptFromService": true
+    },
+    "s16": {
+      "file": "s16.ogg",
+      "scriptHash": "8f01e84d9f8355c40d488c3b6c268564cf59aede13601fffa2fb753408a359b7",
+      "audioHash": "47f80641a60d1d4e3e098e8a8f005d84126ce6970213f7a1366282eb3b571d01",
+      "duration": 21,
+      "generatedAt": "2026-09-07T05:38:04.292Z",
+      "source": "https://australian.museum/learn/animals/fishes/coral-cod-cephalopholis-miniata-forsskal-1775/",
+      "transcript": "This coral grouper, also called the coral cod, has an orange-red body dotted with bright blue spots. The spots extend across its head, body and middle fins; each is smaller than its pupil. Young fish are orange to yellow. It lives in tropical waters of the Indo-West and Central Pacific and is often seen beneath ledges or inside caves.",
+      "transcriptFromService": true
+    },
+    "s17": {
+      "file": "s17.ogg",
+      "scriptHash": "d16ef9d0f16a1eda0439cdeb626696a66ef606a31591f2aeefda5acb25d2f725",
+      "audioHash": "71a4501ee42dd7b4330cd6be09ac31af69849e89df811c3cb8e9c6a0c6aa849e",
+      "duration": 24,
+      "generatedAt": "2026-09-07T05:38:05.487Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2554",
+      "transcript": "Dark bars run along this large barracuda’s body. Each bar slopes above the middle of the side and becomes more upright below it. The tail is mostly dark, with two small lobes along its rear edge in adults. Blackfin barracudas use coastal waters and coral reefs. Australian records extend from Ningaloo Reef around the tropical north to New South Wales.",
+      "transcriptFromService": true
+    },
+    "s18": {
+      "file": "s18.ogg",
+      "scriptHash": "3f52cbf901f600b1cba94c8fe48b9363ebdf08542e92dcf152004a5e1f6d9e3b",
+      "audioHash": "3809c8dc4bb009a1873cf81c5b244431b52137c315a1c47852fa39d3194b3a97",
+      "duration": 23.8,
+      "generatedAt": "2026-09-07T05:38:10.897Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2097",
+      "transcript": "Also called the crocodile longtom, this fish has an extremely long upper and lower jaw armed with sharp teeth. Its stretched-out body ends in a deeply forked tail. It lives near the surface in tropical coastal waters, including lagoons, bays, estuaries and areas above reefs. Small fishes are its main food. Needlefishes can leap clear of the water when disturbed.",
+      "transcriptFromService": true
+    },
+    "s20": {
+      "file": "s20.ogg",
+      "scriptHash": "2fec8a3a58247c89ad59d13ef4aedb7a6a4cd489c4922816c0841f313c57367e",
+      "audioHash": "2ce190d8961f92f67c03040333c6df5d7587976d727653c52e86e59d5f713276",
+      "duration": 20.9,
+      "generatedAt": "2026-09-07T05:38:14.991Z",
+      "source": "https://oceanservice.noaa.gov/facts/lionfish-facts.html",
+      "transcript": "Broad, fan-like pectoral fins and separate spines along the back make a lionfish easy to notice. The red lionfish and devil firefish have contrasting pale and brown or maroon bands across the head and body. Lionfish spines can deliver venom through a wound. Their native home is the Indo-Pacific.",
+      "transcriptFromService": true
+    },
+    "s22": {
+      "file": "s22.ogg",
+      "scriptHash": "a4e8d1709c7410195ba4836ade886c5cffdf190acf7c5261404e9c843a80104b",
+      "audioHash": "e79c2ecb6dd29eb4c0c92cbb6924775a23072dd1dcb8ed62a752ebf9e3f7fc00",
+      "duration": 19.5,
+      "generatedAt": "2026-09-07T05:38:19.302Z",
+      "source": "https://australian.museum/learn/animals/fishes/blackspotted-pufferfish-arothron-nigropunctatus-bloch-schneider-1801/",
+      "transcript": "This is the blackspotted puffer, also known as the dogface puffer. Irregular dark spots cover its body, with dark patches near the eye and muzzle and a pale band across the snout. The upper body is usually grey to brown, fading to a pale underside; some individuals are yellow. It lives on Indo-Pacific coral reefs.",
+      "transcriptFromService": true
+    },
+    "s24": {
+      "file": "s24.ogg",
+      "scriptHash": "838169e722541fadd03f3ba177cf8b4703fc2d6a03f10ac7919bf00510b80316",
+      "audioHash": "747a8b4e8b32a77ec4ac28ebddbecd1c0de97fcfd9e5304f0b551fceec7738a2",
+      "duration": 23.9,
+      "generatedAt": "2026-09-07T05:43:36.421Z",
+      "source": "https://australian.museum/learn/animals/fishes/clown-triggerfish-balistoides-conspicillum-bloch-schneider-1801/",
+      "transcript": "Large pale spots across the lower body and yellow around the mouth help identify the clown triggerfish. It occurs on Indo-West Pacific coral reefs. Australian records extend from offshore reefs in the northwest to the Great Barrier Reef and northern New South Wales. Identification starts with looking closely: where are the spots, which part of the body is dark, and what shape are the fins?",
+      "transcriptFromService": true
+    },
+    "s21": {
+      "file": "s21.ogg",
+      "scriptHash": "a8bc8b35a79cfb052ce9c11883037f5dc41f0ecd52715771d4b8803c54736192",
+      "audioHash": "1dcf27b7fc6bc68c294a11e8b666d57e7cd0daf9c5da368fb8a96559d68de2c9",
+      "duration": 28.4,
+      "generatedAt": "2026-09-07T05:44:17.305Z",
+      "source": "https://australian.museum/learn/animals/fishes/false-stonefish-scorpaenopsis-diabolus/",
+      "transcript": "Also called the false stonefish, this fish has a humped back, large head and pointed snout. Its colors vary considerably. It occurs in tropical and subtropical Indo-Pacific waters, including Australia. The inner surfaces of its pectoral fins are yellowish with a large dark spot. When threatened, the fish spreads these fins to reveal the bright pattern. This display is thought to startle an approaching predator.",
+      "transcriptFromService": true
+    },
+    "s26": {
+      "file": "s26.ogg",
+      "scriptHash": "f2bd449b71d3e63825f66c69c29ec6e28936ffdb2419c1af293473b3ed9dd06f",
+      "audioHash": "1ca9137e41d81ea0cb195a6b4b9f70402a0f35de51301312f81a9303e396fc7b",
+      "duration": 19.5,
+      "generatedAt": "2026-09-07T05:44:34.414Z",
+      "source": "https://fishesofaustralia.net.au/Home/species/3812",
+      "transcript": "Small white spots cover the dark body of the whitemouth moray. The inside of its mouth is pale and the tail tip is yellow. Combining these features helps distinguish it from other spotted morays. Australian records include Western Australia, the Great Barrier Reef, Coral Sea reefs and islands such as Lord Howe Island.",
+      "transcriptFromService": true
+    },
+    "s25": {
+      "file": "s25.ogg",
+      "scriptHash": "1e449882b8e1e6a67af6a27a5fea98f92a223742b648d7cb05bbe8800ea805d9",
+      "audioHash": "5a87ff0839c917f2be1d23eb19ace2d34c8f2ddaa121355557f95080eb078d61",
+      "duration": 24.7,
+      "generatedAt": "2026-09-07T05:44:35.664Z",
+      "source": "https://fishesofaustralia.net.au/home/species/658",
+      "transcript": "Pale bars with dark edges cross the yellow-orange body and continue onto the fins. Young regal angelfish have fewer bars and a conspicuous eyespot near the back of the dorsal fin. These fish live around coral-rich lagoons and outer reefs, often near caves. Juveniles shelter in narrow cracks. Their natural food includes sponges and tunicates: still-looking animals can be important meals.",
+      "transcriptFromService": true
+    },
+    "s27": {
+      "file": "s27.ogg",
+      "scriptHash": "668fafd8da90dfed1cb1a1f82a0b3ab0e721a5169bb4b6bd01b00414305682d2",
+      "audioHash": "49317fd983509799dc34bb97e162d9c9631b9900769dcc8c17e7f4bb90a22605",
+      "duration": 21.4,
+      "generatedAt": "2026-09-07T05:44:39.736Z",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/bluespotted-ribbontail-ray/",
+      "transcript": "Blue spots occur on more than one kind of stingray. The bluespotted ribbontail ray, Taeniura lymma, is one example with a rounded oval disc, bright spots on its upper surface and blue stripes beside its tail. It feeds in sandy areas beside reefs, including at high tide. Meals include molluscs, worms, shrimps, crabs and small fishes.",
+      "transcriptFromService": true
+    },
+    "s28": {
+      "file": "s28.ogg",
+      "scriptHash": "91c3d6c29dd87d6a59e96af9d669fa09479d0288f53f203a4f45abbf2a5dc48f",
+      "audioHash": "bc98fc30c6702bc93c70797496af6807d017528ea3126b3d4e825ae27f7d978d",
+      "duration": 24.8,
+      "generatedAt": "2026-09-07T05:44:41.070Z",
+      "source": "https://fishesofaustralia.net.au/home/species/4273",
+      "transcript": "Rainbow runners use open water, often near the surface over reefs and sometimes farther offshore. They occur around the world in tropical and warm temperate seas, including waters around northern Australia. Their food is mostly invertebrates, particularly crustaceans drifting in the plankton, with small fishes also eaten. A large, fast-swimming fish can still depend on very small animals for much of its food.",
+      "transcriptFromService": true
+    },
+    "s29": {
+      "file": "s29.ogg",
+      "scriptHash": "5ca894801cab589b3a06931135ee50ce40750421de7c607866814f394de6e2ae",
+      "audioHash": "fd0ec71587970deed4a653f2df4192c36c945f2b31352dce8a26c1da9d633176",
+      "duration": 22.4,
+      "generatedAt": "2026-09-07T05:44:45.452Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2962",
+      "transcript": "A large adult has thick lips and a rounded hump above the eyes. Young humphead wrasses look different, with wavy dark lines behind the eye and a yellow edge on the tail. They live on tropical Indo-Pacific reefs. Their food includes crustaceans, molluscs, fishes and echinoderms such as sea urchins. These long-lived fish take years to mature.",
+      "transcriptFromService": true
+    },
+    "s30": {
+      "file": "s30.ogg",
+      "scriptHash": "a52f52aae3caad21a9bdfa29c816a8e481130e53179722d7f0a815e33e85499d",
+      "audioHash": "fd5bc9cead1f8ccb9944fa67ca9db71bd3a1a7f6a8c0458edb00d62d1900ae82",
+      "duration": 25,
+      "generatedAt": "2026-09-07T05:44:46.718Z",
+      "source": "https://fishesofaustralia.net.au/home/species/347",
+      "transcript": "Three dark bars contrast with this small fish’s pale body and white tail. Banded humbugs gather around branching coral in shallow lagoons and reef flats, slipping between branches for protection. They collect tiny animal plankton from the water. Their coral home provides shelter, and the fish also remove unwanted algae from it. Males guard eggs attached to the bottom until the larvae hatch.",
+      "transcriptFromService": true
+    },
+    "s31": {
+      "file": "s31.ogg",
+      "scriptHash": "bc0c96c5f7d3707acb3ac22d11e16e84a9c04a93ca1713394814e0fd7d539f0b",
+      "audioHash": "34ee960a2e6ddfa73d4a96db3dd1cf7405e179fa74a79a912a4d50160e7f0a27",
+      "duration": 15.6,
+      "generatedAt": "2026-09-07T05:44:49.959Z",
+      "source": "https://churaumi.okinawa/en/fishbook/1610175140/",
+      "transcript": "Small dark spots cover the body of this hawkfish, with pale spots near its middle. It is one of the larger hawkfishes, despite the small size of its illustration here. It lives close to the bottom on shallow coral reefs. Small fishes and crustaceans make up its main food.",
+      "transcriptFromService": true
+    },
+    "s32": {
+      "file": "s32.ogg",
+      "scriptHash": "0f326756f421a58d6b26ecfc57469c473b92b83b67b0bbbc5e46d21dae7b7642",
+      "audioHash": "6b4304435004f4ac440411be1d9be379c2330891fc8f2d0daf41685dae4842d4",
+      "duration": 22.2,
+      "generatedAt": "2026-09-07T05:44:51.881Z",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/blacktip-reef-shark/",
+      "transcript": "Dark fin tips edged with pale markings help identify the blacktip reef shark. It favors shallow, clear water around reefs, sand flats and lagoons in the tropical Indo-Pacific. Individuals often stay close to familiar reef areas. Their meals include fishes, crustaceans and molluscs such as squid. Females give birth to live pups, usually in small litters.",
+      "transcriptFromService": true
+    },
+    "s33": {
+      "file": "s33.ogg",
+      "scriptHash": "69d0693334c207a66436b7536816f7c848e63c017dad8272d7291642e36ad2e5",
+      "audioHash": "183cd201486720ebaf42032749f1e3aa69aa6831946cafa01797c91aed4f5dc2",
+      "duration": 20.3,
+      "generatedAt": "2026-09-07T05:44:54.091Z",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/whitetip-reef-shark/",
+      "transcript": "Pale tips on the first dorsal fin and upper tail stand out against a gray-brown body. This slender shark has a broad, flattened head and lives around coral reefs across much of the Indo-Pacific. Whitetip reef sharks often rest in caves during the day and become active at night. They can breathe while resting, so they do not have to swim continuously.",
+      "transcriptFromService": true
+    },
+    "s34": {
+      "file": "s34.ogg",
+      "scriptHash": "9178a501ad261160d8e4f707e663f21395e40d345d26d98f8bc660b0b5c154a5",
+      "audioHash": "51f5f7b6d5da80d3398e5f6effd04c2122f5b0402125d3b2e15e99a53bbe86b4",
+      "duration": 26.9,
+      "generatedAt": "2026-09-07T05:44:56.945Z",
+      "source": "https://www.fisheries.noaa.gov/species/white-shark",
+      "transcript": "The white underside gives this shark its name; its back is much darker. A powerful, streamlined body and crescent-shaped tail suit life in coastal and offshore waters. White sharks range through temperate and subtropical seas around the world. Their diet changes as they grow. Young sharks eat fishes, smaller sharks, rays and squid; larger individuals also eat marine mammals.",
+      "transcriptFromService": true
+    },
+    "s35": {
+      "file": "s35.ogg",
+      "scriptHash": "2563e4299b307bf1f21976be980b1e872962805cb04583e29b79890a63750d7d",
+      "audioHash": "eecd6ccfe3acfae013f01943fa4fa716af6a502859c90a447a514111a48150fc",
+      "duration": 24.2,
+      "generatedAt": "2026-09-07T05:44:58.649Z",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/tiger-shark/",
+      "transcript": "Young tiger sharks have strong dark bars and spots along their sides. These markings become less distinct with age. Their pale underside contrasts with a gray back. Tiger sharks eat a very wide variety of animals. Although they often move slowly, they can accelerate in short bursts to catch prey. Being a large predator does not mean swimming at top speed all the time.",
+      "transcriptFromService": true
+    },
+    "s36": {
+      "file": "s36.ogg",
+      "scriptHash": "c255dd9d13b65260e5d9a800e9bd4a23cc67e9053b1e6647001affd31a14656f",
+      "audioHash": "a6dd784214d1832cfd32524008323c88a399b48f70414c289cf5a91ff27f11fd",
+      "duration": 25.6,
+      "generatedAt": "2026-09-07T05:45:01.803Z",
+      "source": "https://australian.museum/learn/animals/fishes/spotted-wobbegong-orectolobus-maculatus-bonnaterre-1788/",
+      "transcript": "Wobbegong names several species of carpet shark. One Australian example is the spotted wobbegong, Orectolobus maculatus. It has skin flaps around the snout and pale rings over a yellowish to greenish-brown body with dark saddle markings. Spotted wobbegongs often rest on sand or rocky reef bottoms in shallow coastal water. They feed mainly at night, taking fishes, crayfish, crabs and octopuses.",
+      "transcriptFromService": true
+    },
+    "s37": {
+      "file": "s37.ogg",
+      "scriptHash": "a08ddb316f88ab5067952df64b628be670160ebbfacfc7aeb4b60dff59b76886",
+      "audioHash": "f2128a5723281cdd6e657dbfa7543c28862e600aa31ea2037695d2b287810183",
+      "duration": 18,
+      "generatedAt": "2026-09-07T05:45:02.801Z",
+      "source": "https://fishesofaustralia.net.au/home/species/1843",
+      "transcript": "This Australian electric ray is also called the coffin ray. Its flattened body is pear-shaped, and its tail is so short that only the tail fin projects beyond the rear pelvic fins. Its upper surface is brown, with two small dorsal fins near the back. It often waits buried in sand or mud.",
+      "transcriptFromService": true
+    },
+    "s38": {
+      "file": "s38.ogg",
+      "scriptHash": "f9263a42d42363f1e54f30d7429e1d13631a80299a644195e110b173caf55acd",
+      "audioHash": "88287043ee30219b8cda96298a1c405885b97217ab014415300077d41b290d2b",
+      "duration": 22.3,
+      "generatedAt": "2026-09-07T05:45:06.919Z",
+      "source": "https://fishesofaustralia.net.au/home/species/4672",
+      "transcript": "Also called the Queensland groper, this is a huge, heavy-bodied reef fish. Small juveniles are yellow with broad dark markings; adults become mottled gray-brown with darker or yellowish fins. It usually lives alone, using habitats that include caves, wrecks, rocky shores, estuaries and reefs. A large individual may hover in the water or remain still on the bottom.",
+      "transcriptFromService": true
+    },
+    "s39": {
+      "file": "s39.ogg",
+      "scriptHash": "6c16cd892682253b4664d42925b1c612de9201cf50c7e4e5a27d8de670ffe6aa",
+      "audioHash": "39a5f9888337a080470ae3a63c2b6d891efd1952603c03cbf9846afc6bf61621",
+      "duration": 23.2,
+      "generatedAt": "2026-09-07T05:45:08.103Z",
+      "source": "https://fishesofaustralia.net.au/home/species/4521",
+      "transcript": "The yellow-edged lyretail, also called the coronation trout, has a crescent-shaped tail with a bright yellow border. Adults are usually reddish, with many small bluish or pinkish spots across the head, body and fins. This grouper lives across much of the tropical Indo-Pacific, including Australian reefs, and eats fishes and crustaceans. Juveniles can resemble goatfishes.",
+      "transcriptFromService": true
+    },
+    "s40": {
+      "file": "s40.ogg",
+      "scriptHash": "bcd63ee69e2f7490701311e43b2c70251fda20d520570cba5375d7c927214304",
+      "audioHash": "3da6ddd5706b1fc760becce9b83f3b58438c008e7a0b6c44546c778adf9b47a6",
+      "duration": 22,
+      "generatedAt": "2026-09-07T05:45:12.282Z",
+      "source": "https://australian.museum/learn/animals/fishes/roundface-batfish-platax-teira/",
+      "transcript": "Also called the roundface batfish, this fish has a nearly circular body seen from the side. Dark bands cross its eye and the area near its pectoral fin. Look for a dark blotch below that fin and a longer mark above the anal fin. Young fish have especially tall dorsal and anal fins, which become shorter relative to the body as they grow.",
+      "transcriptFromService": true
+    },
+    "s41": {
+      "file": "s41.ogg",
+      "scriptHash": "7143009d2ddee3c29d81a3589b6754cf0a61c10db79d8c2d504acb3ca8d839c3",
+      "audioHash": "371d4ce1895b9272aaa2502501a56144ed8c029b7f4e2ce44c1ce30b01bd0b2a",
+      "duration": 23.2,
+      "generatedAt": "2026-09-07T05:45:13.486Z",
+      "source": "https://fishesofaustralia.net.au/home/species/1875",
+      "transcript": "A trumpetfish has a long, narrow body and a tube-shaped snout. It can change color and sometimes waits head-down among corals. Its outline can be difficult to pick out against long branches. It also approaches prey beside a larger fish, using that neighbor as cover. Small fishes and crustaceans are sucked through the snout when the mouth region expands rapidly.",
+      "transcriptFromService": true
+    },
+    "s43": {
+      "file": "s43.ogg",
+      "scriptHash": "cf6ce4dbad571494d0f3cd5a56063bd96f79d962d826d33e5caae3a19eb2edd2",
+      "audioHash": "c6641d4e771d44ed17a7890f1802e895775888ab2a0f2396dd224c753e4a214f",
+      "duration": 21.5,
+      "generatedAt": "2026-09-07T05:45:17.481Z",
+      "source": "https://australian.museum/blog/amri-news/news-from-lirs-learning-from-the-cleaners-and-their-clients/",
+      "transcript": "A small cleaner wrasse can approach a much larger fish without becoming its meal. It obtains food by removing parasites from clients. The interaction connects two different needs: the cleaner feeds, while the client loses parasites. Researchers at Lizard Island study these relationships through observations and experiments.",
+      "transcriptFromService": true
+    },
+    "s44": {
+      "file": "s44.ogg",
+      "scriptHash": "06caa0911919e87d73e23a5eaaf43a12da0cc0d2b45fa2f3947eb2f726f6d48f",
+      "audioHash": "113294315b92bfee5653ffdfa03c4c0fd0e7617fb5811b573827b1481fd0c767",
+      "duration": 21,
+      "generatedAt": "2026-09-07T05:45:18.642Z",
+      "source": "https://animaldiversity.org/accounts/Hippocampus_kuda/",
+      "transcript": "A seahorse is a fish with a very unusual outline: an upright body, a long snout and a gripping tail. This species can be pale yellow or dark, so color by itself is not a reliable identification. It uses shallow coastal habitats such as seagrass beds, bays and estuaries.",
+      "transcriptFromService": true
+    },
+    "s45": {
+      "file": "s45.ogg",
+      "scriptHash": "221bea713a8e61f8d77d2a3bbece1124ad3020621c6c93ab405e34d8e149d9ee",
+      "audioHash": "d962a3e14d2993af9976ebb7375aeace22ec64611019e9bdc2a0c4922483ed11",
+      "duration": 21.6,
+      "generatedAt": "2026-09-07T05:45:22.607Z",
+      "source": "https://aquarium.org/animals/banded-coral-shrimp/",
+      "transcript": "Red-and-white bands, prominent claws and long white antennae distinguish this shrimp. It shelters beneath reef ledges and in crevices. Pairs are often seen together, with the male smaller than the female. A cleaner shrimp finds food on larger fishes by removing external parasites and other material. Its long antennae help attract visiting fish.",
+      "transcriptFromService": true
+    },
+    "s46": {
+      "file": "s46.ogg",
+      "scriptHash": "5b9a078acb6d3a86c28bdeb878b0082844ee7366809ea4bcc1f71c41bdb2e83a",
+      "audioHash": "0526d66a6e121d8e95f9a734b75a8b7ec0712086eb30f8755bcc9f2aaa36b262",
+      "duration": 18.6,
+      "generatedAt": "2026-09-07T05:45:23.634Z",
+      "source": "https://australian.museum/learn/animals/crustaceans/",
+      "transcript": "A crab wears its supporting skeleton on the outside. Jointed legs allow it to move despite this hard covering. Crabs belong to the crustaceans, a group that also includes shrimps, lobsters and tiny plankton animals. Look for paired antennae and compare the crab’s jointed limbs with a snail’s soft body.",
+      "transcriptFromService": true
+    },
+    "s47": {
+      "file": "s47.ogg",
+      "scriptHash": "e25828837548c13503ff02d6173348571887c429abc04488cc88bb3912a72a13",
+      "audioHash": "26fb4ee510154fe6043051b7df91d09be2e82806371965c2a73cedad3d6a936c",
+      "duration": 18.8,
+      "generatedAt": "2026-09-07T05:45:27.168Z",
+      "source": "https://oceanservice.noaa.gov/facts/starfish.html",
+      "transcript": "Sea stars are animals, but they are not fish. They have no fins or scales and live in salt water. Their relatives include sea urchins and sea cucumbers. Small tube feet on the underside help a sea star move and hold food. Not every species has five arms: some have many more.",
+      "transcriptFromService": true
+    },
+    "s48": {
+      "file": "s48.ogg",
+      "scriptHash": "b8d88ae929c9fe1c614e1d2a35364386148ecd1a06eb70b3913558f8727a8767",
+      "audioHash": "207515a01680a6b1d0871e78dd8763efb9bfda483fec80f29e3c80c0fcb4910b",
+      "duration": 25.4,
+      "generatedAt": "2026-09-07T05:45:29.074Z",
+      "source": "https://fishesofaustralia.net.au/home/species/812",
+      "transcript": "Also called the harlequin filefish, this slender fish has a pointed snout and rows of spots on a greenish body. It lives in coral-rich lagoons and outer reefs of the Indo-West Pacific, including Australian reefs. Its food is coral polyps, usually from branching Acropora corals. It shelters among coral branches at night and can acquire a coral-like smell that helps conceal it from predators.",
+      "transcriptFromService": true
+    },
+    "s49": {
+      "file": "s49.ogg",
+      "scriptHash": "3c63281f7899f4e95d8d2c7fe382d3f8660d35e5c7bcee7689d12cefaa41cfce",
+      "audioHash": "2681c52cd213af406c8753feec3bb43e6a4283c35bbd62fd01d7e14c42a2f294",
+      "duration": 24.2,
+      "generatedAt": "2026-09-07T05:45:31.787Z",
+      "source": "https://fishesofaustralia.net.au/home/species/722",
+      "transcript": "This slender fish is blue-green above and silver below. Its lateral line divides, with one branch curving down behind the pectoral fin before following the lower side. That feature gives the doublelined mackerel its name. Also called the scad mackerel, it forms dense schools near reefs, especially outer walls and deep, clear slopes. It eats small fishes and crustaceans.",
+      "transcriptFromService": true
+    },
+    "s50": {
+      "file": "s50.ogg",
+      "scriptHash": "ba944fa95189fa5d7b4224938cb3a46b600c69597fde1daf0d2bd347ede9fb95",
+      "audioHash": "795b915fe49d2a9adbd2a46fd6063eff3945941a37939f86c96304561ca8f60b",
+      "duration": 19.4,
+      "generatedAt": "2026-09-07T05:45:33.493Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2222",
+      "transcript": "A bright yellow blotch below the rear dorsal fin stands out on this striped fish. Also called the goldspot seabream, it has rows of pale spots on the upper body and brownish-orange stripes below. It lives around coastal reefs, lagoons and outer slopes, sometimes gathering in large daytime schools.",
+      "transcriptFromService": true
+    },
+    "s51": {
+      "file": "s51.ogg",
+      "scriptHash": "d70acc1d3ca7bd67b4efbbef821c01051dcc94b9781559f9573ec621dd28c86f",
+      "audioHash": "081cfb6d7f6763e5b2d1d697d3aa807c64b4dc205800ff32570db90da95fdbad",
+      "duration": 24.5,
+      "generatedAt": "2026-09-07T05:45:36.555Z",
+      "source": "https://fishesofaustralia.net.au/home/species/558",
+      "transcript": "Golden snapper have a yellowish, bronze-to-silver body with a large dark blotch high on the side. Small reddish-brown marks on the scales form fine lines along the body. They use coastal and estuarine reefs, including silty places where the water is less clear. Young fish occur among mangroves. Their meals include fishes, shrimps, crabs and cephalopods; a muddy habitat can support a rich food supply.",
+      "transcriptFromService": true
+    },
+    "s52": {
+      "file": "s52.ogg",
+      "scriptHash": "41ad8ac1bf57d2b6f58b6a619e4089f0dd4287d10686721754d1880ad9c0872b",
+      "audioHash": "c8c8f088f7bf5eef495587abf87227e80d07b4c10fba2e6dade7756881dbdd94",
+      "duration": 27.3,
+      "generatedAt": "2026-09-07T05:45:39.500Z",
+      "source": "https://fishesofaustralia.net.au/home/species/1049",
+      "transcript": "Also called the bluelined or pencil-streaked rabbitfish, this fish has fine blue lines and two slanting dark bands near the head. Its dorsal and tail fins are yellow, and its stout fin spines are venomous. Pairs and schools graze turf algae, larger seaweeds and seagrass in shallow, sheltered reef habitats. A pair is not always isolated: tracking studies have found coordinated movements involving many pairs.",
+      "transcriptFromService": true
+    },
+    "s53": {
+      "file": "s53.ogg",
+      "scriptHash": "8abbfbace7e4254638db00224a3b61daa07ace5486c30b7653fa5a31166663be",
+      "audioHash": "0ed1c5413e1c99a39b21e2190e90a82458ab7149e24febb5dde2623b9c0d908e",
+      "duration": 21.5,
+      "generatedAt": "2026-09-07T05:45:40.874Z",
+      "source": "https://www.aquariumofpacific.org/onlinelearningcenter/species/splitfin_flashlight_fish",
+      "transcript": "Flashlight fishes carry light-producing bacteria in organs beneath their eyes. In the splitfin flashlight fish, Anomalops katoptron, those organs can rotate so their light is hidden or revealed. The fish controls a living light source rather than making sparks. Splitfin flashlight fish shelter in caves and dark overhangs by day and form schools at night.",
+      "transcriptFromService": true
+    },
+    "s54": {
+      "file": "s54.ogg",
+      "scriptHash": "6940a8640c323d5210b8a381bae3ab38468863a91505b5a499a500ba44003e78",
+      "audioHash": "969ccc0244ad87967879f2c95a9edb6c333497c6e4c027c6b1c8d4cb21bf9369",
+      "duration": 20,
+      "generatedAt": "2026-09-07T05:45:43.614Z",
+      "source": "https://australian.museum/learn/animals/fishes/painted-anglerfish-antennarius-pictus/",
+      "transcript": "Also called the painted anglerfish, this fish can be red, yellow, orange, green, brown or black. The pectoral fins often have pale tips, and three spots commonly mark the tail. Color alone is not enough to identify it. It often lives alongside sponges in bays and estuaries.",
+      "transcriptFromService": true
+    },
+    "s55": {
+      "file": "s55.ogg",
+      "scriptHash": "ed7b1e776f18baaa0e7ab5289624ec261c678efeee815f259b8df89f656489e7",
+      "audioHash": "626c290443967bf88ab4eda9b6e057554862e57b7b7c391b24f140bafe9be9b5",
+      "duration": 25.3,
+      "generatedAt": "2026-09-07T05:45:45.427Z",
+      "source": "https://fishesofaustralia.net.au/home/species/4279",
+      "transcript": "Silver trevally are greenish-blue above and silver below, with a dark patch high on the gill cover. Younger fish often show yellow stripes. Their deep bodies narrow sharply toward the tail. This species forms schools over reefs and nearby sand in southern Australia and New Zealand. Young fish use shallow coastal habitats, while adults often occupy deeper water near headlands.",
+      "transcriptFromService": true
+    },
+    "s56": {
+      "file": "s56.ogg",
+      "scriptHash": "8b20771b5f1884da1943311bea10de4cd69db0644bc23b2ef7e420f711ce727d",
+      "audioHash": "d0104bd58e7ea3d390436d3869827336af986a5b9dc0d566ec80c7b96972a98c",
+      "duration": 20.5,
+      "generatedAt": "2026-09-07T05:45:47.707Z",
+      "source": "https://australian.museum/learn/animals/fishes/longfin-bannerfish-heniochus-acuminatus-linnaeus-1758/",
+      "transcript": "A long dorsal streamer trails above a pale body crossed by two broad black bands. Yellow on the tail and soft dorsal fin adds another useful identification clue. Longfin bannerfish live in sheltered coastal bays and coral-reef waters of the tropical Indo-Pacific. Their food includes animal plankton and bottom-living invertebrates.",
+      "transcriptFromService": true
+    },
+    "s58": {
+      "file": "s58.ogg",
+      "scriptHash": "6266fca888b64f08c058e85817fa9be063d11ae3f26a0c700a6299acb5dab928",
+      "audioHash": "ac28fd881aed627122eb4e83074e0a3d49a01488393b2d101d3cf59d10b30314",
+      "duration": 20.5,
+      "generatedAt": "2026-09-07T05:47:39.690Z",
+      "source": "https://australian.museum/learn/animals/fishes/purple-queen-pseudanthias-tuka/",
+      "transcript": "Purple anthias, also called purple queens, are deep pink to purple. Females have a yellow stripe along the back extending onto the tail. Males have longer soft dorsal-fin rays and a purple patch at the base of that fin. They gather along the upper edges of drop-offs and steep outer reef slopes. Their tropical range includes the Great Barrier Reef.",
+      "transcriptFromService": true
+    },
+    "s57": {
+      "file": "s57.ogg",
+      "scriptHash": "fd62b2c65c3134722916da766265960e3b1aefee7c117c4155584fc788a3ca38",
+      "audioHash": "0d2398ad126573c1e49b90265a8e39a6e142928bdf1495fc70eec2e26bde16de",
+      "duration": 22.6,
+      "generatedAt": "2026-09-07T05:47:40.804Z",
+      "source": "https://fishesofaustralia.net.au/home/species/2428",
+      "transcript": "Checkerboard hawkfish is a descriptive game name that does not yet identify a verified species. One real hawkfish with a crisscross pattern is the longnose hawkfish, Oxycirrhites typus, whose pointed snout is especially distinctive. That species perches among sea fans and black corals on steep reef slopes. It eats small crustaceans, including animals drifting in the plankton.",
+      "transcriptFromService": true
+    },
+    "s60": {
+      "file": "s60.ogg",
+      "scriptHash": "e079047044fdd80384a259eb55c13ed22906364a95e50eb4daaf30cae73dd0f5",
+      "audioHash": "29c3f39292bca6aac9dcf60828512d387637bf9cd597bb2ba26fa81f2ffd8ac8",
+      "duration": 20.2,
+      "generatedAt": "2026-09-07T05:47:45.178Z",
+      "source": "https://www.dbca.wa.gov.au/wildlife-and-ecosystems/marine/marine-parks/fun-facts/nudibranches-sea-slugs",
+      "transcript": "Nudibranchs are sea slugs whose adult bodies have no protective shell. Many carry an exposed ring of gills on the back. Their name means naked gills, but the shapes and positions of these structures vary. They eat other animals, often specializing in a particular prey. Some eat sponges; others use different foods.",
+      "transcriptFromService": true
+    },
+    "s59": {
+      "file": "s59.ogg",
+      "scriptHash": "85b0d9b800840623f9c3ab372ec06a49d21b052443db2db01e5dde8d068f6961",
+      "audioHash": "2bd141f3069a99dbf4218ce4d179c10f394e260c970d5cba6a292365dbfe3e1a",
+      "duration": 22.5,
+      "generatedAt": "2026-09-07T05:47:46.566Z",
+      "source": "https://fishesofaustralia.net.au/home/species/3369",
+      "transcript": "Longsnout flatheads have elongated snouts and low, broad heads. Their tan bodies carry pale spots and darker bands across the back. A dark bar below the eye and alternating pale and dark lip markings provide further identification clues. They inhabit sandy areas around coral reefs, including lagoons and bays, and often lie partly buried.",
+      "transcriptFromService": true
+    },
+    "s61": {
+      "file": "s61.ogg",
+      "scriptHash": "1435e5ca9bbf9806644b8cb326fe5938cd1f68b7feb8c107ed0c53840e3f75e5",
+      "audioHash": "73931b6f10f568bcd90fbfdca684d5cf58b095f281b61481dc55be0d4394f16a",
+      "duration": 23.9,
+      "generatedAt": "2026-09-07T05:47:51.228Z",
+      "source": "https://australian.museum/learn/animals/molluscs/",
+      "transcript": "A snail is soft-bodied underneath its shell. Snails and slugs belong to the gastropods, one of the major groups of molluscs. Molluscs also include very different-looking animals such as clams, octopuses and cuttlefish. A layer of tissue called the mantle can produce the shell. A muscular foot helps many molluscs move, and many have a tooth-bearing feeding structure called a radula.",
+      "transcriptFromService": true
+    },
+    "s62": {
+      "file": "s62.ogg",
+      "scriptHash": "9a16a341e58ac063ca7c5b9c65e0714b9cf0f1938a21e86d30fe239a8d45f818",
+      "audioHash": "ebb97c1fbc27e3ebd505e136d58cd479297d92af16936170118f7c8496c8a5a7",
+      "duration": 22.5,
+      "generatedAt": "2026-09-07T05:47:52.448Z",
+      "source": "https://australian.museum/blog/amri-news/the-sea-urchins-of-sydney/",
+      "transcript": "Sea urchins come in many forms: some have long, fine spines, while others have thick spines like pencils. Different species live in rock pools, on reefs and among kelp. Long spines alone do not identify a species. Grazing urchins can change the vegetation around them. On some Australian rocky reefs, their feeding helps maintain patches with little kelp.",
+      "transcriptFromService": true
+    },
+    "s63": {
+      "file": "s63.ogg",
+      "scriptHash": "5c5ef23c6bd704aca3ec6f9e69a868d92b4c57474b6a963ece7d66fd9f8b1d81",
+      "audioHash": "0a82f52712416533a8e4141d963a4b6c69513adf261101e5e62878e4893f590b",
+      "duration": 26.5,
+      "generatedAt": "2026-09-07T05:47:57.135Z",
+      "source": "https://australian.museum/learn/animals/jellyfish/",
+      "transcript": "Sea anemones are animals related to corals and jellyfish. Their soft bodies and tentacles may resemble flowers, but they belong to a very different branch of life. Some anemones share their tissues with microscopic algae. Others provide homes for animal partners, including anemonefish. Anemones can even live on a hermit crab’s shell or on a boxing crab’s claws. These relationships differ between species.",
+      "transcriptFromService": true
+    }
+  }
+}

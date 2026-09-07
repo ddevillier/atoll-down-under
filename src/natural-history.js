@@ -293,7 +293,7 @@ export const NATURAL_HISTORY={
    'Cuttlefishes are molluscs with remarkable camouflage. One Australian example, the giant cuttlefish, can change its color and raise parts of its skin to resemble the texture of sand, rocks or seaweed.',
    'Giant cuttlefish eat fishes, crabs and other crustaceans. Their changing patterns also help them communicate, especially when breeding. They are mainly active by day: the behavior of a real species can differ from a game’s general label.'
   ],question:'Compare changes in color with changes in texture. Would matching only one of those always hide an animal?',
-  limit:'The game does not identify its cuttlefish as a giant cuttlefish. That species is a named example here, not an identification of the sprite. The game uses night-only activity and a simplified ink defense.',
+  limit:'The game does not identify its cuttlefish as a giant cuttlefish. That species is a named example here, not an identification of the sprite. The game uses night-only activity, a simplified ink defense, and two authored background patterns. Press E near sand or reef and stay still to blend; movement reveals you.',
   source:'Australian Museum · Giant Cuttlefish (named example)',url:'https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/'},
  s20:{scientific:'Pterois (lionfishes; genus)',family:'Scorpaenidae · exact species not identified',
   paragraphs:[
@@ -405,7 +405,7 @@ export const NATURAL_HISTORY={
    'Long spines project in front of the eyes, with another pair extending from the lower rear of the armored body. Individuals can be greenish, yellow or orange with blue spots. Shape is a useful clue even when colors differ.',
    'Longhorn cowfish search sandy and weedy places near reefs. They blow water at the sand to uncover small bottom-living animals to eat. Australian records extend around the north from Western Australia to New South Wales, and include Lord Howe Island.'
   ],question:'Imagine a meal buried under sand. How could a jet of water help a fish find it?',
-  limit:'Sand-blowing is not animated in this game. The chemical-defense button and predator immunity are game rules, not measurements of natural protection.',
+  limit:'Press E near marked sand to uncover a meal. The two-site search and renewal timing are simplified play rules. The chemical-defense button and predator immunity are game rules, not measurements of natural protection.',
   source:'Dianne J. Bray · Fishes of Australia: Longhorn Cowfish',url:'https://fishesofaustralia.net.au/home/species/837'},
  s30:{scientific:'Dascyllus aruanus',family:'Pomacentridae · damselfishes',length:'Up to 10 cm total length',
   paragraphs:[

@@ -1,49 +1,25 @@
 # Current implementation brief
 
-**PARKED after completing the approved plan — September 6, 2026.** Living title, peaceful title score, Family Journal, care stamps/reminders, visitor rewards and backup/restore are implemented. The verified Windows Family Journal archive is ready for testing; see [WINDOWS-FAMILY-JOURNAL-BUILD.md](WINDOWS-FAMILY-JOURNAL-BUILD.md), runtime `a16e4c6`. Stop feature work, research and additional builds until the user asks to resume. This completes the approved work front, not the broader historical audit. Older milestones below retain their evidence scope.
+September 7, 2026: the approved Species Adventures work front is implemented. Complete the Windows verification and preserve its testing ZIP, then park. See [SPECIES-ADVENTURES.md](SPECIES-ADVENTURES.md) for mechanics, production details and scope, and [WINDOWS-SPECIES-ADVENTURES-BUILD.md](WINDOWS-SPECIES-ADVENTURES-BUILD.md) for delivery evidence.
 
-This page records current scope. The previous chronological notes are preserved in [IMPLEMENTATION-HISTORY-2026-09-06.md](IMPLEMENTATION-HISTORY-2026-09-06.md). Their old priorities and pending-build statements are historical, not instructions to restart completed work.
+## Current direction
 
-## User direction
+Shared adult-and-child Practice exploration takes priority. Preserve the spirit of the inspiration; ask before original-game reference research. Four featured species receive distinct optional activities, with unrestricted free exploration. Narration is an explicitly played field-guide feature, never automatic. Windows only; preserve older testing archives. No live day/night cycle or offscreen ecosystem this pass. No further builds or feature expansion after this verified delivery without a new request.
 
-The full objective remains population hills and valleys, one area with a slightly higher predator-spawn likelihood, facts for every species, and continued implementation of needed gameplay/specification audit changes without leaning into greater difficulty.
+## Implemented in this work front
 
-The user's later direction governs how that objective is pursued:
+- Individual animation phases and activity poses; existing smooth turns and sprite articulation remain.
+- Species behavior profiles and structured activity signals; social coordination independent of habitat labels, coral-home returns, sand searching, background matching, and cleaning/safety precedence.
+- Fusilier, coral goby, cowfish and cuttlefish adventures with E/context controls, hide/resume prompts and four persistent Ways of living journal discoveries.
+- All 64 guide introductions recorded with transcripts, explicit Play/Stop, volume, music ducking, missing-audio fallback and offline assets.
+- Checkpoint/import compatibility for adventures and legacy journals; existing badges and care stamps preserved.
 
-- Capture the spirit of the game; a verbatim reconstruction is not required.
-- Ask before further original-game reference research or comparisons. Historical discrepancies are not automatic implementation requirements.
-- Prioritize Practice/exploration and gameplay. Tournament reconstruction is deferred.
-- The latest specifically requested feature was the cleaner loop; it is implemented and packaged.
-- Windows only. No Apple Silicon or other macOS build is authorized.
-- Do not apply artifacts/parked-diet-pass.patch automatically.
+## Evidence
 
-## Current testing build
+177 unit checks and 46 browser scenarios pass. Four ordinary mouse/keyboard adventure flows use controlled world setups to isolate their rules; these are not a substitute for family playtesting. Visual checks cover 1600x900 and 1024x768. All 64 recorded transcripts and audio hashes match; every clip decodes and passes signal checks. Fifteen paired one-minute unprotected simulation scenarios preserve every initial count and final health outcome, with no deaths. CPU render p95 is about 0.9 ms versus 0.9 ms in the prior renderer on the same busy reef; this does not measure GPU presentation or promise a device-wide frame rate. Native package and archive evidence belongs in the delivery receipt.
 
-The length-unit follow-up is now packaged in the parked build above. Native unit switching, persistence, food highlights, fullscreen and gameplay passed. The Food Hints milestone below is retained as prior verification history.
+## Later candidates
 
-[Windows Food Hints](WINDOWS-FOOD-HINTS-BUILD.md), packaged source 2e43ce2, includes cleaners, spaced queues, interruption fixes, and optional H/Settings food markers. The archive is dist/Atoll-Down-Under-Windows-Food-Hints-2026-09-06.zip. Native food controls, ordinary gameplay, fullscreen and portable saves passed. All 120 checked packaged files and 73 ZIP payload files matched; CRC passed. This brief postdates the packaged runtime.
+Goatfish/parrotfish/flashlight routines; playable cleaner mechanics; habitat readability and foreground depth; remaining anatomy/identity limits; broader accessibility and family playtesting. Plan live day/night or offscreen continuity separately. The full historical audit remains open, and does not automatically authorize implementation or more reference research. Tournament reconstruction remains deferred. Do not apply artifacts/parked-diet-pass.patch automatically.
 
-The implementation has 138 passing unit/asset checks. Four relevant browser scenarios verified the food-hint follow-up; the preceding cleaner-queue milestone passed the full 35-scenario browser suite. Do not represent those scopes as a fresh full-suite run on the current package. Receipts and feature documents retain detailed evidence.
-
-## Verified work
-
-| Requirement or repair | Current evidence |
-|---|---|
-| Population hills and valleys | Nine authored ranges in src/populations.js; census and sustained exercises in POPULATION-REVISION.md. |
-| One modestly higher predator-spawn zone | Outer Blue has a 45% chance of a second initial hunter; every other zone has 25%. General pursuit/damage settings were not increased. |
-| Facts for every catalog species | All 64 IDs have natural-history entries; no missing entries in the current-source check. SPECIES-FACTS-LEDGER.md records sources and identity limits. Written coverage does not prove complete scientific or historical parity. |
-| Local communities and feeding | Nine weighted forager mixes, authored feeding sites and closest-center selection are packaged. See LOCAL-COMMUNITIES.md and FOOD-SELECTION-REPAIR.md. |
-| Cleaner gameplay | Click/button/C approach, gradual parasite treatment, cancellation, current-client priority, spaced waiting, interruptions and saved continuation. See CLEANER-LOOP.md. |
-| Optional food visibility | H/Settings markers respect diet, size, armor and poison resistance. Off by default; no automatic movement/feeding or supply change. See FOOD-VISIBILITY.md. |
-| Fullscreen and portable saves | Startup, F11, named slots, real file export/import and resumed gameplay verified in the Windows receipt. |
-| Other completed audit repairs | Poison stage-score consistency, damage separation, shelter feedback, fact/art corrections and map planning are recorded in CURRENT-AUDIT-STATUS.md and feature documents. |
-
-## Work still open
-
-- Scene readability: food markers do not settle background density, foreground occlusion or all-species contrast. REEF-READABILITY-BASELINE.md separates animal counts, food-site counts and visual judgment. Do not reduce food merely to make a screenshot quieter.
-- Species interactions: nighttime variety, distinctive feeding/defensive behavior and shelter behavior remain possible gameplay improvements. Stronger behavior can affect difficulty even when numeric tuning is unchanged; assess its actual effect.
-- Art and identity limits: remaining artwork/anatomy mismatches and ambiguous identities are not proved resolved. Further historical comparisons require a question first.
-- Playtesting: automated survival/interaction tests do not establish a child's experience. The user was offered scene readability, distinctive species behavior, or holding feature work for playtesting; no answer has been received in the current record.
-- Historical comparisons: scoring formula, roster/diet exceptions, scene correspondence, audio comparisons and other entries remain in the original audit. Preserve evidence and uncertainty without automatically pursuing literal parity. Tournament remains deferred.
-
-The broader objective is not marked complete. Verify requirements at their actual scope; unresolved work must not disappear merely because a milestone was delivered. Conversely, do not keep changing a verified feature solely because older history calls it unfinished. Use concrete gameplay evidence and current user priorities to select the next change.
+The prior milestone record remains in IMPLEMENTATION-HISTORY-2026-09-06.md, CURRENT-AUDIT-STATUS.md and the individual Windows receipts. Earlier parked instructions refer to those completed milestones.

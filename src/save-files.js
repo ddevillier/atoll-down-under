@@ -6,7 +6,7 @@ export const MAX_SAVE_BYTES=8*1024*1024;
 const own=(o,k)=>Object.hasOwn(o,k);
 const object=o=>o!==null&&typeof o==='object'&&!Array.isArray(o);
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
-const stateKeys=['version','seed','time','uid','mode','phase','score','stage','stageScore','sequence','sections','player','protected','period','current','pointer','custom','visited','destination','difficulty','observations','careProgress'];
+const stateKeys=['version','seed','time','uid','mode','phase','score','stage','stageScore','sequence','sections','player','protected','period','current','pointer','custom','visited','destination','difficulty','observations','careProgress','adventure'];
 const fail=()=>{throw new Error('This dive file is damaged or incompatible. Choose another file.');};
 export const diveName=value=>String(value??'').trim().slice(0,60)||'My reef dive';
 export function diveFilename(name){
@@ -40,8 +40,9 @@ function animal(e,player=false){
  numbers(e,['x','y','angle','facing','energy','health','still','cleanTime','cooldown','abilityTime','stun','life','biteCooldown','think']);
  species(e.species,player);
  if(!['string','number'].includes(typeof e.id)||typeof e.alive!=='boolean'||typeof e.behavior!=='string')fail();
- for(const key of ['station','holdfast'])if(e[key]!=null)numbers(e[key],['x','y']);
- for(const key of ['poisonDamage','biteDamage','recoveryDelay'])if(e[key]!==undefined&&(!finite(e[key])||e[key]<0))fail();
+ for(const key of ['station','holdfast','homeAnchor','blending'])if(e[key]!=null)numbers(e[key],['x','y']);
+ if(e.blending!=null&&!['sand','reef'].includes(e.blending.kind))fail();
+ for(const key of ['poisonDamage','biteDamage','recoveryDelay','blendTime','actionTime','routineClock'])if(e[key]!==undefined&&(!finite(e[key])||e[key]<0))fail();
 }
 export function importDive(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('This file is too large. Choose an Atoll dive file under 8 MB.');
@@ -66,6 +67,7 @@ export function importDive(text){
   section.entities.forEach(e=>animal(e));
   for(const food of section.food){
    numbers(food,['x','y','size','amount','regrow','phase']);
+   if(food.uncovered!==undefined&&(!finite(food.uncovered)||food.uncovered<0))fail();
    if(food.kind!=='food'||!own(FOODS,food.food)||typeof food.id!=='string')fail();
   }
  }

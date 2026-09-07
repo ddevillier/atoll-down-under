@@ -1,6 +1,8 @@
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
-import {motionKind,bodyMotion} from './motion.js';
+import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
+import {animationPhase} from './behaviors.js';
+import {motionKind,bodyMotion,poseFor} from './motion.js';
 import {creatureWidth} from './geometry.js';
 import {SPECIES_SPRITES} from './sprite-assets.js';
 import {canUseShelter} from './shelter.js';
@@ -57,8 +59,9 @@ export class ReefRenderer {
    oc.putImageData(data,0,0);return out;
   });
  }
- drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1,activity=1){
+ drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1,activity=1,pattern=null){
   const b=this.bounds[species.index];let im=this.sprites[species.index];if(!b||!im)return;
+  if(pattern&&species.id==='s19'){const key='pattern-'+pattern;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.55;tc.fillStyle=pattern==='sand'?'#b9a06b':'#536b61';tc.fillRect(0,0,tint.width,tint.height);if(pattern==='reef'){tc.globalAlpha=.5;tc.fillStyle='#293f37';for(let i=0;i<80;i++){tc.beginPath();tc.ellipse(i*97%im.width,i*59%im.height,im.width*.018,im.height*.04,i,0,Math.PI*2);tc.fill();}}this.customCache.set(key,tint);}im=this.customCache.get(key);}
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);this.customCache.set(key,tint);}im=this.customCache.get(key);}
   const h=width*b.h/b.w,kind=motionKind(species);ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
   const animate=!this.reducedMotion&&time>0;
@@ -71,7 +74,8 @@ export class ReefRenderer {
   if(!pose){pose={x:e.x,y:e.y,facing:e.facing,activity:.35};this.poses.set(e.id,pose);}
   if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.facing+=(e.facing-pose.facing)*blend;pose.x=e.x;pose.y=e.y;}
   const facing=this.reducedMotion?e.facing:Math.sign(pose.facing||e.facing)*Math.max(.16,Math.abs(pose.facing));
-  this.drawSprite(ctx,e.species,e.x,e.y,width,facing,time,alpha,pose.activity);
+  const clock=time+animationPhase(e.id),posture=poseFor(e,clock,this.reducedMotion);ctx.save();ctx.translate(e.x,e.y);ctx.rotate(posture.pitch);ctx.scale(1,posture.squash);
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity);if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind);ctx.restore();
  }
  portrait(canvas,species){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const b=this.bounds[species.index];if(!b)return;this.drawSprite(ctx,species,canvas.width/2,canvas.height/2,Math.min(canvas.width*.78,canvas.height*.78*b.w/b.h));}
  addEffect(type,x=800,y=350,label=null){this.effects.push({type,x,y,t:0,label});}
@@ -90,14 +94,17 @@ export class ReefRenderer {
   if(this.renderedPlayer!==sim.player){this.poses=new Map();this.renderedPlayer=sim.player;}
   const motionDt=sim.paused||sim.phase!=='playing'?0:dt;
   c.save();c.translate(0,TOP);
-  for(const f of sim.section.food){if(f.regrow>0)continue;this.drawFood(c,f,t);}
+  const buried=sim.player.species.id==='s23'?new Set(sitesFor(sim).filter(s=>!(s.food.uncovered>0)).map(s=>s.id)):new Set();
+  for(const f of sim.section.food){if(f.regrow>0)continue;if(buried.has(f.id)){c.fillStyle='#b8a47e';c.globalAlpha=.6;c.beginPath();c.ellipse(f.x,f.y,22,5,0,0,Math.PI*2);c.fill();c.globalAlpha=1;continue;}this.drawFood(c,f,t);}
   for(const e of sim.section.entities.filter(e=>e.alive).sort((a,b)=>a.species.size-b.species.size)){
-   this.drawCreature(c,e,t+e.id,motionDt,.98);
+   this.drawCreature(c,e,t,motionDt,.98);
    if(e.species.ability==='clean'&&!sim.player.cleanTime)this.tag(c,e.x,e.y-30,e.behavior?.startsWith('Cleaning')?'Cleaner · Helping a fish':'Cleaner · Click to visit');
   }
   const p=sim.player;const puff=p.species.ability==='puff'&&p.abilityTime>0?1.5:1;
   const playerWidth=creatureWidth(p.species)*puff;
-  this.drawCreature(c,p,t,motionDt,p.hidden?.25:1,playerWidth);
+  this.drawCreature(c,p,t,motionDt,p.hidden?(p.blending?.65:.25):1,playerWidth);
+  if(ADVENTURES[p.species.id]&&!this.inspect){const chosen=selectedSite(sim);for(const site of sitesFor(sim)){if(Math.hypot(site.x-p.x,site.y-p.y)>240&&site.id!==chosen?.id)continue;if(Math.hypot(site.x-p.x,site.y-p.y)>420)continue;c.save();c.strokeStyle='#e5d6a4';c.globalAlpha=.65;c.lineWidth=1.5;c.setLineDash([4,7]);c.beginPath();c.ellipse(site.x,site.y,30,15,0,0,Math.PI*2);c.stroke();c.restore();if(site.id===chosen?.id)this.tag(c,site.x,site.y-28,site.name+' · E');}}
+  if(sim.adventure?.home?.reef===sim.current){const h=sim.adventure.home;c.save();c.strokeStyle='#c5e8c6';c.lineWidth=2;c.beginPath();c.arc(h.x,h.y,35,0,Math.PI*2);c.stroke();c.restore();}
   // A small player marker is always readable without outlining the entire fish.
   c.fillStyle=p.hidden?'#b9e0bb':'#fff1bd';c.beginPath();c.moveTo(p.x,p.y-playerWidth*.42-10);c.lineTo(p.x-5,p.y-playerWidth*.42-18);c.lineTo(p.x+5,p.y-playerWidth*.42-18);c.fill();
   if(p.abilityTime>0){const a=p.species.ability;c.save();c.globalAlpha=.22;c.fillStyle=['ink','poison'].includes(a)?'#112f3d':'#caedcf';c.strokeStyle='#e0f6b9';c.lineWidth=2;if(['ink','poison'].includes(a)){c.beginPath();c.ellipse(p.x-p.facing*35,p.y,90,48,Math.sin(t)*.2,0,Math.PI*2);c.fill();}else if(a!=='camouflage'){c.beginPath();c.arc(p.x,p.y,p.species.size*.7+12+Math.sin(t*5)*5,0,Math.PI*2);c.stroke();}c.restore();}
@@ -122,11 +129,12 @@ export class ReefRenderer {
   }
   if(this.inspect){for(const s of REEFS[sim.current].shelters){c.setLineDash([5,6]);c.strokeStyle='#e2efbba6';c.lineWidth=2;c.beginPath();c.arc(s.x,s.y,s.r,0,Math.PI*2);c.strokeStyle='#103944';c.lineWidth=4;c.stroke();c.strokeStyle='#e2efbb';c.lineWidth=2;c.stroke();c.setLineDash([]);this.tag(c,s.x,Math.max(20,s.y-s.r-16),canUseShelter(p.species)?'Shelter · Stop here to hide':'Shelter · Too small for your fish');}}
   if(this.hover){const h=this.hover,sz=h.species?creatureWidth(h.species):h.size||25;c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(h.x,h.y,sz*.6+8,sz*.4+8,0,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,h.x,Math.max(30,h.y-sz*.4-22),h.name||h.species?.name||'');}
-  for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='eat'){this.tag(c,e.x,e.y-28-(this.reducedMotion?0:e.t*20),e.label||'Meal taken',Math.min(1,(2.2-e.t)/1.2));}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
+  for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='sand'){c.save();c.globalAlpha=Math.max(0,.6-e.t*.4);c.fillStyle='#e5d4a7';for(let i=0;i<14;i++){const age=this.reducedMotion?0:e.t;c.beginPath();c.arc(e.x+Math.sin(i*2.4)*(12+age*40),e.y-Math.cos(i*1.7)*8-age*18,1.5+i%3,0,Math.PI*2);c.fill();}c.restore();}else if(e.type==='eat'){this.tag(c,e.x,e.y-28-(this.reducedMotion?0:e.t*20),e.label||'Meal taken',Math.min(1,(2.2-e.t)/1.2));}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
   this.effects=this.effects.filter(e=>e.t<(e.type==='eat'?2.2:1.4));c.restore();
  }
  tag(c,x,y,text,alpha=1){c.save();c.globalAlpha=Math.max(0,alpha);c.font='15px AtollSans, sans-serif';const w=c.measureText(text).width+22;x=Math.min(1590-w/2,Math.max(w/2+10,x));c.fillStyle='#103944ed';c.beginPath();c.roundRect(x-w/2,y-13,w,27,6);c.fill();c.fillStyle='#fff6da';c.textAlign='center';c.fillText(text,x,y+5);c.restore();}
  drawFood(c,f,t){
+  if(f.uncovered>0){c.save();c.strokeStyle="#ddc692";c.globalAlpha=.5;c.beginPath();c.ellipse(f.x,f.y,30,12,0,0,Math.PI*2);c.stroke();c.restore();}
   const remaining=Math.max(0,Math.min(1,(f.amount??100)/100)),scale=.6+remaining*.4;
   c.save();c.translate(f.x,f.y);c.scale(scale,scale);c.translate(-f.x,-f.y);
   this.drawFoodBody(c,f,this.reducedMotion?0:t,remaining);c.restore();

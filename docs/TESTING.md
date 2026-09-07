@@ -1,12 +1,12 @@
-# Windows gameplay testing snapshot — 6 September 2026
+# Windows gameplay testing snapshot — 7 September 2026
 
-The Windows Family Journal revision is ready for hands-on testing. It includes all 64 sourced guide entries, varied habitat populations, the complete Tournament preview and named portable saves. The [comprehensive design audit](ORIGINAL-DESIGN-AUDIT.md) remains open. Predator pursuit and damage have not increased.
+The Windows Species Adventures revision is ready for hands-on testing. It includes all 64 sourced guide entries, varied habitat populations, the complete Tournament preview and named portable saves. The [comprehensive design audit](ORIGINAL-DESIGN-AUDIT.md) remains open. Predator pursuit and damage have not increased.
 
 ## Launch
 
-Extract `Atoll-Down-Under-Windows-Family-Journal-2026-09-06.zip` completely. Open `Atoll Down Under-win32-x64/Atoll Down Under.exe` and keep that application folder together. Windows starts fullscreen so the reef covers the taskbar. F11 switches to a window and back; visible controls appear in File, Settings and the dive toolbar. Escape continues to pause for inspection. The game runs offline. Existing local saves remain available; start a new dive to see the latest habitat populations and feeding-site layouts.
+Extract `Atoll-Down-Under-Windows-Species-Adventures-2026-09-07.zip` completely. Open `Atoll Down Under-win32-x64/Atoll Down Under.exe` and keep that application folder together. Windows starts fullscreen so the reef covers the taskbar. F11 switches to a window and back; visible controls appear in File, Settings and the dive toolbar. Escape continues to pause for inspection. The game runs offline. Existing local saves remain available; start a new dive to see the latest habitat populations and feeding-site layouts.
 
-First explore the [new title and Family Journal playtest](FAMILY-JOURNAL.md#tomorrows-playtest).
+Start with the [four species adventures and optional narration](SPECIES-ADVENTURES.md#testing-with-the-family). Try adventure in Practice offers instructions; Explore freely keeps the same mechanics available. E performs the contextual action.
 
 ## Suggested first session
 
