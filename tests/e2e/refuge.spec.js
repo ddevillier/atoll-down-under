@@ -37,5 +37,7 @@ test('trumpetfish follows a player, pauses in place, and renders behind player a
    return {guest:ids.indexOf(e.id),host:ids.indexOf(host.id),draws:ids.filter(id=>id===e.id).length};
   });
   expect(npcOrder.guest).toBeGreaterThanOrEqual(0);expect(npcOrder.guest).toBeLessThan(npcOrder.host);expect(npcOrder.draws).toBe(1);
+  const clearance=await page.evaluate(async()=>{const {overlaps}=await import('/src/world-labels.js'),r=window.atoll.renderer;return {protectedIds:r.labelObstacles.filter(o=>o.id).map(o=>o.id),covered:r.labelLayout.some(l=>r.labelObstacles.some(o=>overlaps(l,o)))};});
+  expect(clearance.protectedIds).toContain('shadow-guest');expect(clearance.protectedIds).toContain('npc-host');expect(clearance.covered).toBe(false);
  }
 });

@@ -4,7 +4,7 @@ import {creatureWidth,creatureFrame} from './geometry.js';
 import {turnTowards} from './steering.js';
 import {individualSeed} from './individual-motion.js';
 import {socialOrder,separateCompanions} from './social-motion.js';
-import {refugeHome,anemoneHome,approachRefuge,compatibleShadow} from './refuge-motion.js';
+import {refugeHome,anemoneHome,approachRefuge,compatibleShadow,followShadow} from './refuge-motion.js';
 import {SWIM_RIGS,swimmingDrive} from './swim-motion.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -32,7 +32,8 @@ export function clearRelationships(sim,e){
 export function localRoutine(sim,e,dt,speed){
  const profile=animalProfile(e.species),state=ecologyState(sim,e),seed=individualSeed(e.id);
  state.clock+=dt;clearRelationships(sim,e);
- if(e.target||e.activity==='avoiding'||e.behavior?.startsWith('Moving away')||e.entering)return speed;
+ if(e.target){if(['shadowing','approaching-cover'].includes(e.activity))e.activity=e.feeding?'feeding':'foraging';return speed;}
+ if(e.activity==='avoiding'||e.behavior?.startsWith('Moving away')||e.entering)return speed;
  if(e.rest>0){e.activity='resting';e.behavior='Resting between feeding trips';return speed*.7;}
  if(e.actionTime>0){e.activity='feeding';return speed*.15;}
  if(['s2','s19','s23'].includes(e.species.id))return speed;
@@ -77,8 +78,9 @@ export function localRoutine(sim,e,dt,speed){
   if(host&&distance(e,host)<430){
    const side=(seed%2?1:-1),spacing=(creatureFrame(host).height+creatureFrame(e).height)*.36;
    const dest={x:host.x-Math.sin(host.angle)*spacing*side,y:host.y+Math.cos(host.angle)*spacing*side};
-   e.activity='shadowing';e.behavior='Swimming in a broader neighbor’s cover';
-   return approachRefuge(e,dest,dt,speed,8,host.angle);
+   const inCover=distance(e,dest)<Math.max(22,creatureFrame(e).width*(e.activity==='shadowing'?.34:.25));
+   e.activity=inCover?'shadowing':'approaching-cover';e.behavior=inCover?'Swimming in a broader neighbor’s cover':'Approaching a broader neighbor for cover';
+   return followShadow(e,host,dest,dt,speed);
   }
   state.host=null;
  }

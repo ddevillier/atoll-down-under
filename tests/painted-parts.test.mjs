@@ -2,6 +2,11 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {PART_RIGS,bodyPoint,partPose} from '../src/part-motion.js';
 import {ANIMAL_RIGS} from '../src/animal-rigs.js';
 
+test('trumpetfish keeps its tube snout and body rigid while rear fins work at rest',()=>{
+ for(let i=0;i<24;i++)for(let x=.14;x<1;x+=.04)for(const y of [.35,.5,.65])assert.deepEqual(bodyPoint('s41',x,y,i/24,1,{turn:1}),{x,y});
+ for(const name of ['dorsal','anal']){const poses=Array.from({length:32},(_,i)=>partPose('s41',name,i/32/PART_RIGS.s41.frequency,0));assert.ok(Math.max(...poses.map(p=>p.scale))-Math.min(...poses.map(p=>p.scale))>.35);}
+});
+
 test('hovering reef fish keep their bodies still while pectorals scull at rest',()=>{
  for(const id of ['s1','s2','s7','s30']){
   const poses=[];

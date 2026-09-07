@@ -1,5 +1,7 @@
 # Whole-roster animation strategy
 
+Latest species checkpoint: [trumpetfish motion and moving cover](trumpet-shadow-review.md). Independent rear fins accompany a corrected, speed-bounded moving-host controller. A generated community demonstrates approach, joining and travel beside a parrotfish. Active shadowing/cleaning pairs now reserve space against world labels. All 255 unit tests and five final targeted browser checks pass; pressure remains 31 bites and zero deaths across 110 scenarios with initial populations unchanged.
+
 Latest shared presentation checkpoint: [player and interaction readability](readability-review.md). The player now has a marker attached to its posed bounds, and world labels are arranged in a foreground pass with player clearance. Eight ordinary gameplay views were inspected; 251 unit tests and seven targeted browser checks pass. This addresses the identification/label defects recorded in prior reviews without closing the remaining roster acceptance work.
 
 Four complementary planning reviews cover all 64 catalog animals and the shared integration work. The broader animation/ecology goal is **active and unfinished**. None of these reviews, profile rows, or passing tests establishes a completed full-game polish.

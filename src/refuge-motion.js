@@ -32,9 +32,21 @@ export function approachRefuge(e,dest,dt,speed,stop=10,heading=null){
  return Math.min(speed,(d-stop)*1.3,(d-stop)/Math.max(dt,.001));
 }
 export function compatibleShadow(e,b){
- if(b===e||!b.alive||b.hidden||b.target||b.cleanTime||b.cleanerTarget||b.stun>0||b.holdfast||b.groundRoute||b.species.ability==='clean'||b.species.speed<=0)return false;
+ if(b===e||!b.alive||b.hidden||b.target||b.feeding||b.actionTime>0||b.activity==='avoiding'||b.cleanTime||b.cleanerTarget||b.stun>0||b.holdfast||b.groundRoute||b.species.ability==='clean'||b.species.speed<=0)return false;
  if(b.species.diet.includes('fish')&&e.species.size<b.species.size*.77)return false;
  const a=creatureFrame(e),f=creatureFrame(b);return f.width>a.width*.7&&f.width*f.height>a.width*a.height*1.25;
+}
+export function followShadow(e,host,dest,dt,speed){
+ const dx=dest.x-e.x,dy=dest.y-e.y,d=Math.hypot(dx,dy);
+ if(d>Math.max(100,creatureFrame(e).width*.8))return approachRefuge(e,dest,dt,speed,8,host.angle);
+ if(!(dt>0))return 0;
+ // A moving cover point is not a stationary refuge. Match measured host
+ // displacement, then correct the relative error within normal cruising speed.
+ // No catch-up teleport or pursuit-speed boost is granted to this routine.
+ const hostVx=Number.isFinite(host.vx)?host.vx:0,hostVy=Number.isFinite(host.vy)?host.vy:0;
+ let vx=hostVx+dx*3,vy=hostVy+dy*3;const magnitude=Math.hypot(vx,vy),scale=Math.min(1,speed/Math.max(.001,magnitude));
+ vx*=scale;vy*=scale;e.x+=vx*dt;e.y+=vy*dt;
+ e.angle=turnTowards(e.angle,host.angle||0,e.species.agility*dt);return 0;
 }
 export function refugeLayers(entities){
  const ordered=[...entities].sort((a,b)=>a.species.size-b.species.size);
