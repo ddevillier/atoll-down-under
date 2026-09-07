@@ -2,6 +2,7 @@ import {validCare} from './journal.js';
 import {Simulation} from './simulation.js';
 import {BY_ID,FOODS,ABILITIES} from './data.js';
 import {validGroundState} from './ground-motion.js';
+import {validFeeding} from './feeding-motion.js';
 
 export const MAX_SAVE_BYTES=8*1024*1024;
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -45,6 +46,7 @@ function animal(e,player=false){
  if(e.blending!=null&&!['sand','reef'].includes(e.blending.kind))fail();
  for(const key of ['poisonDamage','biteDamage','recoveryDelay','blendTime','actionTime','routineClock','retract','incarnation'])if(e[key]!==undefined&&(!finite(e[key])||e[key]<0))fail();
  if(e.groundRoute!==undefined&&!validGroundState(e))fail();
+ if(!validFeeding(e.feeding))fail();
  if(e.residentMeal!=null){numbers(e.residentMeal,['elapsed']);if(e.residentMeal.elapsed<0||e.residentMeal.elapsed>1||typeof e.residentMeal.target!=='string'||typeof e.residentMeal.committed!=='boolean')fail();}
  if(e.ecology!=null){
   numbers(e.ecology,['reef','clock','point','wait']);

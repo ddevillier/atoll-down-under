@@ -2,6 +2,7 @@ import {profileFor} from './behaviors.js';
 import {prepareResidentFood,residentStep} from './resident-life.js';
 import {localRoutine,clearRelationships} from './ecology.js';
 import {animalProfile} from './animal-profiles.js';
+import {mealContact,tickFeeding,cancelPreparation,validFeeding} from './feeding-motion.js';
 import {freshAdventure,validAdventure,useContext,tickAdventure,mealAdventure,routineStep,sitesFor} from './adventures.js';
 import {freshCare,tickCare,validCare} from './journal.js';
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
@@ -154,6 +155,7 @@ export class Simulation {
   // A meal click assists the approach until the player steers again. Cursor
   // movement must always give control back, including during a pursuit.
   this.player.target=null;
+  this.player.feeding=null;
   this.player.cleanerTarget=null;this.player.cleanTime=0;this.player.cleaningAmount=0;
  }
  findAt(x,y){
@@ -222,6 +224,7 @@ export class Simulation {
  transition(dx,dy){
   const r=Math.floor(this.current/3),c=this.current%3,nr=clamp(r+dy,0,2),nc=(c+dx+3)%3;if(nr===r&&dy)return false;
   const old=this.current,departure={x:this.player.x,y:this.player.y};this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
+  this.player.feeding=null;
   // Carry the same relative positions across the boundary. A pursuer can still
   // be outside the painting; it must swim through that gap before it can bite.
   const pursuing=this.sections[old].entities.filter(e=>e.alive&&e.target==='player');
@@ -233,6 +236,7 @@ export class Simulation {
  step(dt){
   if(this.paused||this.phase!=='playing'||!this.player)return;
   dt=Math.min(dt,.05);this.time+=dt;const p=this.player;p.cooldown=Math.max(0,p.cooldown-dt);p.abilityTime=Math.max(0,p.abilityTime-dt);p.biteCooldown=Math.max(0,p.biteCooldown-dt);
+  tickFeeding(p,dt);
   const cleaningPlan=this.cleaningPlan();
   if(p.cleanerTarget){
    const c=this.cleaningPartner;
@@ -242,7 +246,9 @@ export class Simulation {
   const target=this.mealTarget;
   if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y};
-  if(dist>7){
+  const reach=target?p.species.size*.38+(target.species?.size||target.size)*.25+12:0,inContact=!!target&&dist<reach;
+  if(inContact){p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);p.facing=Math.cos(p.angle)>=0?1:-1;}
+  if(dist>7&&!inContact){
    p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);
    const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;p.still=0;
   }else p.still+=dt;
@@ -251,7 +257,8 @@ export class Simulation {
   const wasHidden=p.hidden;p.hidden=!!((shelter&&p.still>SHELTER_SETTLE_SECONDS)||(p.species.ability==='camouflage'&&p.abilityTime>0&&!moving)||(p.blending&&p.blendTime>=2&&!moving));
   if(p.hidden&&!wasHidden)this.event('hide','Hidden. Remain still to stay concealed.');
   if(!p.hidden&&wasHidden)this.event('reveal','Back in open water.');
-  if(target&&distance(p,target)<p.species.size*.38+(target.species?.size||target.size)*.25+12)this.consume(target);
+  if(target&&distance(p,target)<reach&&p.biteCooldown<=0&&(Math.abs(dx)<7||p.facing===Math.sign(dx))){if(mealContact(p,target,dt))this.consume(target);}
+  else cancelPreparation(p);
   if(this.phase!=='playing')return;
   if(!this.protected){p.energy-=dt*p.species.metabolism*(moving?1.55:.7)*this.difficulty;if(p.species.parasites)p.health-=dt*.105*this.difficulty;if(!p.hidden&&this.mode!=='practice'){this.score+=dt*8;this.stageScore+=dt*8;}}
   // Recovery is a gentle game abstraction, separate from parasite removal.
@@ -279,7 +286,7 @@ export class Simulation {
   if(p.x>W-8&&this.pointer.x>W-10)this.transition(1,0);else if(p.x<8&&this.pointer.x<10)this.transition(-1,0);else if(p.y>H-8&&this.pointer.y>H-10){if(!this.transition(0,1))p.y=H-8;}else if(p.y<8&&this.pointer.y<10){if(!this.transition(0,-1))p.y=8;}
   p.x=clamp(p.x,1,W-1);p.y=clamp(p.y,1,H-1);
   for(const f of this.section.food){f.regrow=Math.max(0,f.regrow-dt);if(f.uncovered>0)f.uncovered=Math.max(0,f.uncovered-dt);}
-  p.actionTime=Math.max(0,(p.actionTime||0)-dt);p.activity=p.cleanTime>0?'cleaning':p.actionTime>0?'feeding':p.hidden?'at-home':'cruising';
+  p.actionTime=Math.max(0,(p.actionTime||0)-dt);p.activity=p.cleanTime>0?'cleaning':p.feeding||p.actionTime>0?'feeding':p.hidden?'at-home':'cruising';
   tickAdventure(this,dt);
   const npcCleaningPlan=this.section.entities.includes(cleaningPlan?.cleaner)?cleaningPlan:this.cleaningPlan();
   for(const e of [...this.section.entities])this.stepNpc(e,dt,npcCleaningPlan);
@@ -288,14 +295,16 @@ export class Simulation {
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
  stepNpc(e,dt,cleaningPlan=this.cleaningPlan()){
+  tickFeeding(e,dt);
   e.activity='cruising';if(e.target){e.blending=null;e.blendTime=0;}e.actionTime=Math.max(0,(e.actionTime||0)-dt);this.stepNpcBody(e,dt,cleaningPlan);
+  if(e.feeding&&!e.feeding.committed&&e.target!==e.feeding.target)cancelPreparation(e);
   if(e.cleanTime>0||e.species.ability==='clean'&&((this.player.cleanTime>0)||this.section.entities.some(b=>b.alive&&b.cleanTime>0&&b.target===e.id)))e.activity='cleaning';
   else if((e.target||e.actionTime>0)&&e.activity!=='searching-sand')e.activity='feeding';
  }
  stepNpcBody(e,dt,cleaningPlan=this.cleaningPlan()){
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
    e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;
-   e.residentMeal=null;e.ecology=null;e.actionTime=0;e.retract=0;e.incarnation=(e.incarnation||0)+1;
+   e.residentMeal=null;e.feeding=null;e.ecology=null;e.actionTime=0;e.retract=0;e.incarnation=(e.incarnation||0)+1;
    // A returning cleaner belongs to the established station, where players
    // and clients know to wait, rather than an arbitrary point in open water.
    if(e.species.ability==='clean'&&e.station){e.x=e.station.x;e.y=e.station.y;}
@@ -373,13 +382,17 @@ export class Simulation {
    if(dest){
     e.angle=turnTowards(e.angle,Math.atan2(dest.y-e.y,dest.x-e.x),e.species.agility*dt);speed=e.species.speed*.55;
     if(e.species.id==='s23'&&dest.kind==='food'&&['worm','shrimp'].includes(dest.food)&&distance(e,dest)<100&&!(dest.uncovered>0)){dest.uncovered=8;e.actionTime=1;e.activity='searching-sand';}
-    if(distance(e,dest)<(e.species.size+(dest.species?.size||dest.size||0))*.28&&e.biteCooldown<=0){
+    const inReach=distance(e,dest)<(e.species.size+(dest.species?.size||dest.size||0))*.28;
+    if(inReach&&e.biteCooldown<=0&&(dest!==p||canEatPlayer)){
+     speed=0;
+     if(mealContact(e,dest,dt)){
      e.biteCooldown=2;e.actionTime=.65;
      if(dest===p&&canEatPlayer){p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
      else if(dest!==p&&dest.kind==='food'){dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
      else if(dest!==p){dest.alive=false;dest.respawn=24;}
      e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
-    }
+     }
+    }else cancelPreparation(e);
    }else{e.target=null;e.pursuit=0;}
   }
   else if(e.behavior.startsWith('Moving away'))speed=e.species.speed*.65;
@@ -429,6 +442,7 @@ export class Simulation {
   // Restore verified original-game food omissions without repopulating saves.
   // Custom fish keep their chosen diets, regardless of their illustrations.
   for(const fish of [d.player,...d.sections.flatMap(section=>section.entities||[])]){
+   if(!validFeeding(fish.feeding))throw new Error('The saved feeding action is damaged.');
    if(fish.species?.id==='s20'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('crab'))fish.species={...fish.species,diet:[...fish.species.diet,'crab']};
    if(fish.species?.id==='s22'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('coral'))fish.species={...fish.species,diet:[...fish.species.diet,'coral']};
   }

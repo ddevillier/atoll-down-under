@@ -19,6 +19,8 @@ test('a satiated hunter cruises without attacking an adjacent small player',()=>
 });
 test('feeding satisfies a hunter instead of producing repeated bites',()=>{
  const {s,hunter}=fixture();hunter.x=s.player.x-10;s.stepNpc(hunter,.01);
+ assert.equal(s.player.health,100);assert.equal(hunter.feeding.committed,false);
+ for(let i=0;i<30;i++)s.stepNpc(hunter,1/60);
  assert.equal(s.player.health,65);assert.ok(hunter.satiated>=45);assert.equal(hunter.target,null);
  for(let i=0;i<600;i++){hunter.x=s.player.x-10;hunter.y=s.player.y;s.stepNpc(hunter,1/60);}
  assert.equal(s.player.health,65);
@@ -29,7 +31,9 @@ test('an unsuccessful pursuit ends and is followed by a rest',()=>{
 });
 test('grazers actually eat plant food in the same ecosystem',()=>{
  const {s,hunter}=fixture();hunter.species=SPECIES[1];s.section.food=[{id:'plant',kind:'food',food:'algae',name:'Algae',size:25,x:610,y:300,amount:100,regrow:0}];
- s.stepNpc(hunter,.01);assert.ok(s.section.food[0].amount<100);assert.ok(hunter.satiated>0);
+ s.stepNpc(hunter,.01);assert.equal(s.section.food[0].amount,100);
+ for(let i=0;i<30;i++)s.stepNpc(hunter,1/60);
+ assert.ok(s.section.food[0].amount<100);assert.ok(hunter.satiated>0);
 });
 test('new reef sections have mixed communities rather than mandatory large predators',()=>{
  for(let seed=1;seed<=10;seed++)for(const id of ['s1','s19']){

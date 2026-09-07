@@ -36,6 +36,8 @@ test('a school member can leave to feed and then rejoin its neighbors',()=>{
  s.section.food=[food];s.stepNpc(fish,.05);
  assert.equal(fish.target,'meal');assert.equal(fish.behavior,'Foraging for Plankton');
  fish.x=food.x;fish.y=food.y;s.stepNpc(fish,.05);
+ assert.equal(food.amount,100);assert.equal(fish.feeding.committed,false);
+ for(let i=0;i<25;i++)s.stepNpc(fish,1/30);
  assert.ok(food.amount<100);assert.equal(fish.target,null);assert.equal(fish.behavior,'Swimming with a school');
 });
 

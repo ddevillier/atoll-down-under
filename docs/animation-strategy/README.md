@@ -49,7 +49,7 @@ The first batched browser capture has all 64 isolated rigs in a recorded sequenc
 Remaining blockers to a full-roster completion claim:
 
 - **Moray:** the current coiled painting cannot serve as a convincing extended swimming pose. Two generated candidates still have an opaque painted checkerboard, confirmed as RGB without alpha. They were not installed. An actually transparent swimming asset remains required.
-- **Actions:** ordinary fish bites still need anticipation before contact; the new full sequence currently applies to residents. Local puffer inflation remains unfinished.
+- **Actions:** ordinary player/NPC meals now have an interruptible anticipation/contact/recovery sequence, with saved contact ownership. Every playable species obtains a meal through normal steering in the new test. Puffer inflation now expands the torso locally and eases in/out; its final visual acceptance remains pending with the rest of that species.
 - **Anatomy:** finish the difficult ray margins, lionfish fans, long streamers, crustacean joints and eye-protection checks in animated transitions. Authored landmarks alone are insufficient.
 - **Attachment:** some background routes place attached/slow residents awkwardly against grass or open-looking portions of the painting. A valid route coordinate is not visual proof of support.
 - **Turning:** the reduced card-thinning shortcut remains a transition to replace/refine, not a finished volumetric turn.
@@ -57,3 +57,9 @@ Remaining blockers to a full-roster completion claim:
 - **Delivery:** no new Windows archive has been produced for this unfinished pass. The earlier Species Adventures archive remains preserved.
 
 See [coverage.json](coverage.json) for the explicitly unaccepted species ledger. Update acceptance only from reviewed evidence, never from the existence of profile/rig rows.
+
+## Feeding and inflation continuation
+
+After the initial foundation checkpoint, the full 193-test unit suite passes. New action checks cover actual meals for all 55 playable species, cancellation before contact, loss of a target and saves on both sides of the consumption boundary. Existing hunter/grazer/school tests were updated to expect visible preparation instead of an instantaneous first-frame bite; their resource, damage, satiation and rejoining assertions remain. Six targeted browser scenarios pass: mouse-driven feeding at both sizes, puffer shellfish, pause rendering, and the cowfish/goby/fusilier adventure loops.
+
+Puffer inflation uses a smooth torso envelope with eye protection and fin attachment offsets, leaving overall sprite width and tail size stable. The first image review exposed an excessively peaked silhouette; a broader, gentler envelope improves the rounded body in the confirmation image. This two-pass shape check is not full species acceptance. The new action pipeline also still needs broader close-contact visual review: existing forgiving center-distance reach is preserved, so the mouth is not yet guaranteed to meet every target's rendered surface precisely.

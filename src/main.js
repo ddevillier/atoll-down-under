@@ -247,7 +247,7 @@ function updateHUD(){
  const meal=sim.mealTarget;
  const leg=routeBetween(sim.current,sim.destination)[0];
  const care=careHint(p,careKind);if(care.kind==='well'&&careKind&&careKind!=='well')wellUntil=performance.now()+4000;careKind=care.kind;
- const message=sim.paused?'Inspection paused · Click a creature or press Esc to continue':sim.cleaningStatus?sim.cleaningStatus:p.hidden?'Hidden · Stay still to avoid being seen':meal?'Approaching '+(meal.name||meal.species.name)+' · Move to steer away':leg?REEFS[sim.destination].name+' · Swim '+leg.direction+' to '+REEFS[leg.to].name:sim.protected?PROTECTION_HINT:shelterHint(REEFS[sim.current],p)||(settings.hints&&(care.kind!=='well'||performance.now()<wellUntil)?care.text:'');
+ const message=sim.paused?'Inspection paused · Click a creature or press Esc to continue':sim.cleaningStatus?sim.cleaningStatus:p.hidden?'Hidden · Stay still to avoid being seen':meal?(p.feeding&&!p.feeding.committed?'Taking a bite of ':'Approaching ')+(meal.name||meal.species.name)+' · Move to steer away':leg?REEFS[sim.destination].name+' · Swim '+leg.direction+' to '+REEFS[leg.to].name:sim.protected?PROTECTION_HINT:shelterHint(REEFS[sim.current],p)||(settings.hints&&(care.kind!=='well'||performance.now()<wellUntil)?care.text:'');
  const hint=$('.controls-hint');if(hint)hint.hidden=!!message;
  const badge=$('#state-badge');if(badge){badge.hidden=!message;if(badge.textContent!==message)badge.textContent=message;}
  canvas.style.cursor=sim.paused?'help':p.hidden?'crosshair':'default';

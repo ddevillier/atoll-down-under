@@ -1,4 +1,5 @@
 import {ArticulatedSprites} from './articulated-motion.js';
+import {feedingEnvelope} from './feeding-motion.js';
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
@@ -66,7 +67,7 @@ export class ReefRenderer {
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);this.customCache.set(key,tint);}im=this.customCache.get(key);}
   const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
   const animate=!this.reducedMotion&&time>0;
-  if(animate){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,time,activity,state,Math.max(1,this.canvas.width/1600));}
+  if(animate||state.puff>0){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,this.reducedMotion?0:time,this.reducedMotion?0:activity,state,Math.max(1,this.canvas.width/1600));}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
  }
  drawCreature(ctx,e,time,dt,alpha=1,width=creatureWidth(e.species)){
@@ -79,13 +80,15 @@ export class ReefRenderer {
   pose.pitch??=targetPitch;if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));
   const b=this.bounds[e.species.index],groundOffset=e.groundRoute&&b?width*b.h/b.w*.36:0;
   ctx.save();ctx.translate(e.x,e.y-groundOffset);ctx.rotate(this.reducedMotion?0:pose.pitch);
-  const feed=e.residentMeal?Math.sin(Math.PI*Math.min(1,e.residentMeal.elapsed/.85)):Math.sin(Math.PI*Math.min(1,(e.actionTime||0)/.65));
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed});ctx.restore();
+  const feed=feedingEnvelope(e);
+  const desiredPuff=e.species.ability==='puff'&&e.abilityTime>0?1:0;pose.puff??=desiredPuff;
+  if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0,puff:pose.puff});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed});ctx.restore();
  }
  portrait(canvas,species){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const b=this.bounds[species.index];if(!b)return;this.drawSprite(ctx,species,canvas.width/2,canvas.height/2,Math.min(canvas.width*.78,canvas.height*.78*b.w/b.h));}
  addEffect(type,x=800,y=350,label=null){this.effects.push({type,x,y,t:0,label});}
  draw(sim,dt,home=false){
-  this.articulation?.beginFrame();
+  this.articulation?.beginFrame(sim?.paused?Infinity:3.5);
   if(home||!sim||(!sim.paused&&sim.phase==='playing'))this.clock+=dt;const c=this.ctx;c.setTransform(this.canvas.width/1600,0,0,this.canvas.height/900,0,0);c.clearRect(0,0,1600,900);
   const reef=home?this.splash:this.reefs[sim?.current??0];if(reef)c.drawImage(reef,0,0,1600,900);else{c.fillStyle='#1b6c7d';c.fillRect(0,0,1600,900);}
   if(!this.ready)return;
@@ -107,8 +110,7 @@ export class ReefRenderer {
    this.drawCreature(c,e,t,motionDt,.98);
    if(e.species.ability==='clean'&&!sim.player.cleanTime)this.tag(c,e.x,e.y-30,e.behavior?.startsWith('Cleaning')?'Cleaner · Helping a fish':'Cleaner · Click to visit');
   }
-  const p=sim.player;const puff=p.species.ability==='puff'&&p.abilityTime>0?1.5:1;
-  const playerWidth=creatureWidth(p.species)*puff;
+  const p=sim.player,playerWidth=creatureWidth(p.species);
   this.drawCreature(c,p,t,motionDt,p.hidden?(p.blending?.65:.25):1,playerWidth);
   if(ADVENTURES[p.species.id]&&!this.inspect){const chosen=selectedSite(sim);for(const site of sitesFor(sim)){if(Math.hypot(site.x-p.x,site.y-p.y)>240&&site.id!==chosen?.id)continue;if(Math.hypot(site.x-p.x,site.y-p.y)>420)continue;c.save();c.strokeStyle='#e5d6a4';c.globalAlpha=.65;c.lineWidth=1.5;c.setLineDash([4,7]);c.beginPath();c.ellipse(site.x,site.y,30,15,0,0,Math.PI*2);c.stroke();c.restore();if(site.id===chosen?.id)this.tag(c,site.x,site.y-28,site.name+' · E');}}
   if(sim.adventure?.home?.reef===sim.current){const h=sim.adventure.home;c.save();c.strokeStyle='#c5e8c6';c.lineWidth=2;c.beginPath();c.arc(h.x,h.y,35,0,Math.PI*2);c.stroke();c.restore();}
