@@ -29,3 +29,15 @@ The shrimp's fine appendages remain hard to distinguish against a busy painting 
 Predators can still hunt NPC clients, including during a treatment; the recovered grouper in the queue fixture demonstrated this. A possible next design change is a brief active-treatment safety rule or post-visit foraging pause. It has not been silently introduced here. Existing cleaners remain inedible helpers, and no extra animals or hunter slots were added.
 
 No new Windows archive has been made. The earlier testing build remains preserved.
+
+## Client courtesy continuation
+
+The previously open NPC-client safety bug now has a bounded game rule. NPC hunters exclude fish settled at a live cleaner's actual treatment or waiting destination. Existing pursuits and uncommitted bites cancel when a target settles there. This applies to a visiting player too, without relying on Practice protection. Requesting service from elsewhere on the reef gives no protection; leaving the destination or losing the cleaner releases it. The rule is an authored interaction, not a claim that natural cleaning stations guarantee safety.
+
+After completing treatment, NPC clients face toward open water and receive eight seconds of the existing foraging-rest timer. This lets a recovered predator depart before seeking another meal. The timer pauses and saves through existing state; no new population, damage, diet or health transaction is introduced. Other food and prey remain available outside the service interaction. Explicit player food choices retain their existing rules.
+
+`artifacts/cleaner-courtesy-unit-final.log` records all 221 unit tests passing. Four new scenarios cover both cleaner species, cancelling imminent NPC contact, ordinary hunting after a patient leaves, local waiting positions versus distant requests, loss of the cleaner, an unprotected player visit, and deterministic pause/save continuation of the departure rest. The original mixed queue fixture now uses hungry clients again and still completes; its prior artificial satiation workaround is removed.
+
+`artifacts/cleaner-courtesy-e2e.log` records three existing browser scenarios passing: interrupted queues and cancellable day/night visits at both desktop sizes. This is regression evidence for the established UI, not new continuous-motion or all-client visual acceptance. No additional anatomy polish or gallery round was performed in this behavioral correction.
+
+`artifacts/roster-cleaner-courtesy-simulation.json` records 110 one-minute scenarios with 30 player bites, zero deaths and initial population counts unchanged, compared with 27 bites in the preceding refuge pass. Movement and timing changes alter encounter trajectories; the aggregate does not measure every station interaction or prove balanced difficulty. Full-roster motion acceptance, painted support, native performance and Windows delivery remain open.

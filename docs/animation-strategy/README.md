@@ -91,3 +91,7 @@ The [social review](social-review.md) records body-aware separation, limited sha
 ## Refuges and host partnerships
 
 The [refuge review](refuge-review.md) records persistent individual resting places, separate anemone berths, compatible player/NPC hosts for trumpetfish, and drawing behind the host. All 217 unit tests and two targeted browser scenarios pass. Nine habitat views, a partnership close-up and mouse-controlled batfish scenes at both desktop sizes were inspected. Pressure checks record 27 bites and no deaths over 110 runs with initial counts unchanged. Painted substrate contact and continuous motion quality remain open; no species is marked fully accepted and no new Windows archive has been created.
+
+## Cleaner client courtesy
+
+A [cleaner continuation](cleaner-review.md#client-courtesy-continuation) closes the observed bug where a recovered predator ate another waiting patient. NPC hunters leave clients at actual service positions alone, and treated NPCs receive an eight-second departure rest. Distant requests and fish outside those positions retain ordinary predation. All 221 unit tests and three cleaner browser scenarios pass, including the mixed queue with hungry clients. The latest pressure run reports 30 bites, zero deaths and unchanged initial counts across 110 scenarios. Individual visual acceptance and final delivery remain open.

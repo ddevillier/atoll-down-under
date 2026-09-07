@@ -9,9 +9,9 @@ function queue(id='s1',reef=4){
  const s=new Simulation(42);s.start('practice',id);s.current=reef;
  const cleaner=s.section.entities.find(e=>e.species.ability==='clean');
  const dock={x:cleaner.station.x+35,y:cleaner.station.y};
- // This fixture measures queue service. A hungry recovered grouper can eat a
- // later client, so keep these clients fed while testing eventual treatment.
- const clients=['s1','s12','s16','s22'].map((id,i)=>({...structuredClone(s.player),id:'client-'+i,species:BY_ID[id],...dock,health:40,satiated:60,target:cleaner.id,cleanTime:i===0?1:0}));
+ // Hungry clients exercise the station interaction, including the recovered
+ // grouper that previously ate another patient before its turn.
+ const clients=['s1','s12','s16','s22'].map((id,i)=>({...structuredClone(s.player),id:'client-'+i,species:BY_ID[id],...dock,health:40,satiated:0,target:cleaner.id,cleanTime:i===0?1:0}));
  s.section.entities=[cleaner,...clients];s.section.food=[];
  Object.assign(s.player,{x:800,y:600,health:40});s.point(800,600);
  return {s,cleaner,clients};

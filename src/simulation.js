@@ -12,7 +12,7 @@ import {BOTTOM_RESIDENTS,placeOnGround,positionOnGround,attachToNearestGround,va
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
 import {chooseForager,COMMUNITIES} from './communities.js';
-import {planCleaning,approachCleaning} from './cleaning-stations.js';
+import {planCleaning,approachCleaning,settledCleaningClient} from './cleaning-stations.js';
 import {moveCleaner} from './cleaner-motion.js';
 import {separateCompanions,sharedMealAvailable} from './social-motion.js';
 import {validHome} from './refuge-motion.js';
@@ -355,7 +355,7 @@ export class Simulation {
    else{
     const busy=waiting||cleaner.stun>0||p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
     e.behavior=busy?'Waiting for a cleaner':'Being cleaned';if(!busy)e.cleanTime+=dt;
-    if(e.cleanTime>=3){e.health=100;e.cleanTime=0;e.target=null;e.behavior='Leaving the cleaning station';e.angle+=Math.PI;e.think=2;}
+    if(e.cleanTime>=3){e.health=100;e.cleanTime=0;e.target=null;e.behavior='Leaving the cleaning station';e.angle=Math.atan2(H/2-station.y,W/2-station.x);e.rest=Math.max(e.rest,8);e.think=2;}
    }
    return;
   }
@@ -365,8 +365,9 @@ export class Simulation {
   // releases that target; parasite-driven visits are handled above.
   if(e.target&&this.section.entities.some(b=>b.id===e.target&&b.species.ability==='clean')){e.target=null;e.pursuit=0;e.think=0;}
   const defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
-  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&edible(e,p);
+  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&!settledCleaningClient(p,cleaningPlan)&&edible(e,p);
   if(e.target==='player'&&!canEatPlayer&&e.behavior!=='Following lure'){e.target=null;e.pursuit=0;e.think=0;}
+  if(e.target&&e.target!=='player'&&settledCleaningClient(this.section.entities.find(b=>b.id===e.target),cleaningPlan)){e.target=null;e.pursuit=0;e.think=0;cancelPreparation(e);}
   if(e.target){e.pursuit+=dt;if(e.pursuit>6){e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
   let speed=e.species.speed*.35;
   if(e.think<=0){
@@ -378,9 +379,9 @@ export class Simulation {
    if(threat){e.target=null;e.pursuit=0;e.angle=Math.atan2(e.y-threat.y,e.x-threat.x);e.behavior='Moving away from '+threat.species.name;e.activity='avoiding';}
    else if(!e.target){
     const candidates=e.satiated<=0&&e.rest<=0?[
-     // Routine foraging recognizes cleaning partners. The player's explicit
-     // food choices still use the ordinary diet rules, including cleaners.
-     ...this.section.entities.filter(b=>b!==e&&b.alive&&b.species.ability!=='clean'&&edible(e,b)&&!b.species.poison),
+     // Helpers and clients settled at service positions are left alone.
+     // Ordinary prey and food remain available outside that interaction.
+     ...this.section.entities.filter(b=>b!==e&&b.alive&&b.species.ability!=='clean'&&!settledCleaningClient(b,cleaningPlan)&&edible(e,b)&&!b.species.poison),
      ...this.section.food.filter(f=>f.regrow<=0&&edible(e,f)),
      ...(canEatPlayer?[p]:[])
     ].filter(b=>distance(e,b)<165&&sharedMealAvailable(e,b,this.section.entities)).sort((a,b)=>distance(e,a)-distance(e,b)):[];

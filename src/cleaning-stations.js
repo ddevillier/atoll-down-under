@@ -4,6 +4,14 @@ import {turnTowards} from './steering.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const radius=fish=>creatureWidth(fish.species)/2+12;
 
+// NPC hunters leave fish settled at an actual service/queue position alone.
+// Merely requesting a distant visit does not protect a fish across the reef.
+export function settledCleaningClient(fish,plan){
+ if(!fish?.alive||!plan?.cleaner?.alive)return false;
+ const dest=plan.destinations.get(fish.id);
+ return !!dest&&distance(fish,dest)<=Math.max(26,creatureWidth(fish.species)*.2);
+}
+
 // Close-range fin corrections prevent endless full-speed circles around a
 // small waiting point. Ordinary swimming keeps its curved steering response.
 export function approachCleaning(fish,dest,dt,speed){
