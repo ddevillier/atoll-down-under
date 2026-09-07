@@ -123,3 +123,7 @@ The [specialist review](specialist-review.md) records separate cuttlefish skirt/
 ## Small-fin propulsion
 
 The [rigid-fish review](rigid-review.md) records separate tail, median and pectoral controls for pufferfish, cowfish, triggerfish and filefish, with steady bodies and preserved puffer inflation. All 239 unit tests and two browser scenarios pass. Fifteen images covering actual activity, mouse-driven meals and inflation at both desktop sizes were inspected. Small-detail clarity, player identification, remaining species, continuous playback, native performance and Windows delivery remain open.
+
+## Tail-driven swimmers and glides
+
+The [swimmer review](swim-review.md) records ten dedicated posterior-body/caudal/fin rigs and individual drive/glide intervals shared by NPC movement and rendering. Actual gameplay exposed and resolved an endless moving-meal approach without increasing speed or bite reach. All 246 unit tests and nine targeted browser scenarios pass (the new chase fixture required a menu-helper correction). Ten initial strips, twenty ordinary gameplay views, a four-shark routine sheet and two confirmation strips were inspected. Final pressure checks record 31 bites, zero deaths and unchanged initial counts across 110 scenarios. All species remain partially reviewed; shared readability, remaining anatomy, continuous playback, native performance and Windows delivery remain open.

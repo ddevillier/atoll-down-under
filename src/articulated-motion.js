@@ -6,6 +6,7 @@ import {RESIDENT_RIGS,residentPoint} from './resident-motion.js';
 import {RADIAL_IDS,radialPoint} from './radial-motion.js';
 import {SPECIALIST_IDS,specialistPoint} from './specialist-motion.js';
 import {RIGID_RIGS,rigidPoint,inflationOffset} from './rigid-motion.js';
+import {SWIM_RIGS,swimPoint} from './swim-motion.js';
 const TAU=Math.PI*2,clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const bell=(x,c,r)=>Math.exp(-(((x-c)/r)**2)*2);
 const directionBin=angle=>Math.round((((angle||0)%TAU+TAU)%TAU)/TAU*8)%8;
@@ -13,6 +14,7 @@ const directionBin=angle=>Math.round((((angle||0)%TAU+TAU)%TAU)/TAU*8)%8;
 // A continuous deformation field keeps painted surfaces joined. The eyes, armored
 // bodies, shells and attachment points are protected by local falloffs.
 export function deformPoint(p,u,v,time,effort=.5,state={}){
+ if(SWIM_RIGS[p.id])return swimPoint(p,u,v,time,effort,state);
  if(RIGID_RIGS[p.id])return rigidPoint(p,u,v,time,effort,state);
  if(FIN_RIGS[p.id])return finPoint(p,u,v,time,effort,state);
  if(RESIDENT_RIGS[p.id])return residentPoint(p,u,v,time,effort,state);
@@ -96,7 +98,7 @@ export class ArticulatedSprites{
     if(!frame){ctx.drawImage(image,-width/2,-height/2,width,height);return;}
    }else{
    const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
-   const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id]||RADIAL_IDS.has(p.id)||SPECIALIST_IDS.has(p.id)||RIGID_RIGS[p.id],cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
+   const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id]||RADIAL_IDS.has(p.id)||SPECIALIST_IDS.has(p.id)||RIGID_RIGS[p.id]||SWIM_RIGS[p.id],cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
    for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,heading:heading/8*TAU,feedAngle:feedAngle/8*TAU,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
    for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
    frame={canvas,pixels:canvas.width*canvas.height,group,tick};this.cache.set(key,frame);this.pixels+=frame.pixels;

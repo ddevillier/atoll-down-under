@@ -44,12 +44,17 @@ export function approachMeal(e,target,dt,speed){
  const plan=feedingApproach(e,target),dx=plan.x-e.x,dy=plan.y-e.y,d=Math.hypot(dx,dy);
  const docking=d<Math.max(55,creatureWidth(e.species)*.55),heading=plan.facing===1?0:Math.PI;
  e.angle=turnTowards(e.angle,docking?heading:Math.atan2(dy,dx),e.species.agility*dt);
- const amount=Math.min(speed*dt,d,docking?Math.max(2,d*7)*dt:Infinity);
- if(d>.5){
-  // Small fin-powered corrections let the mouth settle without orbiting a tiny
-  // resource. Larger approach distances still use the species' turning rate.
-  if(docking){e.x+=dx/d*amount;e.y+=dy/d*amount;}
-  else{e.x+=Math.cos(e.angle)*amount;e.y+=Math.sin(e.angle)*amount;}
+ const amount=Math.min(speed*dt,d);
+ if(docking){
+  // Match a moving meal's velocity while closing the remaining mouth gap.
+  // Pure distance damping leaves a permanent gap of preySpeed / 7, making
+  // slower fleeing fish impossible to catch despite available swimming speed.
+  const vx=target.species&&Number.isFinite(target.vx)?target.vx:0,vy=target.species&&Number.isFinite(target.vy)?target.vy:0;
+  const x=(dx*7+vx)*dt,y=(dy*7+vy)*dt,length=Math.hypot(x,y),scale=length?Math.min(1,speed*dt/length):0;
+  e.x+=x*scale;e.y+=y*scale;
+ }else if(d>.5){
+  // Larger approach distances follow the species' turning rate.
+  e.x+=Math.cos(e.angle)*amount;e.y+=Math.sin(e.angle)*amount;
  }
  e.facing=Math.cos(e.angle)>=0?1:-1;
  const aligned=Math.cos(e.angle-heading)>.995;

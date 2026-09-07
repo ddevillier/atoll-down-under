@@ -5,6 +5,7 @@ import {turnTowards} from './steering.js';
 import {individualSeed} from './individual-motion.js';
 import {socialOrder,separateCompanions} from './social-motion.js';
 import {refugeHome,anemoneHome,approachRefuge,compatibleShadow} from './refuge-motion.js';
+import {SWIM_RIGS,swimmingDrive} from './swim-motion.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const refugeRoutines=new Set(['coral-resident','ledge','ambush-ledge','cave','cave-rest','perch','ambush-bottom','lure']);
@@ -108,13 +109,15 @@ export function localRoutine(sim,e,dt,speed){
    state.wait=0;e.activity='foraging';e.behavior='Moving between feeding patches';return steer(e,dest,dt,speed,18);
   }
  }
- if(e.activity==='schooling')return speed;
+ if(e.activity==='schooling')return speed*(.78+.22*swimmingDrive(e));
  // Long clear-water circuits have separate coast and drive intervals. They do
  // not add hunt time or override the existing hunt/rest limits.
  const surface=profile.routine==='surface',radius=profile.family==='shark'?420:260;
  const angle=state.clock*.045+(seed%31)/31*Math.PI*2;
  const dest={x:800+Math.cos(angle)*radius,y:surface?85+Math.sin(angle)*30:340+Math.sin(angle)*160};
  e.activity='cruising';e.behavior=surface?'Patrolling below the surface':profile.routine==='light-school'?'Searching the dim water':'Following a familiar swimming circuit';
- const coast=(Math.sin(state.clock*.6+seed)+1)*.5;
- return steer(e,dest,dt,speed*(.7+coast*.3),10);
+ if(!SWIM_RIGS[e.species.id]){const coast=(Math.sin(state.clock*.6+seed)+1)*.5;return steer(e,dest,dt,speed*(.7+coast*.3),10);}
+ const drive=swimmingDrive(e);
+ if(drive<.2){e.activity='coasting';e.behavior=surface?'Gliding below the surface':'Gliding between swimming strokes';}
+ return steer(e,dest,dt,speed*(.78+drive*.22),10);
 }

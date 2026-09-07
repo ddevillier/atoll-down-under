@@ -2,6 +2,7 @@ import {profileFor} from './behaviors.js';
 import {prepareResidentFood,residentStep,validResidentMeal} from './resident-life.js';
 import {localRoutine,clearRelationships} from './ecology.js';
 import {animalProfile} from './animal-profiles.js';
+import {recordVelocity} from './motion-velocity.js';
 import {mealContact,tickFeeding,cancelPreparation,validFeeding} from './feeding-motion.js';
 import {approachMeal} from './feeding-contact.js';
 import {freshAdventure,validAdventure,useContext,tickAdventure,mealAdventure,routineStep,sitesFor} from './adventures.js';
@@ -257,7 +258,7 @@ export class Simulation {
   }
   const target=this.mealTarget;
   if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
-  const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y};
+  const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y,alive:p.alive};
   const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
   const contact=target?approachMeal(p,target,dt,speed):null;
   if(!target&&dist>7){
@@ -304,6 +305,7 @@ export class Simulation {
   for(const f of this.section.food){f.regrow=Math.max(0,f.regrow-dt);if(f.uncovered>0)f.uncovered=Math.max(0,f.uncovered-dt);}
   p.actionTime=Math.max(0,(p.actionTime||0)-dt);p.activity=p.cleanTime>0?'cleaning':p.feeding||p.actionTime>0?'feeding':p.hidden?'at-home':'cruising';
   tickAdventure(this,dt);
+  recordVelocity(p,old,dt);
   const npcCleaningPlan=this.section.entities.includes(cleaningPlan?.cleaner)?cleaningPlan:this.cleaningPlan();
   for(const e of [...this.section.entities])this.stepNpc(e,dt,npcCleaningPlan);
   if(p.energy>0&&p.health>0)tickCare(this,dt,!!(canUseShelter(p.species)&&shelterAt(REEFS[this.current],p)));
@@ -311,11 +313,13 @@ export class Simulation {
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
  stepNpc(e,dt,cleaningPlan=this.cleaningPlan()){
+  const previous={x:e.x,y:e.y,alive:e.alive};
   tickFeeding(e,dt);
   e.activity='cruising';if(e.target){e.blending=null;e.blendTime=0;}e.actionTime=Math.max(0,(e.actionTime||0)-dt);this.stepNpcBody(e,dt,cleaningPlan);
   if(e.feeding&&!e.feeding.committed&&e.target!==e.feeding.target)cancelPreparation(e);
   if(e.cleanTime>0||e.species.ability==='clean'&&((this.player.cleanTime>0)||this.section.entities.some(b=>b.alive&&b.cleanTime>0&&b.target===e.id)))e.activity='cleaning';
   else if((e.target||e.actionTime>0)&&e.activity!=='searching-sand')e.activity='feeding';
+  recordVelocity(e,previous,dt);
  }
  stepNpcBody(e,dt,cleaningPlan=this.cleaningPlan()){
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
