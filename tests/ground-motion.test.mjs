@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {Simulation,edible,distance} from '../src/simulation.js';
 import {SPECIES,REEFS} from '../src/data.js';
 import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,validGroundState} from '../src/ground-motion.js';
+import {LEGACY_BOTTOM_ROUTES} from '../src/feeding-sites.js';
+import {exportDive,importDive} from '../src/save-files.js';
 
 function distanceToRoute(e,route){
  return Math.min(...route.slice(1).map((b,i)=>{
@@ -61,4 +63,29 @@ test('the non-playable seahorse occurs beside meadow plants and keeps its holdfa
  for(let i=0;i<600;i++)s.stepNpc(seahorse,1/30);
  assert.deepEqual({x:seahorse.x,y:seahorse.y},start);assert.equal(seahorse.behavior,'Among the seagrass');
  const saved=Simulation.restore(s.serialize());assert.deepEqual(saved.section.entities.find(e=>e.id===seahorse.id).holdfast,start);
+});
+
+test('recognized old ledges migrate once without rerolling populations, restoring food or losing direction',()=>{
+ for(const committed of [false,true]){
+  const s=new Simulation(42);s.start('practice','s53');const counts=s.sections.map(r=>r.entities.length),foodCounts=s.sections.map(r=>r.food.length),seed=s.seed,uid=s.uid;
+  for(const [i,section]of s.sections.entries()){
+   section.food.forEach(f=>{f.amount=committed?31:43;f.regrow=2;});
+   for(const [n,e]of section.entities.filter(e=>BOTTOM_RESIDENTS.has(e.species.id)).entries()){
+    placeOnGround(e,LEGACY_BOTTOM_ROUTES[i][n%3],.4);e.groundDirection=-1;e.satiated=committed?60:0;
+    e.residentMeal={target:section.food[0].id,elapsed:.25,committed,x:e.x,y:e.y,food:section.food[0].food};
+   }
+  }
+  const restored=importDive(exportDive(s,'Old ledges')).simulation;
+  assert.equal(restored.seed,seed);assert.equal(restored.uid,uid);assert.deepEqual(restored.sections.map(r=>r.entities.length),counts);assert.deepEqual(restored.sections.map(r=>r.food.length),foodCounts);
+  for(const [i,section]of restored.sections.entries()){
+   assert.ok(section.food.every(f=>f.amount===(committed?31:43)&&f.regrow===2));
+   for(const e of section.entities.filter(e=>BOTTOM_RESIDENTS.has(e.species.id))){assert.ok(validGroundState(e));assert.equal(e.groundDirection,-1);assert.ok(REEFS[i].bottomRoutes.some(r=>JSON.stringify(r)===JSON.stringify(e.groundRoute)));}
+  }
+  assert.deepEqual(Simulation.restore(restored.serialize()).sections,restored.sections);
+ }
+});
+
+test('current checkpoints and independent valid routes retain their positions and in-progress action',()=>{
+ const s=new Simulation(42);s.start('practice','s1');const e=s.section.entities.find(e=>e.species.id==='s46');placeOnGround(e,[[100,300],[250,320]],.3);e.residentMeal={target:s.section.food[0].id,elapsed:.1,committed:false,x:150,y:320};
+ const restored=Simulation.restore(s.serialize());assert.deepEqual(restored.sections,s.sections);
 });

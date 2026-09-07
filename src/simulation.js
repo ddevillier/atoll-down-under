@@ -9,7 +9,8 @@ import {freshAdventure,validAdventure,useContext,tickAdventure,mealAdventure,rou
 import {freshCare,tickCare,validCare} from './journal.js';
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
 import {creatureWidth,creatureFrame,creatureHit} from './geometry.js';
-import {BOTTOM_RESIDENTS,placeOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
+import {BOTTOM_RESIDENTS,placeOnGround,positionOnGround,attachToNearestGround,validGroundState,migrateGroundRoutes} from './ground-motion.js';
+import {LEGACY_BOTTOM_ROUTES} from './feeding-sites.js';
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
 import {chooseForager,COMMUNITIES} from './communities.js';
@@ -487,8 +488,9 @@ export class Simulation {
   d.careProgress=d.careProgress||freshCare();
   if(d.adventure!==undefined&&!validAdventure(d.adventure))throw new Error('The saved adventure is damaged.');
   d.adventure=d.adventure||freshAdventure();
-  for(const [index,section] of d.sections.entries())if((section.residentFoodVersion||0)<2){
-   prepareResidentFood(section.entities,section.food,REEFS[index]);section.residentFoodVersion=2;
+  for(const [index,section] of d.sections.entries()){
+   const moved=migrateGroundRoutes(section.entities,LEGACY_BOTTOM_ROUTES[index],REEFS[index].bottomRoutes);
+   if(moved||(section.residentFoodVersion||0)<2){prepareResidentFood(section.entities,section.food,REEFS[index]);section.residentFoodVersion=2;}
   }
   const sim=new Simulation();Object.assign(sim,d);sim.events=[];sim.paused=true;return sim;
  }

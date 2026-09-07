@@ -26,6 +26,23 @@ export function placeOnGround(e,route,fraction){
  e.groundRoute=route.map(p=>[...p]);e.groundDistance=routeLength(route)*fraction;e.groundDirection=1;positionOnGround(e);
 }
 
+// Migrate only a recognized previous authored route. Custom/diagnostic routes
+// and current saves stay intact. Preserve direction and progress along a ledge.
+export function migrateGroundRoutes(entities,previousRoutes,nextRoutes){
+ let changed=false;
+ for(const e of entities){
+  if(!BOTTOM_RESIDENTS.has(e.species.id)||!validGroundState(e))continue;
+  const key=JSON.stringify(e.groundRoute),index=previousRoutes.findIndex(r=>JSON.stringify(r)===key);
+  if(index<0||JSON.stringify(nextRoutes[index])===key)continue;
+  const fraction=e.groundDistance/routeLength(e.groundRoute),direction=e.groundDirection;
+  placeOnGround(e,nextRoutes[index],fraction);e.groundDirection=direction;positionOnGround(e);
+  // A prepared reach can be abandoned; a consumed meal stays consumed in the
+  // food state. Stop only its obsolete visual handling at the former location.
+  e.residentMeal=null;e.actionTime=0;changed=true;
+ }
+ return changed;
+}
+
 // Slow tube-foot travel is independent of the catalog's free-swimming speed.
 export const groundSpeed=e=>e.species.id==='s47'?1.2:e.species.id==='s62'?.45:e.species.speed*.35;
 export function walkOnGround(e,dt,speed=groundSpeed(e)){

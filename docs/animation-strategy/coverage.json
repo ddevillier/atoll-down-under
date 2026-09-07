@@ -658,7 +658,8 @@
       "ordinaryGameplayReview": "partial: generated communities at both desktop sizes; confirmation capture limitations recorded in specialist-review.md",
       "accepted": false,
       "remaining": "Holdfast feeding tested; actual plant contact and snout action still require review.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
     },
     {
       "id": "s45",
@@ -687,7 +688,8 @@
       "accepted": false,
       "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md"
+      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md",
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
     },
     {
       "id": "s47",
@@ -701,7 +703,8 @@
       "ordinaryGameplayReview": "partial: generated nighttime Practice community at both desktop sizes; see radial-review.md",
       "accepted": false,
       "remaining": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
     },
     {
       "id": "s48",
@@ -896,7 +899,8 @@
       "accepted": false,
       "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md"
+      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md",
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
     },
     {
       "id": "s61",
@@ -911,7 +915,8 @@
       "accepted": false,
       "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md"
+      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md",
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
     },
     {
       "id": "s62",
@@ -925,7 +930,8 @@
       "ordinaryGameplayReview": "partial: generated nighttime Practice community at both desktop sizes; see radial-review.md",
       "accepted": false,
       "remaining": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
     },
     {
       "id": "s63",
@@ -940,7 +946,8 @@
       "accepted": false,
       "remaining": "Review continuous playback, long observation, fine-detail visibility, complete painted attachment and native performance; finish individual ecology acceptance.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "attachmentReview": "partial: nine initial and nine confirmation populated-world support views; nineteen revised routes and recognized-old-save migration; see ground-support-review.md for perspective/depth limits"
     }
   ],
   "performanceReview": "partial: 36 native habitat cases plus four moray/batfish cases and two longer cadence checks; fair scheduling, bounded caches and sampled pose preservation verified; see native-animation-review.md for software-rendering and presentation limits"
