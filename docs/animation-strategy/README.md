@@ -1,5 +1,7 @@
 # Whole-roster animation strategy
 
+Latest animation checkpoint: [six grazers and wrasses](grazer-parts-review.md). Surgeonfish, two rabbitfishes, sixbar wrasse, parrotfish and humphead wrasse now have independent side-fin, pelvic and tail pieces with stable main bodies. Twelve ordinary gameplay captures were inspected, and two fin-remnant defects corrected. All 255 unit tests and four browser checks pass; the painted-part continuity/control check now covers 23 species. Full-roster acceptance remains open.
+
 Latest species checkpoint: [trumpetfish motion and moving cover](trumpet-shadow-review.md). Independent rear fins accompany a corrected, speed-bounded moving-host controller. A generated community demonstrates approach, joining and travel beside a parrotfish. Active shadowing/cleaning pairs now reserve space against world labels. All 255 unit tests and five final targeted browser checks pass; pressure remains 31 bites and zero deaths across 110 scenarios with initial populations unchanged.
 
 Latest shared presentation checkpoint: [player and interaction readability](readability-review.md). The player now has a marker attached to its posed bounds, and world labels are arranged in a foreground pass with player clearance. Eight ordinary gameplay views were inspected; 251 unit tests and seven targeted browser checks pass. This addresses the identification/label defects recorded in prior reviews without closing the remaining roster acceptance work.

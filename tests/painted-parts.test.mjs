@@ -7,8 +7,8 @@ test('trumpetfish keeps its tube snout and body rigid while rear fins work at re
  for(const name of ['dorsal','anal']){const poses=Array.from({length:32},(_,i)=>partPose('s41',name,i/32/PART_RIGS.s41.frequency,0));assert.ok(Math.max(...poses.map(p=>p.scale))-Math.min(...poses.map(p=>p.scale))>.35);}
 });
 
-test('hovering reef fish keep their bodies still while pectorals scull at rest',()=>{
- for(const id of ['s1','s2','s7','s30']){
+test('pectoral-driven reef fish keep their bodies still while side fins scull at rest',()=>{
+ for(const id of ['s1','s2','s5','s7','s8','s10','s15','s29','s30','s52']){
   const poses=[];
   for(let i=0;i<32;i++){
    const time=i/32/PART_RIGS[id].frequency;

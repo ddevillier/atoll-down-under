@@ -85,10 +85,10 @@
       "routine": "graze",
       "social": "loose",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -128,10 +128,10 @@
       "routine": "graze",
       "social": "pair",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "partial: generated social communities inspected at both desktop sizes; full locomotion and interaction acceptance remains pending",
+      "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
@@ -158,10 +158,10 @@
       "routine": "pick",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -231,10 +231,10 @@
       "routine": "scrape",
       "social": "loose",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -433,10 +433,10 @@
       "routine": "pick",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -768,10 +768,10 @@
       "routine": "graze",
       "social": "pair",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: separate painted pectoral, pelvic and tail pieces with rigid main body; swimming/settled grouped views inspected; see grazer-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals and returns in generated communities at 1600x900 and 1024x768; see grazer-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Continuous perceptual acceptance, separate jaw action, fine-fin visibility, habitat attachment where applicable and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },

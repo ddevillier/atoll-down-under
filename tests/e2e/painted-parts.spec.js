@@ -27,7 +27,7 @@ test('painted parts keep moving with the mesh budget exhausted and freeze on pau
  const results=await page.evaluate(async()=>{
   const {SPECIES}=await import('/src/data.js'),{ArticulatedSprites}=await import('/src/articulated-motion.js'),r=window.atoll.renderer;
   r.articulation=new ArticulatedSprites();const c=document.createElement('canvas');c.width=600;c.height=350;const ctx=c.getContext('2d'),results=[];
-  for(const id of [0,1,2,7,17,18,23,27,28,30,32,33,34,35,41,42,49]){
+  for(const id of [0,1,2,5,7,8,10,15,17,18,23,27,28,29,30,32,33,34,35,41,42,49,52]){
    const e={id:'parts-'+id,species:SPECIES[id],x:300,y:175,angle:0,facing:1,activity:'cruising'};
    const paint=(time,dt)=>{ctx.clearRect(0,0,600,350);r.articulation.beginFrame(0);r.drawCreature(ctx,e,time,dt,1,260);return c.toDataURL();};
    r.reducedMotion=false;paint(1,1/60);const still=paint(2,0),paused=still===paint(8,0);let changes=0,previous=still;
@@ -36,7 +36,7 @@ test('painted parts keep moving with the mesh budget exhausted and freeze on pau
   }
   r.reducedMotion=false;return {results,prepared:r.parts.prepared,meshMisses:r.articulation.misses,meshDeferred:r.articulation.deferred};
  });
- expect(results.prepared).toBe(17);expect(results.meshMisses).toBe(0);expect(results.meshDeferred).toBe(0);
+ expect(results.prepared).toBe(23);expect(results.meshMisses).toBe(0);expect(results.meshDeferred).toBe(0);
  for(const r of results.results){expect(r.paused).toBe(true);expect(r.reduced).toBe(true);expect(r.changes).toBeGreaterThan(25);}
 });
 
