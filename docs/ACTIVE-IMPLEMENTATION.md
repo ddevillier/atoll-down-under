@@ -6,6 +6,8 @@ Latest direction: prioritize Practice and reef exploration. Do not pursue a carb
 
 Species consistency work also corrects longnose butterflyfish to Forcipiger flavissimus and longfin batfish to Platax teira. Both now use new standalone illustrations in the shared renderer, including existing saved fish. The incompatible original generated atlas cells are superseded, without changing gameplay size or difficulty. Details and generation prompts: SPECIES-ILLUSTRATION-CORRECTIONS.md. Coral trout and other roster mismatches remain open.
 
+Latest testing milestone: Windows-Species, runtime source 4094e6f, now includes the preceding lionfish crab correction and these three identity corrections. All 115 unit/asset checks, all 30 browser scenarios, dedicated browser/native species checks, native gameplay/fullscreen and portable saves pass. All 97 checked packaged files match source; all 73 ZIP payload files match the tested runnable folder and CRC passes. See WINDOWS-SPECIES-BUILD.md. Earlier milestone statements below retain their original scope; the overall objective and remaining audit work stay active.
+
 ## Order and evidence
 
 1. Complete sourced natural-history entries for all 64 catalog creatures. Use group-level facts when an ambiguous label cannot support an exact species identification; document that limit. Keep identification, actual diet, habitat and distinctive behavior separate from simulation rules. Current coverage: 64/64; see SPECIES-FACTS-LEDGER.md and LIFE-SCIENCE-SOURCES.md. Sprite identity and original-roster parity remain separate unfinished work.
