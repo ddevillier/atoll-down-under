@@ -31,7 +31,7 @@ export class TitleReef{
   add('shrimp',45,shy?1490:1420,710,shy?22:42,-1,'Peeking');
   if(this.rewards.includes('ray'))add('reward-ray',27,800+Math.sin(t*.075)*560,150,145,Math.cos(t*.075)>=0?1:-1,'Gliding');
   if(this.rewards.includes('seahorse'))add('reward-seahorse',44,1470,620+Math.sin(t*.2)*5,65,-1,'Among plants');
-  if(this.rewards.includes('cuttlefish'))add('reward-cuttlefish',19,1180+Math.sin(t*.12)*60,450+Math.cos(t*.12)*80,96,-1,'Hovering');
+  if(this.rewards.includes('cuttlefish'))add('reward-cuttlefish',19,1250+Math.sin(t*.12)*60,450+Math.cos(t*.12)*80,96,-1,'Hovering');
   if(this.rewards.includes('school'))for(let i=0;i<3;i++)add('reward-school-'+i,[5,7,4][i],1150+i*65+Math.sin(t*.15)*45,790+i%2*24,48,-1,'Schooling');
   return actors;
  }
