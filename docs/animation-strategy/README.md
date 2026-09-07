@@ -95,3 +95,7 @@ The [refuge review](refuge-review.md) records persistent individual resting plac
 ## Cleaner client courtesy
 
 A [cleaner continuation](cleaner-review.md#client-courtesy-continuation) closes the observed bug where a recovered predator ate another waiting patient. NPC hunters leave clients at actual service positions alone, and treated NPCs receive an eight-second departure rest. Distant requests and fish outside those positions retain ordinary predation. All 221 unit tests and three cleaner browser scenarios pass, including the mixed queue with hungry clients. The latest pressure run reports 30 bites, zero deaths and unchanged initial counts across 110 scenarios. Individual visual acceptance and final delivery remain open.
+
+## Separate ray anatomy
+
+The [ray review](ray-review.md) records distinct stingray/electric-ray disc, head and tail controls, actual-simulation cruise/settle/turn/feed strips and mouse-driven meals in generated communities at both desktop sizes. All 223 unit tests and the ray pause/reduced-motion/cyclic-cache browser check pass. One initial visual batch and one confirmation batch were inspected. Their current 2D silhouettes remain joined and readable; continuous playback, seabed attachment and native performance remain open. No simulation rule or Windows archive changes in this presentation pass.

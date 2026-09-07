@@ -403,10 +403,10 @@
       "routine": "bottom-forage",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: distinct disc/head/tail controls; full-pose actual-simulation cruise, settle, both facings and feeding strips inspected; see ray-review.md",
+      "ordinaryGameplayReview": "partial: generated Practice community, mouse-driven meal and movement at both desktop sizes; see ray-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Complete substrate/action and continuous-playback review plus combined native performance. Current disc/tail shape, pause and reduced motion have dedicated evidence in ray-review.md.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -548,10 +548,10 @@
       "routine": "ambush-bottom",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: distinct disc/head/tail controls; full-pose actual-simulation cruise, settle, both facings and feeding strips inspected; see ray-review.md",
+      "ordinaryGameplayReview": "partial: generated Practice community, mouse-driven meal and movement at both desktop sizes; see ray-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Complete substrate/action and continuous-playback review plus combined native performance. Current disc/tail shape, pause and reduced motion have dedicated evidence in ray-review.md.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
