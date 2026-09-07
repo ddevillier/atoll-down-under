@@ -71,21 +71,14 @@ const landmarks=[
 // Pinned appendage paths: root → intermediate → tip; radius is a local influence
 // band, never the whole rectangular top/bottom of a sprite.
 const paths={
- s4:[{points:[[.65,.35],[.58,.08],[.35,.025],[.02,.055]],radius:.035,amplitude:.023}],
  s9:[{points:[[.97,.52],[.99,.67],[.97,.85],[.95,.97]],radius:.028,amplitude:.018},{points:[[.95,.52],[.96,.70],[.94,.86]],radius:.024,amplitude:.015}],
- s11:[{points:[[.57,.23],[.47,.09],[.35,.015]],radius:.04,amplitude:.025},{points:[[.49,.72],[.37,.85],[.13,.98]],radius:.05,amplitude:.018}],
- s13:[{points:[[.71,.37],[.58,.09],[.31,.015],[.03,.055]],radius:.036,amplitude:.026},{points:[[.7,.62],[.67,.82],[.58,.99]],radius:.08,amplitude:.02}],
- s20:[{points:[[.75,.48],[.60,.15],[.35,.035]],radius:.035,amplitude:.020},{points:[[.68,.5],[.41,.18],[.13,.03]],radius:.04,amplitude:.022},{points:[[.70,.57],[.47,.78],[.35,.97]],radius:.07,amplitude:.025}],
  s22:[{points:[[.40,.39],[.35,.16],[.31,.03]],radius:.065,amplitude:.021}],
  s23:[{points:[[.47,.37],[.43,.21],[.39,.09]],radius:.07,amplitude:.020}],
  s24:[{points:[[.48,.31],[.43,.13],[.39,.025]],radius:.09,amplitude:.021},{points:[[.48,.73],[.39,.91]],radius:.075,amplitude:.025}],
  s48:[{points:[[.44,.36],[.41,.23],[.36,.17]],radius:.07,amplitude:.020}],
- s40:[{points:[[.64,.22],[.39,.08],[.23,.02]],radius:.13,amplitude:.024},{points:[[.70,.71],[.63,.89],[.64,.98]],radius:.065,amplitude:.027}],
  s44:[{points:[[.64,.91],[.40,.80],[.36,.53],[.37,.24]],radius:.22,amplitude:.006}],
  s45:[{points:[[.65,.40],[.68,.27],[.40,.05],[.08,.14]],radius:.022,amplitude:.024},{points:[[.62,.43],[.42,.17],[.22,.20],[.01,.46]],radius:.022,amplitude:.030}],
  s54:[{points:[[.76,.30],[.84,.10],[.89,.03],[.94,.10]],radius:.037,amplitude:.027}],
- s55:[{points:[[.57,.25],[.52,.10],[.23,.01]],radius:.046,amplitude:.026},{points:[[.64,.72],[.43,.92],[.32,.99]],radius:.05,amplitude:.019}],
- s56:[{points:[[.64,.35],[.59,.08],[.34,.025],[.02,.055]],radius:.035,amplitude:.024}],
  s60:[{points:[[.31,.49],[.23,.29],[.21,.04]],radius:.10,amplitude:.023},{points:[[.79,.48],[.82,.19],[.86,.12]],radius:.06,amplitude:.020},{points:[[.81,.53],[.89,.29],[.94,.19]],radius:.044,amplitude:.017}],
  s61:[{points:[[.74,.63],[.85,.42],[.93,.29]],radius:.035,amplitude:.018},{points:[[.74,.68],[.85,.49],[.99,.34]],radius:.031,amplitude:.020}]
 };

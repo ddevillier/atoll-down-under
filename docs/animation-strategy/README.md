@@ -99,3 +99,7 @@ A [cleaner continuation](cleaner-review.md#client-courtesy-continuation) closes 
 ## Separate ray anatomy
 
 The [ray review](ray-review.md) records distinct stingray/electric-ray disc, head and tail controls, actual-simulation cruise/settle/turn/feed strips and mouse-driven meals in generated communities at both desktop sizes. All 223 unit tests and the ray pause/reduced-motion/cyclic-cache browser check pass. One initial visual batch and one confirmation batch were inspected. Their current 2D silhouettes remain joined and readable; continuous playback, seabed attachment and native performance remain open. No simulation rule or Windows archive changes in this presentation pass.
+
+## Separate long fins and fans
+
+The [fin review](fin-review.md) records eight dedicated rigs with independent tails, fin sectors and streamers, protected attachments and stable eyes. All 225 unit tests and the eight-species browser pause/reduced-motion/cache check pass. Eight full-renderer simulation strips, sixteen ordinary gameplay views at both desktop sizes and eight confirmation strips were inspected. Thin dark fins, player identification and overlapping activity labels remain shared readability issues. Continuous playback and the cost of the finer meshes remain open; all species retain partial review status and no new Windows archive was created.

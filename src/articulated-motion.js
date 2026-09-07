@@ -1,12 +1,14 @@
 import {animalProfile} from './animal-profiles.js';
 import {rigFor,pathWeight} from './animal-rigs.js';
 import {rayPoint} from './ray-motion.js';
+import {FIN_RIGS,finPoint} from './fin-motion.js';
 const TAU=Math.PI*2,clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const bell=(x,c,r)=>Math.exp(-(((x-c)/r)**2)*2);
 
 // A continuous deformation field keeps painted surfaces joined. The eyes, armored
 // bodies, shells and attachment points are protected by local falloffs.
 export function deformPoint(p,u,v,time,effort=.5,state={}){
+ if(FIN_RIGS[p.id])return finPoint(p,u,v,time,effort,state);
  const a=clamp(effort),phase=time*p.frequency*TAU,axis=p.axis,rig=rigFor(p);
  let x=u,y=v;const family=p.family,beat=Math.sin(phase),feed=clamp(state.feed||0);
  const tail=clamp((p.tailRoot-u)/p.tailRoot),finSpan=bell(u,.52,.29);
@@ -130,7 +132,7 @@ export class ArticulatedSprites{
     if(!frame){ctx.drawImage(image,-width/2,-height/2,width,height);return;}
    }else{
    const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
-   const cols=width<150?10:16,rows=width<150?6:10,src=[],dst=[];
+   const cols=FIN_RIGS[p.id]?20:width<150?10:16,rows=FIN_RIGS[p.id]?16:width<150?6:10,src=[],dst=[];
    for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
    for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
    frame={canvas,pixels:canvas.width*canvas.height,group,tick};this.cache.set(key,frame);this.pixels+=frame.pixels;
