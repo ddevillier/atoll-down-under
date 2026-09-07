@@ -67,12 +67,12 @@
     {
       "id": "s6",
       "name": "Longnose butterflyfish",
-      "scientific": "Forcipiger longirostris",
+      "scientific": "Forcipiger flavissimus",
       "originalNameStringId": 113,
       "originalName": "Long-nosed Butterflyfish",
       "originalScientificStringId": 217,
       "originalScientificSpelling": "Forcipiger flavissimus",
-      "assessment": "Different species: longirostris versus flavissimus."
+      "assessment": "Written identity corrected to Forcipiger flavissimus. New yellow, black-headed illustration replaces the incompatible banded atlas fish; exact anatomical fidelity remains qualified."
     },
     {
       "id": "s7",
@@ -167,12 +167,12 @@
     {
       "id": "s16",
       "name": "Coral grouper",
-      "scientific": "Epinephelus corallicola",
+      "scientific": "Cephalopholis miniata",
       "originalNameStringId": 86,
       "originalName": "Coral Grouper",
       "originalScientificStringId": 190,
       "originalScientificSpelling": "Cephalopholis miniata",
-      "assessment": "Different genera and species: Epinephelus corallicola versus Cephalopholis miniata."
+      "assessment": "Written identity corrected to Cephalopholis miniata using Australian Museum facts. Current orange-red, blue-spotted sprite is visually consistent with that description; exact anatomical fidelity remains unverified."
     },
     {
       "id": "s17",
@@ -407,12 +407,12 @@
     {
       "id": "s40",
       "name": "Longfin batfish",
-      "scientific": "Platax pinnatus",
+      "scientific": "Platax teira",
       "originalNameStringId": 114,
       "originalName": "Longfin Spadefish",
       "originalScientificStringId": 218,
       "originalScientificSpelling": "Platax teira",
-      "assessment": "Different species: Platax pinnatus versus Platax teira."
+      "assessment": "Written identity corrected to Platax teira. New silver, round-bodied, tall-finned illustration replaces the Moorish-idol-like atlas fish; exact anatomical fidelity remains qualified."
     },
     {
       "id": "s41",

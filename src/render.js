@@ -1,6 +1,7 @@
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {motionKind,bodyMotion} from './motion.js';
 import {creatureWidth} from './geometry.js';
+import {SPECIES_SPRITES} from './sprite-assets.js';
 const TOP=55;
 export class ReefRenderer {
  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.reefs=[];this.atlases=[];this.bounds=[];this.sprites=[];this.foodSprites=[];this.customCache=new Map();this.ready=false;this.particles=[];this.clock=0;this.hover=null;this.inspect=false;this.reducedMotion=false;this.effects=[];this.resize();new ResizeObserver(()=>this.resize()).observe(canvas);}
@@ -9,6 +10,10 @@ export class ReefRenderer {
   const img=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error('Could not load '+src));im.src=src;});
   [this.reefs,this.atlases,this.splash]=await Promise.all([Promise.all(REEFS.map(r=>img(r.image))),Promise.all([0,1,2,3].map(n=>img('assets/creatures/fish-atlas-'+n+'.png'))),img('assets/title/splash.png')]);
   this.atlases.forEach((im,a)=>{this.extractAtlas(im).forEach((sprite,cell)=>{this.sprites[a*16+cell]=sprite;this.bounds[a*16+cell]={x:0,y:0,w:sprite.width,h:sprite.height};});});
+  await Promise.all(Object.entries(SPECIES_SPRITES).map(async([index,path])=>{
+   const sprite=this.extractCell(await img(path),0,1,1,false);
+   this.sprites[index]=sprite;this.bounds[index]={x:0,y:0,w:sprite.width,h:sprite.height};
+  }));
   const food=await img('assets/creatures/food-atlas.png');for(let i=0;i<8;i++)this.foodSprites.push(this.extractCell(food,i,4,2,false));
   this.ready=true;
  }

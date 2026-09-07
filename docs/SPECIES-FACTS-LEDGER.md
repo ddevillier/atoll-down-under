@@ -10,7 +10,7 @@ All 64 catalog creatures have sourced guide content. This records written covera
 | s3 | Royal gramma | Written: Gramma loreto; source in guide |
 | s4 | Moorish idol | Written: Zanclus cornutus; source in guide |
 | s5 | Palette surgeonfish | Written: Paracanthurus hepatus; source in guide |
-| s6 | Longnose butterflyfish | Written: Forcipiger longirostris; source in guide |
+| s6 | Longnose butterflyfish | Corrected: Forcipiger flavissimus, matching original guide; Fishes of Australia source and new species illustration |
 | s7 | Anemonefish | Written: Amphiprion (anemonefishes; genus); source in guide |
 | s8 | Foxface rabbitfish | Written: Siganus vulpinus; source in guide |
 | s9 | Yellow goatfish | Written: Mullidae (goatfishes; family); source in guide |
@@ -20,7 +20,7 @@ All 64 catalog creatures have sourced guide content. This records written covera
 | s13 | Banggai cardinalfish | Written: Pterapogon kauderni; source in guide |
 | s14 | Oriental sweetlip | Written: Plectorhinchus vittatus; source in guide |
 | s15 | Parrotfish | Written: Scarinae (parrotfishes; group); source in guide |
-| s16 | Coral grouper | Written: Epinephelus corallicola; source in guide |
+| s16 | Coral grouper | Corrected: Cephalopholis miniata, matching original guide identity; Australian Museum source; stylized art qualification retained |
 | s17 | Blackfin barracuda | Written: Sphyraena qenie; source in guide |
 | s18 | Crocodile needlefish | Written: Tylosurus crocodilus; source in guide |
 | s19 | Cuttlefish | Written: Sepiidae (cuttlefishes; family); source in guide |
@@ -44,7 +44,7 @@ All 64 catalog creatures have sourced guide content. This records written covera
 | s37 | Electric ray | Written: Torpediniformes (electric rays; group); source in guide |
 | s38 | Giant grouper | Written: Epinephelus lanceolatus; source in guide |
 | s39 | Coral trout | Written: Plectropomus leopardus; source in guide |
-| s40 | Longfin batfish | Written: Platax pinnatus; source in guide |
+| s40 | Longfin batfish | Corrected: Platax teira, matching original longfin spadefish; Australian Museum source and new species illustration |
 | s41 | Trumpetfish | Written: Aulostomus chinensis; source in guide |
 | s42 | Yellowtail fusilier | Written: Caesio cuning; source in guide |
 | s43 | Bluestreak cleaner wrasse | Written: Labroides dimidiatus; source in guide |

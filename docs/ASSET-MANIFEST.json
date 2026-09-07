@@ -335,6 +335,22 @@
     "alpha": true
   },
   {
+    "path": "assets/creatures/longfin-batfish-v2.png",
+    "bytes": 2188076,
+    "sha256": "151314893fdf86aabbda4b59f0eda01c494bae9b7afde5254b34dee9bce9be2a",
+    "width": 1254,
+    "height": 1254,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/longnose-butterflyfish-v2.png",
+    "bytes": 1226051,
+    "sha256": "7acf07d5ef2fff5a33f24cd56226aca2107c90dd8cf45d2903488b4a3cd1a90a",
+    "width": 1254,
+    "height": 1254,
+    "alpha": true
+  },
+  {
     "path": "assets/fonts/DM-Sans-LICENSE.txt",
     "bytes": 4502,
     "sha256": "6fbd040a29c2037a765dfb9f2561e9965b5c95c6dcb5dce516089d63d5f17af7"

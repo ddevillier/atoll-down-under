@@ -15,13 +15,13 @@ export const NATURAL_HISTORY={
   ],question:'Compare a sheltered daytime resting place with an open nighttime feeding area. What changes besides the light?',
   limit:'The Atlantic species is a named example for an unresolved catalog identity. The game’s nighttime visibility and sound effects do not recreate its natural sensory environment.',
   source:'Florida Museum · Squirrelfish (named example)',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/squirrelfish/'},
- s16:{scientific:'Epinephelus corallicola',family:'Groupers and rockcods',
+ s16:{scientific:'Cephalopholis miniata',family:'Groupers and rockcods',
   paragraphs:[
-   'The coral grouper described in the FAO identification guide is brownish to greenish-grey, with scattered small dark spots on its head, body and fins. It has a rounded tail and darker blotches near the base of the dorsal fin.',
-   'Young fish have conspicuous pale spots that fade as they grow. This western Pacific species inhabits shallow silty reefs and estuarine areas, including Australian waters. Coral reef fish do not all live in perfectly clear water.'
-  ],question:'Compare a spotted juvenile with a larger fish whose pale spots have faded. Which other features would help connect them?',
-  limit:'This follows the FAO coral-grouper name, which still needs comparison with the original roster and sprite. The source does not establish the game’s diet, pursuit speed or prey-size thresholds.',
-  source:'FAO · Groupers of the World, coral grouper, printed page 133',url:'https://www.fao.org/4/t0540e/t0540e21.pdf'},
+   'This coral grouper, also called the coral cod, has an orange-red body dotted with bright blue spots. The spots extend across its head, body and middle fins; each is smaller than its pupil. Young fish are orange to yellow.',
+   'It lives in tropical waters of the Indo-West and Central Pacific and is often seen beneath ledges or inside caves. In Australia its range extends around the tropical north, from central Western Australia to northern New South Wales. It can grow to 41 centimetres long.'
+  ],question:'Look beneath a reef ledge. Which details would help you recognize a coral grouper in the shade?',
+  limit:'The written identity matches the original game’s coral grouper. The illustration is stylized; shelter behavior, body measurements and hunting rules are not a biological reconstruction.',
+  source:'Australian Museum · Coral Cod',url:'https://australian.museum/learn/animals/fishes/coral-cod-cephalopholis-miniata-forsskal-1775/'},
  s22:{scientific:'Tetraodontidae (pufferfishes; family)',family:'Pufferfishes · species not identified',
   paragraphs:[
    'Several pufferfishes have spots, so spotted pufferfish alone is not a precise identification. One example is the stars-and-stripes puffer, Arothron hispidus, with white spots above, pale lines below, and rings around the gill opening and pectoral-fin base.',
@@ -253,13 +253,13 @@ export const NATURAL_HISTORY={
   ],question:'Compare a plankton meal with a fish meal. Why might the size of a predator alone fail to tell you what it eats?',
   limit:'The game groups this fish with fish-eating hunters and offers fish and shrimp. It does not model the natural proportions of different foods or offshore journeys.',
   source:'Dianne J. Bray · Fishes of Australia: Rainbow Runner',url:'https://fishesofaustralia.net.au/home/species/4273'},
- s40:{scientific:'Platax pinnatus',family:'Ephippidae · batfishes',length:'Up to 35 cm',
+ s40:{scientific:'Platax teira',family:'Ephippidae · batfishes',length:'Up to 60 cm',
   paragraphs:[
-   'Young longfin batfish are dark with an orange outline around the body and long fins. Adults look very different: silver-gray to brown, with a dark bar through the eye and another near the pectoral fins.',
-   'This species uses coastal and coral-reef waters of the tropical Indo-West Pacific. In Australia it occurs around the north and extends south along both coasts. Its changing appearance is a reminder that a young fish need not look like a small adult.'
-  ],question:'Imagine the dark, orange-edged juvenile beside a silver adult. Which body shapes might reveal that they are the same species?',
-  limit:'This entry follows the Australian Museum’s use of the common name; other batfishes can share it. Sprite identity still needs review. Growth and changing markings are not simulated.',
-  source:'Australian Museum · Longfin Batfish',url:'https://australian.museum/learn/animals/fishes/longfin-batfish-platax-pinnatus/'},
+   'Also called the roundface batfish, this fish has a nearly circular body seen from the side. Dark bands cross its eye and the area near its pectoral fin. Look for a dark blotch below that fin and a longer mark above the anal fin.',
+   'Young fish have especially tall dorsal and anal fins, which become shorter relative to the body as they grow. This tropical Indo-West Pacific species uses both shallow coastal water and deeper offshore habitat.'
+  ],question:'Compare the upper and lower fins with the body. How would the silhouette change as a young batfish grew?',
+  limit:'This identity matches the original game’s longfin spadefish. The illustration shows one stylized life stage; growth and changes in fin proportions are not simulated.',
+  source:'Australian Museum · Roundface Batfish',url:'https://australian.museum/learn/animals/fishes/roundface-batfish-platax-teira/'},
  s5:{scientific:'Paracanthurus hepatus',family:'Acanthuridae · surgeonfishes',
   paragraphs:[
    'The bright blue body, dark markings and yellow tail make the palette surgeonfish distinctive. Sharp spines lie on either side of the narrow base of the tail. It lives around Indo-Pacific coral reefs.',
@@ -421,13 +421,13 @@ export const NATURAL_HISTORY={
   ],question:'A hiding animal may need to avoid being smelled as well as seen. What can an illustration tell you about each kind of concealment?',
   limit:'The game also accepts algae for this fish; that is a simplified menu, not its documented natural diet. Scent concealment and coral loss are not simulated.',
   source:'Dianne J. Bray · Fishes of Australia: Harlequin Filefish',url:'https://fishesofaustralia.net.au/home/species/812'},
- s6:{scientific:'Forcipiger longirostris',family:'Chaetodontidae · butterflyfishes',length:'Up to 22 cm',
+ s6:{scientific:'Forcipiger flavissimus',family:'Chaetodontidae · butterflyfishes',length:'Up to 22 cm total length',
   paragraphs:[
-   'A very long snout and a body flattened from side to side distinguish this coral-reef fish. It lives across the Indo-West and Central Pacific; Australian records include northwestern waters and the northern Great Barrier Reef.',
-   'It resembles the related forcepsfish, Forcipiger flavissimus. Scientists distinguish them using several features together: snout length, mouth opening, dorsal-fin spines and small spots on the breast. A familiar color pattern alone may not identify a species.'
-  ],question:'Compare the long snout with the broad mouth of a grouper. What could you learn from shape, and what would you still need to observe?',
-  limit:'The game illustration is stylized. Its worm-and-coral menu is a simplified rule, not a complete account of this species’ natural diet.',
-  source:'Australian Museum · Longnose Butterflyfish',url:'https://australian.museum/learn/animals/fishes/longnose-butterflyfish-forcipiger-longirostris-broussonet-1782/'},
+   'The forceps fish has a yellow body, a black upper head and a pale lower face. A dark spot sits near the back of its anal fin. Its narrow snout reaches toward small foods around the reef.',
+   'It eats a variety of invertebrates, including corals, small crustaceans and parts of worms and echinoderms, as well as fish eggs. The similar Forcipiger longirostris has a longer snout and usually small dark dots on its chest.'
+  ],question:'Look for the dark spot near the tail, then compare the snout and chest. Which details distinguish this fish from its close relative?',
+  limit:'This identity matches the original game’s long-nosed butterflyfish. The stylized illustration and worm-and-coral game menu simplify its anatomy and natural feeding habits.',
+  source:'Dianne J. Bray · Fishes of Australia: Forceps Fish',url:'https://fishesofaustralia.net.au/home/species/2410'},
  s13:{scientific:'Pterapogon kauderni',family:'Apogonidae · cardinalfishes',length:'Up to about 8.6 cm (3.4 inches)',
   paragraphs:[
    'This small fish is native to Indonesia’s Banggai Archipelago, where it occupies shallow, sheltered reef and seagrass habitats. Populations elsewhere can result from introductions; the collection of animals in this game is not a map of their natural ranges.',
