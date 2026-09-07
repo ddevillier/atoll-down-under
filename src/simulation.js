@@ -3,6 +3,7 @@ import {creatureWidth} from './geometry.js';
 import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
+import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -183,8 +184,8 @@ export class Simulation {
    const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;p.still=0;
   }else p.still+=dt;
   const moving=distance(old,p)>dt*6;
-  const shelter=REEFS[this.current].shelters.find(s=>distance(p,s)<s.r&&p.species.size<125);
-  const wasHidden=p.hidden;p.hidden=!!((shelter&&p.still>.7)||(p.species.ability==='camouflage'&&p.abilityTime>0&&!moving));
+  const shelter=canUseShelter(p.species)&&shelterAt(REEFS[this.current],p);
+  const wasHidden=p.hidden;p.hidden=!!((shelter&&p.still>SHELTER_SETTLE_SECONDS)||(p.species.ability==='camouflage'&&p.abilityTime>0&&!moving));
   if(p.hidden&&!wasHidden)this.event('hide','Hidden. Remain still to stay concealed.');
   if(!p.hidden&&wasHidden)this.event('reveal','Back in open water.');
   if(target&&distance(p,target)<p.species.size*.38+(target.species?.size||target.size)*.25+12)this.consume(target);

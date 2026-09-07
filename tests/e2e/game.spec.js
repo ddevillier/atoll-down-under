@@ -3,6 +3,33 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('shelter feedback explains fit and hiding without changing protection rules',async({page})=>{
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page,'Neon');
+  const badge=page.locator('#state-badge');
+  await expect(badge).toContainText('Eating, active abilities or travel end protection');
+  await page.evaluate(async()=>{
+   const s=window.atoll.simulation,{REEFS}=await import('/src/data.js'),area=REEFS[s.current].shelters[0];
+   s.section.entities=[];s.section.food=[];s.protected=false;
+   Object.assign(s.player,{x:area.x,y:area.y+area.r*.8,still:0});s.pointer={x:s.player.x,y:s.player.y};
+  });
+  await expect(badge).toContainText('Hidden · Stay still to avoid being seen');
+  await page.keyboard.press('Escape');
+  await page.screenshot({path:`artifacts/shelter-small-${width}.png`});
+  await page.evaluate(()=>{
+   const s=window.atoll.simulation;s.player.species={...s.player.species,size:150};s.player.hidden=false;
+  });
+  await page.screenshot({path:`artifacts/shelter-large-${width}.png`});
+  await page.keyboard.press('Escape');
+  await expect(badge).toContainText('This shelter is too small for your fish');
+  const bounds=await badge.boundingBox();expect(bounds.x).toBeGreaterThanOrEqual(0);expect(bounds.x+bounds.width).toBeLessThanOrEqual(width);
+  await expect(page.locator('.controls-hint')).toBeHidden();
+  await page.keyboard.press('Space');
+  await expect(badge).toContainText('too small');
+  expect(await page.evaluate(()=>window.atoll.simulation.player.hidden)).toBe(false);
+ }
+});
+
 test('named dive files round-trip through download and import without overwriting other slots',async({page})=>{
  await ready(page);await practice(page,'Foxface');await clickButton(page,{name:'Save / load'});
  await page.getByLabel('Dive name').fill('Zoë’s <reef> 🐠');

@@ -2,6 +2,7 @@ import {REEFS,SPECIES,FOODS} from './data.js';
 import {motionKind,bodyMotion} from './motion.js';
 import {creatureWidth} from './geometry.js';
 import {SPECIES_SPRITES} from './sprite-assets.js';
+import {canUseShelter} from './shelter.js';
 const TOP=55;
 export class ReefRenderer {
  constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.reefs=[];this.atlases=[];this.bounds=[];this.sprites=[];this.foodSprites=[];this.customCache=new Map();this.ready=false;this.particles=[];this.clock=0;this.hover=null;this.inspect=false;this.reducedMotion=false;this.effects=[];this.resize();new ResizeObserver(()=>this.resize()).observe(canvas);}
@@ -107,7 +108,7 @@ export class ReefRenderer {
    c.strokeStyle='#fce5a2';c.lineWidth=1.8;c.stroke();
    this.tag(c,meal.x,Math.max(30,meal.y-width*.4-24),meal.name||meal.species.name);
   }
-  if(this.inspect){for(const s of REEFS[sim.current].shelters){c.setLineDash([5,6]);c.strokeStyle='#e2efbba6';c.lineWidth=2;c.beginPath();c.ellipse(s.x,s.y,s.r,s.r*.5,0,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,s.x,s.y-s.r*.5-10,'Shelter');}}
+  if(this.inspect){for(const s of REEFS[sim.current].shelters){c.setLineDash([5,6]);c.strokeStyle='#e2efbba6';c.lineWidth=2;c.beginPath();c.arc(s.x,s.y,s.r,0,Math.PI*2);c.strokeStyle='#103944';c.lineWidth=4;c.stroke();c.strokeStyle='#e2efbb';c.lineWidth=2;c.stroke();c.setLineDash([]);this.tag(c,s.x,Math.max(20,s.y-s.r-16),canUseShelter(p.species)?'Shelter · Stop here to hide':'Shelter · Too small for your fish');}}
   if(this.hover){const h=this.hover,sz=h.species?creatureWidth(h.species):h.size||25;c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(h.x,h.y,sz*.6+8,sz*.4+8,0,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,h.x,Math.max(30,h.y-sz*.4-22),h.name||h.species?.name||'');}
   for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='eat'){this.tag(c,e.x,e.y-28-(this.reducedMotion?0:e.t*20),e.label||'Meal taken',Math.min(1,(2.2-e.t)/1.2));}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
   this.effects=this.effects.filter(e=>e.t<(e.type==='eat'?2.2:1.4));c.restore();
