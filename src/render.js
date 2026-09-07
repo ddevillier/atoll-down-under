@@ -1,4 +1,5 @@
 import {ArticulatedSprites} from './articulated-motion.js';
+import {PaintedParts,PART_RIGS} from './part-motion.js';
 import {feedingEnvelope} from './feeding-motion.js';
 import {mouthPoint} from './feeding-contact.js';
 import {turningPose} from './turn-motion.js';
@@ -82,7 +83,8 @@ export class ReefRenderer {
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);this.customCache.set(key,tint);}im=this.customCache.get(key);}
   const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
   const animate=!this.reducedMotion&&time>0;
-  if(animate||state.puff>0){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,this.reducedMotion?0:time,this.reducedMotion?0:activity,state,Math.max(1,this.canvas.width/1600));}
+  if(animate&&PART_RIGS[species.id]&&!state.puff){this.parts??=new PaintedParts();this.parts.draw(ctx,im,species.id,width,h,time,activity,state);}
+  else if(animate||state.puff>0){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,this.reducedMotion?0:time,this.reducedMotion?0:activity,state,Math.max(1,this.canvas.width/1600));}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
  }
  drawCreature(ctx,e,time,dt,alpha=1,width=creatureWidth(e.species)){
@@ -92,6 +94,8 @@ export class ReefRenderer {
   if(dt>0){const normalSpeed=e.groundRoute?groundSpeed(e):e.species.speed,moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(.1,normalSpeed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.x=e.x;pose.y=e.y;pose.motionTime+=dt*(.55+pose.activity*.8);}
   pose.propulsion??=pose.activity;
   if(dt>0)pose.propulsion+=(pose.activity*swimmingDrive(e)-pose.propulsion)*(1-Math.exp(-dt*10));
+  pose.brake??=0;
+  if(dt>0){const speed=Math.hypot(e.x-(pose.previousX??e.x),e.y-(pose.previousY??e.y))/dt/Math.max(1,e.species.speed),deceleration=Math.max(0,(pose.previousSpeed??speed)-speed);pose.brake=Math.max(pose.brake*Math.exp(-dt*5),Math.min(1,deceleration*5));pose.previousX=e.x;pose.previousY=e.y;pose.previousSpeed=speed;}
   const turn=turningPose(pose,e,dt,this.reducedMotion),facing=turn.facing;
   const clock=pose.motionTime,posture=poseFor(e,clock,this.reducedMotion),targetPitch=e.groundRoute?groundPitch(e):e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch;
   pose.pitch??=targetPitch;if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));
@@ -105,7 +109,7 @@ export class ReefRenderer {
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
   const feedAngle=e.residentMeal?Math.atan2(e.residentMeal.y-e.y,e.residentMeal.x-e.x):e.angle||0;
   const effort=SWIM_RIGS[e.species.id==='custom'?'s'+e.species.index:e.species.id]?pose.propulsion:pose.activity;
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{feed,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,effort,e.blending.kind,{feed,turn:turn.bend});ctx.restore();
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{feed,brake:pose.brake,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,effort,e.blending.kind,{feed,turn:turn.bend});ctx.restore();
   if(!underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
  }
  drawResidentMorsel(ctx,e,rotation,alpha){

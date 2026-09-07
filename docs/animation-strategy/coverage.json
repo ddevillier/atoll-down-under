@@ -293,7 +293,8 @@
       "ordinaryGameplayReview": "partial: generated communities at both desktop sizes; confirmation capture limitations recorded in specialist-review.md",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "userFeedback": "User says the cuttlefish looks great; preserve its current presentation while improving fish and sharks."
     },
     {
       "id": "s20",
@@ -346,10 +347,10 @@
       "routine": "sand",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "partial: dedicated tail and small-fin fields with protected body; actual state strips and inflation reviewed, see rigid-review.md",
-      "ordinaryGameplayReview": "partial: mouse movement and real meals in generated communities at both desktop sizes; see rigid-review.md for readability and temporal limits",
+      "motionReview": "prototype: painted parts update every frame; normal-size live comparison available; see visible-motion-review.md; not aesthetically accepted",
+      "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -403,10 +404,10 @@
       "routine": "bottom-forage",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "partial: distinct disc/head/tail controls; full-pose actual-simulation cruise, settle, both facings and feeding strips inspected; see ray-review.md",
-      "ordinaryGameplayReview": "partial: generated Practice community, mouse-driven meal and movement at both desktop sizes; see ray-review.md",
+      "motionReview": "prototype: painted parts update every frame; normal-size live comparison available; see visible-motion-review.md; not aesthetically accepted",
+      "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
       "accepted": false,
-      "remaining": "Complete substrate/action and continuous-playback review plus combined native performance. Current disc/tail shape, pause and reduced motion have dedicated evidence in ray-review.md.",
+      "remaining": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -476,10 +477,10 @@
       "routine": "circuit",
       "social": "loose",
       "landmarks": "initially-authored",
-      "motionReview": "partial: separate posterior-body/caudal/fin controls; actual activity strips and NPC glide frames inspected; see swim-review.md",
-      "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
+      "motionReview": "prototype: painted parts update every frame; normal-size live comparison available; see visible-motion-review.md; not aesthetically accepted",
+      "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
       "accepted": false,
-      "remaining": "Continuous motion, shared readability/player identity, painted habitat contact where applicable and native performance remain open.",
+      "remaining": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
     },
     {
@@ -622,10 +623,10 @@
       "routine": "midwater",
       "social": "school",
       "landmarks": "initially-authored",
-      "motionReview": "partial: separate posterior-body/caudal/fin controls; actual activity strips and NPC glide frames inspected; see swim-review.md",
-      "ordinaryGameplayReview": "partial: mouse movement and meals in generated communities at both desktop sizes; see swim-review.md",
+      "motionReview": "prototype: painted parts update every frame; normal-size live comparison available; see visible-motion-review.md; not aesthetically accepted",
+      "ordinaryGameplayReview": "partial: generated-community mouse meals/movement at both sizes; see visible-motion-review.md",
       "accepted": false,
-      "remaining": "Continuous motion, shared readability/player identity, painted habitat contact where applicable and native performance remain open.",
+      "remaining": "Judge continuous motion at normal size; separate jaw action, player identity, attachment where applicable and native frame pacing remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
