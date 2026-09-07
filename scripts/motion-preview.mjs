@@ -3,7 +3,7 @@ import {SPECIES} from '/src/data.js';
 import {creatureWidth} from '/src/geometry.js';
 import {PaintedParts,PART_RIGS,bodyPoint} from '/src/part-motion.js';
 import {contactDelay,feedingEnvelope} from '/src/feeding-motion.js';
-const canvas=document.querySelector('canvas'),r=new ReefRenderer(canvas),parts=new PaintedParts(),c=canvas.getContext('2d'),groups={examples:[23,32,42,27],sharks:[32,33,34,35],schools:[0,28,42,49],long:[17,18,28,49,41],hover:[1,2,7,30],grazers:[5,8,52],wrasses:[10,15,29],hunters:[16,21,38,39],perchers:[3,31,57],reefSchools:[11,53,55,58],browsers:[6,9,14,25],foragers:[12,50,51]};
+const canvas=document.querySelector('canvas'),r=new ReefRenderer(canvas),parts=new PaintedParts(),c=canvas.getContext('2d'),groups={examples:[23,32,42,27],sharks:[32,33,34,35],schools:[0,28,42,49],long:[17,18,28,49,41],hover:[1,2,7,30],grazers:[5,8,52],wrasses:[10,15,29],hunters:[16,21,38,39],perchers:[3,31,57],reefSchools:[11,53,55,58],browsers:[6,9,14,25],foragers:[12,50,51],ambushers:[36,54,59]};
 await r.load();let time=0,last=performance.now(),layoutHeight=0,paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pause=document.querySelector('#pause');function update(){pause.textContent=paused?'Play motion':'Pause motion';}update();pause.onclick=()=>{paused=!paused;update();};
 function draw(){
@@ -25,7 +25,7 @@ function draw(){
   const drift=Math.sin(time*.55)*26;
   c.drawImage(im,480+drift-w/2,y-h/2,w,h);
   const elapsed=cycle-3,contactAt=contactDelay(sp),feed=mealControl.checked&&hasJaws&&elapsed>=0&&elapsed<contactAt+.36?feedingEnvelope({feeding:{elapsed,contactAt,committed:elapsed>=contactAt}}):0;
-  c.save();c.translate(1200+drift,y);parts.draw(c,im,sp.id,w,h,time,effort,{brake,feed});
+  c.save();c.translate(1200+drift,y);parts.draw(c,im,sp.id,w,h,time,effort,{brake,feed,lure:cycle>=4&&cycle<6?1:0});
   if(document.querySelector('#guides').checked){c.strokeStyle='#fff6da';c.fillStyle='#f4c76e';c.lineWidth=2;for(const p of PART_RIGS[sp.id].parts){if(p.mode==='glow')continue;const [a,b]=p.hinge.map(([u,v])=>bodyPoint(sp.id,u,v,time,effort,{aspect:h/w}));c.beginPath();c.moveTo((a.x-.5)*w,(a.y-.5)*h);c.lineTo((b.x-.5)*w,(b.y-.5)*h);c.stroke();for(const q of [a,b]){c.beginPath();c.arc((q.x-.5)*w,(q.y-.5)*h,3,0,Math.PI*2);c.fill();}}}c.restore();
  }
  document.querySelector('#status').textContent=(paused?'Paused · ':'')+(cycle<3?'Swimming':cycle<4?(mealControl.checked&&hasJaws?'Braking · feeding gesture':'Braking'):cycle<6?'Settled':'Resuming')+' · '+(scale===1?'Game-world size (scales with this window)':'Enlarged inspection');

@@ -17,6 +17,7 @@ import {planCleaning,approachCleaning,settledCleaningClient} from './cleaning-st
 import {moveCleaner} from './cleaner-motion.js';
 import {separateCompanions,sharedMealAvailable} from './social-motion.js';
 import {validHome,validPerchWatch} from './refuge-motion.js';
+import {attractingLure,approachLure} from './lure-motion.js';
 import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -374,8 +375,11 @@ export class Simulation {
   // releases that target; parasite-driven visits are handled above.
   if(e.target&&this.section.entities.some(b=>b.id===e.target&&b.species.ability==='clean')){e.target=null;e.pursuit=0;e.think=0;}
   const defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
+  // Older saves represented lure curiosity as a meal target on the player.
+  // Release that alias before normal diet checks or the new observation step.
+  if(e.target==='player'&&e.behavior==='Following lure'){e.target=null;e.pursuit=0;e.behavior='Exploring';}
   const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&!settledCleaningClient(p,cleaningPlan)&&edible(e,p);
-  if(e.target==='player'&&!canEatPlayer&&e.behavior!=='Following lure'){e.target=null;e.pursuit=0;e.think=0;}
+  if(e.target==='player'&&!canEatPlayer){e.target=null;e.pursuit=0;e.think=0;}
   if(e.target&&e.target!=='player'&&settledCleaningClient(this.section.entities.find(b=>b.id===e.target),cleaningPlan)){e.target=null;e.pursuit=0;e.think=0;cancelPreparation(e);}
   if(e.target){e.pursuit+=dt;if(e.pursuit>6){e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
   let speed=e.species.speed*.35;
@@ -398,8 +402,8 @@ export class Simulation {
     e.behavior=near?(near.kind==='food'?'Foraging for ':'Hunting ')+(near.name||near.species.name):e.satiated>0?'Digesting a meal':e.rest>0?'Resting between feeding trips':'Exploring';
     if(!near&&this.random()<.45)e.angle+=(this.random()-.5)*1.1;
    }
-   if(p.species.ability==='lure'&&p.abilityTime>0&&edible(p,e)&&pd<340){e.target='player';e.behavior='Following lure';}
   }
+  const lurer=attractingLure(this,e,edible);if(lurer){approachLure(e,lurer,dt,speed);return;}
   if(e.target){
    const dest=e.target==='player'?p:this.section.entities.find(b=>b.id===e.target&&b.alive)||this.section.food.find(f=>f.id===e.target&&f.regrow<=0);
    if(dest){

@@ -535,10 +535,10 @@
       "routine": "ambush-bottom",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: independent painted tails and fins, resting sculls and protected heads; frogfish lure and frogfish/flathead feeding jaws; see ambush-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see ambush-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open. Separate jaw action remains open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
@@ -799,12 +799,13 @@
       "routine": "lure",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: independent painted tails and fins, resting sculls and protected heads; frogfish lure and frogfish/flathead feeding jaws; see ambush-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see ambush-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "remaining": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open.",
+      "feedingReview": "partial: actual feeding-driven lower jaw and fixed-eye browser checks; see ambush-parts-review.md",
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "socialReview": "partial: natural NPC lure curiosity, player ability, priority, interruption and save replay; see ambush-parts-review.md"
     },
     {
       "id": "s55",
@@ -875,11 +876,11 @@
       "routine": "ambush-bottom",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: independent painted tails and fins, resting sculls and protected heads; frogfish lure and frogfish/flathead feeding jaws; see ambush-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at 1600x900 and 1024x768; see ambush-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "remaining": "Normal-speed perceptual acceptance, fine-detail readability, precise substrate contact and native performance remain open.",
+      "feedingReview": "partial: actual feeding-driven lower jaw and fixed-eye browser checks; see ambush-parts-review.md",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
     {

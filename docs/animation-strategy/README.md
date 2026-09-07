@@ -160,3 +160,7 @@ The [school fish review](school-parts-review.md) adds basslet, flashlight fish, 
 ## Reef browsers, foragers and goatfish barbels
 
 The [forager review](forager-parts-review.md) adds seven fish with separate painted fins and tails, bringing continuously posed parts to 41 species. Goatfish barbels respond to actual worm/shrimp approaches and settle after interruption. Seven initial strips, fourteen ordinary meal views and five corrected strips were inspected. Two final natural goatfish inspection views confirm facing and label clearance. All 268 unit tests and five targeted browser scenarios pass; pressure stays at 26 bites and zero deaths across 110 scenarios with unchanged initial populations. Continuous visual acceptance, small-detail readability, remaining specialist anatomy/ecology and final Windows delivery remain open.
+
+## Bottom ambush fish and lure curiosity
+
+The [ambush review](ambush-parts-review.md) adds wobbegong, frogfish and flathead, bringing continuously posed parts to 44 species. Frogfish lure displays invite a cautious approach independently of meal targeting, and frogfish/flathead jaws respond to feeding. Three initial strips, six ordinary meal views, one corrected wobbegong strip and three lure views were inspected. All 273 unit tests and six targeted browser scenarios pass. Pressure remains at 26 bites, zero deaths and unchanged initial populations across 110 scenarios. Fine-detail readability, continuous visual acceptance, remaining roster work and native Windows delivery remain open. Cuttlefish is unchanged.

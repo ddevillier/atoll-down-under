@@ -4,7 +4,7 @@ test('hunter feeding moves lower lips while eyes stay fixed and the cavity prese
  await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
  const results=await page.evaluate(async()=>{
   const {PaintedParts}=await import('/src/part-motion.js'),{ANIMAL_RIGS}=await import('/src/animal-rigs.js'),parts=new PaintedParts(),r=window.atoll.renderer,results=[];
-  for(const n of [16,21,38,39]){
+  for(const n of [16,21,38,39,54,59]){
    const id='s'+n,im=r.sprites[n],w=400,h=w*im.height/im.width,c=document.createElement('canvas');c.width=600;c.height=400;const ctx=c.getContext('2d');
    const paint=feed=>{ctx.clearRect(0,0,600,400);ctx.save();ctx.translate(300,200);parts.draw(ctx,im,id,w,h,.2,0,{feed});ctx.restore();return ctx.getImageData(0,0,600,400).data;};
    const a=paint(0),b=paint(1),[ex,ey]=ANIMAL_RIGS[id].eye;let eyeChanged=0,mouthChanged=0;

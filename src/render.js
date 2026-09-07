@@ -5,6 +5,7 @@ import {mouthPoint} from './feeding-contact.js';
 import {turningPose} from './turn-motion.js';
 import {foregroundCleaner} from './cleaner-motion.js';
 import {refugeLayers} from './refuge-motion.js';
+import {lureDisplay} from './lure-motion.js';
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
@@ -107,12 +108,13 @@ export class ReefRenderer {
   ctx.save();ctx.translate(frame.x+turn.pivot*width,frame.y);ctx.rotate(rotation+turn.bank);
   pose.frame={...frame,x:frame.x+turn.pivot*width,rotation:rotation+turn.bank,width:width*Math.abs(facing)};
   const feed=feedingEnvelope(e);
+  pose.lure??=0;if(dt>0)pose.lure+=(lureDisplay(e)-pose.lure)*(1-Math.exp(-dt*7));
   const desiredProbe=e.species.id==='s9'&&['searching','probing'].includes(e.activity)?1:0;pose.probe??=0;if(dt>0)pose.probe+=(desiredProbe-pose.probe)*(1-Math.exp(-dt*6));
   const desiredPuff=e.species.ability==='puff'&&e.abilityTime>0?1:0;pose.puff??=desiredPuff;
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
   const feedAngle=e.residentMeal?Math.atan2(e.residentMeal.y-e.y,e.residentMeal.x-e.x):e.angle||0;
   const effort=SWIM_RIGS[e.species.id==='custom'?'s'+e.species.index:e.species.id]?pose.propulsion:pose.activity;
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{feed,probe:pose.probe,flash:e.species.ability==='flash'&&e.abilityTime>0?1:0,brake:pose.brake,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,effort,e.blending.kind,{feed,turn:turn.bend});ctx.restore();
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{feed,lure:pose.lure,probe:pose.probe,flash:e.species.ability==='flash'&&e.abilityTime>0?1:0,brake:pose.brake,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,effort,e.blending.kind,{feed,turn:turn.bend});ctx.restore();
   if(!underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
  }
  drawResidentMorsel(ctx,e,rotation,alpha){
@@ -176,10 +178,10 @@ export class ReefRenderer {
    this.tag(c,frame.x,Math.max(30,frame.y-frame.height*.5-24),meal.name||meal.species.name,1,60);
   }
   if(this.inspect){for(const s of REEFS[sim.current].shelters){c.setLineDash([5,6]);c.strokeStyle='#e2efbba6';c.lineWidth=2;c.beginPath();c.arc(s.x,s.y,s.r,0,Math.PI*2);c.strokeStyle='#103944';c.lineWidth=4;c.stroke();c.strokeStyle='#e2efbb';c.lineWidth=2;c.stroke();c.setLineDash([]);this.tag(c,s.x,Math.max(20,s.y-s.r-16),canUseShelter(p.species)?'Shelter · Stop here to hide':'Shelter · Too small for your fish');}}
-  if(this.hover){const h=this.hover,frame=h.species?creatureFrame(h):{x:h.x,y:h.y,width:h.size||25,height:(h.size||25)*.8,rotation:0};c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(frame.x,frame.y,frame.width*.6+8,frame.height*.5+8,frame.rotation,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,frame.x,Math.max(30,frame.y-frame.height*.5-22),(h.name||h.species?.name||'')+(h.activity==='at-home'&&h.ecology?.watch?' · Watching a passer':h.activity==='probing'?' · Inspecting a meal':''),1,80);}
+  if(this.hover){const h=this.hover,frame=h.species?creatureFrame(h):{x:h.x,y:h.y,width:h.size||25,height:(h.size||25)*.8,rotation:0};c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(frame.x,frame.y,frame.width*.6+8,frame.height*.5+8,frame.rotation,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,frame.x,Math.max(30,frame.y-frame.height*.5-22),(h.name||h.species?.name||'')+(h.activity==='at-home'&&h.ecology?.watch?' · Watching a passer':h.activity==='probing'?' · Inspecting a meal':h.activity==='investigating-lure'?' · Watching a lure':lureDisplay(h)>.1?' · Waving its lure':''),1,80);}
   for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='sand'){c.save();c.globalAlpha=Math.max(0,.6-e.t*.4);c.fillStyle='#e5d4a7';for(let i=0;i<14;i++){const age=this.reducedMotion?0:e.t;c.beginPath();c.arc(e.x+Math.sin(i*2.4)*(12+age*40),e.y-Math.cos(i*1.7)*8-age*18,1.5+i%3,0,Math.PI*2);c.fill();}c.restore();}else if(e.type==='eat'){this.tag(c,e.x,e.y-28-(this.reducedMotion?0:e.t*20),e.label||'Meal taken',Math.min(1,(2.2-e.t)/1.2));}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
   this.effects=this.effects.filter(e=>e.t<(e.type==='eat'?2.2:1.4));
-  const interacting=new Set(living.filter(e=>e.activity==='shadowing'||e.activity==='probing'||e.activity==='at-home'&&e.ecology?.watch||e.cleanTime>0||foregroundCleaner(e)));
+  const interacting=new Set(living.filter(e=>e.activity==='shadowing'||e.activity==='probing'||e.activity==='investigating-lure'||lureDisplay(e)>.1||e.activity==='at-home'&&e.ecology?.watch||e.cleanTime>0||foregroundCleaner(e)));
   for(const e of [...interacting]){const host=living.find(h=>h.id===(e.ecology?.watch?.id??e.ecology?.host));if(host)interacting.add(host);}
   const clearFrames=[...interacting].map(e=>({...projectedBounds(this.poses.get(e.id)?.frame||creatureFrame(e),4*this.uiUnit),id:e.id}));
   this.drawPlayerMarker(c,p.hidden);this.drawTags(c,clearFrames);c.restore();
