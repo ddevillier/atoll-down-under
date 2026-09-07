@@ -6,7 +6,7 @@ import {mealContact,tickFeeding,cancelPreparation,validFeeding} from './feeding-
 import {freshAdventure,validAdventure,useContext,tickAdventure,mealAdventure,routineStep,sitesFor} from './adventures.js';
 import {freshCare,tickCare,validCare} from './journal.js';
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
-import {creatureWidth} from './geometry.js';
+import {creatureWidth,creatureFrame,creatureHit} from './geometry.js';
 import {BOTTOM_RESIDENTS,placeOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
@@ -165,10 +165,10 @@ export class Simulation {
   // the cursor. An animal's generous hit area must not steal a direct click
   // on a nearby patch. Exact ties retain the visible animal's layer priority.
   const candidates=[
-   ...this.section.entities.filter(e=>e.alive&&distance(e,p)<Math.max(17,creatureWidth(e.species)*.45)),
+   ...this.section.entities.filter(e=>e.alive&&creatureHit(e,p)),
    ...this.section.food.filter(f=>f.regrow<=0&&distance(f,p)<f.size+9),
   ];
-  return candidates.sort((a,b)=>distance(a,p)-distance(b,p))[0]||null;
+  return candidates.sort((a,b)=>distance(a.species?creatureFrame(a):a,p)-distance(b.species?creatureFrame(b):b,p))[0]||null;
  }
  eatAt(x,y){
   if(!this.player||this.paused||this.phase!=='playing')return false;

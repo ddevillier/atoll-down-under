@@ -1,4 +1,10 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {SPECIES} from '../src/data.js';import {ANIMAL_PROFILES,animalProfile} from '../src/animal-profiles.js';import {deformPoint} from '../src/articulated-motion.js';
+test('extended moray keeps its eye steady and increases the travelling wave toward its tail',()=>{
+ const p=ANIMAL_PROFILES.s26,range=(u,v,effort)=>{const ys=Array.from({length:32},(_,i)=>deformPoint(p,u,v,i/32,effort,{aspect:353/1902}).y);return Math.max(...ys)-Math.min(...ys);};
+ assert.ok(range(.12,.5,1)>range(.65,.5,1)*3);
+ assert.ok(range(.12,.5,.01)<range(.12,.5,1)*.2);
+ assert.ok(range(.952,.205,1)<1e-10);
+});
 test('all 64 silhouettes have explicit profiles and finite, continuous deformation fields',()=>{
  assert.equal(Object.keys(ANIMAL_PROFILES).length,64);
  for(const s of SPECIES){const p=animalProfile(s);assert.equal(p.id,s.id);assert.equal(p.name,s.name);let changes=0;

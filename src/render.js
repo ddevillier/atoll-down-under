@@ -5,7 +5,7 @@ import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
 import {animationPhase} from './behaviors.js';
 import {poseFor} from './motion.js';
-import {creatureWidth} from './geometry.js';
+import {creatureWidth,creatureFrame,groundPitch} from './geometry.js';
 import {SPECIES_SPRITES} from './sprite-assets.js';
 import {canUseShelter} from './shelter.js';
 import {nearbyFoodHints} from './food-hints.js';
@@ -76,10 +76,11 @@ export class ReefRenderer {
   if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.facing+=(e.facing-pose.facing)*blend;pose.x=e.x;pose.y=e.y;pose.motionTime+=dt*(.55+pose.activity*.8);}
   const unmirrored=['s44','s46','s47','s62','s63'].includes(e.species.id);
   const facing=unmirrored?1:this.reducedMotion?e.facing:Math.sign(pose.facing||e.facing)*Math.max(.65,Math.abs(pose.facing));
-  const clock=pose.motionTime,posture=poseFor(e,clock,this.reducedMotion),targetPitch=e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch;
+  const clock=pose.motionTime,posture=poseFor(e,clock,this.reducedMotion),targetPitch=e.groundRoute?groundPitch(e):e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch;
   pose.pitch??=targetPitch;if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));
-  const b=this.bounds[e.species.index],groundOffset=e.groundRoute&&b?width*b.h/b.w*.36:0;
-  ctx.save();ctx.translate(e.x,e.y-groundOffset);ctx.rotate(this.reducedMotion?0:pose.pitch);
+  const rotation=this.reducedMotion?groundPitch(e):pose.pitch,frame=creatureFrame(e,width,rotation);
+  if(e.groundRoute){ctx.save();ctx.globalAlpha=alpha*.18;ctx.translate(e.x,e.y);ctx.scale(width*.42,Math.max(2,width*.065));const shadow=ctx.createRadialGradient(0,0,.05,0,0,1);shadow.addColorStop(0,'#102d27');shadow.addColorStop(1,'#102d2700');ctx.fillStyle=shadow;ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fill();ctx.restore();}
+  ctx.save();ctx.translate(frame.x,frame.y);ctx.rotate(rotation);
   const feed=feedingEnvelope(e);
   const desiredPuff=e.species.ability==='puff'&&e.abilityTime>0?1:0;pose.puff??=desiredPuff;
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
@@ -121,8 +122,8 @@ export class ReefRenderer {
   if(this.foodHints&&!this.inspect&&!p.cleanTime&&!sim.mealTarget){
    const hints=nearbyFoodHints(sim);
    for(const [i,food] of hints.entries()){
-    const width=food.species?creatureWidth(food.species):food.size||25;
-    const x=food.x,y=food.y,r=width*.6+8;
+    const frame=food.species?creatureFrame(food):food,width=food.species?frame.width:food.size||25;
+    const x=frame.x,y=frame.y,r=width*.6+8;
     c.save();c.beginPath();
     for(const side of [-1,1]){c.moveTo(x+side*(r-7),y-r*.65);c.lineTo(x+side*r,y-r*.65);c.lineTo(x+side*r,y+r*.65);c.lineTo(x+side*(r-7),y+r*.65);}
     c.strokeStyle='#103944';c.lineWidth=4;c.stroke();c.strokeStyle='#fce5a2';c.lineWidth=1.8;c.stroke();c.restore();
@@ -131,13 +132,13 @@ export class ReefRenderer {
   }
   const meal=sim.mealTarget;
   if(meal&&!sim.paused&&sim.phase==='playing'){
-   const width=meal.species?creatureWidth(meal.species):meal.size||25;
-   c.strokeStyle='#103944';c.lineWidth=4;c.beginPath();c.ellipse(meal.x,meal.y,width*.6+8,width*.4+8,0,0,Math.PI*2);c.stroke();
+   const frame=meal.species?creatureFrame(meal):{x:meal.x,y:meal.y,width:meal.size||25,height:(meal.size||25)*.8,rotation:0};
+   c.strokeStyle='#103944';c.lineWidth=4;c.beginPath();c.ellipse(frame.x,frame.y,frame.width*.6+8,frame.height*.5+8,frame.rotation,0,Math.PI*2);c.stroke();
    c.strokeStyle='#fce5a2';c.lineWidth=1.8;c.stroke();
-   this.tag(c,meal.x,Math.max(30,meal.y-width*.4-24),meal.name||meal.species.name);
+   this.tag(c,frame.x,Math.max(30,frame.y-frame.height*.5-24),meal.name||meal.species.name);
   }
   if(this.inspect){for(const s of REEFS[sim.current].shelters){c.setLineDash([5,6]);c.strokeStyle='#e2efbba6';c.lineWidth=2;c.beginPath();c.arc(s.x,s.y,s.r,0,Math.PI*2);c.strokeStyle='#103944';c.lineWidth=4;c.stroke();c.strokeStyle='#e2efbb';c.lineWidth=2;c.stroke();c.setLineDash([]);this.tag(c,s.x,Math.max(20,s.y-s.r-16),canUseShelter(p.species)?'Shelter · Stop here to hide':'Shelter · Too small for your fish');}}
-  if(this.hover){const h=this.hover,sz=h.species?creatureWidth(h.species):h.size||25;c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(h.x,h.y,sz*.6+8,sz*.4+8,0,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,h.x,Math.max(30,h.y-sz*.4-22),h.name||h.species?.name||'');}
+  if(this.hover){const h=this.hover,frame=h.species?creatureFrame(h):{x:h.x,y:h.y,width:h.size||25,height:(h.size||25)*.8,rotation:0};c.strokeStyle='#fce5a2';c.lineWidth=1.6;c.setLineDash([3,5]);c.beginPath();c.ellipse(frame.x,frame.y,frame.width*.6+8,frame.height*.5+8,frame.rotation,0,Math.PI*2);c.stroke();c.setLineDash([]);this.tag(c,frame.x,Math.max(30,frame.y-frame.height*.5-22),h.name||h.species?.name||'');}
   for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='sand'){c.save();c.globalAlpha=Math.max(0,.6-e.t*.4);c.fillStyle='#e5d4a7';for(let i=0;i<14;i++){const age=this.reducedMotion?0:e.t;c.beginPath();c.arc(e.x+Math.sin(i*2.4)*(12+age*40),e.y-Math.cos(i*1.7)*8-age*18,1.5+i%3,0,Math.PI*2);c.fill();}c.restore();}else if(e.type==='eat'){this.tag(c,e.x,e.y-28-(this.reducedMotion?0:e.t*20),e.label||'Meal taken',Math.min(1,(2.2-e.t)/1.2));}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
   this.effects=this.effects.filter(e=>e.t<(e.type==='eat'?2.2:1.4));c.restore();
  }

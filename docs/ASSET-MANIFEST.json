@@ -383,6 +383,14 @@
     "alpha": true
   },
   {
+    "path": "assets/creatures/whitemouth-moray-swim-v2.png",
+    "bytes": 899874,
+    "sha256": "074fafd7611cd4d1a45948f565fe531e94f6c119dae84de0034e19109b15e0c7",
+    "width": 1983,
+    "height": 1000,
+    "alpha": true
+  },
+  {
     "path": "assets/creatures/yellow-coralgoby-v2.png",
     "bytes": 1832174,
     "sha256": "d56517e5d918cbac63d0d434d25b02f5be4982073ed7be7205ceb4cf26b37167",

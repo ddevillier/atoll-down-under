@@ -1,10 +1,10 @@
 import {animalProfile} from './animal-profiles.js';
 import {REEFS} from './data.js';
-import {creatureWidth} from './geometry.js';
+import {creatureWidth,creatureFrame} from './geometry.js';
 import {turnTowards} from './steering.js';
+import {individualSeed} from './individual-motion.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-export function individualSeed(id){let h=0;for(const c of String(id))h=(h*31+c.charCodeAt(0))>>>0;return h;}
 const refugeRoutines=new Set(['coral-resident','ledge','ambush-ledge','cave','cave-rest','perch','ambush-bottom','lure']);
 const forageRoutines=new Set(['graze','pick','browse','scrape','probe-sand','sand','coral-pick','bottom-forage','sponge-browse','foot-graze']);
 export function ecologyState(sim,e){
@@ -56,7 +56,8 @@ export function localRoutine(sim,e,dt,speed){
  if(profile.routine==='anemone-home'){
   let host=others.find(b=>b.id===state.host&&b.species.id==='s63');
   if(!host){host=others.filter(b=>b.species.id==='s63').sort((a,b)=>distance(e,a)-distance(e,b))[0];state.host=host?.id??null;}
-  const refuge=host||REEFS[sim.current].shelters[seed%REEFS[sim.current].shelters.length];
+  const hostFrame=host?creatureFrame(host):null;
+  const refuge=hostFrame?{x:hostFrame.x,y:hostFrame.y-hostFrame.height*.13}:REEFS[sim.current].shelters[seed%REEFS[sim.current].shelters.length];
   const excursion=e.satiated>0?0:Math.sin(state.clock*.32+seed)*24;
   const dest=separateDestination(e,{x:refuge.x,y:refuge.y-18+excursion},seed,host?creatureWidth(host.species)*.3:28);
   e.activity=distance(e,dest)<22?'at-home':'returning-home';e.behavior=e.activity==='at-home'?(host?'Nestling beside an anemone':'Resting beside coral'):(host?'Returning to its anemone':'Returning to coral');
@@ -93,7 +94,8 @@ export function localRoutine(sim,e,dt,speed){
   const patches=sim.section.food.filter(f=>e.species.diet.includes(f.food)&&f.regrow<=0);
   if(patches.length){
    const partner=others.find(b=>b.id===state.partner),patchSeed=partner?Math.min(seed,individualSeed(partner.id)):seed;
-   const f=patches[(patchSeed+state.point)%patches.length],dest=separateDestination(e,f,seed,30);
+   const point=partner&&individualSeed(partner.id)<seed?partner.ecology?.point||0:state.point;
+   const f=patches[(patchSeed+point)%patches.length],dest=separateDestination(e,f,seed,Math.max(30,creatureWidth(e.species)*.55));
    const near=distance(e,dest)<26;
    if(near){state.wait+=dt;if(state.wait>3+seed%3){state.point++;state.wait=0;}e.activity=e.satiated>0?'resting':'searching';e.behavior=e.satiated>0?'Resting beside a feeding patch':profile.routine==='probe-sand'?'Inspecting sand with its barbels':'Inspecting a feeding patch';return speed*.08;}
    state.wait=0;e.activity='foraging';e.behavior='Moving between feeding patches';return steer(e,dest,dt,speed,18);

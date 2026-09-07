@@ -1,4 +1,4 @@
-// Hand-authored landmarks on the CURRENT cropped paintings, including the seven
+// Hand-authored landmarks on the CURRENT cropped paintings, including the eight
 // standalone overrides. Initial authoring from artifacts/rig-source/sheet-*.png.
 // This is rig data, not a declaration of visual acceptance.
 // Columns: eye x/y, mouth x/y, pectoral root x/y, pectoral tip x/y.
@@ -29,7 +29,7 @@ const landmarks=[
  [.79,.37,.96,.73,.74,.67,.65,.88],
  [.82,.40,.99,.59,.73,.64,.56,.58],
  [.83,.40,.99,.50,.77,.63,.61,.57],
- [.88,.21,.99,.37,.5,.5,.5,.5], // 26 coiled asset pending swim silhouette
+ [.952,.205,.993,.36,.5,.5,.5,.5], // 26 extended swim pose, no pectoral fins
  [.87,.55,.99,.64,.5,.5,.5,.5],
  [.89,.44,.99,.53,.77,.67,.63,.66],
  [.83,.37,.99,.57,.64,.56,.52,.61],

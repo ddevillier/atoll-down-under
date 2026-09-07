@@ -348,11 +348,11 @@
       "family": "eel",
       "routine": "cave",
       "social": "solitary",
-      "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "landmarks": "extended-pose-authored",
+      "motionReview": "partial: transparent asset, cruise phases, steady eye, both facings and low-effort pose inspected",
+      "ordinaryGameplayReview": "partial: normal Practice entry and movement captured; contact, turns and refuge presentation pending",
       "accepted": false,
-      "remaining": "Transparent extended swimming artwork unresolved; current coil is not accepted."
+      "remaining": "Review precise feeding contact, reversal transitions, interruption and cave/rest presentation; finish ordinary-game acceptance."
     },
     {
       "id": "s27",

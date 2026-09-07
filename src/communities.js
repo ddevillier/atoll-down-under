@@ -3,7 +3,7 @@
 // are filtered by the simulation before these preferences are applied.
 export const COMMUNITIES=[
  {day:[5,8,52],night:[12,53]}, // Sunlit Crest: grazers above the reef
- {day:[2,6,30],night:[12,13]}, // Table Coral Terrace: small coral residents
+ {day:[2,6,7,30],night:[12,13]}, // Table Coral Terrace: small coral and anemone residents
  {day:[0,11,42,58],night:[53]}, // Outer Blue: plankton feeders
  {day:[6,25,56],night:[12]}, // Sea Fan Garden: reef browsers
  {day:[4,15,48],night:[13]}, // Coral Cathedral: coral and sponge feeders

@@ -1,0 +1,30 @@
+import {chromium} from '@playwright/test';
+import {clickButton} from './ui-actions.mjs';
+import fs from 'node:fs';
+const browser=await chromium.launch(),errors=[];
+const page=await browser.newPage({viewport:{width:1600,height:900},recordVideo:{dir:'artifacts/moray-video'}});
+page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Whitemouth moray');await page.getByRole('option').first().click();
+await clickButton(page,{name:'Enter the reef'});
+await page.evaluate(()=>{window.atoll.simulation.protected=true;});
+const box=await page.locator('#reef').boundingBox();
+await page.mouse.click(box.x+box.width*.8,box.y+box.height*.4);await page.waitForTimeout(2000);
+await page.screenshot({path:'artifacts/moray-gameplay-right.png'});
+await page.mouse.click(box.x+box.width*.2,box.y+box.height*.5);await page.waitForTimeout(2000);
+await page.screenshot({path:'artifacts/moray-gameplay-left.png'});
+const report=await page.evaluate(async()=>{
+ const r=window.atoll.renderer,s=window.atoll.simulation;s.paused=true;
+ const {SPECIES}=await import('/src/data.js');
+ const canvas=document.createElement('canvas');canvas.width=1500;canvas.height=720;const c=canvas.getContext('2d');
+ c.fillStyle='#083d45';c.fillRect(0,0,1500,720);r.articulation.beginFrame(Infinity);
+ for(let row=0;row<4;row++){const time=.01+row*.25;c.fillStyle='#edf3dd';c.font='17px sans-serif';c.fillText(['Cruise · phase 0','Cruise · phase ¼','Cruise · phase ½','Rest / meal'][row],24,row*180+28);
+  r.drawSprite(c,SPECIES[26],440,row*180+95,730,1,time,1,row===3?.02:.8,null,{feed:0});
+  r.drawSprite(c,SPECIES[26],1160,row*180+95,480,-1,time,1,row===3?.02:.8,null,{feed:row===3?1:0});
+ }
+ return {png:canvas.toDataURL('image/png').split(',')[1],dimensions:[r.sprites[26].width,r.sprites[26].height],cachePixels:r.articulation.pixels};
+});
+fs.writeFileSync('artifacts/moray-motion-contact-sheet.png',Buffer.from(report.png,'base64'));delete report.png;
+const video=page.video();await page.close();await video.saveAs('artifacts/moray-motion.webm');await browser.close();
+fs.writeFileSync('artifacts/moray-motion-report.json',JSON.stringify({...report,errors},null,2));
+console.log(JSON.stringify({...report,errors}));if(errors.length)process.exitCode=1;

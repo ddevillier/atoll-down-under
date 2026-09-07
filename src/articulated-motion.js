@@ -26,9 +26,13 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
   y+=mouth*(.003*(1+Math.sin(phase))+.018*feed);
   x+=mouth*feed*.012;
  }else if(family==='eel'){
-  const rear=(1-u)**1.25;y+=Math.sin(phase-u*7+v*1.4)*rear*p.tail*(.35+a*.65);
-  x+=Math.cos(phase-u*5)*rear*p.tail*.35;
-  y+=bell(u,.87,.16)*clamp((v-.27)/.3)*(.013*(1+Math.sin(phase))+.035*feed);
+  // The extended painting has a continuous body. A front-to-rear wave moves
+  // each cross-section together; the skull does not shear with its markings.
+  const rear=clamp((.84-u)/.84)**1.3,drive=.12+a*.88;
+  y+=Math.sin(phase+u*7)*rear*p.tail*drive/Math.max(.15,state.aspect||.2);
+  x+=Math.cos(phase+u*7)*rear*p.tail*.13*drive;
+  const jaw=bell(u,.95,.07)*bell(v,.45,.13);
+  y+=jaw*(.009*(1+Math.sin(phase))+.04*feed);
  }else if(family==='ray'||family==='electric-ray'){
   const wing=clamp((Math.abs(v-axis)-.1)/.37),body=bell(u,family==='ray'?.72:.61,.35);
   y+=(v-axis)*Math.sin(phase-u*4)*wing*body*p.fin*2.8*(.4+a*.6);
