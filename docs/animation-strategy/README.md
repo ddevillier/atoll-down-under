@@ -1,5 +1,7 @@
 # Whole-roster animation strategy
 
+Latest shared presentation checkpoint: [player and interaction readability](readability-review.md). The player now has a marker attached to its posed bounds, and world labels are arranged in a foreground pass with player clearance. Eight ordinary gameplay views were inspected; 251 unit tests and seven targeted browser checks pass. This addresses the identification/label defects recorded in prior reviews without closing the remaining roster acceptance work.
+
 Four complementary planning reviews cover all 64 catalog animals and the shared integration work. The broader animation/ecology goal is **active and unfinished**. None of these reviews, profile rows, or passing tests establishes a completed full-game polish.
 
 | Planning review | Coverage | Deliverable |

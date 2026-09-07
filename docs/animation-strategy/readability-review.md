@@ -1,0 +1,17 @@
+# Following the player and reading local interactions
+
+The former five-unit triangle was offset using body width, so long thin fish could have a distant marker and small fish lost it against the reef. A compact cream `You` marker now follows the actual posed frame: sprite aspect ratio, anchor, facing compression, turn pivot and rotation. It remains inside the water viewport, switches below a body near the top edge and uses the existing hidden-state green. It neither outlines the animal nor changes concealment in the simulation.
+
+World labels are collected during rendering and arranged together after the animals and effects. Labels avoid each other and the player's body/marker. Selected meal and hovered-animal names take priority. Moved labels have a short leader back to their original anchor. Text retains a minimum 15 CSS pixels at both tested desktop sizes; long text is ellipsized within the water viewport. The existing canvas annotations remain visual helpers; menu buttons, keyboard controls and hit testing are unchanged. This does not add screen-reader semantics to the canvas.
+
+## Evidence
+
+Eight ordinary Practice screenshots were inspected: goby, needlefish, blacktip shark and longfin batfish, each at 1600×900 and 1024×768. They use menu selection, mouse travel/reversal and inspection pause in generated communities. The player is easier to locate among similar fish, and cleaner/shelter annotations remain distinct. The busyness of the painted backgrounds and tiny appendage visibility are still separate issues; there is no full-roster perceptual acceptance claim.
+
+The initial capture script finished six screenshots, then incorrectly tried selecting the nonplayable seahorse. That capture process failed. Its already-written six images were preserved and inspected; it did not write its final metadata report. The script was corrected to select playable longfin batfish for the tall-body case and save metadata after each scene. Only those two missing scenes were subsequently captured; their report records no browser errors. No repeated visual tuning round was used.
+
+All 251 unit tests pass. New geometry checks cover all 64 catalog shapes at center and viewport edges, plus six crowded labels near the center and corners at both scales. Four renderer/browser checks pass: the new crowded-label scenario and the three existing painted-parts/preview scenarios. The crowded fixture uses a generated community, moves its existing cleaner near a shelter, and checks label collisions, player clearance, viewport bounds, minimum physical text size and deterministic paused layout. Goby home return, fusilier meal/rejoin and cuttlefish camouflage adventures also pass, bringing this front's targeted browser total to seven.
+
+A Node-only warmed diagnostic for six crowded labels measured mean 0.291 ms, p95 0.409 ms and maximum 0.852 ms over 1,000 layouts. This measures the small placement helper, not native game frame pacing. The solver is bounded; an artificially saturated viewport can still exhaust candidate space. Current game annotations and the six-label edge cases fit without dropping information.
+
+Artifacts and logs: `artifacts/world-readability/`. Full-roster anatomy/ecology review, remaining jaw actions, habitat attachment, continuous motion acceptance and native performance/delivery remain open. The old Windows archive remains preserved; no new package was made.
