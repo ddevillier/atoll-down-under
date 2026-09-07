@@ -77,10 +77,7 @@ const paths={
  s24:[{points:[[.48,.31],[.43,.13],[.39,.025]],radius:.09,amplitude:.021},{points:[[.48,.73],[.39,.91]],radius:.075,amplitude:.025}],
  s48:[{points:[[.44,.36],[.41,.23],[.36,.17]],radius:.07,amplitude:.020}],
  s44:[{points:[[.64,.91],[.40,.80],[.36,.53],[.37,.24]],radius:.22,amplitude:.006}],
- s45:[{points:[[.65,.40],[.68,.27],[.40,.05],[.08,.14]],radius:.022,amplitude:.024},{points:[[.62,.43],[.42,.17],[.22,.20],[.01,.46]],radius:.022,amplitude:.030}],
  s54:[{points:[[.76,.30],[.84,.10],[.89,.03],[.94,.10]],radius:.037,amplitude:.027}],
- s60:[{points:[[.31,.49],[.23,.29],[.21,.04]],radius:.10,amplitude:.023},{points:[[.79,.48],[.82,.19],[.86,.12]],radius:.06,amplitude:.020},{points:[[.81,.53],[.89,.29],[.94,.19]],radius:.044,amplitude:.017}],
- s61:[{points:[[.74,.63],[.85,.42],[.93,.29]],radius:.035,amplitude:.018},{points:[[.74,.68],[.85,.49],[.99,.34]],radius:.031,amplitude:.020}]
 };
 const eyeFree=new Set([27,37,45,46,47,60,61,62,63]);
 export const ANIMAL_RIGS=Object.freeze(Object.fromEntries(landmarks.map((r,i)=>['s'+i,{eye:eyeFree.has(i)?null:r.slice(0,2),mouth:r.slice(2,4),pectoral:{root:r.slice(4,6),tip:r.slice(6,8)},paths:paths['s'+i]||[]}])));

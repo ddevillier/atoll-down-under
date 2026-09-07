@@ -2,6 +2,7 @@ import {animalProfile} from './animal-profiles.js';
 import {rigFor,pathWeight} from './animal-rigs.js';
 import {rayPoint} from './ray-motion.js';
 import {FIN_RIGS,finPoint} from './fin-motion.js';
+import {RESIDENT_RIGS,residentPoint} from './resident-motion.js';
 const TAU=Math.PI*2,clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const bell=(x,c,r)=>Math.exp(-(((x-c)/r)**2)*2);
 
@@ -9,6 +10,7 @@ const bell=(x,c,r)=>Math.exp(-(((x-c)/r)**2)*2);
 // bodies, shells and attachment points are protected by local falloffs.
 export function deformPoint(p,u,v,time,effort=.5,state={}){
  if(FIN_RIGS[p.id])return finPoint(p,u,v,time,effort,state);
+ if(RESIDENT_RIGS[p.id])return residentPoint(p,u,v,time,effort,state);
  const a=clamp(effort),phase=time*p.frequency*TAU,axis=p.axis,rig=rigFor(p);
  let x=u,y=v;const family=p.family,beat=Math.sin(phase),feed=clamp(state.feed||0);
  const tail=clamp((p.tailRoot-u)/p.tailRoot),finSpan=bell(u,.52,.29);
@@ -49,23 +51,9 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
   x+=(v-.82)*angle*upper;y-=(u-.48)*angle*upper;
   x+=bell(u,.3,.17)*bell(v,.42,.22)*beat*p.fin;
   x+=bell(u,.77,.18)*bell(v,.23,.16)*feed*.025;
- }else if(family==='shrimp'){
-  const legs=clamp((v-.69)/.28)*bell(u,.48,.25);x+=Math.sin(phase+u*16)*legs*p.fin*(.35+a*.65);y+=Math.cos(phase+u*16)*legs*p.fin*.4;
-  const claw=pathWeight(u,v,[[.47,.62],[.66,.62],[.90,.74],[.97,.88]],.055).weight;
-  x-=claw*feed*.025;y-=claw*feed*.025;
- }else if(family==='crab'){
-  const legs=clamp((Math.abs(u-.5)-.2)/.3)*clamp((v-.25)/.45);
-  x+=Math.sin(phase+u*15)*legs*p.fin*(.3+a*.7);y+=Math.cos(phase+u*15)*legs*p.fin*.65;
-  const claws=Math.max(pathWeight(u,v,[[.29,.46],[.43,.59],[.58,.68]],.11).weight,pathWeight(u,v,[[.81,.43],[.79,.61],[.68,.86]],.10).weight);
-  y-=feed*claws*.045;x+=(.5-u)*feed*claws*.08;
  }else if(family==='star'){
   const dx=u-.5,dy=v-.5,r=Math.hypot(dx,dy),tip=clamp((r-.23)/.28),wave=Math.sin(phase+Math.atan2(dy,dx)*5)*tip*p.fin;
   x+=dx*wave;y+=dy*wave;
- }else if(family==='slug'){
-  const foot=clamp((v-.65)/.35);y+=Math.sin(phase-u*10)*foot*p.fin*.5;
-  x+=Math.sin(phase-u*8)*bell(v,.7,.2)*.004;
- }else if(family==='snail'){
-  const foot=clamp((v-.78)/.22);y+=Math.sin(phase-u*11)*foot*p.fin*.5;
  }else if(family==='urchin'){
   const dx=u-.5,dy=v-.5,tip=clamp((Math.hypot(dx,dy)-.22)/.4),angle=Math.sin(phase+Math.atan2(dy,dx)*7)*tip*p.fin;
   x-=dy*angle;y+=dx*angle;
@@ -100,7 +88,6 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
   y+=turn*rear**2*amplitude/Math.max(.2,state.aspect||.5);
  }
  if(rig.eye){const d=Math.hypot((u-rig.eye[0])/.075,(v-rig.eye[1])/.10),keep=clamp((d-.65)/.65);x=u+(x-u)*keep;y=v+(y-v)*keep;}
- if(family==='crab'){const d=Math.hypot((u-.5)/.27,(v-.24)/.18),keep=clamp((d-.82)/.35);x=u+(x-u)*keep;y=v+(y-v)*keep;}
  if(family==='seahorse'){const keep=clamp((.83-v)/.15);x=u+(x-u)*keep;y=v+(y-v)*keep;}
  return {x,y};
 }
@@ -132,7 +119,7 @@ export class ArticulatedSprites{
     if(!frame){ctx.drawImage(image,-width/2,-height/2,width,height);return;}
    }else{
    const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
-   const cols=FIN_RIGS[p.id]?20:width<150?10:16,rows=FIN_RIGS[p.id]?16:width<150?6:10,src=[],dst=[];
+   const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id],cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
    for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
    for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
    frame={canvas,pixels:canvas.width*canvas.height,group,tick};this.cache.set(key,frame);this.pixels+=frame.pixels;

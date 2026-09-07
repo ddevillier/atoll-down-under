@@ -50,6 +50,7 @@ function animal(e,player=false){
  if(e.groundRoute!==undefined&&!validGroundState(e))fail();
  if(!validFeeding(e.feeding))fail();
  if(!validResidentMeal(e.residentMeal))fail();
+ if(e.passerExposure!==undefined&&(!finite(e.passerExposure)||e.passerExposure<0||e.passerExposure>4))fail();
  if(e.ecology!=null){
   if(!validHome(e.ecology.home))fail();
   numbers(e.ecology,['reef','clock','point','wait']);

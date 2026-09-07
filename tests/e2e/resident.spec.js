@@ -1,0 +1,37 @@
+import {test,expect} from '@playwright/test';
+
+test('resident full poses freeze when paused or reduced and use bounded repeating deformation frames',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ const result=await page.evaluate(async()=>{
+  const {SPECIES}=await import('/src/data.js'),{ArticulatedSprites}=await import('/src/articulated-motion.js'),r=window.atoll.renderer;
+  const c=document.createElement('canvas');c.width=600;c.height=350;const ctx=c.getContext('2d'),results=[];
+  for(const id of [45,46,60,61]){
+   const e={id:'resident-test-'+id,species:SPECIES[id],x:300,y:175,angle:0,facing:1,activity:'cruising'},paint=(time,dt)=>{ctx.clearRect(0,0,600,350);r.articulation?.beginFrame(Infinity);r.drawCreature(ctx,e,time,dt,1,320);return c.toDataURL();};
+   r.reducedMotion=false;paint(1,1/60);const paused=paint(2,0)===paint(8,0);
+   r.reducedMotion=true;const reduced=paint(3,1/60)===paint(9,1/60);
+   // These species pass through the real cyclic cache, including joint and feeler
+   // deformation. The repeated phase must not allocate a second sequence.
+   const cache=new ArticulatedSprites(),im=r.sprites[id],draw=t=>{cache.beginFrame(Infinity);cache.draw(ctx,im,e.species,320,320*im.height/im.width,t,.5,{});};
+   const frequency=(await import('/src/animal-profiles.js')).ANIMAL_PROFILES[e.species.id].frequency;
+   for(let i=0;i<24;i++)draw((i+.1)/24/frequency);const first=cache.misses;
+   for(let i=0;i<24;i++)draw((i+.1)/24/frequency+1/frequency);
+   results.push({id,paused,reduced,first,second:cache.misses,pixels:cache.pixels,max:cache.maxPixels});
+  }
+  r.reducedMotion=false;return results;
+ });
+ for(const r of result){expect(r.paused).toBe(true);expect(r.reduced).toBe(true);expect(r.first).toBe(24);expect(r.second).toBe(r.first);expect(r.pixels).toBeLessThanOrEqual(r.max);}
+});
+
+test('actual resident travel drives visible gait effort and withdrawal eases it to rest',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ const result=await page.evaluate(async()=>{
+  const {Simulation}=await import('/src/simulation.js'),r=window.atoll.renderer,c=document.createElement('canvas'),ctx=c.getContext('2d');c.width=500;c.height=400;const results=[];
+  for(const id of ['s46','s60','s61']){
+   const s=new Simulation(42);s.start('practice','s38');s.current=4;const e=s.section.entities.find(e=>e.species.id===id);s.section.entities=[e];s.section.food=[];e.satiated=100;s.player.x=40;s.player.y=40;r.poses?.clear();
+   const step=()=>{s.stepNpc(e,1/60);r.articulation?.beginFrame(Infinity);r.drawCreature(ctx,e,1,1/60);};
+   for(let i=0;i<60;i++)step();const walking=r.poses.get(e.id).activity;s.player.x=e.x;s.player.y=e.y;
+   for(let i=0;i<45;i++)step();results.push({id,walking,paused:r.poses.get(e.id).activity,state:e.activity});
+  }return results;
+ });
+ for(const r of result){expect(r.walking).toBeGreaterThan(.4);expect(r.walking).toBeLessThan(.5);expect(r.paused).toBeLessThan(.02);expect(r.state).toBe('alert');}
+});

@@ -107,3 +107,7 @@ The [fin review](fin-review.md) records eight dedicated rigs with independent ta
 ## Food crop cleanup
 
 The [food extraction continuation](feeding-contact-review.md#food-extraction-continuation) resolves the recorded sponge fragment and related grid-boundary defects in the other food sprites. One initial sheet and one confirmation were inspected, including all eight foods and actual nudibranch meal phases. Original atlas bytes remain unchanged; the correction is in extraction. Broader animal animation, habitat attachment and delivery remain in progress.
+
+## Resident appendages and close-passer responses
+
+The [resident review](resident-review.md) records dedicated shrimp/crab joints, snail shell protection and separate nudibranch gills/feelers. Crawlers briefly pause and withdraw near a larger neighbor, then tolerate a lingering neighbor or recover after quiet. Ground travel now drives animation effort using actual crawl speed. All 230 unit tests and two resident browser scenarios pass; the final targeted run also verifies respawn cleanup. Sixteen images were inspected across the initial batch and one confirmation. Pressure checks retain 30 bites, zero deaths and unchanged initial counts across 110 scenarios. Fine-detail visibility, complete substrate contact, continuous playback, remaining anatomy groups and native performance stay open.

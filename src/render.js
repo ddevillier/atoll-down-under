@@ -10,6 +10,7 @@ import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
 import {animationPhase} from './behaviors.js';
 import {poseFor} from './motion.js';
 import {creatureWidth,creatureFrame,groundPitch} from './geometry.js';
+import {groundSpeed} from './ground-motion.js';
 import {SPECIES_SPRITES} from './sprite-assets.js';
 import {canUseShelter} from './shelter.js';
 import {nearbyFoodHints} from './food-hints.js';
@@ -87,7 +88,7 @@ export class ReefRenderer {
   this.poses??=new Map();let pose=this.poses.get(e.id);
   if(!pose||pose.incarnation!==(e.incarnation||0)||Math.hypot(e.x-pose.x,e.y-pose.y)>200){pose={x:e.x,y:e.y,facing:e.facing,activity:.35,motionTime:time+animationPhase(e.id),incarnation:e.incarnation||0};this.poses.set(e.id,pose);}
   pose.yaw??=pose.facing;
-  if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.x=e.x;pose.y=e.y;pose.motionTime+=dt*(.55+pose.activity*.8);}
+  if(dt>0){const normalSpeed=e.groundRoute?groundSpeed(e):e.species.speed,moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(.1,normalSpeed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.x=e.x;pose.y=e.y;pose.motionTime+=dt*(.55+pose.activity*.8);}
   const turn=turningPose(pose,e,dt,this.reducedMotion),facing=turn.facing;
   const clock=pose.motionTime,posture=poseFor(e,clock,this.reducedMotion),targetPitch=e.groundRoute?groundPitch(e):e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch;
   pose.pitch??=targetPitch;if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));

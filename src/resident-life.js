@@ -69,8 +69,20 @@ export function prepareResidentFood(entities,food,reef){
 export function residentStep(sim,e,dt,edible){
  const attached=!!e.holdfast,stationary=attached||e.species.id==='s63';
  const disturbance=[sim.player,...sim.section.entities].some(b=>b!==e&&b.alive&&b.species.id!=='s7'&&b.species.size>e.species.size*1.5&&distance(e,b)<55);
- e.retract=Math.max(0,Math.min(1,(e.retract||0)+(disturbance?dt*2:-dt*.65)));
+ const withdrawer=['s46','s60','s61'].includes(e.species.id);
+ // Habituate to a neighbor that stays nearby. A quiet interval restores the
+ // response; permanent nearby residents must not prevent feeding forever.
+ if(withdrawer)e.passerExposure=Math.max(0,Math.min(4,(e.passerExposure||0)+(disturbance?dt:-dt*2)));
+ const startled=disturbance&&(!withdrawer||e.passerExposure<1.25);
+ e.retract=Math.max(0,Math.min(1,(e.retract||0)+(startled?dt*2:-dt*.65)));
  e.target=null;e.satiated=Math.max(0,(e.satiated||0)-dt);
+ // Authored close-passer response: withdrawal has a matching pause in travel.
+ // A committed meal finishes handling; an uncommitted reach can be abandoned.
+ // Nothing grants protection from the ordinary player/NPC food rules.
+ if(withdrawer&&e.retract>.4&&!e.residentMeal?.committed){
+  e.residentMeal=null;e.activity='alert';
+  e.behavior=e.species.id==='s46'?'Pausing with claws drawn close':e.species.id==='s61'?'Withdrawing beside its shell':'Drawing in its feelers';return;
+ }
  const eligible=f=>f.regrow<=0&&edible(e,f);
  let meal=e.residentMeal&&sim.section.food.find(f=>f.id===e.residentMeal.target&&eligible(f));
  if(e.residentMeal&&!meal)e.residentMeal=null;

@@ -321,7 +321,7 @@ export const NATURAL_HISTORY={
    'A crab wears its supporting skeleton on the outside. Jointed legs allow it to move despite this hard covering. Crabs belong to the crustaceans, a group that also includes shrimps, lobsters and tiny plankton animals.',
    'Look for paired antennae and compare the crab’s jointed limbs with a snail’s soft body. A hard outer covering and a shell may look similar, but they belong to animals with very different body plans.'
   ],question:'Count the visible joints as a crab walks. Where does its body bend, and where does it stay stiff?',
-  limit:'Reef crab is a broad game label, not a verified species name. Its scavenging diet, size and shell-breaking rules describe the game creature; they do not describe every crab.',
+  limit:'Reef crab is a broad game label, not a verified species name. Its scavenging diet, size and shell-breaking rules describe the game creature; they do not describe every crab. Its brief pause near a large neighbor is an authored game response.',
   source:'Australian Museum · Crustaceans',url:'https://australian.museum/learn/animals/crustaceans/'},
  s47:{scientific:'Asteroidea (sea stars; group)',family:'Echinoderms · species not identified',
   paragraphs:[
@@ -335,14 +335,14 @@ export const NATURAL_HISTORY={
    'Nudibranchs are sea slugs whose adult bodies have no protective shell. Many carry an exposed ring of gills on the back. Their name means naked gills, but the shapes and positions of these structures vary.',
    'They eat other animals, often specializing in a particular prey. Some eat sponges; others use different foods. Defenses vary too: some make unpleasant chemicals, some conceal themselves, and some can store stinging cells taken from their prey.'
   ],question:'A sponge looks still, but it is an animal. Does eating a sponge make a nudibranch a plant-eater or an animal-eater?',
-  limit:'The catalog has a representative nudibranch, not a verified species. Its sponge-only menu and poisonous-food flag model one combination of traits rather than every nudibranch.',
+  limit:'The catalog has a representative nudibranch, not a verified species. Its sponge-only menu and poisonous-food flag model one combination of traits rather than every nudibranch. Its brief withdrawal near a large neighbor is an authored game response.',
   source:'Western Australia DBCA · Nudibranches (sea slugs)',url:'https://www.dbca.wa.gov.au/wildlife-and-ecosystems/marine/marine-parks/fun-facts/nudibranches-sea-slugs'},
  s61:{scientific:'Gastropoda (snails and slugs; group)',family:'Molluscs · species not identified',
   paragraphs:[
    'A snail is soft-bodied underneath its shell. Snails and slugs belong to the gastropods, one of the major groups of molluscs. Molluscs also include very different-looking animals such as clams, octopuses and cuttlefish.',
    'A layer of tissue called the mantle can produce the shell. A muscular foot helps many molluscs move, and many have a tooth-bearing feeding structure called a radula. Shells, feet and feeding structures offer clues to how these animals live.'
   ],question:'Compare the shell-carrying snail with the nudibranch. What does the shell reveal, and what parts of the animal does it hide?',
-  limit:'Spiral snail is an invented descriptive label, not an identified species. Algae grazing is this creature’s game diet; the entry does not assign that diet to every marine snail.',
+  limit:'Spiral snail is an invented descriptive label, not an identified species. Algae grazing is this creature’s game diet; the entry does not assign that diet to every marine snail. Its brief withdrawal near a large neighbor is an authored game response.',
   source:'Australian Museum · Molluscs',url:'https://australian.museum/learn/animals/molluscs/'},
  s62:{scientific:'Echinoidea (sea urchins; group)',family:'Echinoderms · species not identified',
   paragraphs:[

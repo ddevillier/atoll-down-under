@@ -320,7 +320,7 @@ export class Simulation {
  stepNpcBody(e,dt,cleaningPlan=this.cleaningPlan()){
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
    e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;
-   e.residentMeal=null;e.feeding=null;e.ecology=null;e.actionTime=0;e.retract=0;e.incarnation=(e.incarnation||0)+1;
+   e.residentMeal=null;e.feeding=null;e.ecology=null;e.actionTime=0;e.retract=0;delete e.passerExposure;e.incarnation=(e.incarnation||0)+1;
    // A returning cleaner belongs to the established station, where players
    // and clients know to wait, rather than an arbitrary point in open water.
    if(e.species.ability==='clean'&&e.station){e.x=e.station.x;e.y=e.station.y;}
@@ -461,6 +461,7 @@ export class Simulation {
    if(!validHome(fish.ecology?.home))throw new Error('The saved refuge is damaged.');
    if(!validFeeding(fish.feeding))throw new Error('The saved feeding action is damaged.');
    if(!validResidentMeal(fish.residentMeal))throw new Error('The saved resident meal is damaged.');
+   if(fish.passerExposure!==undefined&&(!Number.isFinite(fish.passerExposure)||fish.passerExposure<0||fish.passerExposure>4))throw new Error('The saved resident response is damaged.');
    if(fish.species?.id==='s20'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('crab'))fish.species={...fish.species,diet:[...fish.species.diet,'crab']};
    if(fish.species?.id==='s22'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('coral'))fish.species={...fish.species,diet:[...fish.species.diet,'coral']};
   }

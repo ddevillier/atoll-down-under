@@ -665,10 +665,10 @@
       "routine": "cleaner",
       "social": "pair",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "partial: real station visit at both desktop sizes; continuous return and wider NPC/habitat review pending",
+      "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
+      "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
       "accepted": false,
-      "remaining": "Review continuous approach, left-facing inspection, return to station, NPC clients and fine appendage readability across habitats.",
+      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
       "feedingReview": "partial: three actual cleaner inspection stages with small fish, grouper and moray; see cleaner-review.md"
     },
     {
@@ -679,11 +679,12 @@
       "routine": "scavenge",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
+      "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
       "accepted": false,
-      "remaining": "Actual feeding tested; claw contact and foot placement still require review.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md"
     },
     {
       "id": "s47",
@@ -885,11 +886,12 @@
       "routine": "sponge-browse",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
+      "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md"
     },
     {
       "id": "s61",
@@ -899,11 +901,12 @@
       "routine": "foot-graze",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: dedicated joints/feelers and protected shell or core reviewed through actual routines; see resident-review.md",
+      "ordinaryGameplayReview": "partial: generated Practice communities and actual day/night cleaning at both desktop sizes; see resident-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "remaining": "Review continuous playback, fine-detail visibility, complete painted substrate contact, native performance and individual ecology acceptance.",
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "residentResponseReview": "partial: actual interruption, committed meals, habituation, quiet recovery, save/import and respawn verified; see resident-review.md"
     },
     {
       "id": "s62",
