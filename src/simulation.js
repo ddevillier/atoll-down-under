@@ -3,6 +3,7 @@ import {creatureWidth} from './geometry.js';
 import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
+import {chooseForager} from './communities.js';
 import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -52,8 +53,9 @@ export class Simulation {
    // Prefer local residents without filling an entire habitat with copies of
    // its one eligible forager. Small explicit schools are added separately.
    const varied=pool.filter(s=>entities.filter(e=>e.species.id===s.id).length<3);if(varied.length)pool=varied;
-   const local=pool.filter(s=>s.habitat===reef.habitat);if(local.length)pool=local;
-   const s=pool[Math.floor(this.random()*pool.length)]||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;fish.health=60+this.random()*40;entities.push(fish);
+   if(seekHunter){const local=pool.filter(s=>s.habitat===reef.habitat);if(local.length)pool=local;}
+   const roll=this.random();
+   const s=(seekHunter?pool[Math.floor(roll*pool.length)]:chooseForager(pool,reef,this.period,roll))||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;fish.health=60+this.random()*40;entities.push(fish);
   }
   const small=available.filter(s=>s.playable&&s.size<50&&!s.diet.includes('fish'));
   const schooling=available.filter(s=>s.habitat==='school');

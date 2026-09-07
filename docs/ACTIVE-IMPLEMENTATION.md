@@ -1,5 +1,7 @@
 # Current implementation objective
 
+Latest source follow-up: nine weighted forager communities make Practice exploration more varied while preserving hunter selection, population ranges and existing saves. All 120 unit/asset checks pass; 3,600 paired initial scenes retain identical counts and predator states, and all 55 species complete the ten-minute automated exploration exercise at seed 42. See LOCAL-COMMUNITIES.md. This change is newer than the parked Windows-Practice ZIP. Tournament reconstruction remains deferred.
+
 Latest testing build: Windows-Practice (runtime f79ca91), now including the second species pass and shelter feedback. Native gameplay, fullscreen, species, shelter and actual portable-file export/import checks pass. All 103 checked packaged files match source at build time and all 73 ZIP payload files match the tested runnable folder; CRC passes. See WINDOWS-PRACTICE-BUILD.md. CURRENT-AUDIT-STATUS.md separates completed repairs from remaining work. Earlier milestone-specific pending statements below are retained as history; native packaging for these changes is now verified. The persistent objective remains active.
 
 Continue the original specification and audit work with gentle difficulty. The user requests animal facts for every species first, population hills and valleys, and one zone with a modestly higher predator spawn likelihood. Increasing general chase difficulty is not a current priority.
