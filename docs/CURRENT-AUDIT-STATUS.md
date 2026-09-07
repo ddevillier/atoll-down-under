@@ -1,3 +1,7 @@
+# Active whole-roster uplift
+
+The user resumed work September 7 and explicitly requested a much broader animation and local ecology uplift across all 64 animals. Follow docs/ROSTER-UPLIFT.md. Earlier parked/completion notes below apply only to the prior Species Adventures milestone and do not stop this work. The new goal is active; do not close it after a limited shared-motion pass.
+
 # Current audit status
 
 **PARKED — September 7, 2026. Species Adventures Windows runtime `56dc983` and its testing ZIP are verified.** The approved five-milestone work front adds expressive activity poses, four optional species adventures, local NPC routines, persistent journal discoveries and 64 explicit-play guide introductions. See [SPECIES-ADVENTURES.md](SPECIES-ADVENTURES.md) and the new Windows build receipt for current acceptance evidence. The September 6 notes below are historical verification scopes; they do not describe the current delivery.

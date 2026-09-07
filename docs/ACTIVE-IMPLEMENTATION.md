@@ -1,3 +1,7 @@
+# Active whole-roster uplift
+
+The user resumed work September 7 and explicitly requested a much broader animation and local ecology uplift across all 64 animals. Follow docs/ROSTER-UPLIFT.md. Earlier parked/completion notes below apply only to the prior Species Adventures milestone and do not stop this work. The new goal is active; do not close it after a limited shared-motion pass.
+
 # Current implementation brief
 
 **PARKED — September 7, 2026.** The complete approved Species Adventures work front is implemented and its Windows testing ZIP is verified, runtime `56dc983`. All seven native checks, packaged source comparison and ZIP integrity passed. Stop work until the user resumes. See [SPECIES-ADVENTURES.md](SPECIES-ADVENTURES.md) for mechanics, production details and scope, and [WINDOWS-SPECIES-ADVENTURES-BUILD.md](WINDOWS-SPECIES-ADVENTURES-BUILD.md) for delivery evidence.

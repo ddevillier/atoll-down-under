@@ -1,3 +1,7 @@
+# Active whole-roster uplift
+
+The user resumed work September 7 and explicitly requested a much broader animation and local ecology uplift across all 64 animals. Follow docs/ROSTER-UPLIFT.md. Earlier parked/completion notes below apply only to the prior Species Adventures milestone and do not stop this work. The new goal is active; do not close it after a limited shared-motion pass.
+
 # Atoll Down Under
 
 <!-- impeccable:product-schema 1 -->

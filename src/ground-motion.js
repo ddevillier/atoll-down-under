@@ -26,14 +26,28 @@ export function placeOnGround(e,route,fraction){
  e.groundRoute=route.map(p=>[...p]);e.groundDistance=routeLength(route)*fraction;e.groundDirection=1;positionOnGround(e);
 }
 
-export function walkOnGround(e,dt){
+// Slow tube-foot travel is independent of the catalog's free-swimming speed.
+export const groundSpeed=e=>e.species.id==='s47'?1.2:e.species.id==='s62'?.45:e.species.speed*.35;
+export function walkOnGround(e,dt,speed=groundSpeed(e)){
  const length=routeLength(e.groundRoute);
- e.groundDistance+=e.species.speed*.35*dt*e.groundDirection;
+ e.groundDistance+=speed*dt*e.groundDirection;
  while(e.groundDistance>length||e.groundDistance<0){
   if(e.groundDistance>length){e.groundDistance=2*length-e.groundDistance;e.groundDirection=-1;}
   else{e.groundDistance=-e.groundDistance;e.groundDirection=1;}
  }
  positionOnGround(e);
+}
+
+export function projectToGround(point,route){
+ let best=null,along=0;
+ for(let i=1;i<route.length;i++){
+  const a=route[i-1],b=route[i],dx=b[0]-a[0],dy=b[1]-a[1],length=segmentLength(a,b);
+  const t=Math.max(0,Math.min(1,((point.x-a[0])*dx+(point.y-a[1])*dy)/(length*length)));
+  const x=a[0]+dx*t,y=a[1]+dy*t,distance=Math.hypot(point.x-x,point.y-y);
+  if(!best||distance<best.distance)best={x,y,distance,along:along+length*t};
+  along+=length;
+ }
+ return best;
 }
 
 // Earlier saves have free-swimming bottom residents. Attach them to the nearest

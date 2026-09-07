@@ -1,8 +1,9 @@
+import {ArticulatedSprites} from './articulated-motion.js';
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
 import {animationPhase} from './behaviors.js';
-import {motionKind,bodyMotion,poseFor} from './motion.js';
+import {poseFor} from './motion.js';
 import {creatureWidth} from './geometry.js';
 import {SPECIES_SPRITES} from './sprite-assets.js';
 import {canUseShelter} from './shelter.js';
@@ -59,27 +60,32 @@ export class ReefRenderer {
    oc.putImageData(data,0,0);return out;
   });
  }
- drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1,activity=1,pattern=null){
+ drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1,activity=1,pattern=null,state={}){
   const b=this.bounds[species.index];let im=this.sprites[species.index];if(!b||!im)return;
   if(pattern&&species.id==='s19'){const key='pattern-'+pattern;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.55;tc.fillStyle=pattern==='sand'?'#b9a06b':'#536b61';tc.fillRect(0,0,tint.width,tint.height);if(pattern==='reef'){tc.globalAlpha=.5;tc.fillStyle='#293f37';for(let i=0;i<80;i++){tc.beginPath();tc.ellipse(i*97%im.width,i*59%im.height,im.width*.018,im.height*.04,i,0,Math.PI*2);tc.fill();}}this.customCache.set(key,tint);}im=this.customCache.get(key);}
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);this.customCache.set(key,tint);}im=this.customCache.get(key);}
-  const h=width*b.h/b.w,kind=motionKind(species);ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
+  const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
   const animate=!this.reducedMotion&&time>0;
-  if(animate&&kind==='seahorse')ctx.rotate(Math.sin(time*1.8)*.028);
-  if(animate&&['fish','shark','eel','ray','cuttlefish'].includes(kind)){const strips=28,sw=b.w/strips,dw=width/strips;for(let i=0;i<strips;i++){const m=bodyMotion(kind,i/(strips-1),time,activity),height=h*m.stretch;ctx.drawImage(im,i*sw,0,Math.min(sw+1,b.w-i*sw),b.h,-width/2+i*dw,-height/2+m.offset*width,dw+.6,height);}}
+  if(animate){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,time,activity,state,Math.max(1,this.canvas.width/1600));}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
  }
  drawCreature(ctx,e,time,dt,alpha=1,width=creatureWidth(e.species)){
   this.poses??=new Map();let pose=this.poses.get(e.id);
-  if(!pose){pose={x:e.x,y:e.y,facing:e.facing,activity:.35};this.poses.set(e.id,pose);}
-  if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.facing+=(e.facing-pose.facing)*blend;pose.x=e.x;pose.y=e.y;}
-  const facing=this.reducedMotion?e.facing:Math.sign(pose.facing||e.facing)*Math.max(.16,Math.abs(pose.facing));
-  const clock=time+animationPhase(e.id),posture=poseFor(e,clock,this.reducedMotion);ctx.save();ctx.translate(e.x,e.y);ctx.rotate(posture.pitch);ctx.scale(1,posture.squash);
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity);if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind);ctx.restore();
+  if(!pose||pose.incarnation!==(e.incarnation||0)||Math.hypot(e.x-pose.x,e.y-pose.y)>200){pose={x:e.x,y:e.y,facing:e.facing,activity:.35,motionTime:time+animationPhase(e.id),incarnation:e.incarnation||0};this.poses.set(e.id,pose);}
+  if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.facing+=(e.facing-pose.facing)*blend;pose.x=e.x;pose.y=e.y;pose.motionTime+=dt*(.55+pose.activity*.8);}
+  const unmirrored=['s44','s46','s47','s62','s63'].includes(e.species.id);
+  const facing=unmirrored?1:this.reducedMotion?e.facing:Math.sign(pose.facing||e.facing)*Math.max(.65,Math.abs(pose.facing));
+  const clock=pose.motionTime,posture=poseFor(e,clock,this.reducedMotion),targetPitch=e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch;
+  pose.pitch??=targetPitch;if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));
+  const b=this.bounds[e.species.index],groundOffset=e.groundRoute&&b?width*b.h/b.w*.36:0;
+  ctx.save();ctx.translate(e.x,e.y-groundOffset);ctx.rotate(this.reducedMotion?0:pose.pitch);
+  const feed=e.residentMeal?Math.sin(Math.PI*Math.min(1,e.residentMeal.elapsed/.85)):Math.sin(Math.PI*Math.min(1,(e.actionTime||0)/.65));
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed});ctx.restore();
  }
  portrait(canvas,species){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const b=this.bounds[species.index];if(!b)return;this.drawSprite(ctx,species,canvas.width/2,canvas.height/2,Math.min(canvas.width*.78,canvas.height*.78*b.w/b.h));}
  addEffect(type,x=800,y=350,label=null){this.effects.push({type,x,y,t:0,label});}
  draw(sim,dt,home=false){
+  this.articulation?.beginFrame();
   if(home||!sim||(!sim.paused&&sim.phase==='playing'))this.clock+=dt;const c=this.ctx;c.setTransform(this.canvas.width/1600,0,0,this.canvas.height/900,0,0);c.clearRect(0,0,1600,900);
   const reef=home?this.splash:this.reefs[sim?.current??0];if(reef)c.drawImage(reef,0,0,1600,900);else{c.fillStyle='#1b6c7d';c.fillRect(0,0,1600,900);}
   if(!this.ready)return;
@@ -91,7 +97,8 @@ export class ReefRenderer {
    return;
   }
   if(!sim?.player)return;
-  if(this.renderedPlayer!==sim.player){this.poses=new Map();this.renderedPlayer=sim.player;}
+  if(this.renderedPlayer!==sim.player||this.renderedSection!==sim.current){this.poses=new Map();this.renderedPlayer=sim.player;this.renderedSection=sim.current;}
+  if(this.poses){const live=new Set([sim.player.id,...sim.section.entities.filter(e=>e.alive).map(e=>e.id)]);for(const id of this.poses.keys())if(!live.has(id))this.poses.delete(id);}
   const motionDt=sim.paused||sim.phase!=='playing'?0:dt;
   c.save();c.translate(0,TOP);
   const buried=sim.player.species.id==='s23'?new Set(sitesFor(sim).filter(s=>!(s.food.uncovered>0)).map(s=>s.id)):new Set();
@@ -143,7 +150,8 @@ export class ReefRenderer {
   const cell={algae:0,grass:1,coral:2,sponge:3,worm:4,shrimp:5}[f.food];
   if(cell!==undefined&&this.foodSprites[cell]){const sprite=this.foodSprites[cell],height=f.food==='grass'?68:f.food==='worm'?15:f.food==='shrimp'?21:44,width=height*sprite.width/sprite.height;c.save();c.translate(f.x,f.y);if(!this.reducedMotion&&['algae','grass'].includes(f.food))c.rotate(Math.sin(t*.65+f.phase)*.035);c.drawImage(sprite,-width/2,-height/2,width,height);c.restore();return;}
   c.save();c.translate(f.x,f.y);const s=f.size;c.lineCap='round';
-  if(f.food==='plankton'){c.fillStyle='#f2e8b4';for(let i=0;i<Math.max(1,Math.ceil(remaining*9));i++){const a=i*2.4+t*.12;c.globalAlpha=.45+i%3*.14;c.beginPath();c.arc(Math.cos(a)*s*.8,Math.sin(a*1.1)*s*.65,1.4+i%2,0,Math.PI*2);c.fill();}}
+  if(f.food==='detritus'){c.fillStyle='#c3ad84';for(let i=0;i<Math.ceil(remaining*7);i++){c.beginPath();c.ellipse(Math.sin(i*2.3)*s,Math.cos(i*3.7)*s*.3,1.8,1, i,0,Math.PI*2);c.fill();}}
+  else if(f.food==='plankton'){c.fillStyle='#f2e8b4';for(let i=0;i<Math.max(1,Math.ceil(remaining*9));i++){const a=i*2.4+t*.12;c.globalAlpha=.45+i%3*.14;c.beginPath();c.arc(Math.cos(a)*s*.8,Math.sin(a*1.1)*s*.65,1.4+i%2,0,Math.PI*2);c.fill();}}
   else if(['algae','grass'].includes(f.food)){for(let i=0;i<7;i++){c.strokeStyle=i%2?'#779b42':'#b1c971';c.lineWidth=2.5;c.beginPath();c.moveTo((i-3)*4,12);c.quadraticCurveTo((i-3)*7+Math.sin(t*.5+i)*3,-s*.4,(i-3)*4,-s);c.stroke();}}
   else if(f.food==='coral'){c.strokeStyle='#df836a';c.lineWidth=3;for(let i=-2;i<=2;i++){c.beginPath();c.moveTo(0,12);c.lineTo(i*7,-10);c.lineTo(i*9,-s);c.moveTo(i*7,-10);c.lineTo(i*12,-s*.6);c.stroke();}}
   else if(f.food==='sponge'){for(let i=-1;i<=1;i++){c.fillStyle=i===0?'#b87baf':'#926d9e';c.beginPath();c.ellipse(i*9,-i*i*4,8,22-i*i*4,-i*.1,0,Math.PI*2);c.fill();c.fillStyle='#624561';c.beginPath();c.ellipse(i*9,-19-i*i,5,3,0,0,Math.PI*2);c.fill();}}

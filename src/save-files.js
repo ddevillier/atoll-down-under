@@ -1,6 +1,7 @@
 import {validCare} from './journal.js';
 import {Simulation} from './simulation.js';
 import {BY_ID,FOODS,ABILITIES} from './data.js';
+import {validGroundState} from './ground-motion.js';
 
 export const MAX_SAVE_BYTES=8*1024*1024;
 const own=(o,k)=>Object.hasOwn(o,k);
@@ -42,7 +43,14 @@ function animal(e,player=false){
  if(!['string','number'].includes(typeof e.id)||typeof e.alive!=='boolean'||typeof e.behavior!=='string')fail();
  for(const key of ['station','holdfast','homeAnchor','blending'])if(e[key]!=null)numbers(e[key],['x','y']);
  if(e.blending!=null&&!['sand','reef'].includes(e.blending.kind))fail();
- for(const key of ['poisonDamage','biteDamage','recoveryDelay','blendTime','actionTime','routineClock'])if(e[key]!==undefined&&(!finite(e[key])||e[key]<0))fail();
+ for(const key of ['poisonDamage','biteDamage','recoveryDelay','blendTime','actionTime','routineClock','retract','incarnation'])if(e[key]!==undefined&&(!finite(e[key])||e[key]<0))fail();
+ if(e.groundRoute!==undefined&&!validGroundState(e))fail();
+ if(e.residentMeal!=null){numbers(e.residentMeal,['elapsed']);if(e.residentMeal.elapsed<0||e.residentMeal.elapsed>1||typeof e.residentMeal.target!=='string'||typeof e.residentMeal.committed!=='boolean')fail();}
+ if(e.ecology!=null){
+  numbers(e.ecology,['reef','clock','point','wait']);
+  if(!Number.isInteger(e.ecology.reef)||e.ecology.reef<0||e.ecology.reef>8||e.ecology.clock<0||!Number.isInteger(e.ecology.point)||e.ecology.point<0||e.ecology.wait<0)fail();
+  for(const key of ['partner','host'])if(e.ecology[key]!=null&&!['string','number'].includes(typeof e.ecology[key]))fail();
+ }
 }
 export function importDive(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('This file is too large. Choose an Atoll dive file under 8 MB.');
@@ -64,6 +72,7 @@ export function importDive(text){
  if(!Array.isArray(d.sections)||d.sections.length!==9)fail();
  for(const section of d.sections){
   if(!object(section)||!Array.isArray(section.entities)||!Array.isArray(section.food)||section.entities.length>500||section.food.length>500)fail();
+  if(section.residentFoodVersion!==undefined&&section.residentFoodVersion!==1)fail();
   section.entities.forEach(e=>animal(e));
   for(const food of section.food){
    numbers(food,['x','y','size','amount','regrow','phase']);

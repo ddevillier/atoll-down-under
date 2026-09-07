@@ -1,9 +1,12 @@
 import {profileFor} from './behaviors.js';
+import {prepareResidentFood,residentStep} from './resident-life.js';
+import {localRoutine,clearRelationships} from './ecology.js';
+import {animalProfile} from './animal-profiles.js';
 import {freshAdventure,validAdventure,useContext,tickAdventure,mealAdventure,routineStep,sitesFor} from './adventures.js';
 import {freshCare,tickCare,validCare} from './journal.js';
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
 import {creatureWidth} from './geometry.js';
-import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
+import {BOTTOM_RESIDENTS,placeOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
 import {chooseForager} from './communities.js';
@@ -65,11 +68,16 @@ export class Simulation {
   }
   const small=available.filter(s=>s.playable&&s.size<50&&!s.diet.includes('fish'));
   const schooling=available.filter(s=>s.habitat==='school');
-  const school=reef.habitat==='open'&&schooling.length?(schooling.find(s=>s.id===this.player.species.id)||schooling[Math.floor(this.random()*schooling.length)]):null;
+  // Retain the established population RNG stream, then specialize those same
+  // slots for a compatible player species. This must not change later counts.
+  const sampledSchool=reef.habitat==='open'&&schooling.length?(schooling.find(s=>s.id===this.player.species.id)||schooling[Math.floor(this.random()*schooling.length)]):null;
+  const school=sampledSchool?(available.find(s=>s.id===this.player.species.id&&animalProfile(s).social==='school'&&!s.diet.includes('fish'))||sampledSchool):null;
   const schoolX=500+this.random()*450,schoolY=170+this.random()*140,schoolAngle=this.random()*Math.PI*2;
   for(let i=0;i<population.companions;i++){
-   const s=school||small[Math.floor(this.random()*small.length)];
-   const fish=entity(s,++this.uid,school?schoolX+i*55:100+this.random()*(W-200),school?schoolY+(i%2)*35:100+this.random()*(H-220));
+   const companion=school?null:entities.find(e=>animalProfile(e.species).social==='pair'&&entities.filter(b=>b.species.id===e.species.id).length===1);
+   const s=school||(small[Math.floor(this.random()*small.length)]),chosen=companion?.species||s;
+   const fish=entity(chosen,++this.uid,school?schoolX+i*Math.max(55,creatureWidth(chosen)*.9):100+this.random()*(W-200),school?schoolY+(i%2)*35:100+this.random()*(H-220));
+   if(companion){fish.x=clamp(companion.x+creatureWidth(chosen),60,W-60);fish.y=clamp(companion.y+25,60,H-60);fish.angle=companion.angle;fish.satiated=companion.satiated;}
    if(school){fish.angle=schoolAngle;fish.satiated=20+this.random()*20;fish.behavior='Swimming with a school';fish.activity='schooling';}
    entities.push(fish);
   }
@@ -90,7 +98,8 @@ export class Simulation {
    const [x,y]=reef.feedingSites.grass[2],seahorse=entity(SPECIES[44],++this.uid,x+12,y-22);
    seahorse.holdfast={x:seahorse.x,y:seahorse.y};seahorse.behavior='Among the seagrass';entities.push(seahorse);
   }
-  return {entities,food};
+  prepareResidentFood(entities,food,reef);
+  return {entities,food,residentFoodVersion:1};
  }
  useContext(){return useContext(this);}
  get section(){return this.sections[this.current];}
@@ -281,11 +290,12 @@ export class Simulation {
  stepNpc(e,dt,cleaningPlan=this.cleaningPlan()){
   e.activity='cruising';if(e.target){e.blending=null;e.blendTime=0;}e.actionTime=Math.max(0,(e.actionTime||0)-dt);this.stepNpcBody(e,dt,cleaningPlan);
   if(e.cleanTime>0||e.species.ability==='clean'&&((this.player.cleanTime>0)||this.section.entities.some(b=>b.alive&&b.cleanTime>0&&b.target===e.id)))e.activity='cleaning';
-  else if(e.target&&e.activity!=='searching-sand')e.activity='feeding';
+  else if((e.target||e.actionTime>0)&&e.activity!=='searching-sand')e.activity='feeding';
  }
  stepNpcBody(e,dt,cleaningPlan=this.cleaningPlan()){
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
    e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;
+   e.residentMeal=null;e.ecology=null;e.actionTime=0;e.retract=0;e.incarnation=(e.incarnation||0)+1;
    // A returning cleaner belongs to the established station, where players
    // and clients know to wait, rather than an arbitrary point in open water.
    if(e.species.ability==='clean'&&e.station){e.x=e.station.x;e.y=e.station.y;}
@@ -293,21 +303,21 @@ export class Simulation {
    if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;}
   }return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
+  clearRelationships(this,e);
   if(e.entering&&e.x>=10&&e.x<=W-10&&e.y>=25&&e.y<=H-20)delete e.entering;
   if(BOTTOM_RESIDENTS.has(e.species.id)){
    if(!validGroundState(e))attachToNearestGround(e,REEFS[this.current].bottomRoutes);
-   e.target=null;e.satiated=Math.max(0,(e.satiated||0)-dt);
-   walkOnGround(e,dt);
-   e.behavior=e.species.speed>0?(e.satiated>0?'Digesting a meal':'Crawling along the reef'):e.species.id==='s63'?'Attached to the reef':'On the reef floor';
-   const food=e.satiated<=0?this.section.food.find(f=>f.regrow<=0&&edible(e,f)&&distance(e,f)<e.species.size*.4+f.size+10):null;
-   if(food){food.amount-=12;if(food.amount<=0){food.regrow=8;food.amount=100;}e.satiated=45+this.random()*35;e.behavior='Feeding on '+food.name;}
+   residentStep(this,e,dt,edible);
    return;
   }
-  if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;e.behavior='Among the seagrass';return;}
+  if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;residentStep(this,e,dt,edible);return;}
   const p=this.player;e.think-=dt;
   if(e.species.ability==='clean'){
    const client=p.cleanTime>0?p:this.section.entities.find(b=>b.alive&&b.cleanTime>0&&b.target===e.id);
-   const dest=client?{x:client.x-client.facing*20,y:client.y+Math.sin(this.time*1.8+Number(e.id||0))*10}:e.station;
+   const phase=client?Math.min(.999,client.cleanTime/(client===p?2:3)):0,spot=Math.floor(phase*3);
+   const side=[-.2,.08,.28][spot],width=client?creatureWidth(client.species):0;
+   const dest=client?{x:client.x+client.facing*width*side,y:client.y+width*.12+Math.sin(phase*Math.PI*12)*3}:e.station;
+   e.actionTime=client?Math.max(0,Math.sin(phase*Math.PI*12))*.3:0;
    e.behavior=client?'Cleaning '+client.species.name:'At a cleaning station';
    if(dest){e.x+=(dest.x-e.x)*dt*1.5;e.y+=(dest.y-e.y)*dt*1.5;}e.facing=client?client.facing:Math.sin(this.time*.5)>0?1:-1;return;
   }
@@ -393,6 +403,7 @@ export class Simulation {
    }else if(e.behavior==='Swimming with a school')e.behavior='Exploring';
   }
   speed=routineStep(this,e,dt,speed);
+  speed=localRoutine(this,e,dt,speed);
   // If the pursuit ends outside the scene, finish entering at cruising speed.
   // Rest/digestion still applies; entry grants no fresh hunt or instant move.
   if(e.entering&&!e.target)e.angle=turnTowards(e.angle,Math.atan2(clamp(e.y,45,H-40)-e.y,clamp(e.x,30,W-30)-e.x),e.species.agility*dt);
@@ -430,6 +441,9 @@ export class Simulation {
   d.careProgress=d.careProgress||freshCare();
   if(d.adventure!==undefined&&!validAdventure(d.adventure))throw new Error('The saved adventure is damaged.');
   d.adventure=d.adventure||freshAdventure();
+  for(const [index,section] of d.sections.entries())if(!section.residentFoodVersion){
+   prepareResidentFood(section.entities,section.food,REEFS[index]);section.residentFoodVersion=1;
+  }
   const sim=new Simulation();Object.assign(sim,d);sim.events=[];sim.paused=true;return sim;
  }
 }
