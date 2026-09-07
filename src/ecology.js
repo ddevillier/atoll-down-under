@@ -3,6 +3,7 @@ import {REEFS} from './data.js';
 import {creatureWidth,creatureFrame} from './geometry.js';
 import {turnTowards} from './steering.js';
 import {individualSeed} from './individual-motion.js';
+import {socialOrder,separateCompanions} from './social-motion.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const refugeRoutines=new Set(['coral-resident','ledge','ambush-ledge','cave','cave-rest','perch','ambush-bottom','lure']);
@@ -44,10 +45,13 @@ export function localRoutine(sim,e,dt,speed){
   }
   if(partner&&distance(e,partner)<650){
    const d=distance(e,partner),spacing=Math.max(48,creatureWidth(e.species)*.85);
-   if(d>spacing*1.6||partner.target&&d>spacing){
+   separateCompanions(e,[partner],dt);
+   const follows=socialOrder(e,partner)>0;
+   if(follows&&(d>spacing*1.6||partner.target&&d>spacing)){
     e.activity='companionship';e.behavior='Returning to a familiar companion';
-    return steer(e,{x:partner.x-Math.cos(partner.angle)*spacing,y:partner.y-Math.sin(partner.angle)*spacing},dt,speed);
+    return steer(e,{x:partner.x-Math.cos(partner.angle)*spacing*.45-Math.sin(partner.angle)*spacing*.8,y:partner.y-Math.sin(partner.angle)*spacing*.45+Math.cos(partner.angle)*spacing*.8},dt,speed);
    }
+   if(!follows&&d>spacing*1.6){e.activity='waiting';e.behavior='Slowing for a familiar companion';speed*=.18;}
    if(partner.actionTime>0){e.activity='waiting';e.behavior='Waiting while a companion feeds';return speed*.12;}
   }else if(partner){if(partner.ecology?.partner===e.id)partner.ecology.partner=null;state.partner=null;}
  }
@@ -95,7 +99,9 @@ export function localRoutine(sim,e,dt,speed){
   if(patches.length){
    const partner=others.find(b=>b.id===state.partner),patchSeed=partner?Math.min(seed,individualSeed(partner.id)):seed;
    const point=partner&&individualSeed(partner.id)<seed?partner.ecology?.point||0:state.point;
-   const f=patches[(patchSeed+point)%patches.length],dest=separateDestination(e,f,seed,Math.max(30,creatureWidth(e.species)*.55));
+   const f=patches[(patchSeed+point)%patches.length],radius=Math.max(30,creatureWidth(e.species)*.55);
+   const pairAngle=(patchSeed%997)/997*Math.PI*2,side=partner?(socialOrder(e,partner)<0?1:-1):0;
+   const dest=partner?{x:clamp(f.x+Math.cos(pairAngle)*radius*side,35,1565),y:clamp(f.y+Math.sin(pairAngle)*radius*side,45,700)}:separateDestination(e,f,seed,radius);
    const near=distance(e,dest)<26;
    if(near){state.wait+=dt;if(state.wait>3+seed%3){state.point++;state.wait=0;}e.activity=e.satiated>0?'resting':'searching';e.behavior=e.satiated>0?'Resting beside a feeding patch':profile.routine==='probe-sand'?'Inspecting sand with its barbels':'Inspecting a feeding patch';return speed*.08;}
    state.wait=0;e.activity='foraging';e.behavior='Moving between feeding patches';return steer(e,dest,dt,speed,18);

@@ -15,7 +15,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s1",
@@ -71,7 +72,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s5",
@@ -124,10 +126,11 @@
       "social": "pair",
       "landmarks": "initially-authored",
       "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "ordinaryGameplayReview": "partial: generated social communities inspected at both desktop sizes; full locomotion and interaction acceptance remains pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s9",
@@ -141,7 +144,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s10",
@@ -169,7 +173,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s12",
@@ -253,7 +258,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s18",
@@ -407,7 +413,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s29",
@@ -575,7 +582,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s41",
@@ -600,10 +608,11 @@
       "social": "school",
       "landmarks": "initially-authored",
       "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "ordinaryGameplayReview": "partial: generated social communities inspected at both desktop sizes; full locomotion and interaction acceptance remains pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s43",
@@ -684,10 +693,11 @@
       "social": "pair",
       "landmarks": "initially-authored",
       "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "ordinaryGameplayReview": "partial: generated social communities inspected at both desktop sizes; full locomotion and interaction acceptance remains pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s49",
@@ -701,7 +711,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s50",
@@ -743,7 +754,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s53",
@@ -754,10 +766,11 @@
       "social": "school",
       "landmarks": "initially-authored",
       "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "ordinaryGameplayReview": "partial: generated social communities inspected at both desktop sizes; full locomotion and interaction acceptance remains pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s54",
@@ -785,7 +798,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s56",
@@ -799,7 +813,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s57",
@@ -827,7 +842,8 @@
       "ordinaryGameplayReview": "pending",
       "accepted": false,
       "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits"
+      "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
+      "socialReview": "partial: generated-community spacing and real feeding/rejoin tests; see social-review.md for scope and authored assignments"
     },
     {
       "id": "s59",

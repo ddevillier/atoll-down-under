@@ -11,9 +11,10 @@ import {creatureWidth,creatureFrame,creatureHit} from './geometry.js';
 import {BOTTOM_RESIDENTS,placeOnGround,positionOnGround,attachToNearestGround,validGroundState} from './ground-motion.js';
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
-import {chooseForager} from './communities.js';
+import {chooseForager,COMMUNITIES} from './communities.js';
 import {planCleaning,approachCleaning} from './cleaning-stations.js';
 import {moveCleaner} from './cleaner-motion.js';
+import {separateCompanions,sharedMealAvailable} from './social-motion.js';
 import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -68,6 +69,14 @@ export class Simulation {
    if(seekHunter){const local=pool.filter(s=>s.habitat===reef.habitat);if(local.length)pool=local;}
    const roll=this.random();
    const s=(seekHunter?pool[Math.floor(roll*pool.length)]:chooseForager(pool,reef,this.period,roll))||SPECIES[1];const fish=entity(s,++this.uid,70+this.random()*(W-140),80+this.random()*(H-170));fish.angle=this.random()*Math.PI*2;fish.facing=fish.angle>Math.PI?1:-1;fish.satiated=this.random()*65;fish.pursuit=0;fish.rest=0;fish.health=60+this.random()*40;entities.push(fish);
+  }
+  // Make the selected paired browser observable in its authored community,
+  // using two already-created foragers and their already-consumed RNG draws.
+  const pairSpecies=available.find(s=>s.id===this.player.species.id&&animalProfile(s).social==='pair'&&!s.diet.includes('fish')&&COMMUNITIES[reef.id]?.[this.period]?.includes(s.index));
+  if(pairSpecies&&population.foragers>=2){
+   const [a,b]=entities;a.species=pairSpecies;b.species=pairSpecies;
+   b.x=a.x+(a.x<W/2?1:-1)*creatureWidth(pairSpecies)*1.05;b.y=clamp(a.y+25,60,H-60);b.angle=a.angle;b.facing=a.facing;
+   a.ecology={reef:reef.id,clock:0,point:0,wait:0,partner:b.id,host:null};b.ecology={reef:reef.id,clock:0,point:0,wait:0,partner:a.id,host:null};
   }
   const small=available.filter(s=>s.playable&&s.size<50&&!s.diet.includes('fish'));
   const schooling=available.filter(s=>s.habitat==='school');
@@ -373,7 +382,7 @@ export class Simulation {
      ...this.section.entities.filter(b=>b!==e&&b.alive&&b.species.ability!=='clean'&&edible(e,b)&&!b.species.poison),
      ...this.section.food.filter(f=>f.regrow<=0&&edible(e,f)),
      ...(canEatPlayer?[p]:[])
-    ].filter(b=>distance(e,b)<165).sort((a,b)=>distance(e,a)-distance(e,b)):[];
+    ].filter(b=>distance(e,b)<165&&sharedMealAvailable(e,b,this.section.entities)).sort((a,b)=>distance(e,a)-distance(e,b)):[];
     const near=candidates[0];e.target=near?.id||null;e.pursuit=0;
     e.behavior=near?(near.kind==='food'?'Foraging for ':'Hunting ')+(near.name||near.species.name):e.satiated>0?'Digesting a meal':e.rest>0?'Resting between feeding trips':'Exploring';
     if(!near&&this.random()<.45)e.angle+=(this.random()-.5)*1.1;
@@ -398,17 +407,19 @@ export class Simulation {
     }else cancelPreparation(e);
    }else{e.target=null;e.pursuit=0;}
   }
-  else if(e.behavior.startsWith('Moving away'))speed=e.species.speed*.65;
+  else if(e.behavior.startsWith('Moving away')){speed=e.species.speed*.65;e.activity='avoiding';}
   // Group movement is a simplified observation model. Feeding, cleaning and
   // immediate avoidance take precedence, so schools can separate and re-form.
-  if(profileFor(e.species).social&&!e.target&&!e.behavior.startsWith('Moving away')){
-   const neighbors=[...this.section.entities,p].filter(b=>b!==e&&b.alive&&!b.hidden&&b.species.id===e.species.id&&distance(e,b)<260);
+  if(profileFor(e.species).social&&!e.target&&!e.feeding&&!(e.actionTime>0)&&!e.behavior.startsWith('Moving away')){
+   const nearby=[...this.section.entities,p].filter(b=>b!==e&&b.alive&&!b.hidden&&b.species.id===e.species.id&&distance(e,b)<300);
+   separateCompanions(e,nearby,dt);
+   const neighbors=nearby.filter(b=>!b.target&&!b.feeding&&!(b.actionTime>0)&&!b.cleanTime&&!(b.stun>0)&&!b.behavior?.startsWith('Moving away')).sort((a,b)=>distance(e,a)-distance(e,b)).slice(0,6);
    if(neighbors.length){
     let x=0,y=0;
     for(const b of neighbors){
-     const dx=b.x-e.x,dy=b.y-e.y,d=Math.max(1,Math.hypot(dx,dy)),spacing=Math.max(38,e.species.size*.85);
+     const dx=b.x-e.x,dy=b.y-e.y,d=Math.max(1,Math.hypot(dx,dy)),spacing=Math.max(42,(creatureWidth(e.species)+creatureWidth(b.species))*.48);
      x+=Math.cos(b.angle)*.9+dx/120;y+=Math.sin(b.angle)*.9+dy/120;
-     if(d<spacing){const repel=(spacing-d)/spacing*4;x-=dx/d*repel;y-=dy/d*repel;}
+     if(d<spacing){const repel=(spacing-d)/spacing*6;x-=dx/d*repel;y-=dy/d*repel;}
     }
     // Turn the group before it piles up against the rectangular world edge.
     x/=neighbors.length;y/=neighbors.length;
