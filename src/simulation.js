@@ -10,6 +10,7 @@ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function edible(predator,prey){
  const a=predator.species||predator,b=prey.species||prey;
+ if(b.ability==='clean')return false;
  const food=prey.kind==='food'?prey.food:b.food||'fish';
  if(!a.diet.includes(food))return false;
  if(food==='fish' && b.size>=a.size*.77)return false;
@@ -89,10 +90,29 @@ export class Simulation {
  get section(){return this.sections[this.current];}
  get mealTarget(){
   const id=this.player?.target;
-  return id?(this.section?.entities.find(e=>e.id===id&&e.alive)||this.section?.food.find(f=>f.id===id&&f.regrow<=0)||null):null;
+  return id?(this.section?.entities.find(e=>e.id===id&&e.alive&&e.species.ability!=='clean')||this.section?.food.find(f=>f.id===id&&f.regrow<=0)||null):null;
+ }
+ get cleaningPartner(){return this.section?.entities.find(e=>e.alive&&e.species.ability==='clean'&&e.id===this.player?.cleanerTarget)||null;}
+ get cleaningStatus(){
+  const p=this.player,c=this.cleaningPartner;
+  if(p?.cleanTime>0)return 'Cleaning · '+Math.min(75,Math.floor(p.cleanTime/2*4)*25)+'% complete · Move to leave';
+  if(!c)return '';
+  if(c.stun>0)return 'Cleaner needs a moment · Waiting nearby';
+  const station=c.station||c;
+  if(Math.hypot(p.x-station.x-35,p.y-station.y)>12)return 'Visiting '+c.species.name+' · Move to steer away';
+  if(this.section.entities.some(e=>e!==c&&e.alive&&e.cleanTime>0&&e.target===c.id))return 'Cleaner is helping another fish · Waiting your turn';
+  return 'Ready for cleaning · Settling beside your cleaner';
+ }
+ requestCleaning(cleaner=this.section?.entities.find(e=>e.alive&&e.species.ability==='clean')){
+  const p=this.player;if(!p||this.paused||this.phase!=='playing')return false;
+  p.target=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};
+  if(!cleaner?.alive||cleaner.species.ability!=='clean'){this.event('message','The cleaner is away. Try again when it returns to the station.');return false;}
+  if(!p.species.parasites||healthState(p).parasites<=1){this.event('message','No parasites to remove. Food and rest help your fish recover from bites or poison.');return false;}
+  p.target=null;p.cleanerTarget=cleaner.id;p.cleanTime=0;p.cleaningAmount=0;
+  const station=cleaner.station||cleaner;this.pointer={x:station.x+35,y:station.y};return true;
  }
  relationship(e){
-  if(e.species?.ability==='clean')return 'A cleaning partner. Wait nearby to observe the cleaning interaction; clicking during swimming attempts to eat it.';
+  if(e.species?.ability==='clean')return 'A cleaning partner. Resume and click it, or choose Visit cleaner, to remove parasites. Cleaning does not repair bites or poisoning.';
   if(e.species?.poison||(e.food==='sponge'&&!this.player.species.diet.includes('sponge')))return 'Unsuitable food for many reef dwellers. Compare this organism with your fish’s diet in the field guide.';
   if(edible(this.player,e))return 'Part of your fish’s food web in this model. Compare its size and food type with the diet in your field guide.';
   if(e.species&&edible(e,this.player))return 'Your fish is potential prey in this model. Watch whether this animal is feeding, digesting, or resting; it does not hunt continuously.';
@@ -116,6 +136,7 @@ export class Simulation {
   // A meal click assists the approach until the player steers again. Cursor
   // movement must always give control back, including during a pursuit.
   this.player.target=null;
+  this.player.cleanerTarget=null;this.player.cleanTime=0;this.player.cleaningAmount=0;
  }
  findAt(x,y){
   const p={x,y};
@@ -132,6 +153,8 @@ export class Simulation {
  eatAt(x,y){
   if(!this.player||this.paused||this.phase!=='playing')return false;
   const t=this.findAt(x,y);if(!t){this.point(x,y);return false;}
+  if(t.species?.ability==='clean')return this.requestCleaning(t);
+  this.player.cleanerTarget=null;this.player.cleanTime=0;this.player.cleaningAmount=0;
   this.protected=false;this.player.target=t.id;this.pointer={x:t.x,y:t.y};this.player.hidden=false;return true;
  }
  useAbility(){
@@ -141,6 +164,7 @@ export class Simulation {
   if(p.cooldown>0){this.event('message','Your ability is recovering.');return false;}
   if(p.energy<12){this.event('message','Find food before using more energy.');return false;}
   this.protected=false;p.energy-=8;p.cooldown=12;p.abilityTime=['lure','camouflage'].includes(p.species.ability)?6:4;
+  p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;
   const ability=p.species.ability;
   for(const e of this.section.entities){if(distance(p,e)>230)continue;if(['shock','sting','sonic','flash'].includes(ability))e.stun=4;if(['ink','poison','spines','puff'].includes(ability)){e.target=null;e.stun=1.5;e.angle=Math.atan2(e.y-p.y,e.x-p.x);}}
   this.event('ability',ability,{ability,x:p.x,y:p.y});return true;
@@ -148,6 +172,7 @@ export class Simulation {
  consume(target){
   const p=this.player;if(p.biteCooldown>0)return;p.biteCooldown=.45;
   const b=target.species;const good=edible(p,target);const poison=target.kind==='food'?target.food==='sponge'&&!p.species.diet.includes('sponge'):b?.poison&&!['crush','poison'].includes(p.species.ability);
+  if(b?.ability==='clean'){p.target=null;this.event('message','That animal is a cleaning partner. Click it to request cleaning.');return;}
   const name=target.name||b?.name;
   if(poison){
    p.health-=25;p.poisonDamage=(p.poisonDamage||0)+25;p.recoveryDelay=10;p.energy-=10;p.lastHarm={type:'poison',name};
@@ -180,13 +205,18 @@ export class Simulation {
   // be outside the painting; it must swim through that gap before it can bite.
   const pursuing=this.sections[old].entities.filter(e=>e.alive&&e.target==='player');
   for(const e of pursuing){this.sections[old].entities=this.sections[old].entities.filter(x=>x!==e);e.x+=this.player.x-departure.x;e.y+=this.player.y-departure.y;e.entering=true;this.section.entities.push(e);}
-  this.pointer={x:this.player.x,y:this.player.y};this.player.target=null;this.protected=false;if(!this.visited.includes(this.current))this.visited.push(this.current);
+  this.pointer={x:this.player.x,y:this.player.y};this.player.target=null;this.player.cleanerTarget=null;this.player.cleanTime=0;this.player.cleaningAmount=0;this.protected=false;if(!this.visited.includes(this.current))this.visited.push(this.current);
   const arrived=this.destination===this.current;if(arrived)this.destination=null;
   this.event('transition',arrived?'Reached '+REEFS[this.current].name+'. '+new Set(this.visited).size+' of 9 habitats visited.':REEFS[this.current].name);return true;
  }
  step(dt){
   if(this.paused||this.phase!=='playing'||!this.player)return;
   dt=Math.min(dt,.05);this.time+=dt;const p=this.player;p.cooldown=Math.max(0,p.cooldown-dt);p.abilityTime=Math.max(0,p.abilityTime-dt);p.biteCooldown=Math.max(0,p.biteCooldown-dt);
+  if(p.cleanerTarget){
+   const c=this.cleaningPartner;
+   if(c){const station=c.station||c;this.pointer={x:station.x+35,y:station.y};}
+   else{p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};this.event('message','Your cleaner is no longer available. You can keep swimming.');}
+  }
   const target=this.mealTarget;
   if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y};
@@ -211,8 +241,18 @@ export class Simulation {
    p.poisonDamage*=remaining;p.biteDamage*=remaining;p.health=Math.min(100,p.health+recovered);
    if(remaining===0){p.lastHarm=null;this.event('recover','Your fish has recovered from its injury or poisonous meal. Cleaning still removes parasites.');}
   }
-  const cleaner=this.section.entities.find(e=>e.alive&&e.species.ability==='clean'&&distance(e,p)<105);
-  if(cleaner&&p.still>.6&&!p.target&&healthState(p).parasites>1){p.cleanTime+=dt;cleaner.behavior='Cleaning';if(p.cleanTime>=2){p.health=Math.max(0,100-(p.poisonDamage||0)-(p.biteDamage||0));p.cleanTime=0;this.event('clean','Parasites removed. Thank you, '+cleaner.species.name+'.');}}else p.cleanTime=0;
+  const cleaner=this.section.entities.find(e=>e.alive&&(e.stun||0)<=0&&e.species.ability==='clean'&&distance(e,p)<105);
+  const busy=cleaner&&this.section.entities.some(e=>e!==cleaner&&e.alive&&e.cleanTime>0&&e.target===cleaner.id);
+  if(cleaner&&!busy&&p.still>.6&&!p.target&&(healthState(p).parasites>1||p.cleanTime>0)){
+   if(!p.cleaningAmount)p.cleaningAmount=healthState(p).parasites;
+   p.cleanTime+=dt;cleaner.behavior='Cleaning';
+   p.health+=Math.min(healthState(p).parasites,p.cleaningAmount*dt/2);
+   if(p.cleanTime>=2){
+    p.health=Math.max(0,100-(p.poisonDamage||0)-(p.biteDamage||0));
+    const removed=Math.round(p.cleaningAmount);p.cleanTime=0;p.cleanerTarget=null;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};
+    this.event('clean','Parasites removed. '+removed+' health restored by '+cleaner.species.name+'.'+((p.poisonDamage||p.biteDamage)?' Food and rest help with the remaining injury or poison.':''));
+   }
+  }else{p.cleanTime=0;p.cleaningAmount=0;}
   if(p.x>W-8&&this.pointer.x>W-10)this.transition(1,0);else if(p.x<8&&this.pointer.x<10)this.transition(-1,0);else if(p.y>H-8&&this.pointer.y>H-10){if(!this.transition(0,1))p.y=H-8;}else if(p.y<8&&this.pointer.y<10){if(!this.transition(0,-1))p.y=8;}
   p.x=clamp(p.x,1,W-1);p.y=clamp(p.y,1,H-1);
   for(const f of this.section.food)f.regrow=Math.max(0,f.regrow-dt);

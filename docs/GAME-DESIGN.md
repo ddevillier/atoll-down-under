@@ -40,7 +40,7 @@ Non-hunting forager selection uses nine scene-specific preference lists, with se
 
 Existing saves preserve their food coordinates, depletion and populations. Older bottom residents attach to the nearest local substrate route when play resumes. New food layouts, community variety and the meadow seahorse require a new dive; loading an earlier save does not repopulate it. These placements and routes are authored gameplay abstractions, not measured animal behavior.
 
-Routine NPC feeding recognizes both the cleaner wrasse and cleaner shrimp as partners and leaves them out of food selection. An old saved feeding target aimed at a cleaner is released; parasite-driven cleaning visits retain their target. This is a gameplay convention supporting observable cleaning relationships, not a claim that cleaners are never prey in nature. The player's deliberate food choices still follow the usual diet rules. If a player eats a cleaner, its replacement returns at the established station after the existing respawn interval. Cleaner stations and health recovery otherwise keep their existing rules.
+Cleaning partners are protected helpers in the game's food model. Ordinary clicks request cleaning rather than biting; Visit cleaner and C provide shortcuts. The player swims to the station, waits for an existing client, settles, and receives gradual parasite recovery over two seconds. Moving the mouse, selecting a meal or activating an ability cancels the visit while retaining partial recovery. No-need and unavailable-partner states explain what happened. Old saved meal targets aimed at a cleaner are released, and previously absent cleaners still return at their established station. This is a gameplay convention, not a claim that cleaners are never prey in nature. See CLEANER-LOOP.md.
 
 ## Abilities
 
@@ -76,7 +76,7 @@ Community generation uses nine population ranges, with quiet valleys in Pearl Sa
 
 Inspection records the organism's name, activity, habitat, period and relationship to the current fish. Field notes persist with saves and deduplicate repeated observations of the same behavior in the same habitat. Initial protected swimming follows the original manual's opportunity to inspect the reef before eating or leaving an area. All major existing food, health, cleaning, shelter and mode systems remain available, but their presentation is being revised around learning.
 
-Non-player fish also accumulate parasites and visit cleaning stations. One client is cleaned at a time, with the player given priority during an active cleaning interaction. Clients wait, receive cleaning over three seconds, and return to the reef. Inspection exposes these behaviors for observation and field-note recording.
+Non-player fish also accumulate parasites and visit cleaning stations. An existing NPC treatment finishes before a player visit begins. Once the player is receiving treatment, other clients wait. NPC clients receive cleaning over three seconds and return to the reef. Inspection exposes these behaviors for observation and field-note recording.
 
 NPC predators use the same avoidance rule for poisonous player and non-player species. Fatal meal poisoning is attributed to the food that caused it. Sprite extraction uses full-atlas connected components rather than cropping a grid first, preserving long fins and appendages. Motion profiles are stylized by body family and smoothly interpolate turns; these are artistic approximations, not scientific swimming models.
 # Observable schooling

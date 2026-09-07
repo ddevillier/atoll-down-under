@@ -3,6 +3,38 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+for(const [species,byClick] of [['Neon',false],['Flashlight',true]])test(`cleaner visits are visible, cancellable and safe for ${species}`,async({page})=>{
+ for(const [width,height] of [[1024,768],[1600,900]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page,species);
+  await page.keyboard.press('Escape');
+  const cleaner=await page.evaluate(()=>{
+   const s=window.atoll.simulation,c=s.section.entities.find(e=>e.species.ability==='clean');
+   Object.assign(c,{x:800,y:300,station:{x:800,y:300}});s.section.entities=[c];s.section.food=[];
+   Object.assign(s.player,{x:650,y:300,angle:0,health:55,biteDamage:15,energy:45,recoveryDelay:60});s.pointer={x:650,y:300};
+   return {x:c.x,y:c.y};
+  });
+  await page.keyboard.press('Escape');
+  const box=await page.locator('#reef').boundingBox();
+  if(byClick)await page.mouse.click(box.x+cleaner.x/1600*box.width,box.y+(cleaner.y+55)/900*box.height);
+  else await page.getByRole('button',{name:'Visit cleaner',exact:true}).click();
+  await expect(page.locator('#state-badge')).toContainText('Visiting');
+  await page.waitForFunction(()=>window.atoll.simulation.player.cleanTime>.2);
+  await page.keyboard.press('Escape');
+  const during=await page.evaluate(()=>{const s=window.atoll.simulation;return {health:s.player.health,alive:s.section.entities[0].alive,target:s.player.target};});
+  expect(during.health).toBeGreaterThan(55);expect(during.health).toBeLessThan(85);expect(during.alive).toBe(true);expect(during.target).toBeNull();
+  await page.screenshot({path:`artifacts/cleaner-${species}-${width}.png`});
+  const buttons=await page.locator('.actions button').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return {x:r.x,right:r.right};}));
+  expect(buttons.every(r=>r.x>=0&&r.right<=width)).toBe(true);
+  await page.keyboard.press('Escape');await page.mouse.move(box.x+1100/1600*box.width,box.y+400/900*box.height);
+  expect(await page.evaluate(()=>window.atoll.simulation.player.cleanerTarget)).toBeNull();
+  await page.keyboard.press('c');
+  await page.waitForFunction(()=>window.atoll.simulation.player.health===85);
+  await expect(page.locator('.toast')).toContainText('Parasites removed');
+  expect(await page.evaluate(()=>window.atoll.simulation.player.biteDamage)).toBe(15);
+  await page.getByRole('button',{name:'Visit cleaner',exact:true}).click();await expect(page.locator('.toast')).toContainText('No parasites to remove');
+ }
+});
+
 test('a food patch beside a poisonous animal can be inspected and eaten with the mouse',async({page})=>{
  for(const [width,height] of [[1600,900],[1024,768]]){
   await page.setViewportSize({width,height});await ready(page);await practice(page,'Foxface');

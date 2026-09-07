@@ -1,5 +1,7 @@
 # Current audit status
 
+The user's latest direction supersedes historical-fidelity priorities: preserve the spirit of the game, ask before more original-game reference research, and improve cleaners now. The original comparison register is a backlog of possible considerations, not a requirement to copy every detail. CLEANER-LOOP.md describes the current gameplay work; the unfinished extra-diet pass is parked rather than applied.
+
 The numbered register in ORIGINAL-DESIGN-AUDIT.md is a historical baseline. This page distinguishes subsequent repairs from unresolved work. Latest verified runtime: 8bd0e79, the Windows Exploration testing milestone; see WINDOWS-EXPLORATION-BUILD.md. The user's current priority is Practice/exploration with gentle difficulty; copying Tournament is deferred.
 
 | Area | Current evidence | Remaining work |

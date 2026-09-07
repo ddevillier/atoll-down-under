@@ -92,7 +92,7 @@ export class ReefRenderer {
   for(const f of sim.section.food){if(f.regrow>0)continue;this.drawFood(c,f,t);}
   for(const e of sim.section.entities.filter(e=>e.alive).sort((a,b)=>a.species.size-b.species.size)){
    this.drawCreature(c,e,t+e.id,motionDt,.98);
-   if(e.species.ability==='clean'&&this.inspect)this.tag(c,e.x,e.y-30,'Cleaner');
+   if(e.species.ability==='clean'&&!sim.player.cleanTime)this.tag(c,e.x,e.y-30,e.behavior?.startsWith('Cleaning')?'Cleaner · Helping a fish':'Cleaner · Click to visit');
   }
   const p=sim.player;const puff=p.species.ability==='puff'&&p.abilityTime>0?1.5:1;
   const playerWidth=creatureWidth(p.species)*puff;
@@ -100,7 +100,7 @@ export class ReefRenderer {
   // A small player marker is always readable without outlining the entire fish.
   c.fillStyle=p.hidden?'#b9e0bb':'#fff1bd';c.beginPath();c.moveTo(p.x,p.y-playerWidth*.42-10);c.lineTo(p.x-5,p.y-playerWidth*.42-18);c.lineTo(p.x+5,p.y-playerWidth*.42-18);c.fill();
   if(p.abilityTime>0){const a=p.species.ability;c.save();c.globalAlpha=.22;c.fillStyle=['ink','poison'].includes(a)?'#112f3d':'#caedcf';c.strokeStyle='#e0f6b9';c.lineWidth=2;if(['ink','poison'].includes(a)){c.beginPath();c.ellipse(p.x-p.facing*35,p.y,90,48,Math.sin(t)*.2,0,Math.PI*2);c.fill();}else if(a!=='camouflage'){c.beginPath();c.arc(p.x,p.y,p.species.size*.7+12+Math.sin(t*5)*5,0,Math.PI*2);c.stroke();}c.restore();}
-  if(p.cleanTime>0)this.tag(c,p.x,p.y-45,'Cleaning…');
+  if(p.cleanTime>0)this.tag(c,p.x,p.y-45,'Removing parasites');
   const meal=sim.mealTarget;
   if(meal&&!sim.paused&&sim.phase==='playing'){
    const width=meal.species?creatureWidth(meal.species):meal.size||25;

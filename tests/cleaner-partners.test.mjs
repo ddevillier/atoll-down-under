@@ -15,7 +15,7 @@ function fixture(id='s53'){
 test('hungry night residents leave the cleaner shrimp available and choose ordinary food',()=>{
  for(const id of ['s12','s13','s14','s53']){
   const {s,client,cleaner}=fixture(id);
-  assert.equal(edible(client,cleaner),true,'diet alone would accept this shrimp');
+  assert.equal(edible(client,cleaner),false,'cleaning partners are helpers, not meal targets');
   const food={id:'ordinary-shrimp',kind:'food',food:'shrimp',name:'Small shrimp',x:655,y:300,size:22,amount:100,regrow:0};
   s.section.food=[food];s.stepNpc(client,.05);
   assert.equal(cleaner.alive,true);assert.equal(client.target,food.id);
@@ -25,7 +25,7 @@ test('hungry night residents leave the cleaner shrimp available and choose ordin
 });
 
 test('hungry daytime hunters also recognize the wrasse as a cleaning partner',()=>{
- const {s,client,cleaner}=fixture('s16');assert.equal(edible(client,cleaner),true);
+ const {s,client,cleaner}=fixture('s16');assert.equal(edible(client,cleaner),false);
  for(let i=0;i<60;i++)s.stepNpc(client,1/60);
  assert.equal(cleaner.alive,true);assert.equal(client.target,null);
 });
@@ -45,9 +45,10 @@ test('clients still approach and receive parasite removal instead of losing thei
  assert.ok(client.health>99);assert.equal(client.target,null);assert.equal(cleaner.alive,true);
 });
 
-test('a player can still choose to eat a cleaner and the replacement returns at its station',()=>{
+test('cleaners reject direct consumption and legacy absent partners return to their station',()=>{
  const {s,cleaner}=fixture();s.player.species=SPECIES[53];s.player.energy=40;
- s.consume(cleaner);assert.equal(cleaner.alive,false);assert.ok(s.player.energy>40);
+ s.consume(cleaner);assert.equal(cleaner.alive,true);assert.equal(s.player.energy,40);
+ cleaner.alive=false;cleaner.respawn=20;
  const restored=Simulation.restore(s.serialize()),returning=restored.section.entities.find(e=>e.id===cleaner.id);
  for(let i=0;i<21*60;i++)restored.stepNpc(returning,1/60);
  assert.equal(returning.alive,true);assert.equal(returning.x,returning.station.x);assert.equal(returning.y,returning.station.y);
