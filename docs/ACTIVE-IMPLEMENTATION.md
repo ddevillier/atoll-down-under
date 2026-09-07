@@ -1,5 +1,7 @@
 # Current implementation brief
 
+**PARKED BY USER — September 6, 2026.** The user said “Yes let’s park.” The last running checks finished successfully and the Windows Guide Options build is parked for testing. See [WINDOWS-PARKED-BUILD.md](WINDOWS-PARKED-BUILD.md), packaged source `5add04a`. Stop feature work, research and additional builds until the user explicitly asks to resume. The broader objective remains unfinished; the old goal and history below are not permission to override this parking instruction.
+
 This page records current scope. The previous chronological notes are preserved in [IMPLEMENTATION-HISTORY-2026-09-06.md](IMPLEMENTATION-HISTORY-2026-09-06.md). Their old priorities and pending-build statements are historical, not instructions to restart completed work.
 
 ## User direction
@@ -17,7 +19,7 @@ The user's later direction governs how that objective is pursued:
 
 ## Current testing build
 
-Source follow-up newer than this build: the previously unused metric preference now controls the 28 existing field-guide length summaries, with inches/feet available in Settings. No new animal facts or simulation changes. All 140 unit/asset checks and four relevant browser scenarios pass; see LENGTH-UNITS.md. Windows packaging for this option is pending.
+The length-unit follow-up is now packaged in the parked build above. Native unit switching, persistence, food highlights, fullscreen and gameplay passed. The Food Hints milestone below is retained as prior verification history.
 
 [Windows Food Hints](WINDOWS-FOOD-HINTS-BUILD.md), packaged source 2e43ce2, includes cleaners, spaced queues, interruption fixes, and optional H/Settings food markers. The archive is dist/Atoll-Down-Under-Windows-Food-Hints-2026-09-06.zip. Native food controls, ordinary gameplay, fullscreen and portable saves passed. All 120 checked packaged files and 73 ZIP payload files matched; CRC passed. This brief postdates the packaged runtime.
 

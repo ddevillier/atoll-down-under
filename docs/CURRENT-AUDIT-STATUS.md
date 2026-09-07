@@ -1,5 +1,7 @@
 # Current audit status
 
+**Parked at the user's request, September 6, 2026.** Latest tested package: `5add04a`, Windows Guide Options; see WINDOWS-PARKED-BUILD.md. Its unit preference, food highlights, fullscreen and gameplay checks passed. Further feature work and research await an explicit request to resume. Earlier milestone references below retain their evidence scope; the broader audit is not claimed complete.
+
 The user's latest direction supersedes historical-fidelity priorities: preserve the spirit of the game, ask before more original-game reference research, and improve cleaners now. The original comparison register is a backlog of possible considerations, not a requirement to copy every detail. CLEANER-LOOP.md describes the current gameplay work; the unfinished extra-diet pass is parked rather than applied.
 
 The numbered register in ORIGINAL-DESIGN-AUDIT.md is a historical baseline. This page distinguishes subsequent repairs from unresolved work. Latest verified packaged source: 2e43ce2, Windows Food Hints; see WINDOWS-FOOD-HINTS-BUILD.md. It includes species pass 3, the puffer coral-food correction, the cleaner loop, interruption repairs, spaced station queues and optional nearby food highlights. Population ranges and predator settings are unchanged. The user's current priority is Practice/exploration with gentle difficulty; copying Tournament is deferred.
