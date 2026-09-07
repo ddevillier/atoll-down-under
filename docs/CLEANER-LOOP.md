@@ -18,7 +18,7 @@ Visitors previously all aimed at the same service point, allowing several fish t
 
 The plan is derived from live state without random draws or a second saved queue. Waiting positions and service resume deterministically after loading. Body spacing is checked at assigned destinations; swimming paths can still cross. Extremely crowded imported saves receive the best available position if fully separated spots cannot fit. The regular four-client day/night fixtures fit in all nine habitats.
 
-Source queue verification: all 136 unit/asset checks and all 55 seed-42 exploration runs pass. Browser day/night fixtures demonstrate separation during a temporary cleaner interruption and eventual treatment for every client. Native/package verification is recorded in the next Windows testing receipt once complete.
+Queue verification: all 136 unit/asset checks, 35 browser scenarios and 55 seed-42 exploration runs pass. Browser and packaged Windows day/night fixtures demonstrate separation during a temporary cleaner interruption and eventual treatment for every client. Native fullscreen/gameplay and portable saves also pass with no reported errors. See WINDOWS-CLEANER-QUEUES-BUILD.md for the verified runtime, ZIP and integrity evidence. Historical source-only statements below predate that milestone.
 
 ## Bounds
 

@@ -2,7 +2,7 @@
 
 The user's latest direction supersedes historical-fidelity priorities: preserve the spirit of the game, ask before more original-game reference research, and improve cleaners now. The original comparison register is a backlog of possible considerations, not a requirement to copy every detail. CLEANER-LOOP.md describes the current gameplay work; the unfinished extra-diet pass is parked rather than applied.
 
-The numbered register in ORIGINAL-DESIGN-AUDIT.md is a historical baseline. This page distinguishes subsequent repairs from unresolved work. Latest verified runtime: 9cdeab3, the Windows Cleaners testing milestone; see WINDOWS-CLEANERS-BUILD.md. It includes species pass 3 and the puffer coral-food correction as well as the cleaner loop. The user's current priority is Practice/exploration with gentle difficulty; copying Tournament is deferred.
+The numbered register in ORIGINAL-DESIGN-AUDIT.md is a historical baseline. This page distinguishes subsequent repairs from unresolved work. Latest verified runtime: 2ab4435, the Windows Cleaner Queues testing milestone; see WINDOWS-CLEANER-QUEUES-BUILD.md. It includes species pass 3, the puffer coral-food correction, the cleaner loop, interruption repairs and spaced station queues. This repairs a local piling-up behavior without changing population ranges or predator settings. The user's current priority is Practice/exploration with gentle difficulty; copying Tournament is deferred.
 
 | Area | Current evidence | Remaining work |
 |---|---|---|
