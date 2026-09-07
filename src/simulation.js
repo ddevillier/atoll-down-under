@@ -4,6 +4,7 @@ import {BOTTOM_RESIDENTS,placeOnGround,walkOnGround,positionOnGround,attachToNea
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
 import {chooseForager} from './communities.js';
+import {planCleaning} from './cleaning-stations.js';
 import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -93,14 +94,15 @@ export class Simulation {
   return id?(this.section?.entities.find(e=>e.id===id&&e.alive&&e.species.ability!=='clean')||this.section?.food.find(f=>f.id===id&&f.regrow<=0)||null):null;
  }
  get cleaningPartner(){return this.section?.entities.find(e=>e.alive&&e.species.ability==='clean'&&e.id===this.player?.cleanerTarget)||null;}
+ cleaningPlan(){return planCleaning(this.section?.entities.find(e=>e.alive&&e.species.ability==='clean'),this.player,this.section?.entities||[],W,H);}
  get cleaningStatus(){
   const p=this.player,c=this.cleaningPartner;
   if(p?.cleanTime>0)return 'Cleaning · '+Math.min(75,Math.floor(p.cleanTime/2*4)*25)+'% complete · Move to leave';
   if(!c)return '';
   if(c.stun>0)return 'Cleaner needs a moment · Waiting nearby';
+  if(this.section.entities.some(e=>e!==c&&e.alive&&e.cleanTime>0&&e.target===c.id))return 'Cleaner is helping another fish · Waiting your turn';
   const station=c.station||c;
   if(Math.hypot(p.x-station.x-35,p.y-station.y)>12)return 'Visiting '+c.species.name+' · Move to steer away';
-  if(this.section.entities.some(e=>e!==c&&e.alive&&e.cleanTime>0&&e.target===c.id))return 'Cleaner is helping another fish · Waiting your turn';
   return 'Ready for cleaning · Settling beside your cleaner';
  }
  requestCleaning(cleaner=this.section?.entities.find(e=>e.alive&&e.species.ability==='clean')){
@@ -212,9 +214,10 @@ export class Simulation {
  step(dt){
   if(this.paused||this.phase!=='playing'||!this.player)return;
   dt=Math.min(dt,.05);this.time+=dt;const p=this.player;p.cooldown=Math.max(0,p.cooldown-dt);p.abilityTime=Math.max(0,p.abilityTime-dt);p.biteCooldown=Math.max(0,p.biteCooldown-dt);
+  const cleaningPlan=this.cleaningPlan();
   if(p.cleanerTarget){
    const c=this.cleaningPartner;
-   if(c){const station=c.station||c;this.pointer={x:station.x+35,y:station.y};}
+   if(c){const station=c.station||c;this.pointer=cleaningPlan?.destinations.get(p.id)||{x:station.x+35,y:station.y};}
    else{p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};this.event('message','Your cleaner is no longer available. You can keep swimming.');}
   }
   const target=this.mealTarget;
@@ -256,11 +259,12 @@ export class Simulation {
   if(p.x>W-8&&this.pointer.x>W-10)this.transition(1,0);else if(p.x<8&&this.pointer.x<10)this.transition(-1,0);else if(p.y>H-8&&this.pointer.y>H-10){if(!this.transition(0,1))p.y=H-8;}else if(p.y<8&&this.pointer.y<10){if(!this.transition(0,-1))p.y=8;}
   p.x=clamp(p.x,1,W-1);p.y=clamp(p.y,1,H-1);
   for(const f of this.section.food)f.regrow=Math.max(0,f.regrow-dt);
-  for(const e of [...this.section.entities])this.stepNpc(e,dt);
+  const npcCleaningPlan=this.section.entities.includes(cleaningPlan?.cleaner)?cleaningPlan:this.cleaningPlan();
+  for(const e of [...this.section.entities])this.stepNpc(e,dt,npcCleaningPlan);
   if(p.energy<=0)this.die('Your energy ran out. Look for food that suits your fish.');else if(p.health<=0)this.die(p.lastHarm?.type==='poison'?'Your fish did not recover after eating '+p.lastHarm.name+'.':p.lastHarm?.type==='bite'?'Your fish did not recover after a bite from '+p.lastHarm.name+'.':'Parasites overwhelmed your fish. Observe a cleaning station on your next dive.');
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
- stepNpc(e,dt){
+ stepNpc(e,dt,cleaningPlan=this.cleaningPlan()){
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
    e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;
    // A returning cleaner belongs to the established station, where players
@@ -294,10 +298,11 @@ export class Simulation {
   const cleaner=e.species.parasites&&e.health<65?this.section.entities.find(b=>b.alive&&b.species.ability==='clean'):null;
   if(cleaner){
    e.target=cleaner.id;e.pursuit=0;
-   const station=cleaner.station||cleaner,dx=station.x+35-e.x,dy=station.y-e.y,dist=Math.hypot(dx,dy);
-   if(dist>12){e.angle=turnTowards(e.angle,Math.atan2(dy,dx),e.species.agility*dt);e.x+=Math.cos(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.y+=Math.sin(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.facing=Math.cos(e.angle)>=0?1:-1;e.cleanTime=0;e.behavior='Visiting a cleaning station';}
+   const station=cleaner.station||cleaner,dest=cleaningPlan?.destinations.get(e.id)||{x:station.x+35,y:station.y};
+   const dx=dest.x-e.x,dy=dest.y-e.y,dist=Math.hypot(dx,dy),waiting=cleaningPlan?.client!==e;
+   if(dist>12){e.angle=turnTowards(e.angle,Math.atan2(dy,dx),e.species.agility*dt);e.x+=Math.cos(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.y+=Math.sin(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.facing=Math.cos(e.angle)>=0?1:-1;e.cleanTime=0;e.behavior=waiting?'Waiting for a cleaner':'Visiting a cleaning station';}
    else{
-    const busy=cleaner.stun>0||p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
+    const busy=waiting||cleaner.stun>0||p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
     e.behavior=busy?'Waiting for a cleaner':'Being cleaned';if(!busy)e.cleanTime+=dt;
     if(e.cleanTime>=3){e.health=100;e.cleanTime=0;e.target=null;e.behavior='Leaving the cleaning station';e.angle+=Math.PI;e.think=2;}
    }

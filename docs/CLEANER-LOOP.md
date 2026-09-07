@@ -12,6 +12,14 @@ Mouse movement, a meal selection or an active ability releases the visit. Partia
 
 Cleaning partners are helpers rather than food. The shared food predicate excludes them, so the food web and food-seeking callers agree with the safe click behavior. Direct consumption is rejected without an energy penalty. Legacy saved player meal targets aimed at a cleaner are released; absent cleaners in older saves still return at their station.
 
+## Station queues
+
+Visitors previously all aimed at the same service point, allowing several fish to overlap while waiting. The station now assigns separate waiting destinations with body spacing and screen margins. One client is served at a time; an existing treatment finishes, a requested player visit goes next, and other fish then approach in proximity order. Fish swim normally between waiting and treatment spots. This is a spatial queue, not a population reduction or an increase in predator pressure.
+
+The plan is derived from live state without random draws or a second saved queue. Waiting positions and service resume deterministically after loading. Body spacing is checked at assigned destinations; swimming paths can still cross. Extremely crowded imported saves receive the best available position if fully separated spots cannot fit. The regular four-client day/night fixtures fit in all nine habitats.
+
+Source queue verification: all 136 unit/asset checks and all 55 seed-42 exploration runs pass. Browser day/night fixtures demonstrate separation during a temporary cleaner interruption and eventual treatment for every client. Native/package verification is recorded in the next Windows testing receipt once complete.
+
 ## Bounds
 
 Treatment removes parasites; it does not repair bite or poison damage. Existing recovery, feeding, parasite accumulation, population settings, pursuit and damage tuning are unchanged. Cleaner service is not a general invulnerability field. The encounter script still uses ordinary movement and feeding rather than perfect avoidance.

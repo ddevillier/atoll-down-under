@@ -3,6 +3,35 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('cleaner queues spread waiting fish and complete after a temporary interruption',async({page})=>{
+ for(const [species,width,height] of [['Neon',1024,768],['Flashlight',1600,900]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page,species);
+  await page.keyboard.press('Escape');
+  await page.evaluate(()=>{
+   const s=window.atoll.simulation,c=s.section.entities.find(e=>e.species.ability==='clean');
+   Object.assign(c,{x:800,y:300,station:{x:800,y:300},stun:6});
+   const clients=Array.from({length:3},(_,i)=>({...structuredClone(s.player),id:'queue-'+i,x:835,y:300,health:40,target:c.id,cleanTime:i===0?.5:0,angle:0}));
+   s.section.entities=[c,...clients];s.section.food=[];
+   Object.assign(s.player,{x:1000,y:400,health:40});s.pointer={x:1000,y:400};
+  });
+  await page.getByRole('button',{name:'Visit cleaner',exact:true}).click();
+  const waiting=await page.evaluate(()=>{
+   const s=window.atoll.simulation;for(let i=0;i<240;i++)s.step(1/60);s.paused=true;
+   const clients=[s.player,...s.section.entities.filter(e=>e.id.toString().startsWith('queue-'))];
+   return {health:s.player.health,minGap:Math.min(...clients.flatMap((a,i)=>clients.slice(i+1).map(b=>Math.hypot(a.x-b.x,a.y-b.y))))};
+  });
+  expect(waiting.health).toBe(40);expect(waiting.minGap).toBeGreaterThan(40);
+  await page.waitForTimeout(100);await page.screenshot({path:`artifacts/cleaner-queue-${species}-${width}.png`});
+  const completed=await page.evaluate(()=>{
+   const s=window.atoll.simulation,c=s.section.entities[0];c.stun=0;s.paused=false;
+   for(let i=0;i<1800;i++)s.step(1/60);s.paused=true;
+   return {health:s.player.health,clients:s.section.entities.slice(1).map(e=>e.health),cleanerAlive:c.alive};
+  });
+  expect(completed.health).toBe(100);expect(completed.cleanerAlive).toBe(true);
+  expect(completed.clients.every(h=>h>95)).toBe(true);
+ }
+});
+
 for(const [species,byClick] of [['Neon',false],['Flashlight',true]])test(`cleaner visits are visible, cancellable and safe for ${species}`,async({page})=>{
  for(const [width,height] of [[1024,768],[1600,900]]){
   await page.setViewportSize({width,height});await ready(page);await practice(page,species);

@@ -30,7 +30,9 @@ test('a requested visit waits for an existing NPC treatment and then completes',
  const {s,c}=visit();s.player.x=735;s.point(735,300);
  const client=structuredClone(s.player);Object.assign(client,{id:990,health:40,target:c.id,cleanTime:1,cleanerTarget:null,think:0});s.section.entities.push(client);
  s.requestCleaning(c);assert.match(s.cleaningStatus,/Waiting your turn/);ticks(s,.8);
- assert.equal(s.player.cleanTime,0);assert.equal(s.player.health,60);ticks(s,5);
+ assert.equal(s.player.cleanTime,0);assert.equal(s.player.health,60);
+ // The player now swims to a separate waiting spot and back to the station.
+ ticks(s,7);
  assert.ok(client.health>99);assert.equal(s.player.health,100);assert.equal(c.alive,true);
 });
 test('no-need requests do not fake treatment and unavailable cleaners release the approach',()=>{
