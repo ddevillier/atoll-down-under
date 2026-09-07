@@ -3,7 +3,7 @@ import {SPECIES} from '/src/data.js';
 import {creatureWidth} from '/src/geometry.js';
 import {PaintedParts,PART_RIGS,bodyPoint} from '/src/part-motion.js';
 import {contactDelay,feedingEnvelope} from '/src/feeding-motion.js';
-const canvas=document.querySelector('canvas'),r=new ReefRenderer(canvas),parts=new PaintedParts(),c=canvas.getContext('2d'),groups={examples:[23,32,42,27],sharks:[32,33,34,35],schools:[0,28,42,49],long:[17,18,28,49,41],hover:[1,2,7,30],grazers:[5,8,52],wrasses:[10,15,29],hunters:[16,21,38,39],perchers:[3,31,57],reefSchools:[11,53,55,58],browsers:[6,9,14,25],foragers:[12,50,51],ambushers:[36,54,59]};
+const canvas=document.querySelector('canvas'),r=new ReefRenderer(canvas),parts=new PaintedParts(),c=canvas.getContext('2d'),groups={examples:[23,32,42,27],sharks:[32,33,34,35],schools:[0,28,42,49],long:[17,18,28,49,41],hover:[1,2,7,30],grazers:[5,8,52],wrasses:[10,15,29],hunters:[16,21,38,39],perchers:[3,31,57],reefSchools:[11,53,55,58],browsers:[6,9,14,25],foragers:[12,50,51],ambushers:[36,54,59],cleaner:[43]};
 await r.load();let time=0,last=performance.now(),layoutHeight=0,paused=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pause=document.querySelector('#pause');function update(){pause.textContent=paused?'Play motion':'Pause motion';}update();pause.onclick=()=>{paused=!paused;update();};
 function draw(){

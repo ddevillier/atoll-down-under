@@ -2,6 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {Simulation,healthState} from '../src/simulation.js';
 import {SPECIES,PLAYABLE} from '../src/data.js';
 import {cleanerInspection,foregroundCleaner} from '../src/cleaner-motion.js';
+import {partPose,bodyPoint,PART_RIGS} from '../src/part-motion.js';
 
 function visit(id,cleanerIndex){
  const s=new Simulation(42);s.start('practice',id);const c=s.section.entities.find(e=>e.species.ability==='clean');
@@ -38,4 +39,22 @@ test('eligible fish settle at a cleaning dock from diagonal and tight turning ap
   let ticks=0;while(!s.events.some(e=>e.type==='clean')&&ticks++<15*60)s.step(1/60);
   assert.equal(s.player.health,85,species.name+' arrives from '+[dx,dy,angle].join(','));
  }
+});
+
+test('inspection targets cross both stage boundaries continuously in either facing direction',()=>{
+ for(const id of ['s1','s16','s26'])for(const index of [43,45])for(const facing of [-1,1]){
+  const {s,c}=visit(id,index);s.player.facing=facing;
+  for(const boundary of [2/3,4/3]){
+   s.player.cleanTime=boundary-1e-6;const before=cleanerInspection(c,s.player);
+   s.player.cleanTime=boundary+1e-6;const after=cleanerInspection(c,s.player);
+   assert.ok(Math.hypot(before.x-after.x,before.y-after.y)<.001,id+' continuous contact');
+   assert.equal(after.stage,before.stage+1);
+  }
+ }
+});
+
+test('cleaner wrasse fins hover while its tail settles and its jaw follows inspection effort',()=>{
+ const range=(name,effort)=>{const values=Array.from({length:40},(_,i)=>partPose('s43',name,i/40/PART_RIGS.s43.frequency,effort).scale);return Math.max(...values)-Math.min(...values);};
+ assert.ok(range('pectoral',0)>.5);assert.ok(range('tail',0)<range('tail',1)*.1);
+ for(const t of [0,.2,.5,.8]){assert.deepEqual(bodyPoint('s43',.89,.43,t,1,{turn:1}),{x:.89,y:.43});assert.equal(partPose('s43','jaw',t,0).angle,0);assert.ok(partPose('s43','jaw',t,0,{feed:1}).angle>0);}
 });

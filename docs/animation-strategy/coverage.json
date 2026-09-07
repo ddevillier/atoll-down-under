@@ -640,11 +640,11 @@
       "routine": "cleaner",
       "social": "station",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "partial: real station visit at both desktop sizes; continuous return and wider NPC/habitat review pending",
+      "motionReview": "partial: independent painted fins, gentle posterior motion, steady head and treatment-driven jaw; see cleaner-parts-review.md",
+      "ordinaryGameplayReview": "partial: real grouper station visits at both desktop sizes; see cleaner-parts-review.md",
       "accepted": false,
-      "remaining": "Review continuous approach, left-facing inspection, return to station, NPC clients and fine appendage readability across habitats.",
-      "feedingReview": "partial: three actual cleaner inspection stages with small fish, grouper and moray; see cleaner-review.md"
+      "remaining": "Normal-speed approach/inspection/return acceptance, wider NPC/habitat presentation, fine appendage readability and native performance remain open.",
+      "feedingReview": "partial: continuous target transfers and picking intervals, actual left/right small-fish and grouper stages; see cleaner-parts-review.md"
     },
     {
       "id": "s44",

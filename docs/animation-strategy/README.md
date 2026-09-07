@@ -164,3 +164,7 @@ The [forager review](forager-parts-review.md) adds seven fish with separate pain
 ## Bottom ambush fish and lure curiosity
 
 The [ambush review](ambush-parts-review.md) adds wobbegong, frogfish and flathead, bringing continuously posed parts to 44 species. Frogfish lure displays invite a cautious approach independently of meal targeting, and frogfish/flathead jaws respond to feeding. Three initial strips, six ordinary meal views, one corrected wobbegong strip and three lure views were inspected. All 273 unit tests and six targeted browser scenarios pass. Pressure remains at 26 bites, zero deaths and unchanged initial populations across 110 scenarios. Fine-detail readability, continuous visual acceptance, remaining roster work and native Windows delivery remain open. Cuttlefish is unchanged.
+
+## Cleaner wrasse and continuous inspection
+
+The [cleaner part review](cleaner-parts-review.md) adds independently posed wrasse fins and a treatment-driven jaw, bringing painted-part coverage to 45 species. Both cleaners now glide between inspection areas with picking pauses. Left/right small-fish and grouper visits, two ordinary desktop views and one fin-mask correction were inspected. All 275 unit tests and eight targeted browser scenarios pass; the affected part checks pass again after correction. Pressure stays at 26 bites and zero deaths in 110 scenarios with unchanged initial populations. Individual review records now cover all 64 entries, while full visual acceptance, native performance and Windows delivery remain open.
