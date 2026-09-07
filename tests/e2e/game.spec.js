@@ -3,6 +3,29 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('field guide length units switch through Settings and persist without altering source paragraphs',async({page})=>{
+ await ready(page);await clickButton(page,{name:'Settings',exact:true});
+ await expect(page.getByLabel('Metric length summaries (cm / m)')).toBeChecked();
+ await page.getByLabel('Metric length summaries (cm / m)').uncheck();await clickButton(page,{name:'Done',exact:true});
+ await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ await clickButton(page,{name:'Field guide',exact:true});await page.getByRole('searchbox').fill('Moorish idol');await page.getByRole('option').click();
+ await page.locator('.natural-history>summary').click();
+ await expect(page.locator('.natural-history-body>p').first()).toContainText('9.4 inches standard length (without the tail fin) (approx.)');
+ for(const [width,height] of [[1024,768],[1600,900]]){
+  await page.setViewportSize({width,height});
+  await page.locator('.natural-history-body>p').first().scrollIntoViewIfNeeded();
+  const bounds=await page.locator('.natural-history-body').evaluate(e=>({scroll:e.scrollWidth,client:e.clientWidth}));
+  expect(bounds.scroll).toBeLessThanOrEqual(bounds.client+1);
+  await page.screenshot({path:`artifacts/length-units-${width}.png`});
+ }
+ await clickButton(page,{name:'Return',exact:true});await clickButton(page,{name:'Settings',exact:true});
+ await expect(page.getByLabel('Metric length summaries (cm / m)')).not.toBeChecked();
+ await page.getByLabel('Metric length summaries (cm / m)').check();await clickButton(page,{name:'Done',exact:true});
+ await clickButton(page,{name:'Field guide',exact:true});await page.getByRole('searchbox').fill('Moorish idol');await page.getByRole('option').click();
+ await page.locator('.natural-history>summary').click();
+ await expect(page.locator('.natural-history-body>p').first()).toContainText('24 cm standard length (without the tail fin)');
+});
+
 test('optional food highlights persist, respect keyboard focus and leave feeding under player control',async({page})=>{
  await ready(page);await practice(page,'Neon');
  expect(await page.evaluate(()=>!!window.atoll.renderer.foodHints)).toBe(false);

@@ -88,6 +88,8 @@ Daytime open-water sections include three to five nearby members of one schoolin
 
 ## Species natural history
 
+Settings offers metric length summaries (cm/m) or approximate inches/feet for entries with an existing measured length. The locally stored metric preference defaults on. Source paragraphs retain their wording, and entries without a length remain unmeasured. This display option does not affect gameplay body sizes or creation budgets. See LENGTH-UNITS.md.
+
 The Creatures tab offers expandable natural-history text for all 64 researched catalog creatures (including explicitly labeled group entries). Scientific names are searchable; maximum natural lengths, when sourced, are distinct from sprite size. Readers can compare anatomy, habitat, parental care and ecological relationships, with source URLs available offline. Brief game rules remain below the expansion. A sticky species browser retains navigation while the entry scrolls. SPECIES-FACTS-LEDGER.md tracks each entry; ambiguous labels retain explicit identity limits and named examples. Original-roster parity remains unverified.
 
 

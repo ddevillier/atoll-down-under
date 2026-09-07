@@ -17,6 +17,8 @@ The user's later direction governs how that objective is pursued:
 
 ## Current testing build
 
+Source follow-up newer than this build: the previously unused metric preference now controls the 28 existing field-guide length summaries, with inches/feet available in Settings. No new animal facts or simulation changes. All 140 unit/asset checks and four relevant browser scenarios pass; see LENGTH-UNITS.md. Windows packaging for this option is pending.
+
 [Windows Food Hints](WINDOWS-FOOD-HINTS-BUILD.md), packaged source 2e43ce2, includes cleaners, spaced queues, interruption fixes, and optional H/Settings food markers. The archive is dist/Atoll-Down-Under-Windows-Food-Hints-2026-09-06.zip. Native food controls, ordinary gameplay, fullscreen and portable saves passed. All 120 checked packaged files and 73 ZIP payload files matched; CRC passed. This brief postdates the packaged runtime.
 
 The implementation has 138 passing unit/asset checks. Four relevant browser scenarios verified the food-hint follow-up; the preceding cleaner-queue milestone passed the full 35-scenario browser suite. Do not represent those scopes as a fresh full-suite run on the current package. Receipts and feature documents retain detailed evidence.
