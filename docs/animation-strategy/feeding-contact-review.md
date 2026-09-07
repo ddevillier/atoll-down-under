@@ -29,7 +29,7 @@ All eight first-round sheets were inspected, followed by a batched correction an
 
 Evidence directories: `artifacts/feeding-contact/` (first round), `artifacts/feeding-contact-confirmation/` (confirmation). Ordinary UI entry and mouse-driven goatfish feeding in Pearl Sands were captured at 1600×900 and 1024×768. Puffer crab/snail meals and meadow feeding/inspection/saved return pass their browser scenarios. The older meadow fixture clicked the tail's world anchor; it now clicks the visible seahorse head and separately checks the preserved holdfast.
 
-Remaining visual limits: the sponge food-atlas crop contains a small stray fragment at its left edge, visible in the nudibranch sheet. It was initially mistaken for gallery clipping and remains after the bounded confirmation. Correct that source/extraction issue in the outstanding asset pass. Fine jaws in the small original atlases remain subtle. Moving-prey surface contact uses the visible body's approximate inner edge; it is not an alpha-contour collision system. Continuous reversals, full locomotion, ecology presentation and ordinary-size acceptance remain in the broader ledger.
+The initial review exposed a small stray fragment at the sponge crop's left edge, visible in the nudibranch sheet. It was initially mistaken for gallery clipping; the later food-extraction continuation below resolves it. Fine jaws in the small original atlases remain subtle. Moving-prey surface contact uses the visible body's approximate inner edge; it is not an alpha-contour collision system. Continuous reversals, full locomotion, ecology presentation and ordinary-size acceptance remain in the broader ledger.
 
 ## Verification
 
@@ -39,3 +39,11 @@ Remaining visual limits: the sponge food-atlas crop contains a small stray fragm
 - Updated pressure run: **31 bites, zero deaths, maximum one bite in a run**, across 110 one-minute stationary/scripted-swimming scenarios. Five bites occur in stationary runs and 26 in moving runs. Every initial population count matches the original baseline. The prior foundation checkpoint had seven bites; the pre-uplift baseline had 26. These are reproducible simulation observations, not proof that encounter timing feels right to a child.
 
 The original baseline is preserved in `artifacts/roster-before-simulation.json`; the foundation checkpoint is preserved in `artifacts/roster-foundation-simulation.json`; current results are in `artifacts/roster-after-simulation.json`. Broader performance, native Windows validation and the combined release remain pending.
+
+## Food extraction continuation
+
+The food atlas is now cropped beyond its implied cell boundaries before isolating each of its first six connected paintings. This removes neighboring fragments from sponge, coral and shrimp and recovers grass/coral tips that crossed the grid. Plankton and shells retain their disconnected components; their empty upper margin is excluded to avoid a grass fragment from the preceding row. The original atlas file is unchanged.
+
+The first batch (`artifacts/sponge-cleanup/inspection.png`) inspected the sponge correction, all eight food sprites and actual nudibranch meal preparation/contact/recovery. It exposed the additional crop problems, corrected together in the single confirmation (`artifacts/sponge-cleanup-confirmation/inspection.png`). Both sheets were inspected. The confirmation shows complete connected food silhouettes without the previously visible neighboring fragments, plus the retained plankton/shell clusters. The actual resident meal reduces sponge amount from 100 to 88, with all three phases reached and no browser errors. These are focused extraction and feeding observations, not general substrate or continuous-animation acceptance.
+
+The existing mouse-feeding and meadow feeding/inspection/saved-return browser scenarios both pass (`artifacts/food-crop-e2e.log`). No simulation code changed in this extraction correction.

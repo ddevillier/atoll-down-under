@@ -103,3 +103,7 @@ The [ray review](ray-review.md) records distinct stingray/electric-ray disc, hea
 ## Separate long fins and fans
 
 The [fin review](fin-review.md) records eight dedicated rigs with independent tails, fin sectors and streamers, protected attachments and stable eyes. All 225 unit tests and the eight-species browser pause/reduced-motion/cache check pass. Eight full-renderer simulation strips, sixteen ordinary gameplay views at both desktop sizes and eight confirmation strips were inspected. Thin dark fins, player identification and overlapping activity labels remain shared readability issues. Continuous playback and the cost of the finer meshes remain open; all species retain partial review status and no new Windows archive was created.
+
+## Food crop cleanup
+
+The [food extraction continuation](feeding-contact-review.md#food-extraction-continuation) resolves the recorded sponge fragment and related grid-boundary defects in the other food sprites. One initial sheet and one confirmation were inspected, including all eight foods and actual nudibranch meal phases. Original atlas bytes remain unchanged; the correction is in extraction. Broader animal animation, habitat attachment and delivery remain in progress.

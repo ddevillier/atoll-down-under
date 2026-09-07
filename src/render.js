@@ -25,7 +25,16 @@ export class ReefRenderer {
    const sprite=this.extractCell(await img(path),0,1,1,false);
    this.sprites[index]=sprite;this.bounds[index]={x:0,y:0,w:sprite.width,h:sprite.height};
   }));
-  const food=await img('assets/creatures/food-atlas.png');for(let i=0;i<8;i++)this.foodSprites.push(this.extractCell(food,i,4,2,false));
+  const food=await img('assets/creatures/food-atlas.png');
+  for(let i=0;i<8;i++){
+   // Single food paintings cross the implied grid: overscan before isolating
+   // their connected silhouette. The two clusters retain their detached pieces;
+   // their empty top margin excludes stray grass from the row above.
+   const cw=food.width/4,ch=food.height/2,left=i%4*cw,top=Math.floor(i/4)*ch;
+   const x=i<6?Math.max(0,Math.floor(left-cw*.22)):left,y=i<6?Math.max(0,Math.floor(top-ch*.12)):Math.floor(top+ch*.1);
+   const right=i<6?Math.min(food.width,Math.ceil(left+cw*1.22)):left+cw,bottom=i<6?Math.min(food.height,Math.ceil(top+ch*1.12)):top+ch;
+   this.foodSprites.push(this.extractCell(food,i,4,2,i<6,{x,y,w:right-x,h:bottom-y}));
+  }
   this.ready=true;
  }
  extractCell(image,cell,cols,rows,mainOnly,region=null){
