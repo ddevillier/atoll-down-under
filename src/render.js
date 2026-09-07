@@ -100,7 +100,8 @@ export class ReefRenderer {
   const feed=feedingEnvelope(e);
   const desiredPuff=e.species.ability==='puff'&&e.abilityTime>0?1:0;pose.puff??=desiredPuff;
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0,puff:pose.puff,turn:turn.bend});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed,turn:turn.bend});ctx.restore();
+  const feedAngle=e.residentMeal?Math.atan2(e.residentMeal.y-e.y,e.residentMeal.x-e.x):e.angle||0;
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed,turn:turn.bend});ctx.restore();
   if(!underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
  }
  drawResidentMorsel(ctx,e,rotation,alpha){

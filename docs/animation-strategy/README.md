@@ -111,3 +111,7 @@ The [food extraction continuation](feeding-contact-review.md#food-extraction-con
 ## Resident appendages and close-passer responses
 
 The [resident review](resident-review.md) records dedicated shrimp/crab joints, snail shell protection and separate nudibranch gills/feelers. Crawlers briefly pause and withdraw near a larger neighbor, then tolerate a lingering neighbor or recover after quiet. Ground travel now drives animation effort using actual crawl speed. All 230 unit tests and two resident browser scenarios pass; the final targeted run also verifies respawn cleanup. Sixteen images were inspected across the initial batch and one confirmation. Pressure checks retain 30 bites, zero deaths and unchanged initial counts across 110 scenarios. Fine-detail visibility, complete substrate contact, continuous playback, remaining anatomy groups and native performance stay open.
+
+## Separate radial anatomy
+
+The [radial review](radial-review.md) records directional sea-star arms, independently timed urchin spine groups, and anemone tentacle paths with a fixed base and inward crown contraction. All 233 unit tests and two browser scenarios pass. Three actual-routine strips and ordinary nighttime communities at both desktop sizes were inspected after correcting the capture fixture to include the nocturnal urchin. Shape continuity and direction-aware cache behavior are verified within that scope. Fine dark details, complete attachment, continuous playback, remaining species groups, native performance and final Windows delivery remain open.
