@@ -16,7 +16,11 @@ try{
   s.section.entities=[];s.section.food=[];s.protected=false;
   Object.assign(s.player,{x:a.x,y:a.y+a.r*.8,still:0});s.pointer={x:s.player.x,y:s.player.y};
  });
- await expect(page.locator('#state-badge')).toContainText('Hidden · Stay still');
+ const settleStarted=Date.now();
+ try{await expect(page.locator('#state-badge')).toContainText('Hidden · Stay still',{timeout:20000});}
+ catch(error){console.log(await page.evaluate(()=>{const s=window.atoll.simulation;return {visibility:document.visibilityState,time:s.time,still:s.player.still,hidden:s.player.hidden,paused:s.paused,phase:s.phase,x:s.player.x,y:s.player.y,pointer:s.pointer};}));throw error;}
+ const settling=await page.evaluate(()=>({visibility:document.visibilityState,still:window.atoll.simulation.player.still}));
+ settling.wallSeconds=(Date.now()-settleStarted)/1000;
  await page.keyboard.press('Escape');
  const markers=await page.evaluate(async()=>{
   const r=window.atoll.renderer,c=r.ctx,arc=c.arc,tag=r.tag,arcs=[],labels=[];
@@ -37,6 +41,6 @@ try{
  expect(await page.evaluate(()=>window.atoll.simulation.player.hidden)).toBe(false);
  await page.screenshot({path:'artifacts/native-shelter-large.png'});
  expect(errors).toEqual([]);
- const report={surface:executablePath?'packaged Windows':'source Electron',origin:await page.evaluate(()=>location.origin),protectedEntryText:true,smallFishHides:true,markersMatchSimulationRadius:true,largeFishRejected:true,isolatedProfile:true,errors};
+ const report={surface:executablePath?'packaged Windows':'source Electron',origin:await page.evaluate(()=>location.origin),settling,protectedEntryText:true,smallFishHides:true,markersMatchSimulationRadius:true,largeFishRejected:true,isolatedProfile:true,errors};
  fs.writeFileSync('artifacts/native-shelter-report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));
 }finally{await app.close();}

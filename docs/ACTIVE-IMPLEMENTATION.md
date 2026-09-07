@@ -1,5 +1,7 @@
 # Current implementation objective
 
+Latest testing build: Windows-Practice (runtime f79ca91), now including the second species pass and shelter feedback. Native gameplay, fullscreen, species, shelter and actual portable-file export/import checks pass. All 103 checked packaged files match source at build time and all 73 ZIP payload files match the tested runnable folder; CRC passes. See WINDOWS-PRACTICE-BUILD.md. CURRENT-AUDIT-STATUS.md separates completed repairs from remaining work. Earlier milestone-specific pending statements below are retained as history; native packaging for these changes is now verified. The persistent objective remains active.
+
 Continue the original specification and audit work with gentle difficulty. The user requests animal facts for every species first, population hills and valleys, and one zone with a modestly higher predator spawn likelihood. Increasing general chase difficulty is not a current priority.
 
 Latest direction: prioritize Practice and reef exploration. Do not pursue a carbon copy of Tournament or spend further time reconstructing its order at present. The uncommitted Tournament opening-order experiment was reverted. Resume species/fact consistency and exploration improvements without increasing difficulty. Coral grouper facts now use the original guide’s Cephalopholis miniata identity and an independently written Australian Museum account; this source correction is newer than the parked Windows Saves ZIP.

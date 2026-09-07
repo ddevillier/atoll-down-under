@@ -1,5 +1,7 @@
 # Original-design and gameplay audit
 
+For the current state after subsequent repairs and Windows testing milestones, see [CURRENT-AUDIT-STATUS.md](CURRENT-AUDIT-STATUS.md). The register and measurements below retain their original baseline scope.
+
 6 September 2026. Gameplay baseline: `06e1f58`, the parked Windows testing snapshot. The accompanying revision adds fullscreen controls; it does not change the audited predator, food, health or scoring rules.
 
 **Verdict: the remake has the broad structure of Odell Down Under, but its gameplay fidelity is incomplete. Predator pressure was reduced too far.** The problem is not literal absence of hunters: their speed, appetite, targeting and recovery rules make them ineffective or easy to miss. Passing survival tests was incorrectly treated as sufficient evidence of good balance. Survival, observation, meaningful danger and useful defenses need to be evaluated together.
