@@ -6,7 +6,7 @@ All 64 catalog creatures have sourced guide content. This records written covera
 |---|---|---|
 | s0 | Silver sprat | Written: Spratelloides gracilis; source in guide |
 | s1 | Neon damselfish | Written: Pomacentrus coelestis; source in guide |
-| s2 | Orange coral goby | Written: Gobiodon (coral gobies; genus); source in guide |
+| s2 | Orange coral goby | Corrected: Gobiodon okinawae, matching original scientific identity; yellow adult illustration and original-name explanation |
 | s3 | Royal gramma | Written: Gramma loreto; source in guide |
 | s4 | Moorish idol | Written: Zanclus cornutus; source in guide |
 | s5 | Palette surgeonfish | Written: Paracanthurus hepatus; source in guide |
@@ -16,7 +16,7 @@ All 64 catalog creatures have sourced guide content. This records written covera
 | s9 | Yellow goatfish | Written: Mullidae (goatfishes; family); source in guide |
 | s10 | Sixbar wrasse | Written: Thalassoma hardwicke; source in guide |
 | s11 | Peach fairy basslet | Written: Nemanthias dispar; source in guide |
-| s12 | Squirrelfish | Written: Holocentridae (squirrelfishes and soldierfishes; family); source in guide |
+| s12 | Squirrelfish | Corrected: Neoniphon sammara, the original bloodspot squirrelfish; Fishes of Australia facts and new illustration |
 | s13 | Banggai cardinalfish | Written: Pterapogon kauderni; source in guide |
 | s14 | Oriental sweetlip | Written: Plectorhinchus vittatus; source in guide |
 | s15 | Parrotfish | Written: Scarinae (parrotfishes; group); source in guide |
@@ -26,7 +26,7 @@ All 64 catalog creatures have sourced guide content. This records written covera
 | s19 | Cuttlefish | Written: Sepiidae (cuttlefishes; family); source in guide |
 | s20 | Lionfish | Written: Pterois (lionfishes; genus); source in guide |
 | s21 | Devil scorpionfish | Written: Scorpaenopsis diabolus; source in guide |
-| s22 | Spotted pufferfish | Written: Tetraodontidae (pufferfishes; family); source in guide |
+| s22 | Spotted pufferfish | Corrected: Arothron nigropunctatus, the original blackspotted puffer; museum facts, new illustration and missing coral food restored |
 | s23 | Longhorn cowfish | Written: Lactoria cornuta; source in guide |
 | s24 | Clown triggerfish | Written: Balistoides conspicillum; source in guide |
 | s25 | Regal angelfish | Written: Pygoplites diacanthus; source in guide |

@@ -24,6 +24,29 @@ test('every listed playable diet category has at least one usable model food',()
  }
 });
 
+test('puffers can eat the original guide coral food and NPCs share the same menu',()=>{
+ const s=new Simulation(42);s.start('practice','s22');
+ const coral=s.section.food.find(f=>f.food==='coral');
+ s.player.energy=40;s.consume(coral);
+ assert.ok(s.player.energy>40);assert.equal(s.player.poisonDamage,0);assert.equal(coral.amount,65);
+ const npc=structuredClone(s.player);Object.assign(npc,{id:901,x:coral.x-10,y:coral.y,angle:0,satiated:0,think:0,target:null,biteCooldown:0});
+ s.section.entities=[npc];s.section.food=[coral];s.player.x=1500;s.player.y=50;s.point(1500,50);
+ ticks(s,1);assert.ok(coral.amount<65);assert.ok(npc.satiated>40);
+ assert.equal(edible(SPECIES[2],coral),false);
+ assert.equal(edible(SPECIES[12],SPECIES[0]),false);
+});
+
+test('old puffer saves gain only coral while preserving custom diets and saved state',()=>{
+ const s=new Simulation(42);s.start('practice','s22');
+ const old=JSON.parse(s.serialize());
+ for(const fish of [old.player,...old.sections.flatMap(r=>r.entities)])if(fish.species.id==='s22')fish.species.diet=fish.species.diet.filter(f=>f!=='coral');
+ const custom=structuredClone(old.player);custom.id=902;custom.species.id='custom';old.sections[0].entities.push(custom);
+ const expected=structuredClone(old);
+ for(const fish of [expected.player,...expected.sections.flatMap(r=>r.entities)])if(fish.species.id==='s22')fish.species.diet.push('coral');
+ const restored=Simulation.restore(old);assert.deepEqual(JSON.parse(restored.serialize()),expected);
+ assert.equal(Simulation.restore(restored.serialize()).serialize(),restored.serialize());
+});
+
 test('old lionfish saves gain the verified crab food without rerolling animals or RNG',()=>{
  const s=new Simulation(42);s.start('practice','s20');
  const old=JSON.parse(s.serialize());old.player.species.diet=['fish','shrimp'];

@@ -1,20 +1,20 @@
 // Independently written summaries of cited museum, government, aquarium and university sources.
 // Real-world measurements are separate from sprite size and game balance.
 export const NATURAL_HISTORY={
- s2:{scientific:'Gobiodon (coral gobies; genus)',family:'Gobiidae · gobies',
+ s2:{scientific:'Gobiodon okinawae',family:'Gobiidae · coral gobies',
   paragraphs:[
-   'Coral gobies are small fishes closely associated with living corals. One named example is the yellow coralgoby, Gobiodon okinawae, which often occupies the outer edges of table-like Acropora colonies on sheltered reefs.',
-   'That species eats both plankton and tissue from its coral host. Its young look different from the bright-yellow adults: they are whitish, with a dark internal stripe and spots on the head and tail. A coral can be both a home and a source of food.'
+   'The original game called this species the orange coral goby, but its scientific name identifies the yellow coralgoby. Adults are bright yellow, sometimes with a pale cheek patch. Young fish are whitish, with an internal dark stripe and spots on the head and tail.',
+   'It lives on sheltered reefs, often near the outer edges of table-like Acropora colonies. It eats plankton and tissue from its coral host. The coral therefore provides both a place to live and part of its food.'
   ],question:'Look along a coral colony’s outer edge as well as between its branches. Where might a small resident be easiest to see?',
-  limit:'Orange coral goby has not been matched to an exact species. The yellow coralgoby is an example, not an identification of this sprite; host-specific feeding is not simulated.',
-  source:'Dianne J. Bray · Fishes of Australia: Yellow Coralgoby (named example)',url:'https://fishesofaustralia.net.au/home/species/2231'},
- s12:{scientific:'Holocentridae (squirrelfishes and soldierfishes; family)',family:'Squirrelfishes · species not identified',
+  limit:'The written identity follows the original Windows guide and the illustration depicts a yellow adult. The game retains the original plankton-only menu; coral-host feeding and natural skin defenses are not simulated.',
+  source:'Dianne J. Bray · Fishes of Australia: Yellow Coralgoby',url:'https://fishesofaustralia.net.au/home/species/2231'},
+ s12:{scientific:'Neoniphon sammara',family:'Holocentridae · squirrelfishes',
   paragraphs:[
-   'Squirrelfish is a name shared by several fishes. The Atlantic species Holocentrus adscensionis is a red, large-eyed example. It hides in reef crevices and beneath ledges during the day, then searches over sand and seagrass at night.',
-   'Its food includes crab and shrimp larvae, other small crustaceans and occasional young fishes. It can make sounds with its swim bladder to communicate with other members of its species. Nighttime activity involves more than what a brightly lit view can reveal.'
+   'The bloodspot squirrelfish, also called the slender squirrelfish, has a silvery-gold body with narrow dark red stripes. A conspicuous black patch marks the front of its spiny dorsal fin. Its large eyes and pale-tipped fin spines are useful identification clues.',
+   'This Indo-Pacific fish shelters near caves, coral overhangs and branching corals by day. At night it hunts crabs, shrimp, small fish and larger zooplankton. Squirrelfishes can communicate by vibrating the swim bladder with specialized muscles.'
   ],question:'Compare a sheltered daytime resting place with an open nighttime feeding area. What changes besides the light?',
-  limit:'The Atlantic species is a named example for an unresolved catalog identity. The game’s nighttime visibility and sound effects do not recreate its natural sensory environment.',
-  source:'Florida Museum · Squirrelfish (named example)',url:'https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/squirrelfish/'},
+  limit:'The identity follows the original Windows bloodspot squirrelfish. Its game menu remains crab and shrimp, as in the original guide. The sonic pulse is an authored defensive ability, not a reconstruction of natural communication.',
+  source:'Dianne J. Bray · Fishes of Australia: Slender Squirrelfish',url:'https://fishesofaustralia.net.au/home/species/4445'},
  s16:{scientific:'Cephalopholis miniata',family:'Groupers and rockcods',
   paragraphs:[
    'This coral grouper, also called the coral cod, has an orange-red body dotted with bright blue spots. The spots extend across its head, body and middle fins; each is smaller than its pupil. Young fish are orange to yellow.',
@@ -22,13 +22,13 @@ export const NATURAL_HISTORY={
   ],question:'Look beneath a reef ledge. Which details would help you recognize a coral grouper in the shade?',
   limit:'The written identity matches the original game’s coral grouper. The illustration is stylized; shelter behavior, body measurements and hunting rules are not a biological reconstruction.',
   source:'Australian Museum · Coral Cod',url:'https://australian.museum/learn/animals/fishes/coral-cod-cephalopholis-miniata-forsskal-1775/'},
- s22:{scientific:'Tetraodontidae (pufferfishes; family)',family:'Pufferfishes · species not identified',
+ s22:{scientific:'Arothron nigropunctatus',family:'Tetraodontidae · pufferfishes',
   paragraphs:[
-   'Several pufferfishes have spots, so spotted pufferfish alone is not a precise identification. One example is the stars-and-stripes puffer, Arothron hispidus, with white spots above, pale lines below, and rings around the gill opening and pectoral-fin base.',
-   'That Indo-Pacific species uses habitats from estuaries to coral reefs. Its varied food includes algae, sponges, corals, molluscs and other invertebrates. Joined teeth form two plates in each jaw, making a beak-like mouth.'
-  ],question:'Compare the marks above and below a pufferfish’s middle. Could stripes, rings and spots together identify it better than spots alone?',
-  limit:'The stars-and-stripes puffer is a named example, not a verified sprite identity. The game’s puff ability and restricted menu are separate simulation rules.',
-  source:'Australian Museum · Stars-and-stripes Puffer (named example)',url:'https://australian.museum/learn/animals/fishes/stars-and-stripes-toadfish-arothron-hispidus-linnaeus-1758/'},
+   'This is the blackspotted puffer, also known as the dogface puffer. Irregular dark spots cover its body, with dark patches near the eye and muzzle and a pale band across the snout. The upper body is usually grey to brown, fading to a pale underside; some individuals are yellow.',
+   'It lives on Indo-Pacific coral reefs. The Australian Museum describes live coral as its main food and records a length of up to 25 centimetres. A coral reef can be a feeding place as well as shelter.'
+  ],question:'Look for the dark spots and pale snout band together. How does its ordinary swimming shape differ from its inflated form?',
+  limit:'The identity follows the original Windows blackspotted puffer. Its illustration shows the ordinary swimming form. The game includes coral and selected other foods; inflation, defenses and feeding quantities remain simplified rules.',
+  source:'Australian Museum · Blackspotted Pufferfish; Fishes of Australia · Blackspotted Puffer',url:'https://australian.museum/learn/animals/fishes/blackspotted-pufferfish-arothron-nigropunctatus-bloch-schneider-1801/'},
  s27:{scientific:'Dasyatidae (stingrays; family)',family:'Blue-spotted stingrays · species not identified',
   paragraphs:[
    'Blue spots occur on more than one kind of stingray. The bluespotted ribbontail ray, Taeniura lymma, is one example with a rounded oval disc, bright spots on its upper surface and blue stripes beside its tail.',

@@ -23,7 +23,7 @@ const rows = [
 ['Cuttlefish',85,113,'shrimp crab fish','night','ink','sand','A cephalopod with a rippling fin skirt. Ink can interrupt a predator pursuit.'],
 ['Lionfish',98,102,'fish shrimp crab','night','spines','reef','Long fin rays surround a slow hunter. Its defensive display creates escape space.'],
 ['Devil scorpionfish',102,83,'fish shrimp crab','night','camouflage','reef','A patient, mottled ambush predator. Concealment is more useful than a long chase.'],
-['Spotted pufferfish',82,110,'snail crab sponge','day','puff','reef','A shell-crushing feeder that can inflate into a more difficult meal.'],
+['Spotted pufferfish',82,110,'snail crab sponge coral','day','puff','reef','A coral and shellfish feeder that can inflate into a more difficult meal.'],
 ['Longhorn cowfish',76,102,'algae worm shrimp','day','poison','reef','A boxy reef forager. Its protective chemistry offers defense at an energy cost.'],
 ['Clown triggerfish',96,150,'urchin crab snail','day','crush','reef','A powerful jaw opens armored food that smaller fish cannot use.'],
 ['Regal angelfish',77,125,'sponge algae','day','spines','reef','A colorful specialist. Sponges are useful food for some species and harmful to others.'],

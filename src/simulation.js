@@ -347,10 +347,11 @@ export class Simulation {
   if(d.player.biteDamage===undefined)d.player.biteDamage=0;
   if(d.player.recoveryDelay===undefined)d.player.recoveryDelay=0;
   for(const k of ['poisonDamage','biteDamage','recoveryDelay'])if(!Number.isFinite(d.player[k])||d.player[k]<0)throw new Error('The saved fish is damaged.');
-  // Correct the omitted original-game lionfish food without repopulating saves.
-  // A custom fish using a lionfish illustration keeps its chosen diet.
+  // Restore verified original-game food omissions without repopulating saves.
+  // Custom fish keep their chosen diets, regardless of their illustrations.
   for(const fish of [d.player,...d.sections.flatMap(section=>section.entities||[])]){
    if(fish.species?.id==='s20'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('crab'))fish.species={...fish.species,diet:[...fish.species.diet,'crab']};
+   if(fish.species?.id==='s22'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('coral'))fish.species={...fish.species,diet:[...fish.species.diet,'coral']};
   }
   if(d.player.species.ability==='crush'){
    d.player.cooldown=0;d.player.abilityTime=0;

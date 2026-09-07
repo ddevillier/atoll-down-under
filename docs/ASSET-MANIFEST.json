@@ -295,6 +295,22 @@
     "sha256": "5516798c62d9572b40bae76c5c947563d97cd0a932f63a332bb73c8ebe1b6074"
   },
   {
+    "path": "assets/creatures/blackspotted-puffer-v2.png",
+    "bytes": 2017168,
+    "sha256": "16ab653cf3b8ad7ad7597d89a275f7a7a2dcd24eacdebd189a01add9aaf7e90d",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/bloodspot-squirrelfish-v2.png",
+    "bytes": 2419851,
+    "sha256": "a3005e00921dfab92ed62ae7f054edb8b43cfe0840c1e1463bb8deb770169c98",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  },
+  {
     "path": "assets/creatures/fish-atlas-0.png",
     "bytes": 2458071,
     "sha256": "6393dbe70b5eaa4f9e075f2c95f5182754507a8f4b2939dfd17c4ea9f03068aa",
@@ -362,6 +378,14 @@
     "path": "assets/creatures/short-tail-electric-ray-v2.png",
     "bytes": 2531429,
     "sha256": "20758dd7da63290370b4f686e00939d0184d21275e190321593c2ef3c9f12b69",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/yellow-coralgoby-v2.png",
+    "bytes": 1832174,
+    "sha256": "d56517e5d918cbac63d0d434d25b02f5be4982073ed7be7205ceb4cf26b37167",
     "width": 1536,
     "height": 1024,
     "alpha": true

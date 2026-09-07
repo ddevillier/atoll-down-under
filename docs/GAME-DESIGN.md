@@ -12,6 +12,8 @@ Four expandable Reef life lessons introduce coral polyps and symbiosis, plankton
 
 ## Simulation
 
+The original Windows blackspotted puffer entry confirms coral among its foods. Pufferfish now use coral patches in addition to their existing menu, under the same shared player/NPC feeding rules. Older saved puffers receive only the coral diet addition; custom diets and saved reef populations remain intact. The goby and squirrelfish retain their original guide menus even where modern natural-history sources describe broader diets. See SPECIES-CORRECTIONS-PASS-3.md.
+
 Food and animal hit areas share nearest-center selection for both inspection and meal clicks. A nearby animal's larger hit area no longer automatically overrides a direct food-patch click; exact ties favor the foreground animal. Existing click-area sizes and feeding rules are preserved. See FOOD-SELECTION-REPAIR.md for the census and interaction tests.
 
 The engine advances in fixed 1/60-second steps. Species definitions contain diet tags, movement, size, activity, ability, parasite requirements, prey type and defensive traits. Feeding combines explicit diet acceptance with size/armor checks. Food clicks acquire a target and initiate an approach; food rewards arrive only on contact. Moving the cursor releases that target and returns swimming control immediately. Clicking empty water also cancels the approach and swims to that position. Observation pauses do not accept movement or meal commands. Rejected food wastes energy. Poison also costs health and points.

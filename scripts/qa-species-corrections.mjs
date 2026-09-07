@@ -2,8 +2,8 @@ import {chromium,_electron as electron,expect} from '@playwright/test';
 import fs from 'node:fs';
 import {clickButton} from './ui-actions.mjs';
 
-const executable=process.argv[2],prefix=executable?'native':'browser';
-const app=executable?await electron.launch({executablePath:executable,env:{...process.env,ATOLL_QA:'1'}}):null;
+const executable=process.argv[2],sourceElectron=executable==='--source-electron',prefix=executable?'native':'browser';
+const app=executable?await electron.launch({...(sourceElectron?{args:['.']}:{executablePath:executable}),env:{...process.env,ATOLL_QA:'1'}}):null;
 const browser=app?null:await chromium.launch({headless:true});
 try{
  if(app&&!await app.evaluate(({app})=>/[\\/]atoll-qa-/.test(app.getPath('userData'))))throw Error('Isolated QA profile required');
@@ -15,7 +15,7 @@ try{
  await clickButton(page,{name:'Field guide',exact:true});
  for(const width of (app?[null]:[1024,1600])){
   if(width)await page.setViewportSize({width,height:900});
-  for(const [id,scientific,phrase] of [['s6','Forcipiger flavissimus','yellow body'],['s16','Cephalopholis miniata','orange-red body'],['s37','Hypnos monopterygius','pear-shaped'],['s39','Variola louti','crescent-shaped tail'],['s40','Platax teira','nearly circular body']]){
+  for(const [id,scientific,phrase] of [['s2','Gobiodon okinawae','Adults are bright yellow'],['s6','Forcipiger flavissimus','yellow body'],['s12','Neoniphon sammara','silvery-gold body'],['s16','Cephalopholis miniata','orange-red body'],['s22','Arothron nigropunctatus','blackspotted puffer'],['s37','Hypnos monopterygius','pear-shaped'],['s39','Variola louti','crescent-shaped tail'],['s40','Platax teira','nearly circular body']]){
    await page.getByRole('searchbox').fill(scientific);await page.getByRole('option').click();
    await expect(page.locator('.species-portrait')).toHaveAttribute('data-species',id);
    await page.locator('.natural-history>summary').click();
@@ -30,11 +30,25 @@ try{
  }
  await page.getByRole('button',{name:'Return',exact:true}).click();
  report.practiceEntries=[];
- for(const [id,name] of [['s40','Longfin batfish'],['s37','Electric ray'],['s39','Coral trout']]){
+ for(const [id,name] of [['s2','Orange coral goby'],['s12','Squirrelfish'],['s22','Spotted pufferfish'],['s40','Longfin batfish'],['s37','Electric ray'],['s39','Coral trout']]){
   await clickButton(page,{name:/Practice Choose/});
   await page.getByRole('searchbox').fill(name);await page.getByRole('option').click();
   await clickButton(page,{name:'Enter the reef'});
   expect(await page.evaluate(()=>window.atoll.simulation.player.species.id)).toBe(id);
+  if(id==='s22'){
+   await expect(page.locator('.diet-reminder')).toContainText('Coral');
+   const meal=await page.evaluate(()=>{
+    const s=window.atoll.simulation,f=s.section.food.find(f=>f.food==='coral');s.section.entities=[];
+    Object.assign(s.player,{x:f.x-50,y:f.y,energy:40});s.point(s.player.x,s.player.y);return {id:f.id,x:f.x,y:f.y};
+   });
+   const box=await page.locator('#reef').boundingBox();
+   await page.mouse.click(box.x+meal.x/1600*box.width,box.y+(meal.y+55)/900*box.height);
+   await page.waitForFunction(id=>window.atoll.simulation.section.food.find(f=>f.id===id).amount<100,meal.id,{timeout:20000});
+   expect(await page.evaluate(()=>window.atoll.simulation.player.poisonDamage)).toBe(0);
+   expect(await page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(40);
+   await page.keyboard.press('Space');expect(await page.evaluate(()=>window.atoll.simulation.player.abilityTime)).toBeGreaterThan(0);
+   report.pufferCoralMealAndInflation=true;
+  }
   if(id==='s37'){
    await page.keyboard.press('Space');
    expect(await page.evaluate(()=>window.atoll.simulation.player.cooldown)).toBeGreaterThan(0);

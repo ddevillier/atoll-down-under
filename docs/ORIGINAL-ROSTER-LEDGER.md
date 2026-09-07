@@ -4,6 +4,8 @@ Primary evidence: the archived Windows 3.1 game at [Internet Archive](https://ar
 
 ## What this establishes
 
+Pass 3 also reconciles Gobiodon okinawae (s2), Neoniphon sammara (s12) and Arothron nigropunctatus (s22), with matching new illustrations and sourced facts. Original information resources 599 and 507 support keeping the current goby and squirrelfish menus; resource 505 confirms the missing puffer coral food, now restored with a narrow save migration. See SPECIES-CORRECTIONS-PASS-3.md. Eight written identities are corrected in source; the Windows-Exploration ZIP predates these latest three.
+
 The original INFORES.DLL contains 104 field-guide names at string IDs 64–167. Their scientific labels appear at name ID + 104, English lengths at +208 and metric lengths at +312. This inventory includes coral types and other nonplayable organisms. It does not establish the number of playable species or Tournament order. ODELL.EXE separately contains organism labels at 1101–1182, including a Missing Image placeholder; resource order is not play order.
 
 The original Windows resources confirm a cleaner mimic blenny (name ID 81, scientific label 185, information resource 517), giant clam, brittle star, lobster and sea wasp. Those audit leads are now supported by primary Windows content. Their actual behaviors and spawn rules still need execution evidence.
