@@ -2,11 +2,13 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {Simulation,edible} from '../src/simulation.js';import {PLAYABLE} from '../src/data.js';
 import {exportDive,importDive} from '../src/save-files.js';import {feedingEnvelope} from '../src/feeding-motion.js';
 import {deformPoint} from '../src/articulated-motion.js';import {ANIMAL_PROFILES} from '../src/animal-profiles.js';import {ANIMAL_RIGS} from '../src/animal-rigs.js';
-function meal(){const s=new Simulation(42);s.start('practice','s1');s.section.entities=[];const f=s.section.food.find(f=>f.food==='algae');s.player.x=f.x-10;s.player.y=f.y;s.player.angle=0;s.player.facing=1;s.player.energy=40;s.eatAt(f.x,f.y);return {s,f};}
+import {feedingApproach,contactGap} from '../src/feeding-contact.js';
+function align(e,f){e.facing=1;const a=feedingApproach(e,f);e.x=a.x;e.y=a.y;e.facing=a.facing;e.angle=a.facing===1?0:Math.PI;}
+function meal(){const s=new Simulation(42);s.start('practice','s1');s.section.entities=[];const f=s.section.food.find(f=>f.food==='algae');align(s.player,f);s.player.energy=40;s.eatAt(f.x,f.y);return {s,f};}
 test('ordinary feeding visibly prepares before exactly one contact and permits immediate cancellation',()=>{
  const {s,f}=meal();s.step(.05);assert.equal(f.amount,100);assert.ok(feedingEnvelope(s.player)>0);assert.equal(s.player.feeding.committed,false);
  s.point(s.player.x-100,s.player.y);for(let i=0;i<15;i++)s.step(.05);assert.equal(f.amount,100);assert.equal(s.player.feeding,null);
- s.player.x=f.x-10;s.player.y=f.y;s.player.angle=0;s.eatAt(f.x,f.y);
+ align(s.player,f);s.eatAt(f.x,f.y);
  for(let i=0;i<20;i++)s.step(.05);assert.equal(f.amount,65);assert.equal(s.events.filter(e=>e.type==='eat').length,1);
 });
 test('pre-contact and post-contact saves resume without a lost or repeated meal',()=>{
@@ -20,13 +22,15 @@ test('an unavailable meal cancels preparation and malformed action state is reje
  const {s,f}=meal();s.step(.05);f.regrow=8;s.step(.05);assert.equal(f.amount,100);assert.equal(s.player.feeding,null);
  s.player.feeding={target:f.id,x:f.x,y:f.y,elapsed:.05,contactAt:NaN,committed:false};assert.throws(()=>Simulation.restore(s.serialize()),/feeding/);
 });
-test('every playable species reaches its real contact through normal target steering',()=>{
- for(const species of PLAYABLE){
+test('every playable species aligns its mouth before a real meal from four approach directions',()=>{
+ for(const species of PLAYABLE)for(const [dx,dy,angle] of [[-170,-90,0],[170,80,Math.PI],[0,-170,Math.PI/2],[0,170,-Math.PI/2]]){
   const s=new Simulation(42);s.start('practice',species.id);const f=[...s.section.food,...s.section.entities].find(f=>f.alive!==false&&!f.species?.poison&&edible(s.player,f));
-  assert.ok(f,species.name);s.section.entities=f.kind==='food'?[]:[f];if(f.kind!=='food'){f.stun=10;f.satiated=100;}
-  s.player.x=f.x-10;s.player.y=f.y;s.player.angle=0;s.player.energy=40;s.eatAt(f.x,f.y);
-  for(let i=0;i<60;i++)s.step(1/60);
+  assert.ok(f,species.name);s.section.entities=f.kind==='food'?[]:[f];s.section.food=f.kind==='food'?[f]:[];f.x=800;f.y=360;if(f.kind!=='food'){f.stun=10;f.satiated=100;}
+  s.player.x=f.x+dx;s.player.y=f.y+dy;s.player.angle=angle;s.player.facing=Math.cos(angle)>=0?1:-1;s.player.energy=40;s.eatAt(f.x,f.y);
+  let gap=null;const consume=s.consume;s.consume=function(target){gap=contactGap(this.player,target);consume.call(this,target);};
+  for(let i=0;i<600&&!s.events.some(e=>e.type==='eat');i++)s.step(1/60);
   assert.equal(s.events.filter(e=>e.type==='eat').length,1,species.name);assert.ok(s.player.energy>40,species.name);
+  assert.ok(gap<=3,species.name+' committed without mouth contact');
  }
 });
 test('puffer inflation expands the body while protecting the eye and leaving the tail size stable',()=>{

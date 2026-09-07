@@ -1,8 +1,9 @@
 import {profileFor} from './behaviors.js';
-import {prepareResidentFood,residentStep} from './resident-life.js';
+import {prepareResidentFood,residentStep,validResidentMeal} from './resident-life.js';
 import {localRoutine,clearRelationships} from './ecology.js';
 import {animalProfile} from './animal-profiles.js';
 import {mealContact,tickFeeding,cancelPreparation,validFeeding} from './feeding-motion.js';
+import {approachMeal} from './feeding-contact.js';
 import {freshAdventure,validAdventure,useContext,tickAdventure,mealAdventure,routineStep,sitesFor} from './adventures.js';
 import {freshCare,tickCare,validCare} from './journal.js';
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
@@ -100,7 +101,7 @@ export class Simulation {
    seahorse.holdfast={x:seahorse.x,y:seahorse.y};seahorse.behavior='Among the seagrass';entities.push(seahorse);
   }
   prepareResidentFood(entities,food,reef);
-  return {entities,food,residentFoodVersion:1};
+  return {entities,food,residentFoodVersion:2};
  }
  useContext(){return useContext(this);}
  get section(){return this.sections[this.current];}
@@ -246,18 +247,19 @@ export class Simulation {
   const target=this.mealTarget;
   if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y};
-  const reach=target?p.species.size*.38+(target.species?.size||target.size)*.25+12:0,inContact=!!target&&dist<reach;
-  if(inContact){p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);p.facing=Math.cos(p.angle)>=0?1:-1;}
-  if(dist>7&&!inContact){
+  const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
+  const contact=target?approachMeal(p,target,dt,speed):null;
+  if(!target&&dist>7){
    p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);
-   const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;p.still=0;
-  }else p.still+=dt;
+   const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;
+  }
   const moving=distance(old,p)>dt*6;
+  if(moving)p.still=0;else p.still+=dt;
   const shelter=canUseShelter(p.species)&&shelterAt(REEFS[this.current],p);
   const wasHidden=p.hidden;p.hidden=!!((shelter&&p.still>SHELTER_SETTLE_SECONDS)||(p.species.ability==='camouflage'&&p.abilityTime>0&&!moving)||(p.blending&&p.blendTime>=2&&!moving));
   if(p.hidden&&!wasHidden)this.event('hide','Hidden. Remain still to stay concealed.');
   if(!p.hidden&&wasHidden)this.event('reveal','Back in open water.');
-  if(target&&distance(p,target)<reach&&p.biteCooldown<=0&&(Math.abs(dx)<7||p.facing===Math.sign(dx))){if(mealContact(p,target,dt))this.consume(target);}
+  if(target&&contact.ready&&p.biteCooldown<=0){if(mealContact(p,target,dt,contact.contact))this.consume(target);}
   else cancelPreparation(p);
   if(this.phase!=='playing')return;
   if(!this.protected){p.energy-=dt*p.species.metabolism*(moving?1.55:.7)*this.difficulty;if(p.species.parasites)p.health-=dt*.105*this.difficulty;if(!p.hidden&&this.mode!=='practice'){this.score+=dt*8;this.stageScore+=dt*8;}}
@@ -380,12 +382,12 @@ export class Simulation {
   if(e.target){
    const dest=e.target==='player'?p:this.section.entities.find(b=>b.id===e.target&&b.alive)||this.section.food.find(f=>f.id===e.target&&f.regrow<=0);
    if(dest){
-    e.angle=turnTowards(e.angle,Math.atan2(dest.y-e.y,dest.x-e.x),e.species.agility*dt);speed=e.species.speed*.55;
+    const contact=approachMeal(e,dest,dt,e.species.speed*.55);speed=0;
     if(e.species.id==='s23'&&dest.kind==='food'&&['worm','shrimp'].includes(dest.food)&&distance(e,dest)<100&&!(dest.uncovered>0)){dest.uncovered=8;e.actionTime=1;e.activity='searching-sand';}
-    const inReach=distance(e,dest)<(e.species.size+(dest.species?.size||dest.size||0))*.28;
+    const inReach=contact.ready;
     if(inReach&&e.biteCooldown<=0&&(dest!==p||canEatPlayer)){
      speed=0;
-     if(mealContact(e,dest,dt)){
+     if(mealContact(e,dest,dt,contact.contact)){
      e.biteCooldown=2;e.actionTime=.65;
      if(dest===p&&canEatPlayer){p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
      else if(dest!==p&&dest.kind==='food'){dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
@@ -443,6 +445,7 @@ export class Simulation {
   // Custom fish keep their chosen diets, regardless of their illustrations.
   for(const fish of [d.player,...d.sections.flatMap(section=>section.entities||[])]){
    if(!validFeeding(fish.feeding))throw new Error('The saved feeding action is damaged.');
+   if(!validResidentMeal(fish.residentMeal))throw new Error('The saved resident meal is damaged.');
    if(fish.species?.id==='s20'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('crab'))fish.species={...fish.species,diet:[...fish.species.diet,'crab']};
    if(fish.species?.id==='s22'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('coral'))fish.species={...fish.species,diet:[...fish.species.diet,'coral']};
   }
@@ -455,8 +458,8 @@ export class Simulation {
   d.careProgress=d.careProgress||freshCare();
   if(d.adventure!==undefined&&!validAdventure(d.adventure))throw new Error('The saved adventure is damaged.');
   d.adventure=d.adventure||freshAdventure();
-  for(const [index,section] of d.sections.entries())if(!section.residentFoodVersion){
-   prepareResidentFood(section.entities,section.food,REEFS[index]);section.residentFoodVersion=1;
+  for(const [index,section] of d.sections.entries())if((section.residentFoodVersion||0)<2){
+   prepareResidentFood(section.entities,section.food,REEFS[index]);section.residentFoodVersion=2;
   }
   const sim=new Simulation();Object.assign(sim,d);sim.events=[];sim.paused=true;return sim;
  }

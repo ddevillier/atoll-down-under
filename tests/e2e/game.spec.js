@@ -428,7 +428,7 @@ test('a meadow visit supports mouse feeding, resident inspection and a saved ret
  await expect.poll(()=>page.evaluate(id=>window.atoll.simulation.section.food.find(f=>f.id===id).amount,site.id)).toBe(65);
  expect(await page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(50);
  await page.keyboard.press('Escape');
- const resident=await page.evaluate(()=>{const e=window.atoll.simulation.section.entities[0];return {x:e.x,y:e.y};});
+ const resident=await page.evaluate(async()=>{const {creatureFrame}=await import('/src/geometry.js'),e=window.atoll.simulation.section.entities[0],frame=creatureFrame(e);return {x:frame.x,y:frame.y-frame.height*.3,holdfast:{...e.holdfast}};});
  await page.mouse.click(box.x+resident.x/1600*box.width,box.y+(resident.y+55)/900*box.height);
  await expect(page.locator('.inspect-card')).toContainText('Yellow seahorse');
  await expect(page.locator('.inspect-card')).toContainText('Among the seagrass');
@@ -436,7 +436,7 @@ test('a meadow visit supports mouse feeding, resident inspection and a saved ret
  await page.keyboard.press('Control+s');await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);
  await clickButton(page,{name:'Saved dives'});await clickButton(page,{name:'Load dive'});
  const restored=await page.evaluate(id=>{const s=window.atoll.simulation,f=s.section.food.find(f=>f.id===id);return {habitat:s.current,visited:s.visited,amount:f.amount,x:f.x,y:f.y,holdfast:s.section.entities[0].holdfast,paused:s.paused};},site.id);
- expect(restored).toEqual({habitat:6,visited:[4,3,6],amount:65,x:site.x,y:site.y,holdfast:resident,paused:false});
+ expect(restored).toEqual({habitat:6,visited:[4,3,6],amount:65,x:site.x,y:site.y,holdfast:resident.holdfast,paused:false});
 });
 
 test('a night cleaning visit works while a hungry neighbor forages beside the station',async({page})=>{

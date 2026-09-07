@@ -13,10 +13,10 @@ export function tickFeeding(e,dt){
  if(action.committed){action.elapsed+=dt;if(action.elapsed>=action.contactAt+.36){e.feeding=null;e.actionTime=0;}}
  else if(e.target!==action.target)e.feeding=null;
 }
-export function mealContact(e,target,dt){
+export function mealContact(e,target,dt,contact=target){
  if(e.feeding?.committed)return false;
  if(!e.feeding||e.feeding.target!==target.id)e.feeding={target:target.id,elapsed:0,contactAt:contactDelay(e.species),committed:false,x:target.x,y:target.y};
- const action=e.feeding;action.x=target.x;action.y=target.y;action.elapsed+=dt;
+ const action=e.feeding;action.x=contact.x;action.y=contact.y;action.elapsed+=dt;
  if(action.elapsed<action.contactAt)return false;
  action.committed=true;return true;
 }

@@ -35,9 +35,9 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
   y+=jaw*(.009*(1+Math.sin(phase))+.04*feed);
  }else if(family==='ray'||family==='electric-ray'){
   const wing=clamp((Math.abs(v-axis)-.1)/.37),body=bell(u,family==='ray'?.72:.61,.35);
-  y+=(v-axis)*Math.sin(phase-u*4)*wing*body*p.fin*2.8*(.4+a*.6);
-  x+=Math.cos(phase-u*3)*wing*body*p.fin*.22;
-  y+=Math.sin(phase-u*6)*clamp((.35-u)/.35)**2*p.tail;
+  y+=(v-axis)*Math.sin(phase-u*4)*wing*body*p.fin*2.8*(.4+a*.6)*(1-feed*.7);
+  x+=Math.cos(phase-u*3)*wing*body*p.fin*.22*(1-feed*.7);
+  y+=Math.sin(phase-u*6)*clamp((.35-u)/.35)**2*p.tail*(1-feed*.6);
  }else if(family==='cuttlefish'){
   const skirt=pathWeight(u,v,[[.68,.44],[.53,.69],[.40,.89],[.23,.62],[.02,.55]],.075).weight;
   y+=Math.sin(phase-u*10)*skirt*p.fin;

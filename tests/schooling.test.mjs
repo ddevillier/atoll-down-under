@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Simulation,distance} from '../src/simulation.js';
+import {feedingApproach} from '../src/feeding-contact.js';
 
 function school(){
  const s=new Simulation(64);s.start('practice','s0');
@@ -35,7 +36,7 @@ test('a school member can leave to feed and then rejoin its neighbors',()=>{
  const food={id:'meal',kind:'food',food:'plankton',name:'Plankton',x:fish.x+85,y:fish.y-30,size:20,amount:100,regrow:0};
  s.section.food=[food];s.stepNpc(fish,.05);
  assert.equal(fish.target,'meal');assert.equal(fish.behavior,'Foraging for Plankton');
- fish.x=food.x;fish.y=food.y;s.stepNpc(fish,.05);
+ fish.angle=0;fish.facing=1;const contact=feedingApproach(fish,food);fish.x=contact.x;fish.y=contact.y;s.stepNpc(fish,.05);
  assert.equal(food.amount,100);assert.equal(fish.feeding.committed,false);
  for(let i=0;i<25;i++)s.stepNpc(fish,1/30);
  assert.ok(food.amount<100);assert.equal(fish.target,null);assert.equal(fish.behavior,'Swimming with a school');

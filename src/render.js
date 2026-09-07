@@ -1,5 +1,6 @@
 import {ArticulatedSprites} from './articulated-motion.js';
 import {feedingEnvelope} from './feeding-motion.js';
+import {mouthPoint} from './feeding-contact.js';
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
@@ -79,12 +80,22 @@ export class ReefRenderer {
   const clock=pose.motionTime,posture=poseFor(e,clock,this.reducedMotion),targetPitch=e.groundRoute?groundPitch(e):e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch;
   pose.pitch??=targetPitch;if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));
   const rotation=this.reducedMotion?groundPitch(e):pose.pitch,frame=creatureFrame(e,width,rotation);
+  const underside=['s47','s62'].includes(e.species.id);
+  if(underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
   if(e.groundRoute){ctx.save();ctx.globalAlpha=alpha*.18;ctx.translate(e.x,e.y);ctx.scale(width*.42,Math.max(2,width*.065));const shadow=ctx.createRadialGradient(0,0,.05,0,0,1);shadow.addColorStop(0,'#102d27');shadow.addColorStop(1,'#102d2700');ctx.fillStyle=shadow;ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fill();ctx.restore();}
   ctx.save();ctx.translate(frame.x,frame.y);ctx.rotate(rotation);
   const feed=feedingEnvelope(e);
   const desiredPuff=e.species.ability==='puff'&&e.abilityTime>0?1:0;pose.puff??=desiredPuff;
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
   const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0,puff:pose.puff});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed});ctx.restore();
+  if(!underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
+ }
+ drawResidentMorsel(ctx,e,rotation,alpha){
+  const meal=e.residentMeal;
+  if(meal&&Number.isFinite(meal.x)&&Number.isFinite(meal.y)&&meal.elapsed<.42){
+   const end=mouthPoint(e,{rotation}),progress=this.reducedMotion?1:Math.min(1,meal.elapsed/.22),ease=progress*progress*(3-2*progress);
+   ctx.save();ctx.globalAlpha=alpha*(meal.committed?Math.max(0,1-(meal.elapsed-.22)/.2):1);ctx.fillStyle=FOODS[meal.food]?.color||'#e7ce97';ctx.beginPath();ctx.arc(meal.x+(end.x-meal.x)*ease,meal.y+(end.y-meal.y)*ease,2,0,Math.PI*2);ctx.fill();ctx.restore();
+  }
  }
  portrait(canvas,species){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const b=this.bounds[species.index];if(!b)return;this.drawSprite(ctx,species,canvas.width/2,canvas.height/2,Math.min(canvas.width*.78,canvas.height*.78*b.w/b.h));}
  addEffect(type,x=800,y=350,label=null){this.effects.push({type,x,y,t:0,label});}

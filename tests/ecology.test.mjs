@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Simulation} from '../src/simulation.js';
 import {SPECIES} from '../src/data.js';
+import {feedingApproach} from '../src/feeding-contact.js';
 function fixture(){
  const s=new Simulation(12);s.start('practice','s1');s.protected=false;
  const hunter=structuredClone(s.section.entities[0]);Object.assign(hunter,{species:SPECIES[16],x:600,y:300,target:null,think:0,satiated:0,rest:0,pursuit:0,angle:0,stun:0});
@@ -18,7 +19,7 @@ test('a satiated hunter cruises without attacking an adjacent small player',()=>
  assert.equal(s.player.health,100);assert.equal(hunter.target,null);
 });
 test('feeding satisfies a hunter instead of producing repeated bites',()=>{
- const {s,hunter}=fixture();hunter.x=s.player.x-10;s.stepNpc(hunter,.01);
+ const {s,hunter}=fixture();hunter.facing=1;const a=feedingApproach(hunter,s.player);hunter.x=a.x;hunter.y=a.y;s.stepNpc(hunter,.01);
  assert.equal(s.player.health,100);assert.equal(hunter.feeding.committed,false);
  for(let i=0;i<30;i++)s.stepNpc(hunter,1/60);
  assert.equal(s.player.health,65);assert.ok(hunter.satiated>=45);assert.equal(hunter.target,null);
@@ -32,7 +33,7 @@ test('an unsuccessful pursuit ends and is followed by a rest',()=>{
 test('grazers actually eat plant food in the same ecosystem',()=>{
  const {s,hunter}=fixture();hunter.species=SPECIES[1];s.section.food=[{id:'plant',kind:'food',food:'algae',name:'Algae',size:25,x:610,y:300,amount:100,regrow:0}];
  s.stepNpc(hunter,.01);assert.equal(s.section.food[0].amount,100);
- for(let i=0;i<30;i++)s.stepNpc(hunter,1/60);
+ for(let i=0;i<120;i++)s.stepNpc(hunter,1/60);
  assert.ok(s.section.food[0].amount<100);assert.ok(hunter.satiated>0);
 });
 test('new reef sections have mixed communities rather than mandatory large predators',()=>{
