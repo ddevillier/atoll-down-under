@@ -1,7 +1,7 @@
 {
   "status": "in-progress",
   "visuallyAccepted": 0,
-  "note": "Profile and authored-landmark presence is not visual acceptance. The isolated gallery does not establish full pose or ordinary-game coverage.",
+  "note": "Profile and authored-landmark presence is not visual acceptance. The later full-pose turn gallery is partial evidence only (see turn-review.md); static frames, clipped gallery tails and limited ordinary-game coverage leave acceptance pending.",
   "species": [
     {
       "id": "s0",

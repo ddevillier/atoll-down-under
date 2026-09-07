@@ -52,7 +52,7 @@ Remaining blockers to a full-roster completion claim:
 - **Actions:** ordinary player/NPC meals now settle an authored mouth landmark against the visible meal, with an interruptible anticipation/contact/recovery sequence and saved contact ownership. Every playable species obtains a meal from four approach directions. See the contact review below for visual scope and remaining source/contour limits. Puffer inflation now expands the torso locally and eases in/out; its final visual acceptance remains pending with the rest of that species.
 - **Anatomy:** finish the difficult ray margins, lionfish fans, long streamers, crustacean joints and eye-protection checks in animated transitions. Authored landmarks alone are insufficient.
 - **Attachment:** some background routes place attached/slow residents awkwardly against grass or open-looking portions of the painting. A valid route coordinate is not visual proof of support.
-- **Turning:** the reduced card-thinning shortcut remains a transition to replace/refine, not a finished volumetric turn.
+- **Turning:** short turns now use a nose-led pivot, bank and trailing body bend, with less silhouette compression. They still mirror the side-view painting midway; temporal smoothness and individual acceptance remain open. See the [turn review](turn-review.md).
 - **Social breadth:** test ordinary pair feeding/rejoining, refuge occupancy, host occlusion, group spacing and shadowing. Record sourced versus authored assignments; do not teach unsupported grouping as a biological fact.
 - **Delivery:** no new Windows archive has been produced for this unfinished pass. The earlier Species Adventures archive remains preserved.
 
@@ -75,3 +75,7 @@ The moray's generated extended pose was cleaned locally with explicit user appro
 ## Anatomical feeding contact continuation
 
 The [feeding contact review](feeding-contact-review.md) records actual preparation/contact/recovery phase inspections for 62 species, corrections to shark/ray feeding points and resident morsel layering, and ordinary goatfish gameplay at both desktop sizes. All 201 unit tests pass, along with the three targeted browser scenarios. The latest 110 pressure scenarios preserve initial counts and produce 31 bites, zero deaths, and at most one bite per run. Full-roster acceptance remains pending: contact geometry is authored, the sponge food crop has a stray fragment to correct, and this review does not establish continuous turning or complete local ecology presentation.
+
+## Controlled turn continuation
+
+The [turn review](turn-review.md) records the full creature renderer across all 64 animals, a correction to excessive compression, and ordinary mouse-driven shark movement at both desktop sizes. The final 204-test unit suite passes; two targeted browser checks cover turn state and paused rendering. Grounded and attached residents bypass swimming turns. This is an authored 2D transition using existing paintings, with a remaining midpoint mirror change. Gallery framing clips several first-column tails, so those screenshots cannot establish complete silhouette acceptance. All species remain unaccepted in the broader ledger; native performance and the combined Windows delivery remain outstanding.

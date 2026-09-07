@@ -94,6 +94,11 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
   }
   x+=offset.x;y+=offset.y;
  }
+ const turn=Math.max(-1,Math.min(1,state.turn||0));
+ if(turn&&!['crab','star','slug','snail','urchin','anemone','seahorse'].includes(family)){
+  const rear=clamp((.76-u)/.76),rigid=['rigid','fan','frogfish'].includes(family),amplitude=rigid?.012:family==='eel'?.075:.036;
+  y+=turn*rear**2*amplitude/Math.max(.2,state.aspect||.5);
+ }
  if(rig.eye){const d=Math.hypot((u-rig.eye[0])/.075,(v-rig.eye[1])/.10),keep=clamp((d-.65)/.65);x=u+(x-u)*keep;y=v+(y-v)*keep;}
  if(family==='crab'){const d=Math.hypot((u-.5)/.27,(v-.24)/.18),keep=clamp((d-.82)/.35);x=u+(x-u)*keep;y=v+(y-v)*keep;}
  if(family==='seahorse'){const keep=clamp((.83-v)/.15);x=u+(x-u)*keep;y=v+(y-v)*keep;}
@@ -115,9 +120,10 @@ export class ArticulatedSprites{
  draw(ctx,image,species,width,height,time,effort,state={},resolution=1){
   if(!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0||!image.width||!image.height)return;
   const p=animalProfile(species),bins=width<150?16:24,cycle=((time*p.frequency)%1+1)%1,tick=Math.floor(cycle*bins),a=Math.round(clamp(effort)*2)/2,feed=Math.round(clamp(state.feed||0)*5)/5,retract=Math.round(clamp(state.retract||0)*5)/5,puff=Math.round(clamp(state.puff||0)*5)/5;
+  const turn=Math.round(Math.max(-1,Math.min(1,state.turn||0))*3)/3;
   if(!this.images.has(image))this.images.set(image,++this.nextImage);
   const w=Math.min(640,Math.max(64,Math.ceil(width*resolution/64)*64)),h=Math.max(8,Math.round(w*height/width)),pad=Math.ceil(Math.max(w,h)*(.09+puff*.16));
-  const group=[this.images.get(image),p.id,w,bins,a,feed,retract,puff].join(':'),key=group+':'+tick;let frame=this.cache.get(key);
+  const group=[this.images.get(image),p.id,w,bins,a,feed,retract,puff,turn].join(':'),key=group+':'+tick;let frame=this.cache.get(key);
   if(frame){this.cache.delete(key);this.cache.set(key,frame);this.hits++;}
   else{
    if(this.remaining<=0){
@@ -127,7 +133,7 @@ export class ArticulatedSprites{
    }else{
    const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
    const cols=width<150?10:16,rows=width<150?6:10,src=[],dst=[];
-   for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
+   for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
    for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
    frame={canvas,pixels:canvas.width*canvas.height,group,tick};this.cache.set(key,frame);this.pixels+=frame.pixels;
    while(this.pixels>this.maxPixels||this.cache.size>512){const first=this.cache.keys().next().value;this.pixels-=this.cache.get(first).pixels;this.cache.delete(first);}

@@ -1,6 +1,7 @@
 import {ArticulatedSprites} from './articulated-motion.js';
 import {feedingEnvelope} from './feeding-motion.js';
 import {mouthPoint} from './feeding-contact.js';
+import {turningPose} from './turn-motion.js';
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
@@ -74,20 +75,20 @@ export class ReefRenderer {
  drawCreature(ctx,e,time,dt,alpha=1,width=creatureWidth(e.species)){
   this.poses??=new Map();let pose=this.poses.get(e.id);
   if(!pose||pose.incarnation!==(e.incarnation||0)||Math.hypot(e.x-pose.x,e.y-pose.y)>200){pose={x:e.x,y:e.y,facing:e.facing,activity:.35,motionTime:time+animationPhase(e.id),incarnation:e.incarnation||0};this.poses.set(e.id,pose);}
-  if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.facing+=(e.facing-pose.facing)*blend;pose.x=e.x;pose.y=e.y;pose.motionTime+=dt*(.55+pose.activity*.8);}
-  const unmirrored=['s44','s46','s47','s62','s63'].includes(e.species.id);
-  const facing=unmirrored?1:this.reducedMotion?e.facing:Math.sign(pose.facing||e.facing)*Math.max(.65,Math.abs(pose.facing));
+  pose.yaw??=pose.facing;
+  if(dt>0){const moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(1,e.species.speed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.x=e.x;pose.y=e.y;pose.motionTime+=dt*(.55+pose.activity*.8);}
+  const turn=turningPose(pose,e,dt,this.reducedMotion),facing=turn.facing;
   const clock=pose.motionTime,posture=poseFor(e,clock,this.reducedMotion),targetPitch=e.groundRoute?groundPitch(e):e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch;
   pose.pitch??=targetPitch;if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));
   const rotation=this.reducedMotion?groundPitch(e):pose.pitch,frame=creatureFrame(e,width,rotation);
   const underside=['s47','s62'].includes(e.species.id);
   if(underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
   if(e.groundRoute){ctx.save();ctx.globalAlpha=alpha*.18;ctx.translate(e.x,e.y);ctx.scale(width*.42,Math.max(2,width*.065));const shadow=ctx.createRadialGradient(0,0,.05,0,0,1);shadow.addColorStop(0,'#102d27');shadow.addColorStop(1,'#102d2700');ctx.fillStyle=shadow;ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fill();ctx.restore();}
-  ctx.save();ctx.translate(frame.x,frame.y);ctx.rotate(rotation);
+  ctx.save();ctx.translate(frame.x+turn.pivot*width,frame.y);ctx.rotate(rotation+turn.bank);
   const feed=feedingEnvelope(e);
   const desiredPuff=e.species.ability==='puff'&&e.abilityTime>0?1:0;pose.puff??=desiredPuff;
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0,puff:pose.puff});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed});ctx.restore();
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,pose.activity,null,{feed,retract:e.retract||0,puff:pose.puff,turn:turn.bend});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,pose.activity,e.blending.kind,{feed,turn:turn.bend});ctx.restore();
   if(!underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
  }
  drawResidentMorsel(ctx,e,rotation,alpha){

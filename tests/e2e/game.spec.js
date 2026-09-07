@@ -597,7 +597,7 @@ test('atlas extraction preserves a connected silhouette crossing its nominal cel
  });expect(result.count).toBe(16);expect(result.extended).toBeGreaterThan(90);expect(result.neighbor).toBeLessThan(45);
 });
 test('turn animation preserves continuity and settles on the new direction',async({page})=>{
- await ready(page);const result=await page.evaluate(()=>{const r=window.atoll.renderer,c=document.createElement('canvas'),ctx=c.getContext('2d'),s={index:1,id:'test',speed:100,food:'fish'},e={id:'turn-test',species:s,x:50,y:50,facing:1};r.drawCreature(ctx,e,1,1/60);e.facing=-1;r.drawCreature(ctx,e,1,1/60);const first=r.poses.get(e.id).facing;for(let i=0;i<60;i++)r.drawCreature(ctx,e,1,1/60);return {first,last:r.poses.get(e.id).facing};});
+ await ready(page);const result=await page.evaluate(async()=>{const {SPECIES}=await import('/src/data.js'),r=window.atoll.renderer,c=document.createElement('canvas');c.width=400;c.height=240;const ctx=c.getContext('2d'),e={id:'turn-test',species:SPECIES[32],x:200,y:120,facing:1,angle:0};r.drawCreature(ctx,e,1,1/60);e.facing=-1;e.angle=2;r.drawCreature(ctx,e,1,1/60);const first=r.poses.get(e.id).yaw;for(let i=0;i<60;i++)r.drawCreature(ctx,e,1+i/60,1/60);return {first,last:r.poses.get(e.id).yaw};});
  expect(result.first).toBeGreaterThan(-1);expect(result.first).toBeLessThan(1);expect(result.last).toBeLessThan(-.99);
 });
 test('food-web connections are navigable and sourced reef lessons fit desktop sizes',async({page})=>{
