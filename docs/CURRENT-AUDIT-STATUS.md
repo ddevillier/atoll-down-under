@@ -1,6 +1,6 @@
 # Current audit status
 
-**September 7, 2026 — Species Adventures delivery.** The approved five-milestone work front adds expressive activity poses, four optional species adventures, local NPC routines, persistent journal discoveries and 64 explicit-play guide introductions. See [SPECIES-ADVENTURES.md](SPECIES-ADVENTURES.md) and the new Windows build receipt for current acceptance evidence. The September 6 notes below are historical verification scopes; they do not describe the current delivery.
+**PARKED — September 7, 2026. Species Adventures Windows runtime `56dc983` and its testing ZIP are verified.** The approved five-milestone work front adds expressive activity poses, four optional species adventures, local NPC routines, persistent journal discoveries and 64 explicit-play guide introductions. See [SPECIES-ADVENTURES.md](SPECIES-ADVENTURES.md) and the new Windows build receipt for current acceptance evidence. The September 6 notes below are historical verification scopes; they do not describe the current delivery.
 
 The user's latest direction supersedes historical-fidelity priorities: preserve the spirit of the game, ask before more original-game reference research, and improve cleaners now. The original comparison register is a backlog of possible considerations, not a requirement to copy every detail. CLEANER-LOOP.md describes the current gameplay work; the unfinished extra-diet pass is parked rather than applied.
 

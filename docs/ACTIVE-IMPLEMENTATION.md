@@ -1,6 +1,6 @@
 # Current implementation brief
 
-September 7, 2026: the approved Species Adventures work front is implemented. Complete the Windows verification and preserve its testing ZIP, then park. See [SPECIES-ADVENTURES.md](SPECIES-ADVENTURES.md) for mechanics, production details and scope, and [WINDOWS-SPECIES-ADVENTURES-BUILD.md](WINDOWS-SPECIES-ADVENTURES-BUILD.md) for delivery evidence.
+**PARKED — September 7, 2026.** The complete approved Species Adventures work front is implemented and its Windows testing ZIP is verified, runtime `56dc983`. All seven native checks, packaged source comparison and ZIP integrity passed. Stop work until the user resumes. See [SPECIES-ADVENTURES.md](SPECIES-ADVENTURES.md) for mechanics, production details and scope, and [WINDOWS-SPECIES-ADVENTURES-BUILD.md](WINDOWS-SPECIES-ADVENTURES-BUILD.md) for delivery evidence.
 
 ## Current direction
 
