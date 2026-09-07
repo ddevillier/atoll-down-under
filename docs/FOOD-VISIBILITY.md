@@ -8,4 +8,4 @@ Hints respect the current fish's diet, prey-size and armor rules, food depletion
 
 All 138 unit/asset checks pass. Four focused browser scenarios pass, covering the new preference and keyboard controls, persistence, actual mouse feeding, existing food selection, fullscreen controls, Settings and rendering. Captures at 1024×768 and 1600×900 were reviewed together: `artifacts/food-hints-1024.png` and `artifacts/food-hints-1600.png`. Evidence: `artifacts/food-hints-e2e-results.json`.
 
-This is source/browser verified and is not included in the parked Windows Cleaner Queues ZIP. It is a limited visibility aid; it does not establish that all nine paintings have sufficient visual contrast or close the broader gameplay audit.
+This is now included in the verified Windows Food Hints ZIP; see WINDOWS-FOOD-HINTS-BUILD.md. Packaged checks confirm the shortcut, settings, persistence, typing and manual feeding; fullscreen/gameplay and actual portable saves also pass. It is a limited visibility aid; it does not establish that all nine paintings have sufficient visual contrast or close the broader gameplay audit.
