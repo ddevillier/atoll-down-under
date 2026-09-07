@@ -6,9 +6,9 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
-The current testing build is `dist/Atoll-Down-Under-Windows-Saves-2026-09-06.zip`. Extract it completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape still pauses for inspection. See [the testing guide](docs/TESTING.md).
+The current testing build is `dist/Atoll-Down-Under-Windows-Family-Journal-2026-09-06.zip`. Extract it completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape still pauses for inspection. See [the testing guide](docs/TESTING.md).
 
-The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations, consistent poison score penalties, the complete Tournament preview and named portable saves. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-SAVES-BUILD.md).
+The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations, consistent poison score penalties, the complete Tournament preview and named portable saves. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-FAMILY-JOURNAL-BUILD.md).
 
 See [named, portable dive files](docs/PORTABLE-SAVES.md) for backup and import instructions. Earlier testing ZIPs remain available.
 
@@ -20,6 +20,8 @@ npm start
 ```
 
 For a local browser development preview: `npm run dev`, then open http://127.0.0.1:4173. The production application is a desktop Electron app and needs no server or internet connection.
+
+The living title now responds to your mouse and plays the peaceful Blue Passage arrangement. Open File → Family journal, or find it in the field guide, for shared badges, species care stamps and journal backup/restore. See [care and journal rules](docs/FAMILY-JOURNAL.md).
 
 ## What's here
 

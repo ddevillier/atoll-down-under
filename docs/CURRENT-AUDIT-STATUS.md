@@ -1,6 +1,6 @@
 # Current audit status
 
-**Parked at the user's request, September 6, 2026.** Latest tested package: `5add04a`, Windows Guide Options; see WINDOWS-PARKED-BUILD.md. Its unit preference, food highlights, fullscreen and gameplay checks passed. Further feature work and research await an explicit request to resume. Earlier milestone references below retain their evidence scope; the broader audit is not claimed complete.
+**Current work front — September 6, 2026:** the user resumed execution of the complete living-title and Family Journal plan, followed by a verified Windows build and parking. See FAMILY-JOURNAL.md and WINDOWS-FAMILY-JOURNAL-BUILD.md. This work front does not close the wider historical audit. Earlier milestone references retain their evidence scope.
 
 The user's latest direction supersedes historical-fidelity priorities: preserve the spirit of the game, ask before more original-game reference research, and improve cleaners now. The original comparison register is a backlog of possible considerations, not a requirement to copy every detail. CLEANER-LOOP.md describes the current gameplay work; the unfinished extra-diet pass is parked rather than applied.
 

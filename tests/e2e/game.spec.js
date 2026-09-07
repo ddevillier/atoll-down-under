@@ -351,11 +351,11 @@ test('feeding shows the chosen meal, actual reward and a diminishing patch at bo
   await expect(page.locator('.controls-hint')).toBeHidden();
   await page.screenshot({path:`artifacts/feeding-target-${width}.png`});
   await page.mouse.move(box.x+1100/1600*box.width,box.y+305/900*box.height);
-  await expect(page.locator('#state-badge')).toBeHidden();expect(await page.evaluate(()=>window.atoll.simulation.mealTarget)).toBeNull();
+  await expect(page.locator('#state-badge')).toContainText('A meal would help');expect(await page.evaluate(()=>window.atoll.simulation.mealTarget)).toBeNull();
   await page.mouse.click(meal.x,meal.y);
   await page.evaluate(()=>{window.atoll.simulation.section.food[0].regrow=8;});
   await expect(page.locator('.toast')).toContainText('That meal is no longer available');
-  await expect(page.locator('#state-badge')).toBeHidden();
+  await expect(page.locator('#state-badge')).toContainText('A meal would help');
   await page.evaluate(()=>{window.atoll.simulation.section.food[0].regrow=0;});
   await page.mouse.click(meal.x,meal.y);
   await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].amount),{timeout:10000}).toBe(65);

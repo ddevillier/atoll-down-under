@@ -21,13 +21,13 @@
   },
   {
     "path": "assets/audio/blue-passage.ogg",
-    "bytes": 1146872,
-    "sha256": "6997a8b99fc528a9d8b08affd7b888d51670a1381ad038a27101ff1595b58324"
+    "bytes": 1422015,
+    "sha256": "e650709b41d684869a03ab65e10ae8649ebced3e326b4e39f81ffecd79676ee2"
   },
   {
     "path": "assets/audio/blue-passage.wav",
-    "bytes": 12934780,
-    "sha256": "d7fdc0ed932aedc7d8825ae890c763bb3d4937424242b9e74376c8a51c298324"
+    "bytes": 16384044,
+    "sha256": "db382c57fe6cec47b40996313bc2654f65c5679a9f2d68a20d7fbb46a54b4eb2"
   },
   {
     "path": "assets/audio/bubble.ogg",
@@ -151,8 +151,8 @@
   },
   {
     "path": "assets/audio/manifest.json",
-    "bytes": 3451,
-    "sha256": "a61b31b43f6b28c25ead7071cf57df2d0da2c03486eff2b880fb94a15881af2f"
+    "bytes": 3449,
+    "sha256": "9e8d7f0385b0aaf3cf2e2f2255dd1c9b1554cc2ed3d086bf2de475a390756524"
   },
   {
     "path": "assets/audio/meal.ogg",

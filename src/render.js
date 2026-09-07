@@ -1,3 +1,4 @@
+import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {motionKind,bodyMotion} from './motion.js';
 import {creatureWidth} from './geometry.js';
@@ -6,7 +7,7 @@ import {canUseShelter} from './shelter.js';
 import {nearbyFoodHints} from './food-hints.js';
 const TOP=55;
 export class ReefRenderer {
- constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.reefs=[];this.atlases=[];this.bounds=[];this.sprites=[];this.foodSprites=[];this.customCache=new Map();this.ready=false;this.particles=[];this.clock=0;this.hover=null;this.inspect=false;this.reducedMotion=false;this.effects=[];this.resize();new ResizeObserver(()=>this.resize()).observe(canvas);}
+ constructor(canvas){this.titleReef=new TitleReef();this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.reefs=[];this.atlases=[];this.bounds=[];this.sprites=[];this.foodSprites=[];this.customCache=new Map();this.ready=false;this.particles=[];this.clock=0;this.hover=null;this.inspect=false;this.reducedMotion=false;this.effects=[];this.resize();new ResizeObserver(()=>this.resize()).observe(canvas);}
  resize(){const r=this.canvas.getBoundingClientRect();const d=Math.min(window.devicePixelRatio||1,2);this.canvas.width=Math.round(r.width*d);this.canvas.height=Math.round(r.height*d);}
  async load(){
   const img=src=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error('Could not load '+src));im.src=src;});
@@ -82,8 +83,7 @@ export class ReefRenderer {
   // Very fine suspended particles, not a screen-obscuring fog or dark night filter.
   if(!this.reducedMotion){c.fillStyle='#f6f5d3';for(let i=0;i<38;i++){const x=(i*137.53+Math.sin(t*.2+i)*18)%1600,y=(i*73.91-t*(2+i%4)+1800)%900;c.globalAlpha=.07+(i%3)*.025;c.beginPath();c.arc(x,y,.7+i%2*.6,0,Math.PI*2);c.fill();}c.globalAlpha=1;}
   if(home){
-   const homeFish=[{i:5,x:1330,y:390,w:120,v:-9},{i:7,x:1390,y:705,w:68,v:-8},{i:4,x:310,y:680,w:80,v:7},...[0,1,2,3,4].map(n=>({i:0,x:140+n*48,y:455+n%2*23,w:43,v:12}))];
-   for(const f of homeFish){const x=(f.x+(this.reducedMotion?0:t*f.v)+1800)%1800-100;this.drawSprite(c,SPECIES[f.i],x,f.y+Math.sin(t+f.i)*8,f.w,f.v>0?1:-1,t);}
+   this.titleReef.draw(this,c,dt,this.reducedMotion,this.titleBlocked);
    return;
   }
   if(!sim?.player)return;

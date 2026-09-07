@@ -1,3 +1,4 @@
+import {validCare} from './journal.js';
 import {Simulation} from './simulation.js';
 import {BY_ID,FOODS,ABILITIES} from './data.js';
 
@@ -5,7 +6,7 @@ export const MAX_SAVE_BYTES=8*1024*1024;
 const own=(o,k)=>Object.hasOwn(o,k);
 const object=o=>o!==null&&typeof o==='object'&&!Array.isArray(o);
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
-const stateKeys=['version','seed','time','uid','mode','phase','score','stage','stageScore','sequence','sections','player','protected','period','current','pointer','custom','visited','destination','difficulty','observations'];
+const stateKeys=['version','seed','time','uid','mode','phase','score','stage','stageScore','sequence','sections','player','protected','period','current','pointer','custom','visited','destination','difficulty','observations','careProgress'];
 const fail=()=>{throw new Error('This dive file is damaged or incompatible. Choose another file.');};
 export const diveName=value=>String(value??'').trim().slice(0,60)||'My reef dive';
 export function diveFilename(name){
@@ -70,6 +71,7 @@ export function importDive(text){
  }
  if(!Array.isArray(d.visited)||d.visited.some(id=>!Number.isInteger(id)||id<0||id>8))fail();
  if(d.observations!==undefined&&(!Array.isArray(d.observations)||d.observations.some(n=>!object(n)||typeof n.name!=='string'||typeof n.relationship!=='string')))fail();
+ if(d.careProgress!==undefined&&!validCare(d.careProgress))fail();
  const simulation=Simulation.restore(d);
  return {name:diveName(file.name),savedAt:typeof file.savedAt==='string'?file.savedAt:null,simulation};
 }

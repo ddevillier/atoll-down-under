@@ -1,6 +1,6 @@
 # Current implementation brief
 
-**PARKED BY USER — September 6, 2026.** The user said “Yes let’s park.” The last running checks finished successfully and the Windows Guide Options build is parked for testing. See [WINDOWS-PARKED-BUILD.md](WINDOWS-PARKED-BUILD.md), packaged source `5add04a`. Stop feature work, research and additional builds until the user explicitly asks to resume. The broader objective remains unfinished; the old goal and history below are not permission to override this parking instruction.
+**Resumed for the approved living-title and Family Journal plan — September 6, 2026.** The user authorized full execution and asked to park once the complete plan is implemented and its combined Windows build is verified. See [FAMILY-JOURNAL.md](FAMILY-JOURNAL.md). The previous Guide Options build remains preserved. Final delivery is recorded in WINDOWS-FAMILY-JOURNAL-BUILD.md.
 
 This page records current scope. The previous chronological notes are preserved in [IMPLEMENTATION-HISTORY-2026-09-06.md](IMPLEMENTATION-HISTORY-2026-09-06.md). Their old priorities and pending-build statements are historical, not instructions to restart completed work.
 

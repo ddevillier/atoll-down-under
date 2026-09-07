@@ -22,7 +22,7 @@ Preserve ecological decisions, make each species feel different, retain full day
 
 ## Current user direction
 
-**Parked September 6, 2026 at the user's request.** The Windows Guide Options build is ready for testing; see docs/WINDOWS-PARKED-BUILD.md. Stop feature work, research and extra builds until an explicit request to resume. The broader project remains unfinished.
+**Current work front:** complete the approved living title, peaceful music and persistent Family Journal plan, verify the combined Windows build, then park at the user's request. See docs/FAMILY-JOURNAL.md. The earlier Guide Options build is preserved.
 Windows only. Treat this as life-science exploration, with time to observe organisms and discover ecological relationships. Predator avoidance must not dominate small-fish play. Completion remains unproven while educational depth, visual fidelity and playtesting are still in progress.
 
 The user has explicitly prioritized gameplay before further natural-history expansion. Work on swimming, feeding, cleaning, habitat exploration and playability first. All 64 catalog species now have sourced natural-history entries, with explicit identity limits where appropriate.

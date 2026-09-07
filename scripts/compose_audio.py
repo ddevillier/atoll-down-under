@@ -3,7 +3,8 @@ Requires numpy and ffmpeg. Run from the project root. WAV masters and OGG game f
 """
 from pathlib import Path
 import numpy as np
-import wave, subprocess, json
+import wave, subprocess, json, sys
+title_only="--title-only" in sys.argv
 SR=32000
 OUT=Path('assets/audio'); OUT.mkdir(parents=True,exist_ok=True)
 rng=np.random.default_rng(70421)
@@ -36,7 +37,9 @@ def save(name,buf,loop=False):
  subprocess.run(['ffmpeg','-hide_banner','-loglevel','error','-y','-i',str(path),'-c:a','libvorbis','-q:a','5',str(OUT/(name+'.ogg'))],check=True)
  return {'file':name+'.ogg','duration':round(len(buf)/SR,3),'peak':round(float(np.max(np.abs(buf))),4),'rms':round(float(np.sqrt(np.mean(buf**2))),4)}
 tracks=[]
-for name,bpm,key,night in [('glasswater',72,2,False),('moon-through-water',60,-3,True),('blue-passage',76,7,False)]:
+for name,bpm,key,night in [('glasswater',72,2,False),('moon-through-water',60,-3,True),('blue-passage',60,7,True)]:
+ if title_only and name!='blue-passage':continue
+ title=name=='blue-passage'
  beat=60/bpm;bars=32;length=bars*4*beat;buf=np.zeros((round(length*SR),2),dtype=np.float64)
  chords=[[48,55,59,62,64],[45,52,55,59,62],[41,48,52,55,59],[43,50,53,57,62]]
  melody=[[76,74,71,69,67,69,71,74],[71,74,76,79,76,74,71,69],[72,76,79,76,74,72,71,67],[69,74,77,74,72,69,67,62]]
@@ -45,12 +48,12 @@ for name,bpm,key,night in [('glasswater',72,2,False),('moon-through-water',60,-3
   if bar%2==0:
    for j,note in enumerate(chord):add(buf,pad(note+key,8*beat,bar+j),start,(j-2)*.3)
    add(buf,bell(chord[0]-12+key,5,.095,True),start,0)
-  for step in range(4 if night else 8):
-   spacing=beat*(1 if night else .5);note=chord[(step+bar)%len(chord)]+12+key
+  for step in range(2 if title else 4 if night else 8):
+   spacing=beat*(2 if title else 1 if night else .5);note=chord[(step+bar)%len(chord)]+12+key
    s=bell(note,3,.055 if night else .08,night);p=np.sin(bar+step)*.5
    add(buf,s,start+step*spacing,p)
    for delay,gain in [(beat*.75,.25),(beat*1.5,.12)]:add(buf,s*gain,start+step*spacing+delay,-p)
-  if bar%2==1:
+  if bar%2==1 and not title:
    notes=melody[(bar//2)%4]
    for k in range(3):
     note=notes[(bar+k*2)%8]+key;s=bell(note,4,.045 if night else .06,True)
@@ -59,6 +62,12 @@ for name,bpm,key,night in [('glasswater',72,2,False),('moon-through-water',60,-3
  dry=buf.copy()
  for sec,gain in [(.113,.1),(.231,.07),(.379,.045),(.577,.025)]:buf+=np.roll(dry,int(SR*sec),axis=0)[:,::-1]*gain
  tracks.append(save(name,buf,True));print('Composed',name,flush=True)
+if title_only:
+ metrics=json.loads((OUT/'manifest.json').read_text())
+ metrics['music']=[tracks[0] if t['file']=='blue-passage.ogg' else t for t in metrics['music']]
+ (OUT/'manifest.json').write_text(json.dumps(metrics,indent=2))
+ sys.exit(0)
+
 def swoop(start,end,duration=.5,amp=.18,noise=.0):
  t=np.arange(int(SR*duration))/SR;phase=2*np.pi*(start*t+(end-start)/(2*duration)*t*t);env=np.sin(np.pi*t/duration)**2
  return (np.sin(phase)+noise*rng.normal(0,1,len(t)))*env*amp
