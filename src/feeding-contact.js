@@ -40,6 +40,14 @@ export function contactGap(e,target){
  return Math.hypot(a.x-b.x,a.y-b.y);
 }
 
+// A visible search cue on the final approach to an existing bottom-food meal.
+// This does not reveal food, extend bite reach or grant an extra meal.
+export function inspectingWithBarbels(e,target){
+ if(!(e.species.id==='s9'&&e.alive&&!e.hidden&&!(e.stun>0)&&!(e.cleanTime>0)&&!e.cleanerTarget&&target?.kind==='food'&&['worm','shrimp'].includes(target.food)&&!(target.regrow>0)&&contactGap(e,target)<65))return false;
+ const side=feedingApproach(e,target).facing;
+ return Math.cos((e.angle||0)-(side>0?0:Math.PI))>.85;
+}
+
 export function approachMeal(e,target,dt,speed){
  const plan=feedingApproach(e,target),dx=plan.x-e.x,dy=plan.y-e.y,d=Math.hypot(dx,dy);
  const docking=d<Math.max(55,creatureWidth(e.species)*.55),heading=plan.facing===1?0:Math.PI;

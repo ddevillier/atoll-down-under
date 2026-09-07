@@ -48,7 +48,7 @@ export const NATURAL_HISTORY={
    'Goatfishes have two sensory barbels beneath the lower jaw. These whisker-like structures help them search sand and reef crevices by touch and taste. When not being used, the barbels can be tucked away.',
    'Their meals include bottom-living worms, crustaceans and small molluscs; some species also eat fish. A goatfish can take sand into its mouth while searching and expel it through the gill openings. Different species feed by day, at night, or during both periods.'
   ],question:'Watch where a goatfish points its head. How might searching with barbels differ from spotting a meal in open water?',
-  limit:'Yellow goatfish is used for more than one species. This entry gives family-level facts rather than assigning the sprite an unverified scientific name; digging and barbel sensing are not simulated.',
+  limit:'Yellow goatfish is used for more than one species. This entry gives family-level facts rather than assigning the sprite an unverified scientific name; barbel motion accompanies an authored food inspection cue, while digging and sensory detection are not simulated.',
   source:'Waikīkī Aquarium · Goatfishes',url:'https://www.waikikiaquarium.org/experience/animal-guide/fishes/goatfishes/goatfishes/'},
  s41:{scientific:'Aulostomus chinensis',family:'Aulostomidae · trumpetfishes',length:'Up to 90 cm total length',
   paragraphs:[

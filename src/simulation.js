@@ -4,7 +4,7 @@ import {localRoutine,clearRelationships} from './ecology.js';
 import {animalProfile} from './animal-profiles.js';
 import {recordVelocity} from './motion-velocity.js';
 import {mealContact,tickFeeding,cancelPreparation,validFeeding} from './feeding-motion.js';
-import {approachMeal} from './feeding-contact.js';
+import {approachMeal,inspectingWithBarbels} from './feeding-contact.js';
 import {freshAdventure,validAdventure,useContext,tickAdventure,mealAdventure,routineStep,sitesFor} from './adventures.js';
 import {freshCare,tickCare,validCare} from './journal.js';
 import {SPECIES,BY_ID,PLAYABLE,REEFS,FOODS,createSpecies} from './data.js';
@@ -307,6 +307,7 @@ export class Simulation {
   p.x=clamp(p.x,1,W-1);p.y=clamp(p.y,1,H-1);
   for(const f of this.section.food){f.regrow=Math.max(0,f.regrow-dt);if(f.uncovered>0)f.uncovered=Math.max(0,f.uncovered-dt);}
   p.actionTime=Math.max(0,(p.actionTime||0)-dt);p.activity=p.cleanTime>0?'cleaning':p.feeding||p.actionTime>0?'feeding':p.hidden?'at-home':'cruising';
+  if(inspectingWithBarbels(p,this.mealTarget))p.activity='probing';
   tickAdventure(this,dt);
   recordVelocity(p,old,dt);
   const npcCleaningPlan=this.section.entities.includes(cleaningPlan?.cleaner)?cleaningPlan:this.cleaningPlan();
@@ -322,6 +323,7 @@ export class Simulation {
   if(e.feeding&&!e.feeding.committed&&e.target!==e.feeding.target)cancelPreparation(e);
   if(e.cleanTime>0||e.species.ability==='clean'&&((this.player.cleanTime>0)||this.section.entities.some(b=>b.alive&&b.cleanTime>0&&b.target===e.id)))e.activity='cleaning';
   else if((e.target||e.actionTime>0)&&e.activity!=='searching-sand')e.activity='feeding';
+  if(inspectingWithBarbels(e,this.section.food.find(f=>f.id===e.target))){e.activity='probing';e.behavior='Inspecting a meal with its barbels';}
   recordVelocity(e,previous,dt);
  }
  stepNpcBody(e,dt,cleaningPlan=this.cleaningPlan()){
