@@ -118,7 +118,16 @@ export class Simulation {
   this.player.target=null;
  }
  findAt(x,y){
-  const p={x,y};return this.section?.entities.filter(e=>e.alive).sort((a,b)=>distance(a,p)-distance(b,p)).find(e=>distance(e,p)<Math.max(17,creatureWidth(e.species)*.45))||this.section?.food.find(f=>f.regrow<=0&&distance(f,p)<f.size+9)||null;
+  const p={x,y};
+  if(!this.section)return null;
+  // Choose the closest center among targets whose existing hit areas contain
+  // the cursor. An animal's generous hit area must not steal a direct click
+  // on a nearby patch. Exact ties retain the visible animal's layer priority.
+  const candidates=[
+   ...this.section.entities.filter(e=>e.alive&&distance(e,p)<Math.max(17,creatureWidth(e.species)*.45)),
+   ...this.section.food.filter(f=>f.regrow<=0&&distance(f,p)<f.size+9),
+  ];
+  return candidates.sort((a,b)=>distance(a,p)-distance(b,p))[0]||null;
  }
  eatAt(x,y){
   if(!this.player||this.paused||this.phase!=='playing')return false;

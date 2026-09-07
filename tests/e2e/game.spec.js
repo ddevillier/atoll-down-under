@@ -3,6 +3,30 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs/promises';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
 
+test('a food patch beside a poisonous animal can be inspected and eaten with the mouse',async({page})=>{
+ for(const [width,height] of [[1600,900],[1024,768]]){
+  await page.setViewportSize({width,height});await ready(page);await practice(page,'Foxface');
+  await page.keyboard.press('Escape');
+  await page.evaluate(()=>{
+   const s=window.atoll.simulation,food=s.section.food.find(f=>f.food==='algae'),slug=s.section.entities.find(e=>e.species.id==='s60');
+   Object.assign(food,{x:500,y:300,amount:100,regrow:0});
+   Object.assign(slug,{x:518,y:300,stun:99});
+   s.section.food=[food];s.section.entities=[slug];
+   Object.assign(s.player,{x:400,y:300,energy:50,target:null});s.pointer={x:400,y:300};
+  });
+  const box=await page.locator('#reef').boundingBox(),x=box.x+500/1600*box.width,y=box.y+355/900*box.height;
+  await page.mouse.click(x,y);
+  await expect(page.locator('.inspect-card h3')).toHaveText('Algae');
+  await page.screenshot({path:`artifacts/food-selection-inspect-${width}.png`});
+  await page.keyboard.press('Escape');
+  await page.mouse.click(x,y);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].amount)).toBeLessThan(100);
+  expect(await page.evaluate(()=>window.atoll.simulation.player.poisonDamage)).toBe(0);
+  expect(await page.evaluate(()=>window.atoll.simulation.section.entities[0].alive)).toBe(true);
+  await page.screenshot({path:`artifacts/food-selection-meal-${width}.png`});
+ }
+});
+
 test('shelter feedback explains fit and hiding without changing protection rules',async({page})=>{
  for(const [width,height] of [[1600,900],[1024,768]]){
   await page.setViewportSize({width,height});await ready(page);await practice(page,'Neon');
