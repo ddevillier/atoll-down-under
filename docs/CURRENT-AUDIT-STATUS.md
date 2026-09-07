@@ -1,6 +1,6 @@
 # Current audit status
 
-**Current work front — September 6, 2026:** the user resumed execution of the complete living-title and Family Journal plan, followed by a verified Windows build and parking. See FAMILY-JOURNAL.md and WINDOWS-FAMILY-JOURNAL-BUILD.md. This work front does not close the wider historical audit. Earlier milestone references retain their evidence scope.
+**Parked after the approved work front — September 6, 2026.** The complete living-title and Family Journal plan is implemented and its Windows archive verified, runtime `a16e4c6`. See WINDOWS-FAMILY-JOURNAL-BUILD.md for test scope and checksums. Resume only at the user's request. This delivery does not close the broader historical audit; earlier milestone references retain their evidence scope.
 
 The user's latest direction supersedes historical-fidelity priorities: preserve the spirit of the game, ask before more original-game reference research, and improve cleaners now. The original comparison register is a backlog of possible considerations, not a requirement to copy every detail. CLEANER-LOOP.md describes the current gameplay work; the unfinished extra-diet pass is parked rather than applied.
 

@@ -22,7 +22,7 @@ Preserve ecological decisions, make each species feel different, retain full day
 
 ## Current user direction
 
-**Current work front:** complete the approved living title, peaceful music and persistent Family Journal plan, verify the combined Windows build, then park at the user's request. See docs/FAMILY-JOURNAL.md. The earlier Guide Options build is preserved.
+**Parked after completing the approved work front, September 6, 2026.** The living title, peaceful score, Family Journal and care progression are in the verified Windows Family Journal build (`a16e4c6`); see docs/WINDOWS-FAMILY-JOURNAL-BUILD.md. Stop feature work, research and extra builds until the user asks to resume. The broader project remains open.
 Windows only. Treat this as life-science exploration, with time to observe organisms and discover ecological relationships. Predator avoidance must not dominate small-fish play. Completion remains unproven while educational depth, visual fidelity and playtesting are still in progress.
 
 The user has explicitly prioritized gameplay before further natural-history expansion. Work on swimming, feeding, cleaning, habitat exploration and playability first. All 64 catalog species now have sourced natural-history entries, with explicit identity limits where appropriate.

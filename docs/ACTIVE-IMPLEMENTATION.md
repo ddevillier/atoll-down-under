@@ -1,6 +1,6 @@
 # Current implementation brief
 
-**Resumed for the approved living-title and Family Journal plan — September 6, 2026.** The user authorized full execution and asked to park once the complete plan is implemented and its combined Windows build is verified. See [FAMILY-JOURNAL.md](FAMILY-JOURNAL.md). The previous Guide Options build remains preserved. Final delivery is recorded in WINDOWS-FAMILY-JOURNAL-BUILD.md.
+**PARKED after completing the approved plan — September 6, 2026.** Living title, peaceful title score, Family Journal, care stamps/reminders, visitor rewards and backup/restore are implemented. The verified Windows Family Journal archive is ready for testing; see [WINDOWS-FAMILY-JOURNAL-BUILD.md](WINDOWS-FAMILY-JOURNAL-BUILD.md), runtime `a16e4c6`. Stop feature work, research and additional builds until the user asks to resume. This completes the approved work front, not the broader historical audit. Older milestones below retain their evidence scope.
 
 This page records current scope. The previous chronological notes are preserved in [IMPLEMENTATION-HISTORY-2026-09-06.md](IMPLEMENTATION-HISTORY-2026-09-06.md). Their old priorities and pending-build statements are historical, not instructions to restart completed work.
 
