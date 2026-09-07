@@ -200,7 +200,7 @@ export class Simulation {
   this.protected=false;p.energy-=8;p.cooldown=12;p.abilityTime=['lure','camouflage'].includes(p.species.ability)?6:4;
   p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;
   const ability=p.species.ability;
-  for(const e of this.section.entities){if(distance(p,e)>230)continue;if(['shock','sting','sonic','flash'].includes(ability))e.stun=4;if(['ink','poison','spines','puff'].includes(ability)){e.target=null;e.stun=1.5;e.angle=Math.atan2(e.y-p.y,e.x-p.x);}}
+  for(const e of this.section.entities){if(distance(p,e)>230)continue;if(['shock','sting','sonic'].includes(ability)||ability==='flash'&&e.alive&&edible(e,p))e.stun=4;if(['ink','poison','spines','puff'].includes(ability)){e.target=null;e.stun=1.5;e.angle=Math.atan2(e.y-p.y,e.x-p.x);}}
   this.event('ability',ability,{ability,x:p.x,y:p.y});return true;
  }
  consume(target){

@@ -132,7 +132,7 @@ export const NATURAL_HISTORY={
    'Flashlight fishes carry light-producing bacteria in organs beneath their eyes. In the splitfin flashlight fish, Anomalops katoptron, those organs can rotate so their light is hidden or revealed. The fish controls a living light source rather than making sparks.',
    'Splitfin flashlight fish shelter in caves and dark overhangs by day and form schools at night. They eat animal plankton and use light to help find it. This species occurs in the Pacific, including the Great Barrier Reef.'
   ],question:'Imagine watching only the lights in a dark school. What could you learn from their spacing and changes in visibility?',
-  limit:'Splitfin flashlight fish is a named example; the sprite’s exact species remains unresolved. The game simplifies its light into an ability and does not simulate bacterial partners or coordinated flashing.',
+  limit:'Splitfin flashlight fish is a named example; the sprite’s exact species remains unresolved. Automatic dimming and the defensive flash use authored game timing. Bacterial partners and coordinated school flashing are not simulated.',
   source:'Aquarium of the Pacific · Splitfin Flashlight Fish (named example)',url:'https://www.aquariumofpacific.org/onlinelearningcenter/species/splitfin_flashlight_fish'},
  s3:{scientific:'Gramma loreto',family:'Royal grammas and their relatives',length:'About 8 cm',
   paragraphs:[

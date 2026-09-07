@@ -4,7 +4,40 @@
 const clamp=x=>Math.max(0,Math.min(1,x)),TAU=Math.PI*2;
 const part=(name,polygon,hinge,fold,sweep,phase=0)=>({name,polygon,hinge,fold,sweep,phase});
 const jaw=(polygon,root,open,cavity)=>({name:'jaw',mode:'jaw',polygon,hinge:[root,[root[0]+.01,root[1]]],open,cavity});
+const smooth=(a,b,n)=>{const t=clamp((n-a)/(b-a));return t*t*(3-2*t);};
+export function lightVisibility(time,{feed=0,flash=0}={}){
+ const phase=((time/3.4)%1+1)%1;
+ return Math.max(clamp(feed),clamp(flash),1-.96*smooth(.46,.57,phase)*(1-smooth(.77,.90,phase)));
+}
 export const PART_RIGS={
+ s11:{frequency:2.75,scull:.48,spine:{root:.32,front:.80,axis:.53,amplitude:.018,lag:1.8},underlay:{from:[.595,.36,.19,.12],to:[.595,.503,.19,.23]},parts:[
+  part('tail',[[0,.09],[.32,.405],[.32,.645],[0,1.02]],[[.32,.435],[.32,.638]],.30,.32,1.5),
+  part('dorsal',[[.324,.33],[.324,-.02],[.81,-.02],[.813,.292],[.741,.277],[.619,.291],[.494,.331],[.391,.407]],[[.392,.395],[.788,.290]],.34,.10,.2),
+  part('anal',[[.349,.658],[.464,.706],[.608,.762],[.562,1.02],[.302,1.02]],[[.353,.665],[.590,.763]],.35,.12,1.5),
+  part('pectoral',[[.604,.506],[.680,.517],[.752,.548],[.779,.594],[.766,.655],[.705,.678],[.642,.628]],[[.755,.562],[.765,.627]],.63,.22,.8),
+  part('pelvic',[[.625,.771],[.768,.734],[.781,1.04],[.563,1.04]],[[.640,.772],[.752,.745]],.48,.16,1.1)
+ ]},
+ s53:{frequency:2.1,scull:.50,spine:{root:.225,front:.71,axis:.57,amplitude:.025,lag:1.9},underlay:{from:[.55,.42,.15,.13],to:[.545,.545,.16,.17]},parts:[
+  part('tail',[[0,.23],[.225,.469],[.225,.655],[0,.92]],[[.225,.474],[.225,.654]],.33,.33,1.6),
+  part('dorsal',[[.258,.427],[.258,-.02],[.661,-.02],[.668,.238],[.560,.266],[.425,.318]],[[.271,.423],[.644,.247]],.22,.07,.4),
+  part('pectoral',[[.551,.553],[.620,.565],[.693,.590],[.702,.637],[.677,.689],[.617,.704],[.570,.661]],[[.690,.599],[.692,.657]],.63,.22,.7),
+  part('pelvic',[[.574,.814],[.703,.790],[.715,1.04],[.513,1.04]],[[.589,.816],[.691,.797]],.38,.13,1.2),
+  {name:'light organ',mode:'glow',polygon:[[.744,.563],[.793,.560],[.844,.584],[.869,.645],[.856,.705],[.806,.765],[.754,.739],[.727,.659]],hinge:[[.79,.64],[.82,.64]]}
+ ]},
+ s55:{frequency:1.8,scull:.42,underlay:{from:[.397,.30,.35,.17],to:[.397,.461,.35,.216]},parts:[
+  part('tail',[[0,.20],[.241,.470],[.241,.552],[0,.87]],[[.241,.478],[.241,.543]],.28,.32,1.6),
+  part('dorsal',[[.18,-.03],[.68,-.03],[.68,.207],[.614,.219],[.257,.469],[.235,.478],[.235,.30],[.18,.10]],[[.257,.469],[.614,.219]],.30,.10,.3),
+  part('anal',[[.255,.550],[.354,.655],[.487,.755],[.632,.793],[.613,1.03],[.285,1.03]],[[.267,.560],[.611,.794]],.29,.09,1.5),
+  part('pectoral',[[.403,.462],[.527,.470],[.627,.501],[.724,.548],[.738,.602],[.694,.650],[.628,.623],[.543,.571]],[[.717,.554],[.726,.608]],.52,.17,.8),
+  part('pelvic',[[.653,.807],[.744,.788],[.746,1.02],[.595,1.02]],[[.660,.814],[.730,.793]],.30,.11,1.3)
+ ]},
+ s58:{frequency:2.85,scull:.52,spine:{root:.272,front:.80,axis:.56,amplitude:.018,lag:2.1},underlay:{from:[.573,.37,.19,.14],to:[.573,.520,.19,.22]},parts:[
+  part('tail',[[0,.25],[.272,.455],[.272,.669],[0,1.02]],[[.272,.477],[.272,.655]],.32,.34,1.6),
+  part('dorsal',[[.313,.389],[.215,.20],[.215,-.02],[.809,-.02],[.817,.306],[.725,.287],[.613,.311],[.473,.369],[.349,.457]],[[.346,.441],[.789,.303]],.35,.11,.35),
+  part('anal',[[.327,.688],[.443,.742],[.565,.791],[.551,1.03],[.247,1.03]],[[.339,.697],[.549,.791]],.35,.13,1.5),
+  part('pectoral',[[.581,.532],[.657,.540],[.730,.565],[.756,.599],[.745,.663],[.685,.693],[.617,.650]],[[.739,.575],[.749,.638]],.64,.23,.7),
+  part('pelvic',[[.607,.806],[.753,.763],[.768,1.04],[.557,1.04]],[[.624,.804],[.739,.775]],.46,.16,1.2)
+ ]},
  s3:{frequency:2.15,scull:.62,underlay:{from:[.582,.29,.168,.13],to:[.582,.402,.168,.241]},parts:[
   part('tail',[[0,0],[.243,0],[.243,1],[0,1]],[[.243,.375],[.243,.640]],.28,.25,1.6),
   part('pectoral',[[.595,.410],[.654,.425],[.727,.458],[.748,.491],[.727,.568],[.655,.624],[.590,.638],[.581,.553]],[[.732,.463],[.742,.530]],.64,.20,.65),
@@ -161,9 +194,10 @@ export const PART_RIGS={
  ]}
 };
 
-export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0}={}){
+export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0}={}){
  const rig=PART_RIGS[id],part=rig.parts.find(p=>p.name===name),a=clamp(effort);
  if(part.mode==='jaw')return {scale:1,shear:0,angle:part.open*clamp(feed),brake:0};
+ if(part.mode==='glow')return {scale:1,shear:0,opacity:lightVisibility(time,{feed,flash}),brake:0};
  const phase=time*rig.frequency*TAU+part.phase;
  // Propulsion is legible at ordinary NPC speed. Braking opens stabilizing fins
  // while the tail comes to rest; hoverers and cowfish keep sculling in place.
@@ -201,6 +235,11 @@ export class PaintedParts{
    if(p.mode==='jaw'){
     cavityCanvas=surface(canvas.width,canvas.height);const cc=cavityCanvas.getContext('2d');cc.drawImage(canvas,0,0);cc.globalCompositeOperation='source-in';cc.fillStyle=p.cavity;cc.fillRect(0,0,canvas.width,canvas.height);
    }
+   if(p.mode==='glow'){
+    // Preserve painted gill texture in the dim phase. This patch is fixed on
+    // the protected head; the luminous painting is blended over it below.
+    c.drawImage(canvas,left,top);c.save();path(c,p.polygon,w,h);c.clip();c.globalCompositeOperation='source-atop';c.translate(w*.80,h*.66);c.scale(w*.095,h*.125);const shade=c.createRadialGradient(0,0,0,0,0,1);shade.addColorStop(0,'#071f38');shade.addColorStop(.45,'#071f38f5');shade.addColorStop(1,'#071f3800');c.fillStyle=shade;c.fillRect(-1,-1,2,2);c.restore();
+   }
    return {...p,canvas,left,top,cavityCanvas};
   });
   // Overlaid pectorals need a painted flank beneath them as they fold. Keep
@@ -223,6 +262,9 @@ export class PaintedParts{
    }
   }else c.drawImage(body,0,0,width,height);
   for(const p of pieces){
+   if(p.mode==='glow'){
+    c.save();c.globalAlpha*=partPose(id,p.name,time,effort,state).opacity;c.drawImage(p.canvas,p.left/image.width*width,p.top/image.height*height,p.canvas.width/image.width*width,p.canvas.height/image.height*height);c.restore();continue;
+   }
    if(p.mode==='jaw'){
     const pose=partPose(id,p.name,time,effort,state),[root]=p.hinge,ax=root[0]*width,ay=root[1]*height;
     // The existing contact envelope opens the mandible before consumption and

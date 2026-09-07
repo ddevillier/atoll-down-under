@@ -152,3 +152,7 @@ The [hunter review](hunter-parts-review.md) adds four heavy reef hunters with in
 ## Ledge fish and watchful hawkfish
 
 The [perch review](perch-parts-review.md) adds independent fins to gramma and two hawkfish, bringing painted-part coverage to 30 species. Perched hawkfish turn toward nearby passers, yield to higher priorities and clear attention across travel and respawn. Ordinary meals and generated watch interactions were inspected at both desktop sizes. All 262 unit tests and six targeted browser tests pass; 110 pressure scenarios record 26 bites, zero deaths and unchanged initial populations. Precise painted-perch contact, continuous perceptual acceptance and final Windows delivery remain open.
+
+## School fish fins and flashlight organs
+
+The [school fish review](school-parts-review.md) adds basslet, flashlight fish, trevally and anthias, bringing continuously posed painted parts to 34 species. Independent fins and tails accompany a dimming under-eye light for flashlight fish; defensive flash now leaves companions and cleaners moving. Four initial strips, eight ordinary meal views, two corrected strips and final light/community comparisons were inspected. All 264 unit tests and eight distinct targeted browser scenarios pass. Pressure remains at 26 bites and zero deaths across 110 scenarios with unchanged initial counts. Fine-detail readability, continuous perceptual acceptance, remaining roster work and Windows delivery remain open. Cuttlefish stays unchanged.

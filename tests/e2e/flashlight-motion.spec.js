@@ -1,0 +1,20 @@
+import {test,expect} from '@playwright/test';import {clickButton} from '../../scripts/ui-actions.mjs';
+
+test('flashlight organ changes locally without moving the eye or the surrounding body',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ const result=await page.evaluate(async()=>{const {PaintedParts}=await import('/src/part-motion.js'),{ANIMAL_RIGS}=await import('/src/animal-rigs.js'),parts=new PaintedParts(),im=window.atoll.renderer.sprites[53],c=document.createElement('canvas');c.width=600;c.height=400;const ctx=c.getContext('2d'),w=400,h=w*im.height/im.width;
+ const paint=flash=>{ctx.clearRect(0,0,600,400);ctx.save();ctx.translate(300,200);parts.draw(ctx,im,'s53',w,h,2.25,.5,{flash});ctx.restore();return ctx.getImageData(0,0,600,400).data;};
+ const dim=paint(0),bright=paint(1),[ex,ey]=ANIMAL_RIGS.s53.eye;let eyeChanged=0,outside=0,changed=0,darkLight=0,brightLight=0;
+ for(let y=0;y<400;y++)for(let x=0;x<600;x++){const i=(y*600+x)*4,u=(x-100)/w,v=(y-200+h/2)/h,d=[0,1,2,3].some(k=>dim[i+k]!==bright[i+k]);if(d){changed++;if(Math.abs(u-ex)<.025&&Math.abs(v-ey)<.03)eyeChanged++;if(u<.72||u>.88||v<.55||v>.78)outside++;}if(u>.77&&u<.83&&v>.61&&v<.71){darkLight+=dim[i]+dim[i+1]+dim[i+2];brightLight+=bright[i]+bright[i+1]+bright[i+2];}}
+ return {eyeChanged,outside,changed,ratio:darkLight/brightLight};});
+ expect(result.eyeChanged).toBe(0);expect(result.outside).toBe(0);expect(result.changed).toBeGreaterThan(300);expect(result.ratio).toBeLessThan(.55);
+});
+
+test('Space brightens the player light and leaves nearby companions moving while a predator is startled',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Flashlight fish');await page.getByRole('option').first().click();await clickButton(page,{name:'Enter the reef'});await page.keyboard.press('Escape');
+ const actors=await page.evaluate(async()=>{const {edible}=await import('/src/simulation.js'),s=window.atoll.simulation,friend=s.section.entities.find(e=>e.species.id==='s53'),cleaner=s.section.entities.find(e=>e.species.ability==='clean'),predator=s.section.entities.find(e=>edible(e,s.player));if(!friend||!predator)throw Error('Fixture needs a generated companion and predator');for(const [i,e] of [friend,cleaner,predator].entries()){e.x=s.player.x+50+i*45;e.y=s.player.y;e.stun=0;e.satiated=60;e.health=100;}s.player.energy=90;s.player.cooldown=0;s.point(s.player.x,s.player.y);return {friend:friend.id,cleaner:cleaner.id,predator:predator.id,count:s.section.entities.length};});
+ await page.keyboard.press('Escape');await page.keyboard.press('Space');await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.abilityTime)).toBeGreaterThan(0);await page.keyboard.press('Escape');
+ const result=await page.evaluate(actors=>{const {simulation:s,renderer:r}=window.atoll,states=[],draw=r.parts.draw;r.parts.draw=function(c,im,id,w,h,t,effort,state){if(id==='s53')states.push(state.flash);return draw.call(this,c,im,id,w,h,t,effort,state);};try{r.draw(s,0);}finally{r.parts.draw=draw;}const pick=id=>s.section.entities.find(e=>e.id===id).stun;return {friend:pick(actors.friend),cleaner:pick(actors.cleaner),predator:pick(actors.predator),states,count:s.section.entities.length,energy:s.player.energy};},actors);
+ expect(result.friend).toBe(0);expect(result.cleaner).toBe(0);expect(result.predator).toBeGreaterThan(3);expect(result.states).toContain(1);expect(result.count).toBe(actors.count);expect(result.energy).toBeLessThanOrEqual(82);
+ const positions=()=>page.evaluate(a=>[a.friend,a.predator].map(id=>{const e=window.atoll.simulation.section.entities.find(e=>e.id===id);return {x:e.x,y:e.y};}),actors);const before=await positions();await page.keyboard.press('Escape');await page.waitForTimeout(600);await page.keyboard.press('Escape');const after=await positions();expect(Math.hypot(after[0].x-before[0].x,after[0].y-before[0].y)).toBeGreaterThan(1);expect(Math.hypot(after[1].x-before[1].x,after[1].y-before[1].y)).toBe(0);
+});
