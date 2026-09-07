@@ -15,7 +15,7 @@ try{
  await clickButton(page,{name:'Field guide',exact:true});
  for(const width of (app?[null]:[1024,1600])){
   if(width)await page.setViewportSize({width,height:900});
-  for(const [id,scientific,phrase] of [['s6','Forcipiger flavissimus','yellow body'],['s16','Cephalopholis miniata','orange-red body'],['s40','Platax teira','nearly circular body']]){
+  for(const [id,scientific,phrase] of [['s6','Forcipiger flavissimus','yellow body'],['s16','Cephalopholis miniata','orange-red body'],['s37','Hypnos monopterygius','pear-shaped'],['s39','Variola louti','crescent-shaped tail'],['s40','Platax teira','nearly circular body']]){
    await page.getByRole('searchbox').fill(scientific);await page.getByRole('option').click();
    await expect(page.locator('.species-portrait')).toHaveAttribute('data-species',id);
    await page.locator('.natural-history>summary').click();
@@ -29,12 +29,22 @@ try{
   }
  }
  await page.getByRole('button',{name:'Return',exact:true}).click();
- await clickButton(page,{name:/Practice Choose/});
- await page.getByRole('searchbox').fill('Longfin batfish');await page.getByRole('option').click();
- await clickButton(page,{name:'Enter the reef'});
- expect(await page.evaluate(()=>window.atoll.simulation.player.species.id)).toBe('s40');
- await page.keyboard.press('Escape');
- await page.screenshot({path:`artifacts/${prefix}-batfish-practice.png`});
+ report.practiceEntries=[];
+ for(const [id,name] of [['s40','Longfin batfish'],['s37','Electric ray'],['s39','Coral trout']]){
+  await clickButton(page,{name:/Practice Choose/});
+  await page.getByRole('searchbox').fill(name);await page.getByRole('option').click();
+  await clickButton(page,{name:'Enter the reef'});
+  expect(await page.evaluate(()=>window.atoll.simulation.player.species.id)).toBe(id);
+  if(id==='s37'){
+   await page.keyboard.press('Space');
+   expect(await page.evaluate(()=>window.atoll.simulation.player.cooldown)).toBeGreaterThan(0);
+   report.electricPulseControl=true;
+  }
+  await page.keyboard.press('Escape');
+  await page.screenshot({path:`artifacts/${prefix}-${id}-practice.png`});
+  report.practiceEntries.push(id);
+  await clickButton(page,{name:'Atoll',exact:true});
+ }
  report.practiceBatfish=true;expect(errors).toEqual([]);
  fs.writeFileSync(`artifacts/${prefix}-species-corrections.json`,JSON.stringify(report,null,2));
  console.log(JSON.stringify(report));

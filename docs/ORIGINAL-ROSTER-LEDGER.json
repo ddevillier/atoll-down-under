@@ -377,12 +377,12 @@
     {
       "id": "s37",
       "name": "Electric ray",
-      "scientific": "Torpediniformes (electric rays; group)",
+      "scientific": "Hypnos monopterygius",
       "originalNameStringId": 146,
       "originalName": "Short-tail Electric Ray",
       "originalScientificStringId": 250,
       "originalScientificSpelling": "Hypnos monopterygium",
-      "assessment": "Original specifies short-tail electric ray; current Pacific-ray example differs."
+      "assessment": "Written identity corrected to modern Hypnos monopterygius; Fishes of Australia explicitly documents the historical monopterygium spelling. New brown, short-tailed illustration replaces the incompatible blue-spotted ray. Fine anatomical proportions and historical behavior remain qualified."
     },
     {
       "id": "s38",
@@ -397,12 +397,12 @@
     {
       "id": "s39",
       "name": "Coral trout",
-      "scientific": "Plectropomus leopardus",
+      "scientific": "Variola louti",
       "originalNameStringId": 117,
       "originalName": "Lyretail Coral Trout",
       "originalScientificStringId": 221,
       "originalScientificSpelling": "Variola louti",
-      "assessment": "Different genera and species: Plectropomus leopardus versus Variola louti."
+      "assessment": "Written identity corrected to Variola louti; new original illustration supplies crescent tail and yellow fin edging. Exact anatomical and behavioral fidelity remains qualified."
     },
     {
       "id": "s40",

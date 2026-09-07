@@ -41,9 +41,9 @@ All 64 catalog creatures have sourced guide content. This records written covera
 | s34 | Great white shark | Written: Carcharodon carcharias; source in guide |
 | s35 | Tiger shark | Written: Galeocerdo cuvier; source in guide |
 | s36 | Wobbegong | Written: Orectolobidae (wobbegongs; family); source in guide |
-| s37 | Electric ray | Written: Torpediniformes (electric rays; group); source in guide |
+| s37 | Electric ray | Corrected: Hypnos monopterygius, modern spelling of original short-tail electric ray; Fishes of Australia source |
 | s38 | Giant grouper | Written: Epinephelus lanceolatus; source in guide |
-| s39 | Coral trout | Written: Plectropomus leopardus; source in guide |
+| s39 | Coral trout | Corrected: Variola louti, matching original lyretail coral trout; Fishes of Australia source and new illustration |
 | s40 | Longfin batfish | Corrected: Platax teira, matching original longfin spadefish; Australian Museum source and new species illustration |
 | s41 | Trumpetfish | Written: Aulostomus chinensis; source in guide |
 | s42 | Yellowtail fusilier | Written: Caesio cuning; source in guide |

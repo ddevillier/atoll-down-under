@@ -351,6 +351,22 @@
     "alpha": true
   },
   {
+    "path": "assets/creatures/lyretail-coral-trout-v2.png",
+    "bytes": 2010331,
+    "sha256": "f4bbeaf4b7eedc00fddeb782393d1ae2585b5ea77eba39b0cab57cfe6746475d",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/short-tail-electric-ray-v2.png",
+    "bytes": 2531429,
+    "sha256": "20758dd7da63290370b4f686e00939d0184d21275e190321593c2ef3c9f12b69",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  },
+  {
     "path": "assets/fonts/DM-Sans-LICENSE.txt",
     "bytes": 4502,
     "sha256": "6fbd040a29c2037a765dfb9f2561e9965b5c95c6dcb5dce516089d63d5f17af7"

@@ -120,13 +120,13 @@ export const NATURAL_HISTORY={
   ],question:'Search for a shark’s outline on the seabed. Which markings make the outline harder to follow?',
   limit:'The spotted wobbegong is a named example, not a confirmed identification of this sprite. Its documented range is largely southern Australia; the catalog’s generic wobbegong needs a separate identity review.',
   source:'Australian Museum · Spotted Wobbegong (named example)',url:'https://australian.museum/learn/animals/fishes/spotted-wobbegong-orectolobus-maculatus-bonnaterre-1788/'},
- s37:{scientific:'Torpediniformes (electric rays; group)',family:'Electric rays · species not identified',
+ s37:{scientific:'Hypnos monopterygius',family:'Hypnidae · coffin rays',length:'Up to 60 cm total length',
   paragraphs:[
-   'Electric rays can use electrical discharges to stun prey and discourage predators. One example is the Pacific electric ray, Tetronarce californica, which has a rounded body, small eyes and a short, thick tail.',
-   'That species lives along the Pacific coast of North America. At night it searches above sandy bottoms and nearby reefs for fishes. During capture it can curl its body disc around the prey, concentrating the electrical field and helping position the meal.'
-  ],question:'Compare this broad-bodied hunter with a narrow-bodied fish. How might their body shapes support different ways of catching food?',
-  limit:'The Pacific electric ray is an example, not an Australian species identification for the sprite. The game’s shock radius, duration and energy cost are balance settings; they are not measured electrical properties.',
-  source:'Monterey Bay Aquarium · Pacific electric ray (named example)',url:'https://www.montereybayaquarium.org/animals-the-ocean/animals-a-to-z/pacific-electric-ray'},
+   'This Australian electric ray is also called the coffin ray. Its flattened body is pear-shaped, and its tail is so short that only the tail fin projects beyond the rear pelvic fins. Its upper surface is brown, with two small dorsal fins near the back.',
+   'It often waits buried in sand or mud. Electric organs on either side of its body can stun prey, including fishes and crustaceans. Worms are also part of its natural diet. A quiet-looking animal can have a powerful way to catch a meal.'
+  ],question:'Compare its short tail and rounded outline with a stingray. What would help you tell them apart without touching either animal?',
+  limit:'This follows the original game’s short-tail electric ray, using the modern scientific spelling. The illustration is stylized. Burial and natural feeding are simplified; shock radius, duration and energy cost are authored settings.',
+  source:'Dianne J. Bray · Fishes of Australia: Coffin Ray',url:'https://fishesofaustralia.net.au/home/species/1843'},
  s53:{scientific:'Anomalopidae (flashlight fishes; family)',family:'Flashlight fishes · species not identified',
   paragraphs:[
    'Flashlight fishes carry light-producing bacteria in organs beneath their eyes. In the splitfin flashlight fish, Anomalops katoptron, those organs can rotate so their light is hidden or revealed. The fish controls a living light source rather than making sparks.',
@@ -225,13 +225,13 @@ export const NATURAL_HISTORY={
   ],question:'Watch a large fish hovering. How is staying in one place different from being unable to move?',
   limit:'The game uses one size and one appearance. Its food list and crushing rules are simplified, and juvenile color changes are not simulated.',
   source:'Dianne J. Bray · Fishes of Australia: Queensland Groper',url:'https://fishesofaustralia.net.au/home/species/4672'},
- s39:{scientific:'Plectropomus leopardus',family:'Coral groupers',
+ s39:{scientific:'Variola louti',family:'Groupers and lyretails',length:'Up to 83 cm total length',
   paragraphs:[
-   'The common coral trout has many small blue spots and a blue ring around the eye. Its body can be olive, brownish or orange-red. It can quickly change color and may become mottled while hunting.',
-   'Individuals or pairs may swim slowly near schools of smaller fish or rest on coral outcrops. Closely related coral trout can look similar; elongated spots on the head help distinguish the barcheek coral trout from this species.'
-  ],question:'Compare round spots with long dashes on a fish’s head. Why might that small detail matter more than overall color?',
-  limit:'This entry uses common coral trout as the catalog’s intended species; artwork identification remains open. The game does not change its markings during a hunt.',
-  source:'Dianne J. Bray · Fishes of Australia: Common Coral Trout',url:'https://fishesofaustralia.net.au/home/species/4518'},
+   'The yellow-edged lyretail, also called the coronation trout, has a crescent-shaped tail with a bright yellow border. Adults are usually reddish, with many small bluish or pinkish spots across the head, body and fins.',
+   'This grouper lives across much of the tropical Indo-Pacific, including Australian reefs, and eats fishes and crustaceans. Juveniles can resemble goatfishes. A familiar spotted body is only part of the identification: the shape and edge of the tail matter too.'
+  ],question:'Compare its crescent tail with a coral grouper’s rounded tail. Which difference would you notice first as the fish swam away?',
+  limit:'This follows the original game’s lyretail coral trout. The illustration shows a stylized adult; growth, juvenile resemblance and natural prey proportions are not simulated.',
+  source:'Dianne J. Bray · Fishes of Australia: Yellowedge Coronation Trout',url:'https://fishesofaustralia.net.au/home/species/4521'},
  s18:{scientific:'Tylosurus crocodilus',family:'Belonidae · needlefishes',length:'Up to 1.5 m total length',
   paragraphs:[
    'Also called the crocodile longtom, this fish has an extremely long upper and lower jaw armed with sharp teeth. Its stretched-out body ends in a deeply forked tail.',
