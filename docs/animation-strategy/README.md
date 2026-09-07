@@ -134,3 +134,7 @@ The [painted propulsion review](propulsion-parts-review.md) extends the new cont
 # Current direction after user visual feedback
 
 The user finds the fish/shark progressions too similar and specifically likes the cuttlefish. Earlier rig counts, static strips and passing geometry checks overstate the perceptual result. The [visible-motion review](visible-motion-review.md) records four lightweight moving-part prototypes, a live normal-size comparison, and the discovered cached-pose starvation. Preserve the cuttlefish and prioritize readable fish/shark propulsion before further roster-wide parameter authoring. Full-roster acceptance and Windows delivery remain open.
+
+## Hovering reef fish continuation
+
+The [hovering fin review](hover-parts-review.md) covers neon damselfish, orange coral goby, anemonefish and humbug damselfish. Painted pectorals now scull at rest while tail strokes settle, with fixed body cores. Four phase views and eight ordinary gameplay captures were inspected. All 249 unit tests and seven targeted browser checks pass, including cropped-canvas alignment across all sixteen painted-part species and preserved cuttlefish camouflage. The live preview now includes these hoverers. Small-player readability, continuous perceptual acceptance and native delivery remain open.

@@ -4,6 +4,25 @@
 const clamp=x=>Math.max(0,Math.min(1,x)),TAU=Math.PI*2;
 const part=(name,polygon,hinge,fold,sweep,phase=0)=>({name,polygon,hinge,fold,sweep,phase});
 export const PART_RIGS={
+ s1:{frequency:2.6,scull:.70,underlay:{from:[.51,.34,.23,.16],to:[.51,.50,.23,.18]},parts:[
+  part('tail',[[0,0],[.235,0],[.235,1],[0,1]],[[.235,.438],[.235,.593]],.30,.30,1.6),
+  part('pectoral',[[.51,.50],[.64,.52],[.744,.56],[.749,.60],[.71,.657],[.60,.684],[.503,.611]],[[.735,.556],[.739,.610]],.76,.23,.7),
+  part('pelvic',[[.597,.750],[.744,.721],[.755,1.05],[.525,1.05]],[[.609,.749],[.736,.734]],.38,.13,1.1)
+ ]},
+ s2:{frequency:2.0,scull:.82,underlay:{from:[.55,.265,.22,.14],to:[.545,.400,.218,.325]},parts:[
+  part('tail',[[0,0],[.267,0],[.267,1],[0,1]],[[.267,.391],[.267,.640]],.27,.24,1.6),
+  part('pectoral',[[.730,.475],[.676,.425],[.615,.397],[.573,.418],[.543,.495],[.550,.599],[.596,.690],[.680,.730],[.733,.680],[.763,.645],[.763,.477]],[[.749,.485],[.756,.647]],.70,.21,.6)
+ ]},
+ s7:{frequency:2.2,scull:.68,underlay:{from:[.596,.249,.146,.15],to:[.549,.372,.21,.342]},parts:[
+  part('tail',[[0,0],[.262,0],[.262,1],[0,1]],[[.262,.423],[.262,.638]],.32,.29,1.6),
+  part('pectoral',[[.72,.56],[.697,.434],[.635,.370],[.579,.380],[.550,.439],[.548,.630],[.590,.715],[.650,.717],[.727,.650],[.760,.616]],[[.738,.549],[.739,.624]],.70,.23,.7),
+  part('pelvic',[[.618,.754],[.742,.728],[.75,1.04],[.55,1.04]],[[.628,.750],[.733,.738]],.40,.16,1.2)
+ ]},
+ s30:{frequency:2.8,scull:.75,underlay:{from:[.625,.405,.135,.115],to:[.622,.510,.138,.195]},parts:[
+  part('tail',[[0,0],[.294,0],[.294,1],[0,1]],[[.294,.382],[.294,.590]],.31,.28,1.6),
+  part('pectoral',[[.625,.509],[.692,.535],[.762,.584],[.749,.632],[.704,.675],[.655,.698],[.620,.644]],[[.748,.570],[.750,.626]],.73,.22,.8),
+  part('pelvic',[[.605,.803],[.745,.752],[.75,1.05],[.51,1.05]],[[.623,.790],[.732,.765]],.36,.11,1.1)
+ ]},
  s0:{frequency:2.7,spine:{root:.19,front:.79,axis:.52,amplitude:.045,lag:2.0},parts:[
   part('tail',[[0,0],[.19,0],[.19,1],[0,1]],[[.19,.435],[.19,.615]],.35,.38,1.6),
   part('dorsal',[[.397,.335],[.397,0],[.615,0],[.615,.285]],[[.407,.322],[.601,.283]],.30,.08,.4),
@@ -20,7 +39,7 @@ export const PART_RIGS={
   part('dorsal',[[.171,.447],[.171,0],[.298,0],[.298,.356]],[[.181,.432],[.289,.367]],.38,.09,.4),
   part('pelvic',[[.339,.735],[.391,.722],[.40,1.02],[.32,1.02]],[[.343,.738],[.384,.726]],.48,.11,1.1)
  ]},
- s23:{frequency:2.5,parts:[
+ s23:{frequency:2.5,scull:.78,underlay:{from:[.695,.47,.09,.16],to:[.665,.625,.09,.16]},parts:[
   part('tail',[[0,0],[.198,0],[.198,1],[0,1]],[[.198,.49],[.198,.64]],.24,.18),
   part('dorsal',[[.28,.45],[.29,0],[.48,0],[.48,.35],[.43,.385],[.33,.445]],[[.33,.435],[.46,.36]],.62,.12,.8),
   part('pectoral',[[.708,.632],[.741,.622],[.751,.711],[.711,.843],[.611,.921],[.629,.853],[.671,.729]],[[.716,.638],[.740,.687]],.72,.32,1.4)
@@ -69,8 +88,8 @@ export const PART_RIGS={
 export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0}={}){
  const rig=PART_RIGS[id],part=rig.parts.find(p=>p.name===name),a=clamp(effort),phase=time*rig.frequency*TAU+part.phase;
  // Propulsion is legible at ordinary NPC speed. Braking opens stabilizing fins
- // while the tail comes to rest; the rigid cowfish keeps sculling in place.
- const drive=name==='tail'?.05+.95*Math.sqrt(a):id==='s23'?.78+.22*a:.12+.88*Math.sqrt(a);
+ // while the tail comes to rest; hoverers and cowfish keep sculling in place.
+ const drive=name==='tail'?.05+.95*Math.sqrt(a):rig.scull!=null?rig.scull+(1-rig.scull)*a:.12+.88*Math.sqrt(a);
  const stroke=(1-Math.cos(phase))*.5,active=drive*(1-clamp(feed)*.65);
  const fold=part.fold*active*(1-clamp(brake)*.75);
  return {scale:1-fold*stroke,shear:Math.sin(phase)*part.sweep*active+Math.max(-1,Math.min(1,turn))*.08,brake:clamp(brake)};
@@ -93,15 +112,19 @@ function path(c,points,w,h){c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x
 function surface(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return c;}
 
 export class PaintedParts{
- constructor(){this.images=new WeakMap();this.prepared=0;this.draws=0;}
+ constructor(){this.images=new WeakMap();this.prepared=0;this.preparedPixels=0;this.draws=0;}
  prepare(image,id){
   let versions=this.images.get(image);if(!versions){versions=new Map();this.images.set(image,versions);}if(versions.has(id))return versions.get(id);
   const w=image.width,h=image.height,body=surface(w,h),c=body.getContext('2d');c.drawImage(image,0,0);
-  const pieces=PART_RIGS[id].parts.map(p=>{const canvas=surface(w,h),pc=canvas.getContext('2d');pc.save();path(pc,p.polygon,w,h);pc.clip();pc.drawImage(image,0,0);pc.restore();c.save();path(c,p.polygon,w,h);c.clip();c.clearRect(0,0,w,h);c.restore();return {...p,canvas};});
-  // The cowfish pectoral lies over the flank. Fill only that small underlay from
-  // adjacent painted flank, retaining source bytes and a separate fin cutout.
-  if(id==='s23'){const p=PART_RIGS[id].parts.find(p=>p.name==='pectoral');c.save();path(c,p.polygon,w,h);c.clip();c.drawImage(image,.695*w,.47*h,.09*w,.16*h,.665*w,.625*h,.09*w,.16*h);c.restore();}
-  const result={body,pieces};versions.set(id,result);this.prepared++;return result;
+  const pieces=PART_RIGS[id].parts.map(p=>{
+   const left=Math.max(0,Math.floor(Math.min(...p.polygon.map(p=>p[0]))*w)-2),top=Math.max(0,Math.floor(Math.min(...p.polygon.map(p=>p[1]))*h)-2),right=Math.min(w,Math.ceil(Math.max(...p.polygon.map(p=>p[0]))*w)+2),bottom=Math.min(h,Math.ceil(Math.max(...p.polygon.map(p=>p[1]))*h)+2);
+   const canvas=surface(right-left,bottom-top),pc=canvas.getContext('2d');pc.save();pc.translate(-left,-top);path(pc,p.polygon,w,h);pc.clip();pc.drawImage(image,0,0);pc.restore();c.save();path(c,p.polygon,w,h);c.clip();c.clearRect(0,0,w,h);c.restore();return {...p,canvas,left,top};
+  });
+  // Overlaid pectorals need a painted flank beneath them as they fold. Keep
+  // this local reconstruction inside the authored cut, preserving source bytes.
+  const underlay=PART_RIGS[id].underlay;
+  if(underlay){const p=PART_RIGS[id].parts.find(p=>p.name==='pectoral'),[x,y,sw,sh]=underlay.from,[dx,dy,dw,dh]=underlay.to;c.save();path(c,p.polygon,w,h);c.clip();c.drawImage(image,x*w,y*h,sw*w,sh*h,dx*w,dy*h,dw*w,dh*h);c.restore();}
+  const result={body,pieces};versions.set(id,result);this.prepared++;this.preparedPixels+=w*h+pieces.reduce((n,p)=>n+p.canvas.width*p.canvas.height,0);return result;
  }
  draw(c,image,id,width,height,time,effort,state={}){
   const {body,pieces}=this.prepare(image,id),aspect=height/width,s={...state,aspect};this.draws++;
@@ -122,7 +145,7 @@ export class PaintedParts{
    const vx=(B.x-A.x)*width/length,vy=(B.y-A.y)*height/length;
    // In hinge coordinates, tangent is fixed; normal is foreshortened and swept.
    const nx=-vy*pose.scale+vx*pose.shear,ny=vx*pose.scale+vy*pose.shear;
-   c.save();c.translate(A.x*width,A.y*height);c.transform(vx*ux-nx*uy,vy*ux-ny*uy,vx*uy+nx*ux,vy*uy+ny*ux,0,0);c.drawImage(p.canvas,-ax,-ay,width,height);c.restore();
+   c.save();c.translate(A.x*width,A.y*height);c.transform(vx*ux-nx*uy,vy*ux-ny*uy,vx*uy+nx*ux,vy*uy+ny*ux,0,0);c.drawImage(p.canvas,p.left/image.width*width-ax,p.top/image.height*height-ay,p.canvas.width/image.width*width,p.canvas.height/image.height*height);c.restore();
   }
   c.restore();
  }

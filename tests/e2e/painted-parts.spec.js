@@ -1,11 +1,33 @@
 import {test,expect} from '@playwright/test';
 
+test('cropped fin canvases preserve full-canvas placement through folded poses',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ const results=await page.evaluate(async()=>{
+  const {PaintedParts,PART_RIGS}=await import('/src/part-motion.js'),r=window.atoll.renderer,parts=new PaintedParts(),results=[];
+  const make=()=>{const c=document.createElement('canvas');c.width=600;c.height=400;return c;},a=make(),b=make();
+  for(const id of Object.keys(PART_RIGS)){
+   const im=r.sprites[Number(id.slice(1))],prepared=parts.prepare(im,id),original=prepared.pieces;
+   const full=original.map(p=>{const canvas=document.createElement('canvas');canvas.width=im.width;canvas.height=im.height;canvas.getContext('2d').drawImage(p.canvas,p.left,p.top);return {...p,canvas,left:0,top:0};});
+   let worst=0;
+   for(const width of [60,260])for(const time of [0,.21,.6]){
+    for(const [canvas,pieces] of [[a,original],[b,full]]){prepared.pieces=pieces;const c=canvas.getContext('2d');c.clearRect(0,0,600,400);c.save();c.translate(300,200);parts.draw(c,im,id,width,width*im.height/im.width,time,.7,{brake:.4,turn:.3});c.restore();}
+    const x=a.getContext('2d').getImageData(0,0,600,400).data,y=b.getContext('2d').getImageData(0,0,600,400).data;let visible=0,changed=0;
+    for(let i=0;i<x.length;i+=4){if(x[i+3]||y[i+3])visible++;if(Math.max(...[0,1,2,3].map(k=>Math.abs(x[i+k]-y[i+k])))>8)changed++;}
+    worst=Math.max(worst,changed/Math.max(1,visible));
+   }
+   prepared.pieces=original;results.push({id,worst,cropped:original.reduce((n,p)=>n+p.canvas.width*p.canvas.height,0),full:im.width*im.height*original.length});
+  }
+  return results;
+ });
+ for(const r of results){expect(r.worst,r.id+' crop alignment').toBeLessThan(.03);expect(r.cropped,r.id+' cropped allocation').toBeLessThan(r.full);}
+});
+
 test('painted parts keep moving with the mesh budget exhausted and freeze on pause/reduced motion',async({page})=>{
  await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
  const results=await page.evaluate(async()=>{
   const {SPECIES}=await import('/src/data.js'),{ArticulatedSprites}=await import('/src/articulated-motion.js'),r=window.atoll.renderer;
   r.articulation=new ArticulatedSprites();const c=document.createElement('canvas');c.width=600;c.height=350;const ctx=c.getContext('2d'),results=[];
-  for(const id of [0,17,18,23,27,28,32,33,34,35,42,49]){
+  for(const id of [0,1,2,7,17,18,23,27,28,30,32,33,34,35,42,49]){
    const e={id:'parts-'+id,species:SPECIES[id],x:300,y:175,angle:0,facing:1,activity:'cruising'};
    const paint=(time,dt)=>{ctx.clearRect(0,0,600,350);r.articulation.beginFrame(0);r.drawCreature(ctx,e,time,dt,1,260);return c.toDataURL();};
    r.reducedMotion=false;paint(1,1/60);const still=paint(2,0),paused=still===paint(8,0);let changes=0,previous=still;
@@ -14,7 +36,7 @@ test('painted parts keep moving with the mesh budget exhausted and freeze on pau
   }
   r.reducedMotion=false;return {results,prepared:r.parts.prepared,meshMisses:r.articulation.misses,meshDeferred:r.articulation.deferred};
  });
- expect(results.prepared).toBe(12);expect(results.meshMisses).toBe(0);expect(results.meshDeferred).toBe(0);
+ expect(results.prepared).toBe(16);expect(results.meshMisses).toBe(0);expect(results.meshDeferred).toBe(0);
  for(const r of results.results){expect(r.paused).toBe(true);expect(r.reduced).toBe(true);expect(r.changes).toBeGreaterThan(25);}
 });
 
