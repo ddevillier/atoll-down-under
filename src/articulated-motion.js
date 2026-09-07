@@ -80,30 +80,44 @@ function triangle(ctx,image,s0,s1,s2,d0,d1,d2){
 }
 
 export class ArticulatedSprites{
- constructor(){this.cache=new Map();this.images=new WeakMap();this.nextImage=0;this.pixels=0;this.maxPixels=12*1024*1024;this.hits=0;this.misses=0;this.deferred=0;this.remaining=Infinity;}
- beginFrame(budgetMs=3.5){this.remaining=budgetMs;}
+ constructor(){this.cache=new Map();this.images=new WeakMap();this.nextImage=0;this.pixels=0;this.maxPixels=12*1024*1024;this.hits=0;this.misses=0;this.deferred=0;this.remaining=Infinity;this.pending=new Map();}
+ beginFrame(budgetMs=3.5){
+  this.remaining=budgetMs;
+  // Deferred animals receive the next frame's budget before draw order can
+  // spend it again. Updating a slot replaces its pose without losing its turn.
+  for(const [slot,request]of this.pending){if(this.remaining<=0)break;this.pending.delete(slot);if(!this.cache.has(request.key))this.buildFrame(request);}
+ }
+ buildFrame({image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,turn,heading,feedAngle,group,key}){
+  const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
+  const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id]||RADIAL_IDS.has(p.id)||SPECIALIST_IDS.has(p.id)||RIGID_RIGS[p.id]||SWIM_RIGS[p.id],cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
+  for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,heading:heading/8*TAU,feedAngle:feedAngle/8*TAU,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
+  for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
+  const frame={canvas,pixels:canvas.width*canvas.height,group,tick};this.cache.set(key,frame);this.pixels+=frame.pixels;
+  while(this.pixels>this.maxPixels||this.cache.size>512){const first=this.cache.keys().next().value;this.pixels-=this.cache.get(first).pixels;this.cache.delete(first);}
+  this.remaining-=performance.now()-started;return frame;
+ }
  draw(ctx,image,species,width,height,time,effort,state={},resolution=1){
   if(!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0||!image.width||!image.height)return;
-  const p=animalProfile(species),bins=width<150?16:24,cycle=((time*p.frequency)%1+1)%1,tick=Math.floor(cycle*bins),a=Math.round(clamp(effort)*2)/2,feed=Math.round(clamp(state.feed||0)*5)/5,retract=Math.round(clamp(state.retract||0)*5)/5,puff=Math.round(clamp(state.puff||0)*5)/5;
+  const p=animalProfile(species),baseBins=width<150?16:24;
+  // Slow radial cycles need more phase samples, not faster animal motion.
+  // Keep whole multiples of the old grid and the same bounded raster cache.
+  const bins=RADIAL_IDS.has(p.id)?Math.min(96,Math.max(baseBins,Math.ceil(10/(p.frequency*.55)/baseBins)*baseBins)):baseBins;
+  const cycle=((time*p.frequency)%1+1)%1,tick=Math.floor(cycle*bins),a=Math.round(clamp(effort)*2)/2,feed=Math.round(clamp(state.feed||0)*5)/5,retract=Math.round(clamp(state.retract||0)*5)/5,puff=Math.round(clamp(state.puff||0)*5)/5;
   const turn=Math.round(Math.max(-1,Math.min(1,state.turn||0))*3)/3;
   const heading=p.id==='s47'?directionBin(state.heading):0,feedAngle=p.id==='s47'&&feed?directionBin(state.feedAngle??state.heading):0;
   if(!this.images.has(image))this.images.set(image,++this.nextImage);
   const w=Math.min(640,Math.max(64,Math.ceil(width*resolution/64)*64)),h=Math.max(8,Math.round(w*height/width)),pad=Math.ceil(Math.max(w,h)*(.09+puff*.16));
-  const group=[this.images.get(image),p.id,w,bins,a,feed,retract,puff,turn,heading,feedAngle].join(':'),key=group+':'+tick;let frame=this.cache.get(key);
-  if(frame){this.cache.delete(key);this.cache.set(key,frame);this.hits++;}
+  const group=[this.images.get(image),p.id,w,bins,a,feed,retract,puff,turn,heading,feedAngle].join(':'),key=group+':'+tick,slot=state.instance==null?group:[this.images.get(image),p.id,w,bins,state.instance].join(':');let frame=this.cache.get(key);
+  if(frame){this.cache.delete(key);this.cache.set(key,frame);this.pending.delete(slot);this.hits++;}
   else{
    if(this.remaining<=0){
+    this.pending.set(slot,{image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,turn,heading,feedAngle,group,key});
+    while(this.pending.size>128)this.pending.delete(this.pending.keys().next().value);
     this.deferred++;let closest=Infinity;
     for(const candidate of this.cache.values())if(candidate.group===group){const d=Math.abs(candidate.tick-tick),wrapped=Math.min(d,bins-d);if(wrapped<closest){frame=candidate;closest=wrapped;}}
     if(!frame){ctx.drawImage(image,-width/2,-height/2,width,height);return;}
    }else{
-   const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
-   const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id]||RADIAL_IDS.has(p.id)||SPECIALIST_IDS.has(p.id)||RIGID_RIGS[p.id]||SWIM_RIGS[p.id],cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
-   for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,heading:heading/8*TAU,feedAngle:feedAngle/8*TAU,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
-   for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
-   frame={canvas,pixels:canvas.width*canvas.height,group,tick};this.cache.set(key,frame);this.pixels+=frame.pixels;
-   while(this.pixels>this.maxPixels||this.cache.size>512){const first=this.cache.keys().next().value;this.pixels-=this.cache.get(first).pixels;this.cache.delete(first);}
-   this.remaining-=performance.now()-started;
+   this.pending.delete(slot);frame=this.buildFrame({image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,turn,heading,feedAngle,group,key});
    }
   }
   const scale=width/w;ctx.drawImage(frame.canvas,-width/2-pad*scale,-height/2-pad*scale,frame.canvas.width*scale,frame.canvas.height*scale);
