@@ -16,7 +16,7 @@ export const FIN_RIGS={
  s58:{tail:fin([.29,.56],[.025,.55],.34,.055),fins:[fin([.65,.71],[.55,.95],.075,.04)],streamers:[streamer([[.57,.28],[.42,.10],[.18,.055]],.065,.025,.4),streamer([[.47,.74],[.35,.90],[.27,.94]],.075,.022,1)]}
 };
 
-function rotateFin(u,v,f,angle){
+export function rotateFin(u,v,f,angle){
  const dx=f.tip[0]-f.root[0],dy=f.tip[1]-f.root[1],length=Math.hypot(dx,dy),x=u-f.root[0],y=v-f.root[1];
  const t=(x*dx+y*dy)/(length*length),cross=Math.abs(x*dy-y*dx)/length;
  const span=f.radius*(.12+.88*clamp(t));

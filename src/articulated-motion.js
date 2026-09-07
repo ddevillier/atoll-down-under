@@ -5,6 +5,7 @@ import {FIN_RIGS,finPoint} from './fin-motion.js';
 import {RESIDENT_RIGS,residentPoint} from './resident-motion.js';
 import {RADIAL_IDS,radialPoint} from './radial-motion.js';
 import {SPECIALIST_IDS,specialistPoint} from './specialist-motion.js';
+import {RIGID_RIGS,rigidPoint,inflationOffset} from './rigid-motion.js';
 const TAU=Math.PI*2,clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 const bell=(x,c,r)=>Math.exp(-(((x-c)/r)**2)*2);
 const directionBin=angle=>Math.round((((angle||0)%TAU+TAU)%TAU)/TAU*8)%8;
@@ -12,6 +13,7 @@ const directionBin=angle=>Math.round((((angle||0)%TAU+TAU)%TAU)/TAU*8)%8;
 // A continuous deformation field keeps painted surfaces joined. The eyes, armored
 // bodies, shells and attachment points are protected by local falloffs.
 export function deformPoint(p,u,v,time,effort=.5,state={}){
+ if(RIGID_RIGS[p.id])return rigidPoint(p,u,v,time,effort,state);
  if(FIN_RIGS[p.id])return finPoint(p,u,v,time,effort,state);
  if(RESIDENT_RIGS[p.id])return residentPoint(p,u,v,time,effort,state);
  if(RADIAL_IDS.has(p.id))return radialPoint(p,u,v,time,effort,state);
@@ -54,16 +56,7 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
  }
  const puff=clamp(state.puff||0);
  if(puff){
-  const smooth=(a,b,n)=>{const t=clamp((n-a)/(b-a));return t*t*(3-2*t);};
-  const inflation=(u,v)=>{const body=smooth(.18,.38,u)*(1-smooth(.72,.92,u));return {x:(u-.55)*body*puff*.12,y:(v-.52)*body*puff*.65};};
-  let offset=inflation(u,v);
-  if(p.id==='s22'){
-   // Fins are carried by their attachment; their painted rays do not inflate.
-   for(const [cx,cy,rx,ry,root] of [[.61,.54,.10,.17,[.64,.58]],[.34,.15,.09,.20,[.40,.39]],[.35,.80,.08,.18,[.39,.69]]]){
-    const d=Math.hypot((u-cx)/rx,(v-cy)/ry),weight=clamp((1.2-d)/.35),pin=inflation(...root);
-    offset={x:offset.x+(pin.x-offset.x)*weight,y:offset.y+(pin.y-offset.y)*weight};
-   }
-  }
+  const offset=inflationOffset(p.id,u,v,puff);
   x+=offset.x;y+=offset.y;
  }
  const turn=Math.max(-1,Math.min(1,state.turn||0));
@@ -103,7 +96,7 @@ export class ArticulatedSprites{
     if(!frame){ctx.drawImage(image,-width/2,-height/2,width,height);return;}
    }else{
    const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
-   const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id]||RADIAL_IDS.has(p.id)||SPECIALIST_IDS.has(p.id),cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
+   const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id]||RADIAL_IDS.has(p.id)||SPECIALIST_IDS.has(p.id)||RIGID_RIGS[p.id],cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
    for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,heading:heading/8*TAU,feedAngle:feedAngle/8*TAU,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
    for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
    frame={canvas,pixels:canvas.width*canvas.height,group,tick};this.cache.set(key,frame);this.pixels+=frame.pixels;

@@ -119,3 +119,7 @@ The [radial review](radial-review.md) records directional sea-star arms, indepen
 ## Cuttlefish and seahorse anatomy
 
 The [specialist review](specialist-review.md) records separate cuttlefish skirt/arm controls and seahorse dorsal-fin/head movement with a fixed tail. All 236 unit tests and four browser scenarios pass. Seven first-batch images and three confirmation images were inspected; a capture-scale defect was corrected, while the smaller confirmation community capture timed out. Full temporal acceptance, cache-pressure integration, remaining swimmers and Windows delivery remain open.
+
+## Small-fin propulsion
+
+The [rigid-fish review](rigid-review.md) records separate tail, median and pectoral controls for pufferfish, cowfish, triggerfish and filefish, with steady bodies and preserved puffer inflation. All 239 unit tests and two browser scenarios pass. Fifteen images covering actual activity, mouse-driven meals and inflation at both desktop sizes were inspected. Small-detail clarity, player identification, remaining species, continuous playback, native performance and Windows delivery remain open.
