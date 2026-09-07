@@ -101,6 +101,8 @@ for(const [species,byClick] of [['Neon',false],['Flashlight',true]])test(`cleane
   await page.keyboard.press('Escape');
   const during=await page.evaluate(()=>{const s=window.atoll.simulation;return {health:s.player.health,alive:s.section.entities[0].alive,target:s.player.target};});
   expect(during.health).toBeGreaterThan(55);expect(during.health).toBeLessThan(85);expect(during.alive).toBe(true);expect(during.target).toBeNull();
+  const drawOrder=await page.evaluate(()=>{const {simulation:s,renderer:r}=window.atoll,c=s.section.entities[0],ids=[],draw=r.drawCreature;r.drawCreature=function(ctx,e,...args){ids.push(e.id);return draw.call(this,ctx,e,...args);};try{r.draw(s,0);}finally{r.drawCreature=draw;}return {player:ids.indexOf(s.player.id),cleaner:ids.indexOf(c.id),cleanerDraws:ids.filter(id=>id===c.id).length};});
+  expect(drawOrder.cleaner).toBeGreaterThan(drawOrder.player);expect(drawOrder.cleanerDraws).toBe(1);
   await page.screenshot({path:`artifacts/cleaner-${species}-${width}.png`});
   const buttons=await page.locator('.actions button').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return {x:r.x,right:r.right};}));
   expect(buttons.every(r=>r.x>=0&&r.right<=width)).toBe(true);

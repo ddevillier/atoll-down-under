@@ -9,7 +9,7 @@ export function turnDuration(species){
 }
 export function turningPose(pose,e,dt,reduced=false){
  const target=e.facing<0?-1:1;
- if(reduced||e.groundRoute||e.holdfast||upright.has(e.species.id)){
+ if(reduced||e.groundRoute||e.holdfast||e.activity==='cleaning'||upright.has(e.species.id)){
   pose.yaw=target;pose.turnDirection=0;
   return {facing:upright.has(e.species.id)?1:target,amount:0,bank:0,pivot:0,bend:0};
  }

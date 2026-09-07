@@ -2,6 +2,7 @@ import {ArticulatedSprites} from './articulated-motion.js';
 import {feedingEnvelope} from './feeding-motion.js';
 import {mouthPoint} from './feeding-contact.js';
 import {turningPose} from './turn-motion.js';
+import {foregroundCleaner} from './cleaner-motion.js';
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
@@ -119,12 +120,14 @@ export class ReefRenderer {
   c.save();c.translate(0,TOP);
   const buried=sim.player.species.id==='s23'?new Set(sitesFor(sim).filter(s=>!(s.food.uncovered>0)).map(s=>s.id)):new Set();
   for(const f of sim.section.food){if(f.regrow>0)continue;if(buried.has(f.id)){c.fillStyle='#b8a47e';c.globalAlpha=.6;c.beginPath();c.ellipse(f.x,f.y,22,5,0,0,Math.PI*2);c.fill();c.globalAlpha=1;continue;}this.drawFood(c,f,t);}
-  for(const e of sim.section.entities.filter(e=>e.alive).sort((a,b)=>a.species.size-b.species.size)){
+  const living=sim.section.entities.filter(e=>e.alive),workingCleaners=living.filter(foregroundCleaner);
+  for(const e of living.filter(e=>!foregroundCleaner(e)).sort((a,b)=>a.species.size-b.species.size)){
    this.drawCreature(c,e,t,motionDt,.98);
    if(e.species.ability==='clean'&&!sim.player.cleanTime)this.tag(c,e.x,e.y-30,e.behavior?.startsWith('Cleaning')?'Cleaner · Helping a fish':'Cleaner · Click to visit');
   }
   const p=sim.player,playerWidth=creatureWidth(p.species);
   this.drawCreature(c,p,t,motionDt,p.hidden?(p.blending?.65:.25):1,playerWidth);
+  for(const e of workingCleaners){this.drawCreature(c,e,t,motionDt,.98);if(!p.cleanTime)this.tag(c,e.x,e.y-30,'Cleaner · Helping a fish');}
   if(ADVENTURES[p.species.id]&&!this.inspect){const chosen=selectedSite(sim);for(const site of sitesFor(sim)){if(Math.hypot(site.x-p.x,site.y-p.y)>240&&site.id!==chosen?.id)continue;if(Math.hypot(site.x-p.x,site.y-p.y)>420)continue;c.save();c.strokeStyle='#e5d6a4';c.globalAlpha=.65;c.lineWidth=1.5;c.setLineDash([4,7]);c.beginPath();c.ellipse(site.x,site.y,30,15,0,0,Math.PI*2);c.stroke();c.restore();if(site.id===chosen?.id)this.tag(c,site.x,site.y-28,site.name+' · E');}}
   if(sim.adventure?.home?.reef===sim.current){const h=sim.adventure.home;c.save();c.strokeStyle='#c5e8c6';c.lineWidth=2;c.beginPath();c.arc(h.x,h.y,35,0,Math.PI*2);c.stroke();c.restore();}
   // A small player marker is always readable without outlining the entire fish.

@@ -614,10 +614,10 @@
       "social": "station",
       "landmarks": "initially-authored",
       "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "ordinaryGameplayReview": "partial: real station visit at both desktop sizes; continuous return and wider NPC/habitat review pending",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "pending: dedicated cleaner-session review"
+      "remaining": "Review continuous approach, left-facing inspection, return to station, NPC clients and fine appendage readability across habitats.",
+      "feedingReview": "partial: three actual cleaner inspection stages with small fish, grouper and moray; see cleaner-review.md"
     },
     {
       "id": "s44",
@@ -642,10 +642,10 @@
       "social": "pair",
       "landmarks": "initially-authored",
       "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "ordinaryGameplayReview": "partial: real station visit at both desktop sizes; continuous return and wider NPC/habitat review pending",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
-      "feedingReview": "pending: dedicated cleaner-session review"
+      "remaining": "Review continuous approach, left-facing inspection, return to station, NPC clients and fine appendage readability across habitats.",
+      "feedingReview": "partial: three actual cleaner inspection stages with small fish, grouper and moray; see cleaner-review.md"
     },
     {
       "id": "s46",

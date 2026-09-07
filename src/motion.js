@@ -19,7 +19,7 @@ export function bodyMotion(kind,u,time,activity=1){
 }
 
 export function poseFor(fish,time,reduced=false){
- if(reduced||fish.groundRoute||fish.holdfast)return {pitch:0,squash:1};
+ if(reduced||fish.groundRoute||fish.holdfast||fish.activity==='cleaning')return {pitch:0,squash:1};
  const climb=Math.sin(fish.angle||0)*.12*(fish.facing||1);
  const settle=['at-home','blending'].includes(fish.activity);
  return {pitch:settle?Math.sin(time*.7)*.015:climb,squash:1};

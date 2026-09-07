@@ -12,7 +12,8 @@ import {BOTTOM_RESIDENTS,placeOnGround,positionOnGround,attachToNearestGround,va
 import {turnTowards,edgeDestination} from './steering.js';
 import {populationFor} from './populations.js';
 import {chooseForager} from './communities.js';
-import {planCleaning} from './cleaning-stations.js';
+import {planCleaning,approachCleaning} from './cleaning-stations.js';
+import {moveCleaner} from './cleaner-motion.js';
 import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -250,8 +251,11 @@ export class Simulation {
   const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
   const contact=target?approachMeal(p,target,dt,speed):null;
   if(!target&&dist>7){
+   if(p.cleanerTarget)approachCleaning(p,dest,dt,speed);
+   else{
    p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);
    const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;
+   }
   }
   const moving=distance(old,p)>dt*6;
   if(moving)p.still=0;else p.still+=dt;
@@ -324,13 +328,10 @@ export class Simulation {
   if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;residentStep(this,e,dt,edible);return;}
   const p=this.player;e.think-=dt;
   if(e.species.ability==='clean'){
-   const client=p.cleanTime>0?p:this.section.entities.find(b=>b.alive&&b.cleanTime>0&&b.target===e.id);
-   const phase=client?Math.min(.999,client.cleanTime/(client===p?2:3)):0,spot=Math.floor(phase*3);
-   const side=[-.2,.08,.28][spot],width=client?creatureWidth(client.species):0;
-   const dest=client?{x:client.x+client.facing*width*side,y:client.y+width*.12+Math.sin(phase*Math.PI*12)*3}:e.station;
-   e.actionTime=client?Math.max(0,Math.sin(phase*Math.PI*12))*.3:0;
-   e.behavior=client?'Cleaning '+client.species.name:'At a cleaning station';
-   if(dest){e.x+=(dest.x-e.x)*dt*1.5;e.y+=(dest.y-e.y)*dt*1.5;}e.facing=client?client.facing:Math.sin(this.time*.5)>0?1:-1;return;
+   const active=p.cleanTime>0?p:this.section.entities.find(b=>b.alive&&b.cleanTime>0&&b.target===e.id);
+   const waiting=cleaningPlan?.client,dock=waiting&&cleaningPlan.destinations.get(waiting.id);
+   const arriving=waiting&&dock&&distance(waiting,dock)<20&&(waiting===p?!waiting.target&&waiting.still>.3:waiting.target===e.id)?waiting:null;
+   moveCleaner(e,active||arriving,dt);return;
   }
   if(e.species.speed===0)return;
   e.satiated=Math.max(0,(e.satiated??0)-dt);e.rest=Math.max(0,(e.rest??0)-dt);e.pursuit=e.pursuit??0;
@@ -340,7 +341,7 @@ export class Simulation {
    e.target=cleaner.id;e.pursuit=0;
    const station=cleaner.station||cleaner,dest=cleaningPlan?.destinations.get(e.id)||{x:station.x+35,y:station.y};
    const dx=dest.x-e.x,dy=dest.y-e.y,dist=Math.hypot(dx,dy),waiting=cleaningPlan?.client!==e;
-   if(dist>12){e.angle=turnTowards(e.angle,Math.atan2(dy,dx),e.species.agility*dt);e.x+=Math.cos(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.y+=Math.sin(e.angle)*Math.min(dist,e.species.speed*.45*dt);e.facing=Math.cos(e.angle)>=0?1:-1;e.cleanTime=0;e.behavior=waiting?'Waiting for a cleaner':'Visiting a cleaning station';}
+   if(dist>12){approachCleaning(e,dest,dt,e.species.speed*.45);e.cleanTime=0;e.behavior=waiting?'Waiting for a cleaner':'Visiting a cleaning station';}
    else{
     const busy=waiting||cleaner.stun>0||p.cleanTime>0||this.section.entities.some(b=>b!==e&&b.alive&&b.target===cleaner.id&&b.cleanTime>0);
     e.behavior=busy?'Waiting for a cleaner':'Being cleaned';if(!busy)e.cleanTime+=dt;

@@ -1,7 +1,19 @@
 import {creatureWidth} from './geometry.js';
+import {turnTowards} from './steering.js';
 
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const radius=fish=>creatureWidth(fish.species)/2+12;
+
+// Close-range fin corrections prevent endless full-speed circles around a
+// small waiting point. Ordinary swimming keeps its curved steering response.
+export function approachCleaning(fish,dest,dt,speed){
+ const dx=dest.x-fish.x,dy=dest.y-fish.y,d=Math.hypot(dx,dy),docking=d<Math.max(55,creatureWidth(fish.species)*.6);
+ const heading=docking?(fish.facing<0?Math.PI:0):Math.atan2(dy,dx);
+ fish.angle=turnTowards(fish.angle,heading,fish.species.agility*dt);
+ const advance=Math.min(speed*dt,d,docking?Math.max(2,d*7)*dt:Infinity);
+ if(d>.5){fish.x+=(docking?dx/d:Math.cos(fish.angle))*advance;fish.y+=(docking?dy/d:Math.sin(fish.angle))*advance;}
+ fish.facing=Math.cos(fish.angle)>=0?1:-1;
+}
 
 // Recompute from live state, without random draws or a second saved queue.
 // The current client finishes first; a requested player visit goes next.
