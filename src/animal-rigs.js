@@ -76,7 +76,6 @@ const paths={
  s23:[{points:[[.47,.37],[.43,.21],[.39,.09]],radius:.07,amplitude:.020}],
  s24:[{points:[[.48,.31],[.43,.13],[.39,.025]],radius:.09,amplitude:.021},{points:[[.48,.73],[.39,.91]],radius:.075,amplitude:.025}],
  s48:[{points:[[.44,.36],[.41,.23],[.36,.17]],radius:.07,amplitude:.020}],
- s44:[{points:[[.64,.91],[.40,.80],[.36,.53],[.37,.24]],radius:.22,amplitude:.006}],
  s54:[{points:[[.76,.30],[.84,.10],[.89,.03],[.94,.10]],radius:.037,amplitude:.027}],
 };
 const eyeFree=new Set([27,37,45,46,47,60,61,62,63]);

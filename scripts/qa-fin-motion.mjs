@@ -1,8 +1,10 @@
 import {chromium} from '@playwright/test';import fs from 'node:fs';import {clickButton} from './ui-actions.mjs';
+import {SPECIES} from '../src/data.js';
 const output=process.argv[2]||'artifacts/fin-motion';fs.mkdirSync(output,{recursive:true});
+const ids=process.argv.find(a=>a.startsWith('--species='))?.slice(10).split(',')||['s4','s11','s13','s20','s40','s55','s56','s58'];
 const browser=await chromium.launch(),page=await browser.newPage({viewport:{width:1600,height:900}}),errors=[],results=[];
 page.on('pageerror',e=>errors.push(e.message));await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>window.atoll?.renderer.ready);
-for(const id of ['s4','s11','s13','s20','s40','s55','s56','s58']){
+for(const id of ids){
  const result=await page.evaluate(async id=>{
   const {Simulation}=await import('/src/simulation.js'),{SPECIES,FOODS}=await import('/src/data.js'),r=window.atoll.renderer;
   const sheet=document.createElement('canvas');sheet.width=2000;sheet.height=1600;const ctx=sheet.getContext('2d');ctx.fillStyle='#123e47';ctx.fillRect(0,0,sheet.width,sheet.height);ctx.fillStyle='#f4edda';ctx.font='28px sans-serif';ctx.fillText(SPECIES.find(s=>s.id===id).name+' · full renderer / actual simulation · inspection scale',25,40);
@@ -34,7 +36,7 @@ for(const id of ['s4','s11','s13','s20','s40','s55','s56','s58']){
  fs.writeFileSync(output+'/'+id+'-strip.png',Buffer.from(result.image,'base64'));delete result.image;results.push(result);
 }
 await page.close();
-for(const name of process.argv.includes('--strips-only')?[]:['Moorish idol','Peach fairy basslet','Banggai cardinalfish','Lionfish','Longfin batfish','Silver trevally','Longfin bannerfish','Purple anthias'])for(const [width,height] of [[1600,900],[1024,768]]){
+for(const name of process.argv.includes('--strips-only')?[]:ids.map(id=>SPECIES.find(s=>s.id===id).name))for(const [width,height] of [[1600,900],[1024,768]]){
  const p=await browser.newPage({viewport:{width,height},recordVideo:{dir:output+'/video'}});p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:4173');await p.waitForFunction(()=>window.atoll?.renderer.ready);
  await clickButton(p,{name:/Practice Choose/});await p.getByRole('searchbox').fill(name);await p.getByRole('option').first().click();await clickButton(p,{name:'Enter the reef'});
  const b=await p.locator('#reef').boundingBox();await p.mouse.move(b.x+b.width*.72,b.y+b.height*.43);await p.waitForTimeout(1700);await p.mouse.move(b.x+b.width*.35,b.y+b.height*.48);await p.waitForTimeout(1300);

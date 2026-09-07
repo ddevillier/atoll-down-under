@@ -115,3 +115,7 @@ The [resident review](resident-review.md) records dedicated shrimp/crab joints, 
 ## Separate radial anatomy
 
 The [radial review](radial-review.md) records directional sea-star arms, independently timed urchin spine groups, and anemone tentacle paths with a fixed base and inward crown contraction. All 233 unit tests and two browser scenarios pass. Three actual-routine strips and ordinary nighttime communities at both desktop sizes were inspected after correcting the capture fixture to include the nocturnal urchin. Shape continuity and direction-aware cache behavior are verified within that scope. Fine dark details, complete attachment, continuous playback, remaining species groups, native performance and final Windows delivery remain open.
+
+## Cuttlefish and seahorse anatomy
+
+The [specialist review](specialist-review.md) records separate cuttlefish skirt/arm controls and seahorse dorsal-fin/head movement with a fixed tail. All 236 unit tests and four browser scenarios pass. Seven first-batch images and three confirmation images were inspected; a capture-scale defect was corrected, while the smaller confirmation community capture timed out. Full temporal acceptance, cache-pressure integration, remaining swimmers and Windows delivery remain open.
