@@ -148,3 +148,7 @@ The [hovering fin review](hover-parts-review.md) covers neon damselfish, orange 
 ## Reef hunter fins and jaws
 
 The [hunter review](hunter-parts-review.md) adds four heavy reef hunters with independent fins and feeding-driven lower jaws, bringing painted-part coverage to 27 species. Initial strips exposed angular mouth fills; four confirmation strips verify the corrected painted silhouettes. Eight ordinary gameplay views were inspected at both desktop sizes. All 256 unit tests and four targeted browser checks pass. The live preview includes these hunters and a feeding gesture control. Continuous perceptual acceptance, complete roster work and native Windows delivery remain open.
+
+## Ledge fish and watchful hawkfish
+
+The [perch review](perch-parts-review.md) adds independent fins to gramma and two hawkfish, bringing painted-part coverage to 30 species. Perched hawkfish turn toward nearby passers, yield to higher priorities and clear attention across travel and respawn. Ordinary meals and generated watch interactions were inspected at both desktop sizes. All 262 unit tests and six targeted browser tests pass; 110 pressure scenarios record 26 bites, zero deaths and unchanged initial populations. Precise painted-perch contact, continuous perceptual acceptance and final Windows delivery remain open.

@@ -2,6 +2,17 @@ import {creatureFrame} from './geometry.js';import {individualSeed} from './indi
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 function restingFootprint(e){const f=creatureFrame(e);return e.species.id==='s41'?{width:f.width*Math.cos(1.1)+f.height*Math.sin(1.1),height:f.width*Math.sin(1.1)+f.height*Math.cos(1.1)}:f;}
 export function validHome(h){return h==null||typeof h==='object'&&!Array.isArray(h)&&Number.isFinite(h.x)&&Number.isFinite(h.y)&&h.x>=10&&h.x<=1590&&h.y>=25&&h.y<=720&&(h.host==null||typeof h.host==='string'||typeof h.host==='number'&&Number.isFinite(h.host));}
+export function validPerchWatch(w){return w==null||typeof w==='object'&&!Array.isArray(w)&&(typeof w.id==='string'||typeof w.id==='number'&&Number.isFinite(w.id))&&Number.isFinite(w.until)&&w.until>=0;}
+export function perchHeading(sim,e){
+ const state=e.ecology,range=Math.max(100,creatureFrame(e).width*2),neighbors=[...sim.section.entities,sim.player].filter(b=>b&&b!==e&&b.alive&&!b.hidden&&b.species.speed>0&&!b.groundRoute&&!b.holdfast);
+ const eligible=(b,r)=>Math.hypot(b.x-e.x,b.y-e.y)<r;
+ let focus=state.watch&&state.clock<state.watch.until?neighbors.find(b=>b.id===state.watch.id&&eligible(b,range*1.25)):null;
+ if(!focus){focus=neighbors.filter(b=>eligible(b,range)).sort((a,b)=>Math.hypot(a.x-e.x,a.y-e.y)-Math.hypot(b.x-e.x,b.y-e.y))[0];state.watch=focus?{id:focus.id,until:state.clock+1.6}:null;}
+ if(!focus)return null;
+ // Holding the current side inside the body's center avoids rapid left/right
+ // flips as a passer crosses overhead. Safety and meals run before this gaze.
+ return Math.abs(focus.x-e.x)<creatureFrame(e).width*.25?e.angle:focus.x<e.x?Math.PI:0;
+}
 function chooseRoom(sim,e,candidates){
  const a=restingFootprint(e),occupied=sim.section.entities.filter(b=>b!==e&&b.alive&&b.ecology?.reef===sim.current&&validHome(b.ecology?.home)&&b.ecology?.home);
  let best=candidates[0],bestGap=-Infinity;

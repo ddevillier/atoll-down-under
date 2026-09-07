@@ -4,7 +4,7 @@ import {creatureWidth,creatureFrame} from './geometry.js';
 import {turnTowards} from './steering.js';
 import {individualSeed} from './individual-motion.js';
 import {socialOrder,separateCompanions} from './social-motion.js';
-import {refugeHome,anemoneHome,approachRefuge,compatibleShadow,followShadow} from './refuge-motion.js';
+import {refugeHome,anemoneHome,approachRefuge,compatibleShadow,followShadow,perchHeading} from './refuge-motion.js';
 import {SWIM_RIGS,swimmingDrive} from './swim-motion.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -25,6 +25,7 @@ function separateDestination(e,point,seed,radius=30){
 }
 export function clearRelationships(sim,e){
  if(!e.ecology)return;
+ if(e.ecology.watch&&(!e.alive||e.target||e.cleanTime>0||e.activity==='avoiding'||![...sim.section.entities,sim.player].some(b=>b?.alive&&!b.hidden&&b.id===e.ecology.watch.id)))e.ecology.watch=null;
  for(const key of ['partner','host'])if(e.ecology[key]!=null&&![...sim.section.entities,sim.player].some(b=>b?.alive&&b.id===e.ecology[key])){e.ecology[key]=null;if(key==='host'&&e.ecology.home?.host)e.ecology.home=null;}
 }
 // Local choices are authored timing/spacing, grounded in the guide where stated.
@@ -92,11 +93,14 @@ export function localRoutine(sim,e,dt,speed){
   const rest=e.satiated>0||state.clock%(18+seed%9)>7;
   const dest=rest?home:{x:clamp(home.x+Math.sin(state.clock*.22+seed)*110,40,1560),y:clamp(home.y-45,45,690)};
   const near=distance(e,dest)<22;
+  const watch=profile.routine==='perch'&&rest&&near?perchHeading(sim,e):null;
+  if(watch==null&&state.watch)state.watch=null;
   e.activity=rest&&near?'at-home':rest?'returning-home':'exploring';
   e.behavior=rest?(near?(bottom?'Waiting close to the bottom':profile.routine==='perch'?'Watching from a perch':'Resting beside a familiar refuge'):'Returning to a familiar refuge'):'Making a short feeding excursion';
+  if(watch!=null)e.behavior='Watching a passing fish from its perch';
   if(bottom&&near&&e.species.id==='s59'){e.blending={kind:'sand',x:e.x,y:e.y};e.blendTime=Math.min(2,(e.blendTime||0)+dt);}
   else if(e.species.id==='s59'){e.blending=null;e.blendTime=0;}
-  return approachRefuge(e,dest,dt,speed,12,home.x<800?0:Math.PI);
+  return approachRefuge(e,dest,dt,speed,12,watch??(home.x<800?0:Math.PI));
  }
  if(forageRoutines.has(profile.routine)&&e.activity!=='schooling'){
   const patches=sim.section.food.filter(f=>e.species.diet.includes(f.food)&&f.regrow<=0);

@@ -16,7 +16,7 @@ import {chooseForager,COMMUNITIES} from './communities.js';
 import {planCleaning,approachCleaning,settledCleaningClient} from './cleaning-stations.js';
 import {moveCleaner} from './cleaner-motion.js';
 import {separateCompanions,sharedMealAvailable} from './social-motion.js';
-import {validHome} from './refuge-motion.js';
+import {validHome,validPerchWatch} from './refuge-motion.js';
 import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
@@ -242,6 +242,9 @@ export class Simulation {
   // be outside the painting; it must swim through that gap before it can bite.
   const pursuing=this.sections[old].entities.filter(e=>e.alive&&e.target==='player');
   for(const e of pursuing){this.sections[old].entities=this.sections[old].entities.filter(x=>x!==e);e.x+=this.player.x-departure.x;e.y+=this.player.y-departure.y;e.entering=true;this.section.entities.push(e);}
+  // Attention belongs to the visible encounter; familiar homes survive travel,
+  // but neither the departing nor returning reef retains an offscreen gaze.
+  for(const section of [this.sections[old],this.section])for(const e of section.entities)if(e.ecology?.watch)e.ecology.watch=null;
   this.pointer={x:this.player.x,y:this.player.y};this.player.target=null;this.player.cleanerTarget=null;this.player.cleanTime=0;this.player.cleaningAmount=0;this.protected=false;if(!this.visited.includes(this.current))this.visited.push(this.current);
   const arrived=this.destination===this.current;if(arrived)this.destination=null;
   this.event('transition',arrived?'Reached '+REEFS[this.current].name+'. '+new Set(this.visited).size+' of 9 habitats visited.':REEFS[this.current].name);return true;
@@ -462,7 +465,7 @@ export class Simulation {
   // Restore verified original-game food omissions without repopulating saves.
   // Custom fish keep their chosen diets, regardless of their illustrations.
   for(const fish of [d.player,...d.sections.flatMap(section=>section.entities||[])]){
-   if(!validHome(fish.ecology?.home))throw new Error('The saved refuge is damaged.');
+   if(!validHome(fish.ecology?.home)||!validPerchWatch(fish.ecology?.watch))throw new Error('The saved refuge is damaged.');
    if(!validFeeding(fish.feeding))throw new Error('The saved feeding action is damaged.');
    if(!validResidentMeal(fish.residentMeal))throw new Error('The saved resident meal is damaged.');
    if(fish.passerExposure!==undefined&&(!Number.isFinite(fish.passerExposure)||fish.passerExposure<0||fish.passerExposure>4))throw new Error('The saved resident response is damaged.');

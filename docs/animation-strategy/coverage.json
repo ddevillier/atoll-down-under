@@ -55,10 +55,10 @@
       "routine": "ledge",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: independent painted tail, pectoral and pelvic strokes with rigid body cores; gramma flank correction confirmed; see perch-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see perch-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
       "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
     },
@@ -462,12 +462,13 @@
       "routine": "perch",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: independent painted tail, pectoral and pelvic strokes with rigid body cores; gramma flank correction confirmed; see perch-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see perch-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "socialReview": "partial: watchful stationary turns toward nearby passers; actual generated communities and mouse-controlled interaction, interruption, save, death/respawn and travel cleanup; see perch-parts-review.md"
     },
     {
       "id": "s32",
@@ -843,12 +844,13 @@
       "routine": "perch",
       "social": "solitary",
       "landmarks": "initially-authored",
-      "motionReview": "pending",
-      "ordinaryGameplayReview": "pending",
+      "motionReview": "partial: independent painted tail, pectoral and pelvic strokes with rigid body cores; gramma flank correction confirmed; see perch-parts-review.md",
+      "ordinaryGameplayReview": "partial: mouse-driven meals in generated communities at both desktop sizes; see perch-parts-review.md",
       "accepted": false,
-      "remaining": "Review actual-size cruise, idle, turn, feeding, interruption and populated-game behavior.",
+      "remaining": "Normal-speed perceptual acceptance, independent jaw action, precise painted perch/ledge attachment and native performance remain open.",
       "feedingReview": "partial: actual prepare/contact/recovery states inspected; see feeding-contact-review.md for source and contour limits",
-      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits"
+      "refugeReview": "partial: persistent homes, host berths and shadow layering reviewed; see refuge-review.md for fixtures and unresolved substrate/continuous-motion limits",
+      "socialReview": "partial: watchful stationary turns toward nearby passers; actual generated communities and mouse-controlled interaction, interruption, save, death/respawn and travel cleanup; see perch-parts-review.md"
     },
     {
       "id": "s58",
