@@ -2,7 +2,7 @@ import {_electron as electron} from '@playwright/test';import fs from 'node:fs';
 const out=process.argv[2]||'artifacts/roster-native-performance',quick=process.argv.includes('--quick');fs.mkdirSync(out,{recursive:true});
 const option=name=>process.argv.find(a=>a.startsWith('--'+name+'='))?.split('=')[1];
 const widths=option('width')?[Number(option('width'))]:quick?[1600]:[1600,1024],players=option('player')?option('player').split(','):['s1','s13'],reefs=option('reefs')?option('reefs').split(',').map(Number):quick?[4]:[0,1,2,3,4,5,6,7,8],duration=Number(option('seconds')||2.4)*1000;
-const app=await electron.launch({args:['.'],env:{...process.env,ATOLL_QA:'1'}}),errors=[],results=[];
+const app=await electron.launch({...(option('executable')?{executablePath:option('executable')}:{args:['.']}),env:{...process.env,ATOLL_QA:'1'}}),errors=[],results=[];
 try{
  const page=await app.firstWindow();page.on('pageerror',e=>errors.push(e.message));
  const platform=await app.evaluate(({app,BrowserWindow})=>{if(!/[\\/]atoll-qa-/.test(app.getPath('userData')))throw Error('Expected isolated QA storage');const w=BrowserWindow.getAllWindows()[0];w.webContents.setBackgroundThrottling(false);w.setFullScreen(false);return {versions:process.versions,platform:process.platform,gpu:app.getGPUFeatureStatus(),visible:w.isVisible()};});

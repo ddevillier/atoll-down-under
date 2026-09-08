@@ -345,6 +345,816 @@
         "seconds": 31
       },
       "transcriptMatches": false
+    },
+    "s3": {
+      "file": "s3.ogg",
+      "scriptHash": "298f46722780553ba95e4d9cc095fd5f4dc0281c9861bfc8abbc42568dd509eb",
+      "audioHash": "c8e8d02302a7be9eeac69fcf0f46165def472507abe407800e5d2836755808a3",
+      "duration": 21.8,
+      "text": "Try a feeding trip from a ledge with your colorful reef fish. Swim near a marked ledge and press the E key. Settle there before leaving. Click a suitable shrimp meal away from your chosen home, then swim back to the same ledge and become still again. Your home marker stays available for the return. You can choose a different home with E when you want a fresh trip.",
+      "generatedAt": "2026-09-08T11:13:17.642Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a feeding trip from a ledge with your colorful reef fish. Swim near a marked ledge and press the E key. Settle there before leaving. Click a suitable shrimp meal away from your chosen home. Then swim back to the same ledge and become still again. Your home marker stays available for the return. You can choose a different home with E when you want a fresh trip.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 22
+      },
+      "transcriptMatches": true
+    },
+    "s1": {
+      "file": "s1.ogg",
+      "scriptHash": "067da1d03c414545ecdd9f227e82a5665fa3530d86a0ebfae7951e2e4fda73ff",
+      "audioHash": "48616237ed358482a5b05c01acb13899e0f07b428bac86ba77ccd85efa3bb1c4",
+      "duration": 24.7,
+      "text": "Choose a familiar coral patch for your small reef fish. Swim near a marked refuge and press the E key, then let your fish settle. Leave the refuge and take an algae meal, followed by plankton. Both meals belong to your trip away from home. Return to the same marked refuge and become still again. Your card follows the trip, and the journal remembers the completed discovery.",
+      "generatedAt": "2026-09-08T11:13:18.741Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Choose a familiar coral patch for your small reef fish. Swim near a marked refuge and press the E key. Then, let your fish settle. Leave the refuge and take an algae meal, followed by plankton. Both meals belong to your trip away from home. Return to the same marked refuge and become still again. Your card follows the trip, and the journal remembers the completed discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s7": {
+      "file": "s7.ogg",
+      "scriptHash": "61513eeeebb25b923e76b9653193bc8539b3359949c3c9fe1080bed5796ad03b",
+      "audioHash": "ca3b4e3b27ea5248288ce60ea7292b512a9f5a1910b954d9c9c5e819efca23ff",
+      "duration": 22.2,
+      "text": "Find a living anemone as an anemonefish. Swim close to its home marker and press the E key, then settle beside it. Leave for a plankton meal and return to that same anemone. Become still to finish your visit. This journey follows an actual animal. If it disappears, find another anemone and choose a new home. Your journal keeps discoveries you have already earned.",
+      "generatedAt": "2026-09-08T11:07:43.063Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Find a living anemone as an anemone fish. Swim close to its home marker and press the E key, then settle beside it. Leave for a plankton meal and return to that same anemone. Become still, to finish your visit. This journey follows an actual animal. If it disappears, find another anemone, and choose a new home. Your journal keeps discoveries you have already earned.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 23
+      },
+      "transcriptMatches": true
+    },
+    "s12": {
+      "file": "s12.ogg",
+      "scriptHash": "57e28d40cea018aa0a5a1ef24a59a789a13ce56003138df00c74006438fe0c89",
+      "audioHash": "83c4cba7b820e73fca8bb149d14246f2519636b8f50dbf5b8322389288b6f580",
+      "duration": 22.9,
+      "text": "Explore after dark as a squirrelfish. Choose a marked refuge with the E key and settle before your feeding trip. Leave home, take a shrimp meal, then find a suitable crab. Return to the same refuge and become still again. The activity card reminds you which meal comes next. If you travel to another habitat, your chosen home stays marked in its original reef.",
+      "generatedAt": "2026-09-08T11:07:44.119Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore after dark as a squirrelfish. Choose a marked refuge with the E key and settle before your feeding trip. Leave home, take a shrimp meal, then find a suitable crab. Return to the same refuge and become still again. The activity card reminds you which meal comes next. If you travel to another habitat, your chosen home stays marked in its original reef.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 23
+      },
+      "transcriptMatches": true
+    },
+    "s13": {
+      "file": "s13.ogg",
+      "scriptHash": "4cb11298db7f03548aeef1aa80b5704cd75b4beafa42cf860fe22231d21c052c",
+      "audioHash": "5c8e75acbca02072847d540ce327828ffc5ea19c7609555920f0db3a13347a66",
+      "duration": 23.7,
+      "text": "Choose a coral refuge as a Banggai cardinalfish. Swim near its marker, press the E key, and let your fish settle. Make a short excursion for plankton, then return to the same coral home. Become still again to complete your trip. You can take your time exploring. The home marker and activity card help you find the way back, and your discovery remains in the family journal.",
+      "generatedAt": "2026-09-08T11:07:50.816Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Choose a coral refuge as a Banggai cardinal fish. Swim near its marker, press the E key, and let your fish settle. Make a short excursion for plankton, then return to the same coral home. Become still again to complete your trip. You can take your time exploring. The home marker and activity card help you find the way back, and your discovery remains in the family journal.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s26": {
+      "file": "s26.ogg",
+      "scriptHash": "9d3ec2477c032ff8518ccc69d24a5e577fc9406e0dfd0451e1f613fa14552bb4",
+      "audioHash": "fbbf6d557a1b815b694ac7d9f22c75a93063affde0b08d8c9128cf793abaaadb",
+      "duration": 24,
+      "text": "Make a nighttime feeding trip as a whitemouth moray. Choose a marked cave with the E key and settle there first. Leave to catch a suitable fish, shrimp, or crab, then return to that same cave. Rest at your chosen place for a few seconds. This is a home and feeding journey. You can choose another cave with E, or repeat a completed trip while keeping your discovery.",
+      "generatedAt": "2026-09-08T11:07:51.911Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Make a nighttime feeding trip as a white-mouth moray. Choose a marked cave with the E key and settle there first. Leave to catch a suitable fish, shrimp, or crab, then return to that same cave. Rest at your chosen place for a few seconds. This is a home and feeding journey. You can choose another cave with E, or repeat a completed trip while keeping your discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s30": {
+      "file": "s30.ogg",
+      "scriptHash": "6c198f9c569e91eeb87c53e76507504b1a9d69f6a175576b51a49b311327a1b6",
+      "audioHash": "d751a041ffb763fa0ff970668aeddbfbc4c570bf848264546c23bc8da92395ed",
+      "duration": 25.1,
+      "text": "Find a familiar coral home as a humbug damselfish. Move near a marked refuge and press the E key. After settling, leave for a plankton meal. Swim back to the same refuge and become still again. Feeding at home does not finish the excursion, so look for a meal away from your starting place. Follow the activity card as you explore, and enjoy another trip after the discovery.",
+      "generatedAt": "2026-09-08T11:08:00.101Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Find a familiar coral home as a humbug damselfish. Move near a marked refuge and press the E key. After settling, leave for a plankton meal. Swim back to the same refuge and become still again. Feeding at home does not finish the excursion, so look for a meal away from your starting place. Follow the activity card as you explore and enjoy another trip after the discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s33": {
+      "file": "s33.ogg",
+      "scriptHash": "5a71e179eb8502d8c54b8818b123d0e4d15f1e399fcc864c200c92a44903ef1e",
+      "audioHash": "a2f8bc4b16fecbfb4834892d045aada61ff3fb4e2a6d2af24b5ddcd0ea656097",
+      "duration": 25,
+      "text": "Try a ledge-based feeding trip as a whitetip reef shark. Choose a marked resting ledge with the E key and settle there. Leave for a suitable fish or crab meal, then return to the same ledge for a few quiet seconds. The marker helps you find your starting place again. This activity records a complete trip from a resting place, through feeding, and back to your chosen ledge.",
+      "generatedAt": "2026-09-08T11:08:01.275Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a ledge-based feeding trip as a white tip reef shark. Choose a marked resting ledge with the E key and settle there. Leave for a suitable fish or crab meal, then return to the same ledge for a few quiet seconds. The marker helps you find your starting place again. This activity records a complete trip from a resting place through feeding and back to your chosen ledge.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s6": {
+      "file": "s6.ogg",
+      "scriptHash": "0b465d0d450f877475d6c47fec044f833607fbe89b8fbba25e359577e85b151e",
+      "audioHash": "ad893b94f9652c0c22a5f6de4e047d0ec485b36593e7a875dcf10346973ddf4e",
+      "duration": 26.4,
+      "text": "Explore crevices with your butterflyfish. Click a worm patch to approach it, inspect with your snout, and take a meal. Then find a different coral feeding place and inspect it before eating. Moving away stops an inspection. You can also press the E key near a patch to inspect without committing to a bite. That leaves an exposed opportunity for a hungry neighbor to notice.",
+      "generatedAt": "2026-09-08T11:13:26.573Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore crevices with your butterflyfish. Click a worm patch to approach it, inspect with your snout, and take a meal. Then find a different coral feeding place and inspect it before eating. Moving away stops an inspection. You can also press the E key near a patch to inspect without committing to a bite. That leaves an exposed opportunity for a hungry neighbor to notice.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s10": {
+      "file": "s10.ogg",
+      "scriptHash": "ac844dbb5ff63e415ea1c897eb2477139c7d4ff1058f43b1165c2db9464db65f",
+      "audioHash": "00add744ed1a78688cdb1767d20ecde7abadd31f4b45c670bad7b60373e27085",
+      "duration": 26.5,
+      "text": "Search small feeding places as a sixbar wrasse. Click a worm patch and let your fish inspect it before eating. Next, find a separate shrimp patch and investigate that meal too. Stay in contact while inspecting, or move away to stop. Pressing the E key near a patch lets you inspect and leave the food. Nearby hungry foragers may notice an opportunity you have exposed.",
+      "generatedAt": "2026-09-08T11:08:09.775Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Search small feeding places as a six-bar wrasse. Click a worm patch and let your fish inspect it before eating. Next, find a separate shrimp patch and investigate that meal too. Stay in contact while inspecting or move away to stop. Pressing the E key near a patch lets you inspect and leave the food. Nearby hungry foragers may notice an opportunity you have exposed.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s27": {
+      "file": "s27.ogg",
+      "scriptHash": "aa9017c472ca27794ff91e49fca1bb29089ea9dfba8031bb7fa415934fe84e58",
+      "audioHash": "c8c593a141fccc81ccc139b70da3d732fb5f3544a2fdb82e69a918d635fe9959",
+      "duration": 23.9,
+      "text": "Search beneath the sand as a blue-spotted stingray. Click a shrimp patch and stay in contact while your ray sifts before eating. Then find a different bottom patch for a worm. Moving away stops the search, and using your defensive ability interrupts it too. You can also inspect with the E key and leave the food for a hungry neighbor. Both feeding places belong to your discovery.",
+      "generatedAt": "2026-09-08T11:08:19.140Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Search beneath the sand as a blue-spotted stingray. Click a shrimp patch and stay in contact while your ray sifts before eating. Then, find a different bottom patch for a worm. Moving away stops the search, and using your defensive ability interrupts it too. You can also inspect with the E key and leave the food for a hungry neighbor. Both feeding places belong to your discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s14": {
+      "file": "s14.ogg",
+      "scriptHash": "ab89dcde3afbf6276466ee60c001442c7f859212df901bbb093bb6c0e0f3e3c1",
+      "audioHash": "0fd83163781a11d160591540dd3de1c5469b8d26aa1350651389230c8f4548a5",
+      "duration": 25.3,
+      "text": "Follow a bottom feeding route as an oriental sweetlip. First click a worm patch to sift and eat. Then explore farther for a separate shrimp patch. Each inspection needs a moment of steady contact, so moving away interrupts it. You can press the E key near a patch to search without taking a bite. Watch the activity card for your next food, and keep exploring after your discovery.",
+      "generatedAt": "2026-09-08T11:08:22.591Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Follow a bottom feeding route as an oriental sweetlip. First, click a worm patch to sift and eat. Then explore farther for a separate shrimp patch. Each inspection needs a moment of steady contact, so moving away interrupts it. You can press the E key near a patch to search without taking a bite. Watch the activity card for your next food and keep exploring after your discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s22": {
+      "file": "s22.ogg",
+      "scriptHash": "11c8811de15c58a02f5ce6c6a1512f0ebfd642b3eae1d97d064e49c9ab629ede",
+      "audioHash": "f2201c6dd4d36179e3dc1cf6259d2438c3d830f7e47ca07569565e5aeae897e2",
+      "duration": 23.5,
+      "text": "Try a hard meal as a spotted pufferfish. Click a suitable snail and stay in contact while your mouth works on its shell. Moving away stops the attempt. After taking that meal, explore a separate sponge feeding place and click to browse. Your activity card follows the two different foods. You can repeat the trip after its discovery appears in the journal, using the E key to begin again.",
+      "generatedAt": "2026-09-08T11:08:28.624Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a hard meal as a spotted pufferfish. Click a suitable snail and stay in contact while your mouth works on its shell. Moving away stops the attempt. After taking that meal, explore a separate sponge feeding place and click to browse. Your activity card follows the two different foods. You can repeat the trip after its discovery appears in the journal, using the E key to begin again.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s24": {
+      "file": "s24.ogg",
+      "scriptHash": "88009c5452edbf8290fa65327e5a0bce02de0cdb3a0f4a69d84e56347a8cecab",
+      "audioHash": "4cc396214150fe82b0139680320a3e8fc732fca71b9990600ed0d55dcad41bfe",
+      "duration": 26.5,
+      "text": "Use your strong mouth as a clown triggerfish. Click a crab and hold contact while you open the hard meal. Then explore a different feeding place for a snail. Both are actual reef residents, so they may move or become unavailable. Moving away interrupts your preparation. Follow the activity card, choose another opportunity when needed, and return to exploring after your two-food discovery.",
+      "generatedAt": "2026-09-08T11:08:29.829Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Use your strong mouth as a clown triggerfish. Click a crab and hold contact while you open the hard meal. Then, explore a different feeding place for a snail. Both are actual reef residents, so they may move or become unavailable. Moving away interrupts your preparation. Follow the activity card, choose another opportunity when needed, and return to exploring after your two-food discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s29": {
+      "file": "s29.ogg",
+      "scriptHash": "bbf4bebc2fb058d8d2e57f161ff865e87b3a419366640ff6fe2be8ce747a65ad",
+      "audioHash": "fc70f85036520703b3ac800b4a732243d3ee981728b606c666b0aeb5196c96bd",
+      "duration": 25.2,
+      "text": "Make careful feeding choices as a humphead wrasse. Click a snail and let your strong mouth prepare the meal through steady contact. Then find a crab at a separate feeding place. A click starts the approach and preparation; moving away stops it. The journey uses real animals already on the reef. Once both meals are taken, your journal records the trip and you can begin another with E.",
+      "generatedAt": "2026-09-08T11:08:36.445Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Make careful feeding choices as a humphead wrasse. Click a snail and let your strong mouth prepare the meal through steady contact. Then find a crab at a separate feeding place. A click starts the approach and preparation. Moving away stops it. The journey uses real animals already on the reef. Once both meals are taken, your journal records the trip and you can begin another with E.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s50": {
+      "file": "s50.ogg",
+      "scriptHash": "8aeeccf21af1bdd7d21daae7884b72e4d61314d890277fe2947a28c53e2a82fa",
+      "audioHash": "db1b0a7dfe011b59baa372d7a2b49fc519df810ccc8658df8995b5a4e4bd11bc",
+      "duration": 25.7,
+      "text": "Explore two kinds of food as a yellowspot emperor. Click a crab on the bottom and stay in contact while opening its shell. Afterwards, find a suitable smaller fish at a different feeding place and click to approach it. Moving away interrupts either attempt. The activity card shows which food to seek next. Taking both foods records your discovery, with plenty of room to keep exploring afterward.",
+      "generatedAt": "2026-09-08T11:13:28.011Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore two kinds of food as a yellow spot emperor. Click a crab on the bottom and stay in contact while opening its shell. Afterwards, find a suitable smaller fish at a different feeding place and click to approach it. Moving away interrupts either attempt. The activity card shows which food to seek next. Taking both foods records your discovery with plenty of room to keep exploring afterward.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s4": {
+      "file": "s4.ogg",
+      "scriptHash": "e051a3c3958c4fdf534eda528f9bc5ef4b0a91c50e4eaaa8d7a529970b7076d3",
+      "audioHash": "ee96ad2caf4116366e7ab26a00d1f0cb894fb16e54cb3dc2efa62dbba0bc49c1",
+      "duration": 25.7,
+      "text": "Browse with the reef as a Moorish idol. Take a sponge meal, then explore a different feeding ground for algae. After both meals, find a fellow idol and swim nearby for three quiet seconds. Your neighbor keeps its own feeding and resting routine. If no idol is here, the activity card names another habitat where one is present. Use the map to plan your swim and reunite when there is room.",
+      "generatedAt": "2026-09-08T11:08:44.896Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Browse with the reef as a moorish idol. Take a sponge meal, then explore a different feeding ground for algae. After both meals, find a fellow idol and swim nearby for three quiet seconds. Your neighbor keeps its own feeding and resting routine. If no idol is here, the activity card names another habitat where one is present. Use the map to plan your swim and reunite when there is room.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s25": {
+      "file": "s25.ogg",
+      "scriptHash": "f68ea20541bfac4207dd9fbc9986d4816549655ac0f23050bf375ce179e901ce",
+      "audioHash": "472c16fe69e385d75f332bab793e1f97d59b283a0eab3506812dba3ba25fa7d9",
+      "duration": 25,
+      "text": "Make a quiet browsing circuit as a regal angelfish. Click a sponge patch to feed, then find a separate algae feeding ground. After both meals, return to a shelter and become still. A few quiet seconds in cover finish your trip. The E key can guide you toward the next place. You can begin another browsing circuit after the discovery, while keeping the one recorded in your journal.",
+      "generatedAt": "2026-09-08T11:08:46.062Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Make a quiet browsing circuit as a regal angelfish. Click a sponge patch to feed, then find a separate algae feeding ground. After both meals, return to a shelter and become still. A few quiet seconds in cover, finish your trip. The E key can guide you toward the next place. You can begin another browsing circuit after the discovery while keeping the one recorded in your journal.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s17": {
+      "file": "s17.ogg",
+      "scriptHash": "2bd5a26e4e3dc096807c1d92f105489b9d7ec4354e4ae683423a77017290d7d6",
+      "audioHash": "6b2425475cf29a21f92086f824a722a968a0c5994fe99ef7ed7ae919f2dbad11",
+      "duration": 24.3,
+      "text": "Plan a decisive pursuit as a blackfin barracuda. Choose a marked patrol starting point with the E key and swim across its open-water lane. Click a suitable fish, then press Space during the pursuit to use your burst. Reach that same fish for the meal. Afterwards, return to your marked route for a quiet interval. E can guide your return, and your discovery remembers the whole feeding trip.",
+      "generatedAt": "2026-09-08T11:08:52.084Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Plan a decisive pursuit as a Blackfin Barracuda. Choose a marked patrol starting point with the E key and swim across its open water lane. Click a suitable fish, then press space during the pursuit to use your burst. Reach that same fish for the meal. Afterwards, return to your marked route for a quiet interval. E can guide your return and your discovery remembers the whole feeding trip.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s18": {
+      "file": "s18.ogg",
+      "scriptHash": "2b2e4d393c92aae6a6cc3b5a8e88b47fb1ed1c2f605ede20d7cd8c45686ee7b6",
+      "audioHash": "7bb404d59a3d64aa62eb4bdc814e6a72b3a4dd4beb5635e47acb32932eca353d",
+      "duration": 25.7,
+      "text": "Explore the upper water as a crocodile needlefish. Swim to a marked patrol starting point and press the E key. Follow the survey lane near the surface, then click a suitable fish for a feeding trip. Return to your chosen route and take a quiet interval there. The activity card shows when the survey and meal are complete. You can use E to guide the return to your starting place.",
+      "generatedAt": "2026-09-08T11:08:53.812Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore the upper water as a crocodile needlefish. Swim to a marked patrol starting point and press the E key. Follow the survey lane near the surface, then click a suitable fish for a feeding trip. Return to your chosen route and take a quiet interval there. The activity card shows when the survey and meal are complete. You can use E to guide the return to your starting place.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s28": {
+      "file": "s28.ogg",
+      "scriptHash": "246cb013bf9ec67d822b1494a150d0dce5509b076514a3251cd4e92a8c47cb61",
+      "audioHash": "06820c001f9f6d58c88f55815718562c3bc9219ca81a7da09452353cee052177",
+      "duration": 25.8,
+      "text": "Give your speed a purpose as a rainbow runner. Choose a marked route with the E key and survey across its open-water lane. Click a suitable fish, then press Space during pursuit to use a burst. Your journey needs the fish from that pursuit to become an actual meal. Afterwards, return to the saved route for a quiet interval. Keep exploring, or start another patrol after your discovery.",
+      "generatedAt": "2026-09-08T11:08:59.589Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Give your speed a purpose as a rainbow runner. Choose a marked route with the E key and survey across its open water lane. Click a suitable fish, then press space during pursuit to use a burst. Your journey needs the fish from that pursuit to become an actual meal. Afterwards, return to the saved route for a quiet interval. Keep exploring or start another patrol after your discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s32": {
+      "file": "s32.ogg",
+      "scriptHash": "4ce055756fc95c0919d334f465318e33e68dfe951ec22d2af60f9ccc5e4d2291",
+      "audioHash": "c79a91ce5bfbdee36785f88e455f4fe36ddd5724fe98b21889916662bc3748c0",
+      "duration": 26.2,
+      "text": "Patrol the reef edge as a blacktip reef shark. Choose a starting point with the E key, then swim across the marked lane. Look for a substantial suitable fish among the marked opportunities and click to approach it. After feeding, return to your chosen route for a quiet interval. Small bites are not this journey’s goal. The activity card and return marker help you complete the whole trip.",
+      "generatedAt": "2026-09-08T11:09:01.260Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Patrol the reef edge as a blacktip reef shark. Choose a starting point with the E key, then swim across the marked lane. Look for a substantial suitable fish among the marked opportunities and click to approach it. After feeding, return to your chosen route for a quiet interval. Small bites are not this journey's goal. The activity card and return marker help you complete the whole trip.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s34": {
+      "file": "s34.ogg",
+      "scriptHash": "8db524d98c9ee84c6a20b8ae7c9160b49650bab4fe79c050e9d0b61e1baf57d2",
+      "audioHash": "79205bb4db0597e0debe7c715a50e23749fcaf740b8df60a6a25e1030da3be84",
+      "duration": 26,
+      "text": "Look for a meal worth the trip as a great white shark. Choose a patrol starting point with the E key and survey its open-water lane. Select one of the larger suitable fish marked for your journey, then click to approach and eat. Return to your chosen route for a quiet interval afterwards. Tiny fish do not complete this activity. E helps guide you back to the route you chose.",
+      "generatedAt": "2026-09-08T11:09:08.172Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Look for a meal worth the trip as a great white shark. Choose a patrol starting point with the E key and survey its open water lane. Select one of the larger suitable fish marked for your journey. Then click to approach and eat. Return to your chosen route for a quiet interval afterwards. Tiny fish do not complete this activity. E helps guide you back to the route you chose.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s35": {
+      "file": "s35.ogg",
+      "scriptHash": "4dea299d54485e49a7915c393a39b02d76507d1ae7854aca9e03123ca8d44cd5",
+      "audioHash": "f6658cf32c2fcc976ac556102340aa10eb96cbe5f0020a2ce5d2a457de4464fc",
+      "duration": 23.9,
+      "text": "Explore two hunting grounds as a tiger shark. Choose a marked patrol starting point with the E key and survey the lower-water lane. Take a suitable fish meal, then find a crab on the bottom. After both foods, return to your original route for a quiet interval. You can travel between habitats while feeding. The card remembers your route and helps you plan the return.",
+      "generatedAt": "2026-09-08T11:09:11.070Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore two hunting grounds as a tiger shark. Choose a marked patrol starting point with the E key and survey the lower water lane. Take a suitable fish meal, then find a crab on the bottom. After both foods, return to your original route for a quiet interval. You can travel between habitats while feeding. The card remembers your route and helps you plan the return.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s39": {
+      "file": "s39.ogg",
+      "scriptHash": "f4a91da0e86b5215cbfec2cc45e962b57341a0a16b85d3beb77189939bb89438",
+      "audioHash": "2f9f760ad508808dd028dd02453f639b57d664129f762bd9bfb39d37f264c76a",
+      "duration": 23.2,
+      "text": "Make a feeding trip from the reef edge as a coral trout. Choose a marked patrol starting point with the E key and survey across its lane. Click a suitable smaller fish and reach it for a meal. Afterwards, return to your chosen route for a quiet interval. E can guide you toward the return marker. You can repeat the activity after its discovery is saved in the family journal.",
+      "generatedAt": "2026-09-08T11:09:16.045Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Make a feeding trip from the reef edge as a coral trout. Choose a marked patrol starting point with the E key and survey across its lane. Click a suitable smaller fish and reach it for a meal. Afterwards, return to your chosen route for a quiet interval. E can guide you toward the return marker. You can repeat the activity after its discovery is saved in the family journal.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s49": {
+      "file": "s49.ogg",
+      "scriptHash": "3116f31f2c972e1305fc8db03cbda027dacce52acade0cd328d341b54ee58d12",
+      "audioHash": "835d0a98ddf6fd688aaee9ed55a2483470c96b14757ffdff3812c12ceb620633",
+      "duration": 23.5,
+      "text": "Try a burst followed by a quiet return as a doublelined mackerel. Choose a marked patrol route with the E key and swim across its survey lane. Click a suitable fish, then press Space during pursuit. Reach that same fish for your meal. Return to the route you chose and take a quiet interval there. The journal records the complete trip, and another patrol is always available afterward.",
+      "generatedAt": "2026-09-08T11:09:17.453Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a burst, followed by a quiet return as a double-lined mackerel. Choose a marked patrol route with the E key and swim across its survey lane. Click a suitable fish, then press space during pursuit. Reach that same fish for your meal. Return to the route you chose and take a quiet interval there. The journal records the complete trip, and another patrol is always available afterward.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s55": {
+      "file": "s55.ogg",
+      "scriptHash": "efabc9fc5afc4f8b0376b73422a62855852ecf0df25a6c0c42deb18a7f28a955",
+      "audioHash": "dc5f9d17851aefd1b308a7ccc4f97a1f74b3fe61e4cfe8379a85ecd038269e49",
+      "duration": 23.4,
+      "text": "Visit different feeding grounds as a silver trevally. Choose a marked route with the E key and survey its midwater lane. First take a shrimp meal, then find a suitable fish. Return to your original route after both foods and take a quiet interval. The activity card tells you what comes next. Use E to guide your return, or use the map if you visited another habitat.",
+      "generatedAt": "2026-09-08T11:09:22.283Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Visit different feeding grounds as a silver trevally. Choose a marked route with the E key and survey its mid-water lane. First, take a shrimp meal. Then find a suitable fish. Return to your original route after both foods and take a quiet interval. The activity card tells you what comes next. Use E to guide your return or use the map if you visited another habitat.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s20": {
+      "file": "s20.ogg",
+      "scriptHash": "1e5c74d0bc56d554dc53ca2e8b33badeb131ff9f3dc0b87549b9cc13fba7bdc4",
+      "audioHash": "86b45cbd9fd5a786643e90e7c0bcc4454bcae5ef29a2b367ab9bcc56686de566",
+      "duration": 23.5,
+      "text": "Try a slow, careful approach as a lionfish. Swim to a marked ledge and press the E key to settle. Move the mouse to look at a nearby suitable meal without leaving your place. Once the card says the meal is noticed, click it for a short approach. Return to the same ledge and press E to settle again. E or clicking empty water lets you leave your watching position.",
+      "generatedAt": "2026-09-08T11:09:24.991Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a slow, careful approach as a lionfish. Swim to a marked ledge and press the E key to settle. Move the mouse to look at a nearby suitable meal without leaving your place. Once the card says the meal is noticed, click it for a short approach. Return to the same ledge and press E to settle again. E or clicking empty water lets you leave your watching position.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s31": {
+      "file": "s31.ogg",
+      "scriptHash": "5dcc0cf0d63f8cba165efcf4dbc90c49cf7bb7e89a2e28d60e81c7ff0def5821",
+      "audioHash": "e99c2b4f8bb6f87f5d1ea8b2f47033cd7c8355c295c9388f606a53df752f1e2d",
+      "duration": 23.5,
+      "text": "Watch from a lookout as a whitespot hawkfish. Choose a marked reef perch with the E key and settle for a moment. Aim the mouse at a nearby suitable shrimp or fish. When the card says you have noticed it, click for a short feeding approach. Return to your original lookout and press E to settle again. If there is no nearby meal, leave with E and choose another place.",
+      "generatedAt": "2026-09-08T11:09:28.534Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Watch from a lookout as a white spot hawkfish. Choose a marked reef perch with the E key and settle for a moment. Aim the mouse at a nearby suitable shrimp or fish. When the card says you have noticed it, click for a short feeding approach. Return to your original lookout and press E to settle again. If there is no nearby meal, leave with E and choose another place.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s36": {
+      "file": "s36.ogg",
+      "scriptHash": "852bc84a8cc1ae2453ea592da9c61b6979fb50026429db63fe73a77648effef7",
+      "audioHash": "beb9815f6f327387f42fcc5af88c8d4931f6811aa09ebe709a6b331423cf434d",
+      "duration": 24,
+      "text": "Wait near the bottom as a wobbegong. Choose a marked watching place with the E key and become still. Aim the mouse at a nearby suitable crab or fish and watch until the card says it is noticed. Click for a short feeding approach, then return to the same place and settle with E. A long chase does not complete this journey. Choose another opportunity whenever you need one.",
+      "generatedAt": "2026-09-08T11:09:31.947Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Wait near the bottom, as a wobbegong. Choose a marked watching place with the E key and become still. Aim the mouse at a nearby suitable crab or fish and watch until the card says it is noticed. Click for a short feeding approach, then return to the same place and settle with E. A long chase does not complete this journey. Choose another opportunity whenever you need one.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s37": {
+      "file": "s37.ogg",
+      "scriptHash": "4e5ae9d564b92dc8f441663c7734ca51d0bbbdabd7d7a0200e7e1de0cecc55ac",
+      "audioHash": "0c75cb437e9f5a567c3c1f859981edcfe5f26e840cba8be696175cc0982e72d8",
+      "duration": 24.5,
+      "text": "Try a quiet bottom approach as an electric ray. Choose a marked watching place with the E key and settle. Aim the mouse at a nearby shrimp or suitable fish. After noticing the meal, click to approach it. Return to your chosen place and press E to settle again. Your electric defense remains available, but using it interrupts watching. Give yourself a quiet moment before another attempt.",
+      "generatedAt": "2026-09-08T11:09:36.871Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a quiet bottom approach as an electric ray. Choose a marked watching place with the E key and settle. Aim the mouse at a nearby shrimp or suitable fish. After noticing the meal, click to approach it. Return to your chosen place and press E to settle again. Your electric defense remains available, but using it interrupts watching. Give yourself a quiet moment before another attempt.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s38": {
+      "file": "s38.ogg",
+      "scriptHash": "1b8d871e9d25d03464e1b16ac9775c82d39788f1e407d9a742b692f64dd54f18",
+      "audioHash": "769b69d4b7fb8a3425f8105f41f8593cfe6d8fc5ad58e7e428bf1da3ffe15678",
+      "duration": 24.7,
+      "text": "Watch from a broad ledge as a giant grouper. Move to a marked place and press the E key, then settle. Aim the mouse at a nearby suitable fish or crab. Once the activity card says you have noticed the meal, click for a short approach. Return to that same ledge and press E to settle again. You can leave a quiet spot and choose another if no opportunity is close.",
+      "generatedAt": "2026-09-08T11:09:39.740Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Watch from a broad ledge as a giant grouper. Move to a marked place and press the E key, then settle. Aim the mouse at a nearby suitable fish or crab. Once the activity card says you have noticed the meal, click for a short approach. Return to that same ledge and press E to settle again. You can leave a quiet spot and choose another if no opportunity is close.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s51": {
+      "file": "s51.ogg",
+      "scriptHash": "793864f294e55a95c05a54f4f685476cf0a1c11c02121e9daac1e30eddb11329",
+      "audioHash": "a9c4d7640a58ce286494f34940883da5409f1e35c244922865972faa28b117a0",
+      "duration": 23.4,
+      "text": "Make two nighttime visits as a golden snapper. Choose a marked ledge with the E key and settle. Aim at nearby shrimp, watch until the card says the meal is noticed, then click to feed. Return to the ledge and settle with E. Now watch for a suitable fish and make a second short trip. Return and settle once more to complete the discovery. The card keeps track of both visits.",
+      "generatedAt": "2026-09-08T11:09:42.797Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Make two nighttime visits as a golden snapper. Choose a marked ledge with the E key and settle. Aim at nearby shrimp. Watch until the card says the meal is noticed, then click to feed. Return to the ledge and settle with E. Now watch for a suitable fish and make a second short trip. Return and settle once more to complete the discovery. The card keeps track of both visits.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 24
+      },
+      "transcriptMatches": true
+    },
+    "s57": {
+      "file": "s57.ogg",
+      "scriptHash": "197e913946dc9276464d0b07454cccd5a23dffe991f14315ed8ff3b81a866629",
+      "audioHash": "8cc54d3cb952fd21874bc0f4e066e0af7ffff5c60a19401d548c39a09a1b9505",
+      "duration": 24.3,
+      "text": "Explore a second lookout as a checkerboard hawkfish. Choose a marked perch with the E key and settle. Aim at a nearby suitable shrimp or fish until the card says you have noticed it. Click for a short feeding approach. After the meal, choose a different marked lookout and press E to settle there. This journey finishes at your new viewpoint, and your journal remembers the discovery.",
+      "generatedAt": "2026-09-08T11:09:46.015Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore a second lookout as a checkerboard hawkfish. Choose a marked perch with the E key and settle. Aim at a nearby suitable shrimp or fish until the card says you have noticed it. Click for a short feeding approach. After the meal, choose a different marked lookout and press E to settle there. This journey finishes at your new viewpoint and your journal remembers the discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s40": {
+      "file": "s40.ogg",
+      "scriptHash": "86ab01b9c244a56515e2c198b198b899e551dc3d92e1a4dbbea82e3aaf36c60c",
+      "audioHash": "766c4cd5968def1d0640924db86d51cd71770962aeab1fa89c8e68389bbcdfe2",
+      "duration": 25.1,
+      "text": "Browse among reef neighbors as a batfish. Swim near a compatible grazer or plankton feeder and press the E key to invite it. Take algae, then plankton, within sight of your companion. Let the neighbor take an actual meal too, then meet nearby again. It still needs time for feeding, rest and cleaning. Press E to release the companion when you want to explore freely or begin another trip.",
+      "generatedAt": "2026-09-08T11:13:34.390Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Browse among reef neighbors as a batfish. Swim near a compatible grazer or plankton feeder, and press the E key to invite it. Take algae, then plankton, within sight of your companion. Let the neighbor take an actual meal, too. Then meet nearby again. It still needs time for feeding, rest, and cleaning. Press E to release the companion when you want to explore freely or begin another trip.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s56": {
+      "file": "s56.ogg",
+      "scriptHash": "a65f0566735da5bcf8c1bc24acb25ee488c7932e11289182750f4a41a1b44fbf",
+      "audioHash": "c876778a8faa32a7831732de10dcf56c99d3f76440559cf193f1eb987a900c4e",
+      "duration": 20.6,
+      "text": "Explore two feeding places with another bannerfish. Swim close and press the E key to invite your companion. Take plankton first, then find a worm within sight of the other fish. Wait for your companion to take a meal too. Finally, swim back together for three quiet seconds. The activity card shows your progress, and your journal keeps the discovery.",
+      "generatedAt": "2026-09-08T11:17:36.500Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore two feeding places with another bannerfish. Swim close and press the E key to invite your companion. Take plankton first, then find a worm within sight of the other fish. Wait for your companion to take a meal, too. Finally, swim back together for three quiet seconds. The activity card shows your progress, and your journal keeps the discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 21
+      },
+      "transcriptMatches": true
+    },
+    "s41": {
+      "file": "s41.ogg",
+      "scriptHash": "cd95d2878666cfe935785cea444ee9b28704411823c0275ef3eeba0fcc6accf0",
+      "audioHash": "fdf247544d136e1d53ae3afe32ef80fc53b94ecf5cf5f772cf264d6b8d460d00",
+      "duration": 27.1,
+      "text": "Find moving cover as a trumpetfish. Swim near a broader suitable neighbor and press the E key to follow. After staying together for a few seconds, click a nearby fish or shrimp meal. Return to that same neighbor and press E to follow again. Your host may stop to feed or seek cleaning; give it room. Moving the mouse releases assisted following. Choose another neighbor from the activity card when you want a fresh trip.",
+      "generatedAt": "2026-09-08T11:09:57.726Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Find moving cover as a trumpetfish. Swim near a broader suitable neighbor and press the E key to follow. After staying together for a few seconds, click a nearby fish or shrimp meal. Return to that same neighbor and press E to follow again. Your host may stop to feed or seek cleaning. Give it room. Moving the mouse releases assisted following. Choose another neighbor from the activity card when you want a fresh trip.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 28
+      },
+      "transcriptMatches": true
+    },
+    "s53": {
+      "file": "s53.ogg",
+      "scriptHash": "e44976594a413e0eabbf0e2afbd79fd9ce72c07499061c25732f811174053432",
+      "audioHash": "d0205e32e35a1555df804b654dbf82cb81f7ec7c341a183370cb1a29b84409f1",
+      "duration": 25.6,
+      "text": "Make a nighttime excursion as a flashlight fish. Find another flashlight fish and press the E key to follow. After three seconds together, press Space nearby to try your flash. Leave briefly for a plankton meal, then return to the same companion and press E to follow again. Stay together quietly to finish. Your companion has its own routine, so rejoin when it is ready, or choose another neighbor from the card.",
+      "generatedAt": "2026-09-08T11:10:01.358Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Make a nighttime excursion as a flashlight fish. Find another flashlight fish and press the E key to follow. After three seconds together, press space nearby to try your flash. Leave briefly for a plankton meal, then return to the same companion and press E to follow again. Stay together quietly to finish. Your companion has its own routine, so rejoin when it is ready or choose another neighbor from the card.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s44": {
+      "file": "s44.ogg",
+      "scriptHash": "c2626ea8acfddba1f337f7d68454e8fa3601dda58a7e353f3dc8f43d9f256f40",
+      "audioHash": "5f430be7d97bc7848400dbd4dc96b84685f717a1daac7140f4b65ffc9969d531",
+      "duration": 30.6,
+      "text": "Look for a yellow seahorse among the plants. Pause with Escape and click the seahorse to start its observation, then choose Resume watching. Notice an actual plankton meal and the quieter period afterwards at its holdfast. If it is already digesting, wait for its next meal while staying in this reef. The observation card follows what really happens. Your journal records the discovery, and Watch again begins another observation.",
+      "generatedAt": "2026-09-08T11:10:05.868Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Look for a yellow seahorse among the plants. Pause with escape and click the seahorse to start its observation, then choose Resume Watching. Notice an actual plankton meal and the quieter period afterwards at its holdfast. If it is already digesting, wait for its next meal while staying in this reef. The observation card follows what really happens. Your journal records the discovery, and Watch Again begins another observation.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 31
+      },
+      "transcriptMatches": true
+    },
+    "s46": {
+      "file": "s46.ogg",
+      "scriptHash": "91b8fb58daea4659ee844cecffb7e8b3110f5771ac6371cd2659baeb0cfc21ab",
+      "audioHash": "bdb100fd16f067bbf0684a42a309448363b1c392c8bc28f9b20d83863a8d48a8",
+      "duration": 24.9,
+      "text": "Notice a reef crab on the bottom. Press Escape and click it to start observing, then choose Resume watching. Watch the crab handle a real detritus meal and continue along its bottom route. A close passer may make it pause with its claws drawn in. Give it room to carry on. The card records the feeding and onward movement, and your discovery stays in the family journal.",
+      "generatedAt": "2026-09-08T11:10:07.947Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Notice a reef crab on the bottom. Press escape and click it to start observing. Then choose resume watching. Watch the crab handle a real detritus meal and continue along its bottom route. A close passer may make it pause with its claws drawn in. Give it room to carry on. The card records the feeding and onward movement and your discovery stays in the family journal.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s47": {
+      "file": "s47.ogg",
+      "scriptHash": "4958b24ad66ce0a77034cc93368c586f8969b7a1e49100a18c0df989325e50f6",
+      "audioHash": "0d9275dbc968acefa3baa27fa233320d62eb7dc9d4232b5b498ff306bd019ef6",
+      "duration": 27,
+      "text": "Watch a red sea star at the bottom of the reef. Pause with Escape, click the sea star, and choose Resume watching. Notice it take an actual detritus meal, then quietly digest. If it has already eaten, stay in the habitat and watch for its next feeding opportunity. Paused time lets you inspect, but the reef must run for the observation to progress. Watch again repeats the activity after your discovery.",
+      "generatedAt": "2026-09-08T11:10:13.092Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Watch a red sea star at the bottom of the reef. Pause with escape, click the sea star, and choose resume watching. Notice it take an actual detritus meal, then quietly digest. If it has already eaten, stay in the habitat and watch for its next feeding opportunity. Paused time lets you inspect, but the reef must run for the observation to progress. Watch again, repeats the activity after your discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s60": {
+      "file": "s60.ogg",
+      "scriptHash": "2f18c31b7718947d55f0bfe6d503735b7446eceb0e9ae72da19bae177f07e146",
+      "audioHash": "b42bc30745b897ec9a986ad988472b992c5884ba02db37a6e53d45ea9cfa2d54",
+      "duration": 24.6,
+      "text": "Follow a nudibranch’s browsing routine. Pause with Escape and click the animal, then choose Resume watching. Notice an actual sponge meal and watch it continue along the bottom. A close passer may make it draw in its feelers and pause. Give it space to relax and carry on. The observation uses its own feeding and movement, and your journal keeps the discovery after you stop watching.",
+      "generatedAt": "2026-09-08T11:10:14.760Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Follow a nudibranchs browsing routine. Pause with escape and click the animal, then choose resume watching. Notice an actual sponge meal and watch it continue along the bottom. A close passer may make it draw in its feelers and pause. Give it space to relax and carry on. The observation uses its own feeding and movement, and your journal keeps the discovery after you stop watching.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s61": {
+      "file": "s61.ogg",
+      "scriptHash": "00468057c041ab9cc2d2a9a2d3afd51924904f8ab52a1a1ae906fd901ea2155b",
+      "audioHash": "fd624608e46091121c83879c4da62faf031a19d10a2cfaa9f2dadd8616dd7b4e",
+      "duration": 26.2,
+      "text": "Look for a spiral snail grazing on the reef. Press Escape, click the snail, then choose Resume watching. Notice an actual algae meal and watch it continue along its route. Snails move slowly, and one that has already eaten needs time before another meal. Stay in the habitat and give it room. The card follows your observation, with Watch again available after the journal records your discovery.",
+      "generatedAt": "2026-09-08T11:10:19.678Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Look for a spiral snail grazing on the reef. Press Escape, click the snail, then choose Resume Watching. Notice an actual algae meal and watch it continue along its route. Snails move slowly, and one that has already eaten needs time before another meal. Stay in the habitat and give it room. The card follows your observation, with Watch Again available after the journal records your discovery.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s62": {
+      "file": "s62.ogg",
+      "scriptHash": "2e0791e2c450c1be16008c18916be0a05c5d9d64c8503cd3c6897bc1cfa9695d",
+      "audioHash": "2bdfaf9d84f5668277ab17f58ef39dfd4bdd2dbfb0eac37c26d4233a6e35f357",
+      "duration": 26.4,
+      "text": "Explore a night reef to observe a needle-spined urchin. Pause with Escape, click the urchin, and choose Resume watching. Notice an actual algae meal and the quieter period after feeding. If it is already digesting, wait for its next opportunity in the same habitat. The observation follows this individual, so inspect another if it disappears. Your journal keeps the discovery, and you can watch again whenever you like.",
+      "generatedAt": "2026-09-08T11:10:22.173Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore a night reef to observe a needle-spined urchin. Pause with Escape, click the urchin, and choose Resume Watching. Notice an actual algae meal and the quieter period after feeding. If it is already digesting, wait for its next opportunity in the same habitat. The observation follows this individual, so inspect another if it disappears. Your journal keeps the discovery, and you can watch again whenever you like.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s63": {
+      "file": "s63.ogg",
+      "scriptHash": "ef806af18a3ae3da1e12c572415411cabf9a17fbc2ddbec9988b4336fdb5183e",
+      "audioHash": "849e2e539178f3d8a59dacf877650089418ecb0a02476b95940ca7b0e20dddae",
+      "duration": 26.9,
+      "text": "Observe an anemone at its attached home. Press Escape and click it, then choose Resume watching. Notice a real plankton or shrimp meal. Afterwards, give it room to relax its tentacles and settle. A close passer may interrupt that quiet period. If it has already eaten, stay in the reef and watch its next meal. Your discovery is saved in the journal, and Watch again starts another observation.",
+      "generatedAt": "2026-09-08T11:10:27.360Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Observe an anemone at its attached home. Press escape and click it. Then choose resume watching. Notice a real plankton or shrimp meal. Afterwards, give it room to relax its tentacles and settle. A close passer may interrupt that quiet period. If it has already eaten, stay in the reef and watch its next meal. Your discovery is saved in the journal and watch again starts another observation.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
     }
   }
 }

@@ -6,7 +6,7 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
-The verified gameplay testing build is `dist/Atoll-Down-Under-Windows-Spoken-Activities-2026-09-08.zip`. It includes [spoken guidance for all 19 activities](docs/ACTIVITY-AUDIO.md); choose Hear this activity on the activity card. It adds playable cleaner care, grazing routes, companion trips, shared school feeding and ambush hunting to the full-roster animation and local ecology uplift. Cuttlefish animation is preserved. Extract it completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape still pauses for inspection. See [the testing guide](docs/TESTING.md).
+The all-species testing candidate is `dist/Atoll-Down-Under-Windows-All-Species-Journeys-2026-09-08.zip`. It includes a journey for each of the 57 playable species, seven resident observation journeys, persistent discoveries, and optional spoken guidance for all 64 activities. See [journey coverage and verification](docs/ALL-SPECIES-JOURNEYS.md) and [spoken activity guidance](docs/ACTIVITY-AUDIO.md). Extract the ZIP completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape pauses for inspection. See [the testing guide](docs/TESTING.md).
 
 The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations, consistent poison score penalties, the complete Tournament preview and named portable saves. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-SPECIES-LIFE-BUILD.md).
 
@@ -23,7 +23,7 @@ For a local browser development preview: `npm run dev`, then open http://127.0.0
 
 The living title now responds to your mouse and plays the peaceful Blue Passage arrangement. Open File → Family journal, or find it in the field guide, for shared badges, species care stamps and journal backup/restore. See [care and journal rules](docs/FAMILY-JOURNAL.md).
 
-Nineteen optional Practice adventures introduce cleaner care, grazing recovery, shared feeding trips, ambush hunting, coral-home visits, sand searching and cuttlefish camouflage. Each records a Ways of living discovery in the Family Journal. All 64 guide entries have an optional narrated introduction with a transcript; press Play to listen. See [ways of living](docs/SPECIES-LIFE.md).
+Every Practice species now has an optional journey, including cleaner care, grazing, shared feeding, ambushes, home returns, probing and shell feeding, hunting patrols, lookout posts, and companion excursions. Inspect one of the seven resident species to begin its observation journey. Completed activities record Ways of living discoveries in the Family Journal. All 64 guide entries have an optional narrated introduction with a transcript; press Play to listen. See [ways of living](docs/SPECIES-LIFE.md).
 
 ## What's here
 
