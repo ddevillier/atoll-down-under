@@ -1,6 +1,6 @@
 # Journeys across the roster
 
-Active user goal, September 8: continue species journey development until everyone has a meaningful journey. The previous 19-journey build and all earlier ZIPs remain preserved. All 64 journeys and their spoken explanations are implemented. Final combined Windows delivery checks are recorded below.
+Completed user goal, September 8: continue species journey development until everyone has a meaningful journey. The previous 19-journey build and all earlier ZIPs remain preserved. All 64 journeys and their spoken explanations are implemented. Final combined Windows delivery checks are recorded below.
 
 ## Required result
 
@@ -132,3 +132,8 @@ The final audit corrected two test-driver issues: frogfish aiming/range now resp
 All **64 activity explanations** now have offline Marin recordings generated with `gpt-4o-mini-tts-2025-12-15`. The original 19 scripts and OGG hashes remain unchanged. All 64 new/current clips pass request-provenance, audio-hash, independent transcription, decoding, duration and signal checks (1,630.3 seconds total). Ambiguous transcriptions were corrected by rewording and regenerating the affected clips; the verifier was not weakened. The existing 64 guide introductions also pass their transcript/hash/decode/signal checks. These are technical checks, not human listening approval of every recording.
 
 Resident activities deliberately observe an existing animal's real feeding and movement/rest cycle. They do not make residents playable or force a meal. Authored journey thresholds simplify natural behaviors into legible activities; they are educational gameplay abstractions, not research-grade biological simulations.
+
+
+## Completed Windows handoff
+
+All six required deliverables above are now covered. See [the final Windows build receipt](WINDOWS-ALL-SPECIES-JOURNEYS-BUILD.md) for the ZIP, fingerprint, 115-test browser result, six native functional checks, 36 native performance samples, archive verification and preserved previous releases. The final receipt also distinguishes generated simulation acceptance, representative real-control tests, and technical audio screening.

@@ -76,12 +76,16 @@ await page.screenshot({path:'artifacts/desktop-travel.png'});
 // Check the new feeding choices through the native menus and ordinary click.
 await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/Practice Choose/});
 await page.getByRole('searchbox').fill('Spotted pufferfish');await page.getByRole('option').click();await clickButton(page,{name:'Enter the reef'});
-const shell=await page.evaluate(()=>{
+const shell=await page.evaluate(async()=>{
  const s=window.atoll.simulation,crab=s.section.entities.find(e=>e.species.id==='s46');
  s.section.entities=[crab];s.section.food=[];Object.assign(s.player,{x:crab.x-160,y:crab.y,angle:0,energy:40});s.point(s.player.x,s.player.y);
- return {id:crab.id,x:crab.x,y:crab.y};
+ const {creatureFrame}=await import(new URL('src/geometry.js',location.href).href);const f=creatureFrame(crab);return {id:crab.id,x:f.x,y:f.y};
 });
-await page.mouse.click(box.x+shell.x/1600*box.width,box.y+(shell.y+55)/900*box.height);
+// The fixture moves the player under the card; wait for its normal avoidance update.
+await expect(page.locator('.adventure-note')).toHaveClass(/avoid-player/);
+const shellBox=await page.locator('#reef').boundingBox();
+await page.mouse.click(shellBox.x+shell.x/1600*shellBox.width,shellBox.y+(shell.y+55)/900*shellBox.height);
+await page.waitForFunction(id=>window.atoll.simulation.player.foragingPrep?.target===id,shell.id);
 await page.waitForFunction(id=>!window.atoll.simulation.section.entities.find(e=>e.id===id).alive,shell.id,{timeout:15000});
 report.shellfishFeedingVerified=await page.evaluate(()=>window.atoll.simulation.player.energy>48);
 await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/Practice Choose/});
