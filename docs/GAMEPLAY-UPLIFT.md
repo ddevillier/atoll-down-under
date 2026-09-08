@@ -17,20 +17,20 @@ First establish the cleaner role with real service ownership, contact-driven pro
 
 No new original-game reference research is needed. Existing species guide sources inform the educational baseline; game timings, objectives and simplified social responses are authored design choices. Avoid introducing stronger biological claims without checking them.
 
-Status: implementation started. Completion remains unproven until all six outcomes have matching current-state evidence.
+Status: implementation and source/native verification complete. The final archive receipt records the delivery integrity checks.
 
 ## Current completion audit
 
-The activity implementation now covers 19 species adventures. The complete project goal is **not yet achieved**.
+The activity implementation covers 19 species adventures and 57 Practice choices. The following audit supersedes the historical checkpoint lists below. Delivery identity and archive verification are recorded in [the Windows receipt](WINDOWS-SPECIES-LIFE-BUILD.md).
 
 | Required outcome | Current evidence | Still needed |
 | --- | --- | --- |
-| Playable care | Both roles remove real parasites; generated three-client discoveries survive portable saves; mouse controls pass at both sizes | Include in packaged Windows checks |
-| Different feeding decisions | Cleaner care, sand search/sharing, grazing recovery, companion trips, school feeding waves and short ambush strikes implemented; targeted real-meal and browser evidence below | Combined balance review across more generated communities |
-| Reactive reef | Existing NPCs respond through bounded approaches, local food choice, pair/school recovery and lure investigation; populations are not increased by these features | Mixed pressure/resource/lifecycle audit across habitats |
-| Persistent recognition | 19 discoveries and 13 badges; schema validation, legacy handling and portable saves tested; journal browser integration covered | Full packaged save/import/journal handoff |
-| Readable and gentle | Both viewport sizes reviewed; old cuttlefish, explicit narration and journal accessibility regressions included | Native fullscreen/reduced-motion/audio regression on final runtime |
-| Combined handoff | Source checkpoints and test receipts exist | Broader browser sweep, pressure/performance checks, build receipt and one verified Windows archive |
+| Playable care | Both roles remove real parasites; mouse controls pass at both sizes; packaged generated three-client discoveries survive portable saves (`native-species-life-report.json`) | Ready for user play feedback |
+| Different feeding decisions | Six distinct activity families; generated real-meal checks, 16 completed grazing routes, and the complete 84-test browser sweep cover controls/discoveries | Tune enjoyment from ordinary play; no universal completion-time claim |
+| Reactive reef | Existing NPCs respond to food, searches, companions and cleaning; 54 generated habitat/period/seed cases retain fixed populations and finite resources with 30 predator bites and replayable checkpoints | Balance evidence is sampled, not exhaustive |
+| Persistent recognition | 19 discoveries and 13 badges; schema/legacy/replay checks in 314-test suite; packaged actual dive and journal file export/import, deduplication and reload persistence pass | No implementation gap identified |
+| Readable and gentle | Both viewports reviewed; full browser suite and packaged fullscreen, cuttlefish context action, explicit narration, volume, reduced motion and stop-on-close checks pass | Motion feel remains a user-feedback topic |
+| Combined handoff | 314 unit and 84 browser checks pass; all packaged functional checks pass; 36 native performance cases across nine habitats complete without errors; archive identity is in the receipt | Preserve previous archives and use the receipt's verified ZIP |
 
 ## Gameplay checkpoint — September 7
 

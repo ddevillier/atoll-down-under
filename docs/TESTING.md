@@ -1,6 +1,6 @@
 # Windows gameplay testing snapshot — 7 September 2026
 
-The Species Life Windows candidate adds 19 optional adventures and 57 Practice choices. Check [the build receipt](WINDOWS-SPECIES-LIFE-BUILD.md) for its verification status. It includes all 64 sourced guide entries, varied habitat populations, the complete Tournament preview and named portable saves. The [comprehensive design audit](ORIGINAL-DESIGN-AUDIT.md) remains open. The activity features do not add animals to the reef.
+The verified Species Life Windows testing build adds 19 optional adventures and 57 Practice choices. Check [the build receipt](WINDOWS-SPECIES-LIFE-BUILD.md) for its verification scope. It includes all 64 sourced guide entries, varied habitat populations, the complete Tournament preview and named portable saves. The [comprehensive design audit](ORIGINAL-DESIGN-AUDIT.md) remains a historical reference rather than a requirement to copy the original game. The activity features do not add animals to the reef.
 
 ## Launch
 
