@@ -21,6 +21,7 @@ export function mealContact(e,target,dt,contact=target){
  action.committed=true;return true;
 }
 export function feedingEnvelope(e){
+ if(e.foragingPrep)return .25+.55*Math.sin(Math.PI*Math.min(1,e.foragingPrep.elapsed/1.5));
  if(e.feeding){const a=e.feeding;return a.committed?1-clamp((a.elapsed-a.contactAt)/.36):Math.sin(clamp(a.elapsed/a.contactAt)*Math.PI/2);}
  if(e.residentMeal)return Math.sin(Math.PI*Math.min(1,e.residentMeal.elapsed/.85));
  return Math.sin(Math.PI*Math.min(1,(e.actionTime||0)/.65));
