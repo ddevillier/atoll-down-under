@@ -1,3 +1,5 @@
+import {schoolMeal,sharedSchoolFood} from './school-activity.js';
+import {cancelAmbush,startAmbushStrike,tickAmbush,ambushConcealed,validAmbush} from './ambush-activity.js';
 import {disturbPatch,recoverPatch,validPatchRest,patchCrowdingCost} from './grazing-activity.js';
 import {companionMeal,releaseCompanion} from './companion-activity.js';
 import {sandSearcher,startSandProbe,tickSandProbe,validSandProbe,validSandSource,sharedSandFood,uncoverSand,witnessSandMeal} from './sand-search.js';
@@ -141,7 +143,7 @@ export class Simulation {
  }
  requestCleaning(cleaner=this.section?.entities.find(e=>e.alive&&e.species.ability==='clean')){
   const p=this.player;if(!p||this.paused||this.phase!=='playing')return false;
-  cancelPlayerService(this);if(this.player?.sandProbe)this.player.sandProbe=null;p.target=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};
+  cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;p.target=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};
   if(!cleaner?.alive||cleaner.species.ability!=='clean'){this.event('message','The cleaner is away. Try again when it returns to the station.');return false;}
   if(!p.species.parasites||healthState(p).parasites<=1){this.event('message','No parasites to remove. Food and rest help your fish recover from bites or poison.');return false;}
   p.target=null;p.cleanerTarget=cleaner.id;p.cleanTime=0;p.cleaningAmount=0;
@@ -171,7 +173,7 @@ export class Simulation {
  point(x,y){
   if(this.player?.blending&&Math.hypot(x-this.player.x,y-this.player.y)>7){this.player.blending=null;this.player.blendTime=0;this.player.hidden=false;}
   if(!this.player||this.paused||this.phase!=='playing')return;
-  cancelPlayerService(this);if(this.player?.sandProbe)this.player.sandProbe=null;this.pointer={x:edgeDestination(x,W),y:edgeDestination(y,H)};
+  cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;this.pointer={x:edgeDestination(x,W),y:edgeDestination(y,H)};
   // A meal click assists the approach until the player steers again. Cursor
   // movement must always give control back, including during a pursuit.
   this.player.target=null;
@@ -198,7 +200,7 @@ export class Simulation {
   if(this.player.species.ability==='clean'&&t.species&&t.species.ability!=='clean')return requestPlayerService(this,t);
   cancelPlayerService(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(t.species?.ability==='clean')return this.requestCleaning(t);
   this.player.cleanerTarget=null;this.player.cleanTime=0;this.player.cleaningAmount=0;
-  this.player.blending=null;this.player.blendTime=0;this.protected=false;this.player.target=t.id;this.pointer={x:t.x,y:t.y};this.player.hidden=false;return true;
+  if(edible(this.player,t))startAmbushStrike(this,t);else cancelAmbush(this);this.player.blending=null;this.player.blendTime=0;this.protected=false;this.player.target=t.id;this.pointer={x:t.x,y:t.y};this.player.hidden=false;return true;
  }
  useAbility(){
   const p=this.player;if(!p||this.phase!=='playing'||this.paused)return false;
@@ -246,7 +248,7 @@ export class Simulation {
  }
  transition(dx,dy){
   const r=Math.floor(this.current/3),c=this.current%3,nr=clamp(r+dy,0,2),nc=(c+dx+3)%3;if(nr===r&&dy)return false;
-  cancelPlayerService(this);if(this.player?.sandProbe)this.player.sandProbe=null;releaseCompanion(this);const old=this.current,departure={x:this.player.x,y:this.player.y};this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
+  cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;releaseCompanion(this);const old=this.current,departure={x:this.player.x,y:this.player.y};this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
   this.player.feeding=null;
   // Carry the same relative positions across the boundary. A pursuer can still
   // be outside the painting; it must swim through that gap before it can bite.
@@ -269,12 +271,12 @@ export class Simulation {
    if(c){const station=c.station||c;this.pointer=cleaningPlan?.destinations.get(p.id)||{x:station.x+35,y:station.y};}
    else{p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};this.event('message','Your cleaner is no longer available. You can keep swimming.');}
   }
-  const target=this.mealTarget;
+  tickAmbush(this,dt);const target=this.mealTarget;
   if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y,alive:p.alive};
-  const speed=p.species.speed*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
+  const speed=p.species.speed*(p.ambush?.strike>0?3:1)*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
   const serving=tickPlayerService(this,dt),probing=tickSandProbe(this,dt);
-  const contact=target?approachMeal(p,target,dt,speed):null;
+  const contact=target?approachMeal(p,target,dt,speed,p.species.agility*(p.ambush?.strike>0?3:1)):null;
   if(!serving&&!probing&&!target&&dist>7){
    if(p.cleanerTarget)approachCleaning(p,dest,dt,speed);
    else{
@@ -285,7 +287,7 @@ export class Simulation {
   const moving=distance(old,p)>dt*6;
   if(moving)p.still=0;else p.still+=dt;
   const shelter=canUseShelter(p.species)&&shelterAt(REEFS[this.current],p);
-  const wasHidden=p.hidden;p.hidden=!!((shelter&&p.still>SHELTER_SETTLE_SECONDS)||(p.species.ability==='camouflage'&&p.abilityTime>0&&!moving)||(p.blending&&p.blendTime>=2&&!moving));
+  const wasHidden=p.hidden;p.hidden=!!(ambushConcealed(p)||(shelter&&p.still>SHELTER_SETTLE_SECONDS)||(p.species.ability==='camouflage'&&p.abilityTime>0&&!moving)||(p.blending&&p.blendTime>=2&&!moving));
   if(p.hidden&&!wasHidden)this.event('hide','Hidden. Remain still to stay concealed.');
   if(!p.hidden&&wasHidden)this.event('reveal','Back in open water.');
   if(target&&contact.ready&&p.biteCooldown<=0){if(mealContact(p,target,dt,contact.contact))this.consume(target);}
@@ -409,7 +411,7 @@ export class Simulation {
      ...this.section.food.filter(f=>f.regrow<=0&&edible(e,f)),
      ...(canEatPlayer?[p]:[])
     ].filter(b=>distance(e,b)<165&&sharedMealAvailable(e,b,this.section.entities)).sort((a,b)=>distance(e,a)+patchCrowdingCost(a)-distance(e,b)-patchCrowdingCost(b)):[];
-    const near=sharedSandFood(this,e)||candidates[0];e.target=near?.id||null;e.pursuit=0;
+    const near=sharedSchoolFood(this,e)||sharedSandFood(this,e)||candidates[0];e.target=near?.id||null;e.pursuit=0;
     e.behavior=near?(near.kind==='food'?'Foraging for ':'Hunting ')+(near.name||near.species.name):e.satiated>0?'Digesting a meal':e.rest>0?'Resting between feeding trips':'Exploring';
     if(!near&&this.random()<.45)e.angle+=(this.random()-.5)*1.1;
    }
@@ -426,7 +428,7 @@ export class Simulation {
      if(mealContact(e,dest,dt,contact.contact)){
      e.biteCooldown=2;e.actionTime=.65;
      if(dest===p&&canEatPlayer){p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
-     else if(dest!==p&&dest.kind==='food'){witnessSandMeal(this,e,dest);companionMeal(this,e,dest);disturbPatch(dest);dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
+     else if(dest!==p&&dest.kind==='food'){schoolMeal(this,e,dest);witnessSandMeal(this,e,dest);companionMeal(this,e,dest);disturbPatch(dest);dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
      else if(dest!==p){dest.alive=false;dest.respawn=24;}
      e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
      }
@@ -466,7 +468,7 @@ export class Simulation {
   }
  }
  next(){if(this.phase==='advance'){this.stage++;this.stageScore=0;this.spawnPlayer(BY_ID[this.sequence[this.stage]]);}}
- die(reason){if(this.phase!=='playing')return;cancelPlayerService(this);if(this.player?.sandProbe)this.player.sandProbe=null;releaseCompanion(this);this.phase='dead';this.event('death',reason);}
+ die(reason){if(this.phase!=='playing')return;cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;releaseCompanion(this);this.phase='dead';this.event('death',reason);}
  continueRun(){this.score=0;this.stageScore=0;this.spawnPlayer(this.player.species);}
  serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,visited:this.visited,destination:this.destination,difficulty:this.difficulty,observations:this.observations,careProgress:this.careProgress,adventure:this.adventure});}
  static restore(raw){
@@ -495,6 +497,7 @@ export class Simulation {
   }
   if(!Number.isInteger(d.destination)||!REEFS[d.destination]||d.destination===d.current)d.destination=null;
   for(const section of d.sections)for(const food of section.food||[])if(!validSandSource(food.sandSource)||!validPatchRest(food.patchRest))throw new Error('The saved sand discovery is damaged.');
+  if(!validAmbush(d.player.ambush))throw new Error('The saved ambush is damaged.');
   if(!validSandProbe(d.player.sandProbe))throw new Error('The saved sand search is damaged.');
   if(!validPlayerService(d.player.service))throw new Error('The saved cleaning visit is damaged.');
   if(d.careProgress!==undefined&&!validCare(d.careProgress))throw new Error('The saved care progress is damaged.');

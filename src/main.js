@@ -1,3 +1,4 @@
+import {aimAmbush} from './ambush-activity.js';
 import {ADVENTURES,contextLabel,adventureInstruction} from './adventures.js';
 import {BADGES,freshJournal,validateJournal,recordProgress,mergeJournals,journalRewards,careHint} from './journal.js';
 import {lengthSummary} from './measurements.js';
@@ -218,7 +219,7 @@ ui.addEventListener('change',async e=>{
 });
 function pointer(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*1600,y:(e.clientY-r.top)/r.height*900-55};}
 canvas.addEventListener('pointerleave',()=>renderer.titleReef.leave());
-canvas.addEventListener('pointermove',e=>{if(home&&!modal){const p=pointer(e);renderer.titleReef.move(p.x,p.y+55);return;}if(home||modal||!sim)return;const p=pointer(e);if(!sim.paused){sim.point(p.x,p.y);renderer.hover=null;}else renderer.hover=sim.findAt(p.x,p.y);});
+canvas.addEventListener('pointermove',e=>{if(home&&!modal){const p=pointer(e);renderer.titleReef.move(p.x,p.y+55);return;}if(home||modal||!sim)return;const p=pointer(e);if(!sim.paused){if(sim.player.ambush){aimAmbush(sim,p.x,p.y);renderer.hover=sim.findAt(p.x,p.y);}else{sim.point(p.x,p.y);renderer.hover=null;}}else renderer.hover=sim.findAt(p.x,p.y);});
 canvas.addEventListener('pointerdown',e=>{audio.unlock();if(home&&!modal){const p=pointer(e);renderer.titleReef.click(p.x,p.y+55);return;}if(home||modal||!sim)return;const p=pointer(e);if(sim.paused){inspected=sim.findAt(p.x,p.y);sim.observe(inspected);drawUI();}else sim.eatAt(p.x,p.y);canvas.focus();});
 document.addEventListener('keydown',e=>{
  if(e.key==='F11'&&window.atollDesktop){e.preventDefault();if(!e.repeat)toggleFullscreen().catch(()=>notify('Fullscreen could not change. Use the display control in Settings.'));return;}

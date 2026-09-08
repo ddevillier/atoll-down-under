@@ -1,7 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {Simulation,healthState} from '../src/simulation.js';
 import {SPECIES,PLAYABLE,PRACTICE_SPECIES} from '../src/data.js';
-import {requestPlayerService,parasiteDamage,treatingClient} from '../src/player-cleaner.js';
+import {requestPlayerService,parasiteDamage,treatingClient,canHelp} from '../src/player-cleaner.js';
+import {exportDive,importDive} from '../src/save-files.js';
 import {recordProgress,freshJournal,validateJournal} from '../src/journal.js';
 const step=s=>s.step(1/60);
 function scene(id='s43'){
@@ -48,4 +49,17 @@ test('active station treatment cannot be stolen and a dead client releases parti
  for(let i=0;i<900&&!(s.player.service?.removed>3);i++)step(s);
  assert.ok(c.cleanTime>0);c.alive=false;step(s);assert.equal(s.player.service,null);assert.equal(c.cleanTime,0);
  assert.equal(s.events.filter(e=>e.type==='clean').length,0);assert.equal(s.adventure.clients,undefined);
+});
+
+test('both cleaner roles help three generated species and preserve their complete discovery through portable saves',()=>{
+ for(const id of ['s43','s45']){
+  const s=new Simulation(42);s.start('practice',id);const count=s.section.entities.length;
+  for(let visit=0;visit<3;visit++){
+   const client=s.section.entities.filter(e=>canHelp(e)&&!s.adventure.clients?.includes(e.species.id)).sort((a,b)=>Math.hypot(s.player.x-a.x,s.player.y-a.y)-Math.hypot(s.player.x-b.x,s.player.y-b.y))[0];assert.ok(client,id+' needs a distinct available client');assert.equal(requestPlayerService(s,client),true);
+   for(let i=0;i<60*60&&s.player.service;i++)step(s);
+   assert.equal(s.player.service,null);assert.equal(s.adventure.clients.length,visit+1);
+  }
+  step(s);assert.equal(s.adventure.complete,true);assert.equal(s.section.entities.length,count);assert.equal(s.events.filter(e=>e.type==='discovery').length,1);
+  const restored=importDive(exportDive(s,'Complete cleaning discovery')).simulation;assert.deepEqual(restored.adventure,s.adventure);assert.equal(restored.player.species.id,id);
+ }
 });

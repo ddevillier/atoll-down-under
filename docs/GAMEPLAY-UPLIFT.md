@@ -19,6 +19,19 @@ No new original-game reference research is needed. Existing species guide source
 
 Status: implementation started. Completion remains unproven until all six outcomes have matching current-state evidence.
 
+## Current completion audit
+
+The activity implementation now covers 19 species adventures. The complete project goal is **not yet achieved**.
+
+| Required outcome | Current evidence | Still needed |
+| --- | --- | --- |
+| Playable care | Both roles remove real parasites; generated three-client discoveries survive portable saves; mouse controls pass at both sizes | Include in packaged Windows checks |
+| Different feeding decisions | Cleaner care, sand search/sharing, grazing recovery, companion trips, school feeding waves and short ambush strikes implemented; targeted real-meal and browser evidence below | Combined balance review across more generated communities |
+| Reactive reef | Existing NPCs respond through bounded approaches, local food choice, pair/school recovery and lure investigation; populations are not increased by these features | Mixed pressure/resource/lifecycle audit across habitats |
+| Persistent recognition | 19 discoveries and 13 badges; schema validation, legacy handling and portable saves tested; journal browser integration covered | Full packaged save/import/journal handoff |
+| Readable and gentle | Both viewport sizes reviewed; old cuttlefish, explicit narration and journal accessibility regressions included | Native fullscreen/reduced-motion/audio regression on final runtime |
+| Combined handoff | Source checkpoints and test receipts exist | Broader browser sweep, pressure/performance checks, build receipt and one verified Windows archive |
+
 ## Gameplay checkpoint — September 7
 
 Implemented in the working tree, not yet in a Windows archive:
@@ -46,3 +59,16 @@ Evidence: `artifacts/gameplay-uplift-browse-unit.log` records 299/299 full-suite
 Balance limitation: the initial time-seeded surgeonfish browser run exceeded its 25-second return wait; another time-seeded run and the reproducible seed-42 route passed. The original failed run did not capture enough simulation state to attribute the timeout. Do not treat the passing seed as proof of consistent completion times across generated communities. Keep this in the combined resource-pressure/play-feel pass.
 
 Still required for the full goal: wider schooling excursions and ambush hunting activities; complete cleaner discoveries and remaining journal/save/UI integration checks; mixed-species resource, predator and social-pressure checks across generated habitats; targeted feedback improvements based on those results; performance/regression and one verified Windows archive. The goal remains active, and no new archive is claimed here.
+
+## Ambush and school checkpoint — September 7
+
+This supersedes the activity gaps in the preceding checkpoint.
+
+- Coral grouper, devil scorpionfish, painted frogfish and longsnout flathead can settle at authored ledge/bottom positions. Two seconds of settling enable concealment and a short, 0.8-second strike at a suitable fish within 160 pixels. The strike uses three times normal swim/turn rates, still requires anatomical meal contact, and stops on a miss. Frogfish display their existing lure in waiting windows. Mouse movement aims without leaving the position; E or clicking open water leaves. Waiting turns toward the cursor continuously rather than snapping. These are authored play abstractions, not measured strike kinematics.
+- Silver sprat, peach fairy basslet and purple anthias gain school feeding trips: a plankton meal near two companions, a real nearby schoolmate meal, then three seconds regrouped. Existing fusilier progression remains intact and gains the same local feeding response. Each later player meal can start another feeding wave after the discovery. Existing appetite, rest, danger, food amounts and two-fish target limit remain in control.
+- A generated seed-42 simulation supports all four ambush catches through ordinary steering, waiting and repeat attempts, and all three new school trips through actual player/NPC feeding. This demonstrates complete paths without replacing communities or increasing populations; it does not prove universal completion times.
+- A browser retry exposed an unreliable short-strike experience. A controlled heading experiment found an opposite-facing hunter could reach prey but lose the strike window before the contact action finished. Continuous aiming and faster bounded strike turning address that problem; multi-heading moving-prey tests pass. The final frogfish browser confirmation passes at both sizes. The earlier failed run remains in `artifacts/predator-school-browser.log`; do not count that combined run as wholly passing. Its two school scenarios pass, and the corrected ambush has its separate receipt.
+
+Evidence: `artifacts/gameplay-uplift-integrated-unit.log` reports 313/313 full-suite checks. `artifacts/ambush-natural.log` includes all four generated ambush paths and multi-heading catches; `artifacts/school-activity-natural.log` includes all three generated school trips. `artifacts/ambush-browser-confirm.log` proves frogfish aiming/catching/discovery through actual mouse/E controls at 1600×900 and 1024×768. The school cases in `artifacts/predator-school-browser.log` prove real mouse feeding and journal completion. `artifacts/cleaner-discovery-integration.log` covers both complete cleaner discoveries and portable export/import. `artifacts/gameplay-uplift-integration-browser.log` is the combined regression receipt for old adventures, narration, journal, cleaner controls and sand searching.
+
+The next work is the remaining integration/balance/delivery gates in the current audit, not another expansion of activity types. Preserve the Living Reef archive until the new combined Windows build is verified.

@@ -4,7 +4,7 @@ const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 // The existing player ability remains the explicit six-second invitation.
 export function lureDisplay(e){
  if(!e?.alive||e.species.ability!=='lure'||e.stun>0||e.cleanTime>0||e.cleanerTarget)return 0;
- if(e.id==='player')return e.abilityTime>0?1:0;
+ if(e.id==='player')return e.abilityTime>0||e.ambush?.settled>=2&&!e.ambush.strike&&!e.target&&e.ambush.clock%8<5?1:0;
  if(e.hidden||e.target||e.feeding||e.actionTime>0||e.satiated>0||e.rest>0||e.activity!=='at-home'||!e.ecology)return 0;
  const phase=e.ecology.clock%(18+individualSeed(e.id)%9);
  return clamp((phase-9)/.5,0,1)*clamp((13-phase)/.5,0,1);

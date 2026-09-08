@@ -1,9 +1,18 @@
 import {REEFS} from './data.js';
+import {feedingSchool,validSchoolTrip,schoolMeal,tickSchoolTrip,schoolInstruction} from './school-activity.js';
+import {ambushHunter,ambushSites,beginAmbush,cancelAmbush,ambushMeal} from './ambush-activity.js';
 import {SHELTER_SETTLE_SECONDS} from './shelter.js';
 import {sandSearcher,startSandProbe,uncoverSand,sandOpportunityHint} from './sand-search.js';
 import {pairedBrowser,validBuddy,companion,companionInstruction,inviteCompanion,companionMeal,tickCompanion} from './companion-activity.js';
 import {routeGrazer,validGrazing,grazeMeal,grazingHome,grazingRecovered,tickGrazing} from './grazing-activity.js';
 export const ADVENTURES={
+ s0:{id:'sprat-feeding-wave',name:'A meal with the school',description:'Feed on plankton near two schoolmates. Let a neighbor feed, then swim together again.',steps:['Take a plankton meal near two schoolmates','Let a neighbor feed, then rejoin the school'],action:null},
+ s11:{id:'basslet-feeding-wave',name:'Out for plankton',description:'Make a feeding excursion with your school. Take a meal, watch a schoolmate feed, then regroup.',steps:['Take a plankton meal near two schoolmates','Let a neighbor feed, then rejoin the school'],action:null},
+ s58:{id:'anthias-feeding-wave',name:'Together in open water',description:'Explore a plankton patch near your school. Both you and a neighbor feed before rejoining.',steps:['Take a plankton meal near two schoolmates','Let a neighbor feed, then rejoin the school'],action:null},
+ s16:{id:'grouper-ambush',name:'A patient hunter',description:'Settle near a ledge. Let a small fish approach, then make a short strike.',steps:['Press E near an ambush ledge','Wait for a small fish, then click it within striking distance'],action:'Settle for ambush'},
+ s21:{id:'scorpionfish-ambush',name:'Hidden in plain sight',description:'Choose a bottom ambush spot. Become still, then strike at a small passing fish.',steps:['Press E near a bottom ambush spot','Wait for a small fish, then click it within striking distance'],action:'Settle for ambush'},
+ s54:{id:'frogfish-ambush',name:'An invitation to dinner',description:'Settle near the bottom and wave your lure. Wait for a small visitor, then make a short strike.',steps:['Press E near a bottom ambush spot','Let a small fish investigate, then click it nearby'],action:'Settle and lure'},
+ s59:{id:'flathead-ambush',name:'A quiet surprise',description:'Wait at a sandy ambush spot. Let a small fish come close before striking.',steps:['Press E near a bottom ambush spot','Wait for a small fish, then click it within striking distance'],action:'Settle for ambush'},
  s5:{id:'surgeonfish-route',name:'A renewing garden',description:'Graze algae, feed at another patch, then return to see the first patch recovering.',steps:['Eat at an algae patch','Feed at another plant patch','Return to the recovering first patch'],action:null},
  s15:{id:'parrotfish-route',name:'A grazing circuit',description:'Move between algae patches and revisit one after it has had time to recover.',steps:['Eat at an algae patch','Feed at another algae patch','Return to the recovering first patch'],action:null},
  s8:{id:'foxface-companion',name:'Room for two',description:'Invite a nearby foxface to browse together. Both take a meal, then meet again.',steps:['Press E near a foxface companion','Both feed, then regroup'],action:'Find companion'},
@@ -24,6 +33,8 @@ export function adventureInstruction(sim){
  const a=sim.adventure,d=ADVENTURES[sim.player.species.id];if(!d)return '';
  if(sim.player.species.ability==='clean'&&!a.complete)return 'Click a fish to help · '+Math.min(3,a.clients?.length||0)+'/3 kinds of client';
  if(a.complete)return 'Discovered · This way of living is in your journal.';
+ if(feedingSchool(sim.player)&&sim.player.species.id!=='s42')return schoolInstruction(sim);
+ if(ambushHunter(sim.player))return !sim.player.ambush?'Choose a marked ambush spot · Move close and press E':sim.player.ambush.strike>0?'A short strike · E or click open water to stop':sim.player.ambush.settled<2?'Become still for two seconds · E or click open water to leave':'Aim at a small nearby fish and click · E or click open water to leave';
  if(routeGrazer(sim.player))return !a.grazing?'Find algae and take a bite':!a.grazing.visitedOther?'Leave this patch to recover · Feed at another plant patch':!grazingHome(sim)?`Return to ${REEFS[a.grazing.reef].name} to revisit your first patch`:!grazingRecovered(sim)?'Your first patch is recovering · Keep exploring, then return':'Return to your first patch and pause to see its new growth';
  if(pairedBrowser(sim.player))return companionInstruction(sim);
  if(sim.player.species.id==='s9')return sim.player.sandProbe?'Inspecting with your barbels · Move to stop':!a.meals.length?'Use E near sand, then eat your discovery':!a.shared||!a.meals.some(id=>id!==a.shared)?sandOpportunityHint(sim,sitesFor(sim).map(s=>s.food).filter(f=>!a.meals.includes(sim.current+':'+f.id))):'Your sand discovery helped a neighbor';
@@ -32,9 +43,10 @@ export function adventureInstruction(sim){
  if(sim.player.species.id==='s23')return `Uncover with E, then click the meal · ${Math.min(2,a.meals.length)}/2 sand sites`;
  return d.steps[Math.min(a.stage,d.steps.length-1)];
 }
-export function validAdventure(a){return !!a&&validGrazing(a.grazing)&&validBuddy(a.buddy)&&(a.shared===undefined||typeof a.shared==='string'&&a.shared.length<100)&&(a.clients===undefined||Array.isArray(a.clients)&&a.clients.length<=64&&a.clients.every(id=>/^s(?:[0-9]|[1-5][0-9]|6[0-3])$/.test(id))&&new Set(a.clients).size===a.clients.length)&&typeof a.visible==='boolean'&&Number.isInteger(a.stage)&&a.stage>=0&&a.stage<=3&&Number.isFinite(a.joined)&&a.joined>=0&&typeof a.departed==='boolean'&&typeof a.complete==='boolean'&&Array.isArray(a.meals)&&a.meals.length<=100&&a.meals.every(x=>typeof x==='string')&&Array.isArray(a.patterns)&&a.patterns.every(x=>['sand','reef'].includes(x))&&(a.home===null||(Number.isInteger(a.home.reef)&&REEFS[a.home.reef]&&Number.isFinite(a.home.x)&&Number.isFinite(a.home.y)));}
+export function validAdventure(a){return !!a&&validSchoolTrip(a.school)&&(a.ambushCatch===undefined||typeof a.ambushCatch==='boolean')&&validGrazing(a.grazing)&&validBuddy(a.buddy)&&(a.shared===undefined||typeof a.shared==='string'&&a.shared.length<100)&&(a.clients===undefined||Array.isArray(a.clients)&&a.clients.length<=64&&a.clients.every(id=>/^s(?:[0-9]|[1-5][0-9]|6[0-3])$/.test(id))&&new Set(a.clients).size===a.clients.length)&&typeof a.visible==='boolean'&&Number.isInteger(a.stage)&&a.stage>=0&&a.stage<=3&&Number.isFinite(a.joined)&&a.joined>=0&&typeof a.departed==='boolean'&&typeof a.complete==='boolean'&&Array.isArray(a.meals)&&a.meals.length<=100&&a.meals.every(x=>typeof x==='string')&&Array.isArray(a.patterns)&&a.patterns.every(x=>['sand','reef'].includes(x))&&(a.home===null||(Number.isInteger(a.home.reef)&&REEFS[a.home.reef]&&Number.isFinite(a.home.x)&&Number.isFinite(a.home.y)));}
 export function sitesFor(sim,fish=sim.player){
  const reef=REEFS[sim.current];
+ if(ambushHunter(fish))return ambushSites(sim);
  if(routeGrazer(fish)){const home=grazingHome(sim);return home?[{id:home.id,x:home.x,y:home.y,kind:'garden',name:grazingRecovered(sim)?'Your first patch · New growth':'Your first patch · Recovering'}]:[];}
  if(sandSearcher(fish))return sim.section.food.filter(f=>['worm','shrimp'].includes(f.food)).slice(0,2).filter(f=>f.regrow<=0).map(f=>({id:f.id,x:f.x,y:f.y,kind:'sand',name:'Sand search',food:f}));
  if(fish.species.id==='s2')return reef.shelters.map((s,i)=>({...s,id:'home-'+sim.current+'-'+i,kind:'home',name:'Coral refuge'}));
@@ -42,16 +54,18 @@ export function sitesFor(sim,fish=sim.player){
  return [];
 }
 export function selectedSite(sim){const sites=sitesFor(sim),pointer=sim.pointer;return sites.sort((a,b)=>dist(a,pointer)-dist(b,pointer)).find(s=>dist(s,pointer)<90)||sites.sort((a,b)=>dist(a,sim.player)-dist(b,sim.player))[0]||null;}
-export function contextLabel(sim){const a=ADVENTURES[sim.player.species.id];if(!a?.action)return '';return companion(sim)?'Leave companion':sim.player.sandProbe?'Stop inspecting':sim.player.blending?'Stop blending':a.action;}
+export function contextLabel(sim){const a=ADVENTURES[sim.player.species.id];if(!a?.action)return '';return sim.player.ambush?'Leave ambush':companion(sim)?'Leave companion':sim.player.sandProbe?'Stop inspecting':sim.player.blending?'Stop blending':a.action;}
 export function stopBlend(p){p.blending=null;p.blendTime=0;p.hidden=false;}
 export function useContext(sim){
  const p=sim.player;if(sim.paused||sim.phase!=='playing')return false;
+ if(p.ambush){cancelAmbush(sim);return true;}
  if(pairedBrowser(p))return inviteCompanion(sim);
  if(p.sandProbe){p.sandProbe=null;sim.pointer={x:p.x,y:p.y};return true;}
  if(p.blending){stopBlend(p);return true;}
  const site=selectedSite(sim);if(!site){sim.event('message','This habitat has no suitable spot. Open the map to explore another habitat.');return false;}
  if(dist(p,site)>110){sim.event('message','Move closer to '+site.name.toLowerCase()+', then press E.');return false;}
  p.target=null;p.cleanerTarget=null;p.cleanTime=0;sim.pointer={x:p.x,y:p.y};
+ if(ambushHunter(p)){beginAmbush(sim,site);return true;}
  if(p.species.id==='s9'){
   sim.protected=false;startSandProbe(sim,site.food);
  }else if(p.species.id==='s23'){
@@ -65,6 +79,8 @@ export function useContext(sim){
 }
 export function mealAdventure(sim,food){
  const p=sim.player,a=sim.adventure;if(!a)return;
+ schoolMeal(sim,p,food);
+ ambushMeal(sim,food);
  companionMeal(sim,p,food);
  grazeMeal(sim,food);
  if(p.species.id==='s42'&&a.stage===1){a.stage=2;a.joined=0;}
@@ -81,7 +97,8 @@ export function tickAdventure(sim,dt){
  }
  if(a.home){const near=a.home.reef===sim.current&&dist(p,a.home)<55;if(near&&p.still>SHELTER_SETTLE_SECONDS&&a.stage===0)a.stage=1;if(!near&&a.stage>=1)a.departed=true;}
  const pairedDone=tickCompanion(sim,dt);
- const done=routeGrazer(p)?tickGrazing(sim):pairedBrowser(p)?pairedDone:p.species.id==='s9'?a.meals.length>0&&!!a.shared&&a.meals.some(id=>id!==a.shared):p.species.ability==='clean'?(a.clients?.length||0)>=3:p.species.id==='s42'?a.stage===2&&a.joined>=5:p.species.id==='s23'?a.meals.length>=2:p.species.id==='s19'?a.patterns.length>=2:a.stage===2&&a.home?.reef===sim.current&&dist(p,a.home)<55&&p.still>SHELTER_SETTLE_SECONDS;
+ const schoolDone=tickSchoolTrip(sim,dt);
+ const done=feedingSchool(p)&&p.species.id!=='s42'?schoolDone:ambushHunter(p)?a.ambushCatch===true:routeGrazer(p)?tickGrazing(sim):pairedBrowser(p)?pairedDone:p.species.id==='s9'?a.meals.length>0&&!!a.shared&&a.meals.some(id=>id!==a.shared):p.species.ability==='clean'?(a.clients?.length||0)>=3:p.species.id==='s42'?a.stage===2&&a.joined>=5:p.species.id==='s23'?a.meals.length>=2:p.species.id==='s19'?a.patterns.length>=2:a.stage===2&&a.home?.reef===sim.current&&dist(p,a.home)<55&&p.still>SHELTER_SETTLE_SECONDS;
  if(done&&!a.complete){a.complete=true;sim.event('discovery','A new way of living · '+definition.name,{value:definition.id});}
 }
 // Lightweight routines share the same food/home/background opportunities as the player.

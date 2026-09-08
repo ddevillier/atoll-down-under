@@ -48,10 +48,10 @@ export function inspectingWithBarbels(e,target){
  return Math.cos((e.angle||0)-(side>0?0:Math.PI))>.85;
 }
 
-export function approachMeal(e,target,dt,speed){
+export function approachMeal(e,target,dt,speed,turnRate=e.species.agility){
  const plan=feedingApproach(e,target),dx=plan.x-e.x,dy=plan.y-e.y,d=Math.hypot(dx,dy);
  const docking=d<Math.max(55,creatureWidth(e.species)*.55),heading=plan.facing===1?0:Math.PI;
- e.angle=turnTowards(e.angle,docking?heading:Math.atan2(dy,dx),e.species.agility*dt);
+ e.angle=turnTowards(e.angle,docking?heading:Math.atan2(dy,dx),turnRate*dt);
  const amount=Math.min(speed*dt,d);
  if(docking){
   // Match a moving meal's velocity while closing the remaining mouth gap.
