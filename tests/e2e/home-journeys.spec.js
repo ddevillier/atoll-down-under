@@ -1,4 +1,9 @@
 import {test,expect} from '@playwright/test';import {clickButton} from '../../scripts/ui-actions.mjs';
+test('remembered home remains labelled beyond the nearby-marker range while paused',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
+ const result=await page.evaluate(async()=>{const {Simulation}=await import('/src/simulation.js'),{homeJourneySites}=await import('/src/home-journeys.js'),s=new Simulation(42);s.start('practice','s33');const site=homeJourneySites(s)[0];Object.assign(s.player,{x:site.x,y:site.y});s.point(site.x,site.y);s.useContext();s.player.x=site.x>800?site.x-600:site.x+600;s.point(s.player.x,site.y);s.paused=true;const r=window.atoll.renderer;r.inspect=true;r.draw(s,0);return {distance:Math.hypot(s.player.x-site.x,s.player.y-site.y),labels:r.labelLayout.map(l=>l.text)};});
+ expect(result.distance).toBeGreaterThan(420);expect(result.labels.some(t=>t.startsWith('Your resting ledge'))).toBe(true);expect(result.labels.some(t=>t.includes('Too small to hide'))).toBe(true);
+});
 for(const [id,name,width,height] of [['s1','Neon damselfish',1600,900],['s7','Anemonefish',1024,768],['s33','Whitetip reef shark',1024,768]])test(name+' completes a generated home journey through mouse and E controls',async({page})=>{
  test.setTimeout(70000);await page.setViewportSize({width,height});await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill(name);await page.getByRole('option',{name:new RegExp('^'+name)}).click();await clickButton(page,{name:'Try adventure',exact:true});await page.keyboard.press('Escape');
  await page.evaluate(async id=>{const {Simulation}=await import('/src/simulation.js'),s=new Simulation(42);s.start('practice',id);s.paused=true;s.adventure.visible=true;Object.assign(window.atoll.simulation,s);},id);
