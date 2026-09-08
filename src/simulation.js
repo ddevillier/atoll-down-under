@@ -42,6 +42,8 @@ export function edible(predator,prey){
  if(b.armor&&!smallShellfish&&a.ability!=='crush'&&a.size<100)return false;
  return true;
 }
+// Guidance must distinguish a diet match from a poisonous meal.
+export function suitableMeal(predator,prey){const p=predator.species||predator;return edible(predator,prey)&&(!prey.species?.poison||['crush','poison'].includes(p.ability));}
 export function healthState(fish){
  const poison=fish.poisonDamage||0,injury=fish.biteDamage||0;
  return {poison,injury,parasites:parasiteDamage(fish)};

@@ -1,4 +1,4 @@
-import {edible} from './simulation.js';
+import {suitableMeal} from './simulation.js';
 import {REEFS} from './data.js';import {approachMeal} from './feeding-contact.js';import {uncoverSand} from './sand-search.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const rows=[
@@ -23,7 +23,7 @@ const fresh=()=>({meals:[],rest:0,finished:false});
 const foodType=f=>f.kind==='food'?f.food:f.species?.food||'fish';
 const openable=f=>!!f.species&&['snail','crab','urchin'].includes(foodType(f));
 export function preparationKind(p,f){const d=foragingJourney(p);if(!d||!p.species.diet.includes(foodType(f)))return null;if(d.kind==='shell')return openable(f)?'shell':null;return ['probe','sift'].includes(d.kind)&&f.kind==='food'&&d.foods.includes(f.food)?d.kind:null;}
-function targets(sim){const d=foragingJourney(sim.player),j=sim.adventure.foragingJourney,wanted=d.foods[j?.finished?0:j?.meals.length||0],first=j&&!j.finished?j.meals[0]:null;return [...sim.section.food.filter(f=>f.regrow<=0),...sim.section.entities.filter(e=>e.alive)].filter(f=>foodType(f)===wanted&&edible(sim.player,f)&&(f.kind==='food'||f.species.ability!=='clean')&&(!first||first.reef!==sim.current||distance(first,f)>=120)).sort((a,b)=>distance(a,sim.player)-distance(b,sim.player));}
+function targets(sim){const d=foragingJourney(sim.player),j=sim.adventure.foragingJourney,wanted=d.foods[j?.finished?0:j?.meals.length||0],first=j&&!j.finished?j.meals[0]:null;return [...sim.section.food.filter(f=>f.regrow<=0),...sim.section.entities.filter(e=>e.alive)].filter(f=>foodType(f)===wanted&&suitableMeal(sim.player,f)&&(f.kind==='food'||f.species.ability!=='clean')&&(!first||first.reef!==sim.current||distance(first,f)>=120)).sort((a,b)=>distance(a,sim.player)-distance(b,sim.player));}
 export function foragingSites(sim){const d=foragingJourney(sim.player);if(!d)return [];const j=sim.adventure.foragingJourney;if(j?.meals.length===2&&!j.finished&&sim.player.species.id==='s4')return sim.section.entities.filter(e=>e.alive&&e.species.id==='s4').map(e=>({id:'reunion-'+e.id,x:e.x,y:e.y,kind:'companion',name:'Fellow idol'}));if(j?.meals.length===2&&!j.finished&&sim.player.species.id==='s25')return REEFS[sim.current].shelters.map((s,i)=>({id:'quiet-'+i,x:s.x,y:s.y,kind:'home',name:'Quiet cover'}));return targets(sim).slice(0,3).map(f=>({id:'forage-'+f.id,x:f.x,y:f.y,kind:'meal',name:(d.kind==='shell'?'Hard prey':d.kind==='sift'?'Bottom search':d.kind==='probe'?'Crevice search':'Browsing ground')+' · '+foodType(f),food:f}));}
 export function startForagingPrep(sim,target,eat=false){
  const p=sim.player,kind=preparationKind(p,target);if(!kind)return false;
