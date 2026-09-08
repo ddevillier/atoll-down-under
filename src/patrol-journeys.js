@@ -1,4 +1,4 @@
-import {REEFS} from './data.js';import {edible,suitableMeal} from './simulation.js';
+import {REEFS} from './data.js';import {edible,suitableMeal} from './diet.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const rows=[
  ['s17','barracuda-pursuit','A decisive pursuit',230,85,true,0,['fish'],'Survey an open-water lane, use a burst during a real pursuit, then cruise back.'],

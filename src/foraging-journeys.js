@@ -1,4 +1,4 @@
-import {suitableMeal} from './simulation.js';
+import {suitableMeal} from './diet.js';
 import {REEFS} from './data.js';import {approachMeal} from './feeding-contact.js';import {uncoverSand} from './sand-search.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const rows=[

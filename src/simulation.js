@@ -1,3 +1,6 @@
+import {edible,suitableMeal} from './diet.js';
+export {edible,suitableMeal} from './diet.js';
+import {cancelWatch,startWatchApproach} from './watch-journeys.js';
 import {preparationKind,startForagingPrep,tickForagingPrep,validForagingPrep} from './foraging-journeys.js';
 import {schoolMeal,sharedSchoolFood} from './school-activity.js';
 import {cancelAmbush,startAmbushStrike,tickAmbush,ambushConcealed,validAmbush} from './ambush-activity.js';
@@ -30,20 +33,6 @@ import {canUseShelter,shelterAt,SHELTER_SETTLE_SECONDS} from './shelter.js';
 export const W=1600,H=740;
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-export function edible(predator,prey){
- const a=predator.species||predator,b=prey.species||prey;
- if(b.ability==='clean')return false;
- const food=prey.kind==='food'?prey.food:b.food||'fish';
- if(!a.diet.includes(food))return false;
- if(food==='fish' && b.size>=a.size*.77)return false;
- // A listed crab/snail diet includes smaller shells that the mouth can handle.
- // Larger shells, spiny urchins and armored fish retain the stronger-jaw gate.
- const smallShellfish=['crab','snail'].includes(food)&&b.size<a.size*.77;
- if(b.armor&&!smallShellfish&&a.ability!=='crush'&&a.size<100)return false;
- return true;
-}
-// Guidance must distinguish a diet match from a poisonous meal.
-export function suitableMeal(predator,prey){const p=predator.species||predator;return edible(predator,prey)&&(!prey.species?.poison||['crush','poison'].includes(p.ability));}
 export function healthState(fish){
  const poison=fish.poisonDamage||0,injury=fish.biteDamage||0;
  return {poison,injury,parasites:parasiteDamage(fish)};
@@ -146,7 +135,7 @@ export class Simulation {
  }
  requestCleaning(cleaner=this.section?.entities.find(e=>e.alive&&e.species.ability==='clean')){
   const p=this.player;if(!p||this.paused||this.phase!=='playing')return false;
-  cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;p.target=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};
+  cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;p.target=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};
   if(!cleaner?.alive||cleaner.species.ability!=='clean'){this.event('message','The cleaner is away. Try again when it returns to the station.');return false;}
   if(!p.species.parasites||healthState(p).parasites<=1){this.event('message','No parasites to remove. Food and rest help your fish recover from bites or poison.');return false;}
   p.target=null;p.cleanerTarget=cleaner.id;p.cleanTime=0;p.cleaningAmount=0;
@@ -176,7 +165,7 @@ export class Simulation {
  point(x,y){
   if(this.player?.blending&&Math.hypot(x-this.player.x,y-this.player.y)>7){this.player.blending=null;this.player.blendTime=0;this.player.hidden=false;}
   if(!this.player||this.paused||this.phase!=='playing')return;
-  cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;this.pointer={x:edgeDestination(x,W),y:edgeDestination(y,H)};
+  cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;this.pointer={x:edgeDestination(x,W),y:edgeDestination(y,H)};
   // A meal click assists the approach until the player steers again. Cursor
   // movement must always give control back, including during a pursuit.
   this.player.target=null;
@@ -198,6 +187,7 @@ export class Simulation {
  eatAt(x,y){
   if(!this.player||this.paused||this.phase!=='playing')return false;
   const t=this.findAt(x,y);if(!t){this.point(x,y);return false;}
+  startWatchApproach(this,t);
   if(edible(this.player,t)&&preparationKind(this.player,t)&&!(t.kind==='food'&&t.uncovered>0&&t.sandSource===this.player.id))return startForagingPrep(this,t,true);
   if(this.player.species.id==='s9'&&sitesFor(this).some(s=>s.id===t.id)&&!(t.uncovered>0)){this.player.cleanerTarget=null;this.player.cleanTime=0;this.protected=false;startSandProbe(this,t,true);return true;}
   if(this.player.species.id==='s23'&&sitesFor(this).some(s=>s.id===t.id)&&!(t.uncovered>0)){this.event('message','A meal is hidden under this sand. Swim closer and press E to uncover it.');return false;}
@@ -213,7 +203,7 @@ export class Simulation {
   if(p.species.ability==='crush'){this.event('message','Crushing jaws are always available. Click a food in your diet to use them.');return false;}
   if(p.cooldown>0){this.event('message','Your ability is recovering.');return false;}
   if(p.energy<12){this.event('message','Find food before using more energy.');return false;}
-  p.foragingPrep=null;this.protected=false;p.energy-=8;p.cooldown=12;p.abilityTime=['lure','camouflage'].includes(p.species.ability)?6:4;
+  cancelWatch(this);p.foragingPrep=null;this.protected=false;p.energy-=8;p.cooldown=12;p.abilityTime=['lure','camouflage'].includes(p.species.ability)?6:4;
   p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;
   const ability=p.species.ability;
   for(const e of this.section.entities){if(distance(p,e)>230)continue;if(['shock','sting','sonic'].includes(ability)||ability==='flash'&&e.alive&&edible(e,p))e.stun=4;if(['ink','poison','spines','puff'].includes(ability)){e.target=null;e.stun=1.5;e.angle=Math.atan2(e.y-p.y,e.x-p.x);}}
@@ -252,7 +242,7 @@ export class Simulation {
  }
  transition(dx,dy){
   const r=Math.floor(this.current/3),c=this.current%3,nr=clamp(r+dy,0,2),nc=(c+dx+3)%3;if(nr===r&&dy)return false;
-  cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;releaseCompanion(this);const old=this.current,departure={x:this.player.x,y:this.player.y};this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
+  cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;releaseCompanion(this);const old=this.current,departure={x:this.player.x,y:this.player.y};this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
   this.player.feeding=null;
   // Carry the same relative positions across the boundary. A pursuer can still
   // be outside the painting; it must swim through that gap before it can bite.
@@ -474,7 +464,7 @@ export class Simulation {
   }
  }
  next(){if(this.phase==='advance'){this.stage++;this.stageScore=0;this.spawnPlayer(BY_ID[this.sequence[this.stage]]);}}
- die(reason){if(this.phase!=='playing')return;cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;releaseCompanion(this);this.phase='dead';this.event('death',reason);}
+ die(reason){if(this.phase!=='playing')return;cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;releaseCompanion(this);this.phase='dead';this.event('death',reason);}
  continueRun(){this.score=0;this.stageScore=0;this.spawnPlayer(this.player.species);}
  serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,visited:this.visited,destination:this.destination,difficulty:this.difficulty,observations:this.observations,careProgress:this.careProgress,adventure:this.adventure});}
  static restore(raw){
