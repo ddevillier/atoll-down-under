@@ -17,3 +17,16 @@ Speech generation used the requested checkpoint successfully. The first independ
 The initial browser assertion incorrectly treated an OGG stream's early estimated media duration as the full file duration. Full-file decoding confirmed the complete recording. Playback tests now check readiness; native delivery checks decode every complete clip and let a representative recording reach its natural end.
 
 Official API references: [Speech generation](https://developers.openai.com/api/reference/resources/audio/subresources/speech/methods/create), [file transcription](https://developers.openai.com/api/docs/guides/speech-to-text).
+
+## Verified Windows handoff
+
+Build: `dist/Atoll-Down-Under-Windows-Spoken-Activities-2026-09-08.zip`, runtime checkpoint `0241267`. Extract the whole folder and open `Atoll Down Under.exe`. The preceding Species Life, Living Reef and Species Adventures ZIPs retain their original hashes. Only Windows was packaged.
+
+All 314 unit checks pass. The eight distinct activity/guide browser checks pass across the integration and corrected final run; the initial duration-assertion failures are retained in the logs described above. Packaged native verification decodes all 19 new clips, plays the cleaner explanation to its natural end, confirms pause and music ducking/restoration, replays it and verifies stop-on-close/resume. The run uses isolated QA storage and reports no page errors (`artifacts/native-activity-audio-report.json`).
+
+Before final receipt updates, all 290 checked source, asset and document files match the package. Archive CRC passes and all 73 payload files match the tested Windows application byte for byte. The final receipt and current-build links were updated after packaging; runtime files and audio are unchanged.
+
+- ZIP size: **248,226,484 bytes**.
+- ZIP SHA-256: `33b5f9643128e202f64875c6e23700b2b0c09a9a812c1e96a2d79a102cef36b1`.
+- `app.asar` SHA-256: `7e4a4da8fd5179149d84c479e0254869d4f92d6ee9a0df12fc6ea97253cc0d37`.
+- Integrity receipt: `artifacts/spoken-activities-archive-report.json`.

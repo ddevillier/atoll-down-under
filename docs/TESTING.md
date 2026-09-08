@@ -2,9 +2,11 @@
 
 The verified Species Life Windows testing build adds 19 optional adventures and 57 Practice choices. Check [the build receipt](WINDOWS-SPECIES-LIFE-BUILD.md) for its verification scope. It includes all 64 sourced guide entries, varied habitat populations, the complete Tournament preview and named portable saves. The [comprehensive design audit](ORIGINAL-DESIGN-AUDIT.md) remains a historical reference rather than a requirement to copy the original game. The activity features do not add animals to the reef.
 
+The September 8 update adds [19 spoken activity explanations](ACTIVITY-AUDIO.md). Choose **Hear this activity** to pause, listen and read; Return to the reef resumes play. The audio receipt records verification of this updated Windows archive.
+
 ## Launch
 
-Extract `Atoll-Down-Under-Windows-Species-Life-2026-09-07.zip` completely. Open `Atoll Down Under-win32-x64/Atoll Down Under.exe` and keep that application folder together. Windows starts fullscreen so the reef covers the taskbar. F11 switches to a window and back; visible controls appear in File, Settings and the dive toolbar. Escape continues to pause for inspection. The game runs offline. Existing local saves remain available; start a new dive to see the latest habitat populations and feeding-site layouts.
+Extract `Atoll-Down-Under-Windows-Spoken-Activities-2026-09-08.zip` completely. Open `Atoll Down Under-win32-x64/Atoll Down Under.exe` and keep that application folder together. Windows starts fullscreen so the reef covers the taskbar. F11 switches to a window and back; visible controls appear in File, Settings and the dive toolbar. Escape continues to pause for inspection. The game runs offline. Existing local saves remain available; start a new dive to see the latest habitat populations and feeding-site layouts.
 
 Start with the [species activities and their controls](SPECIES-LIFE.md). Try adventure in Practice offers instructions; Explore freely keeps the same mechanics available. E performs the contextual action.
 
