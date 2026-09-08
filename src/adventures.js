@@ -1,3 +1,4 @@
+import {RESIDENT_JOURNEYS} from './resident-journeys.js';
 import {ESCORT_JOURNEYS,escortJourney,validEscortJourney,escortSites,useEscortContext,escortMeal,escortInstruction,tickEscortJourney} from './escort-journeys.js';
 import {WATCH_JOURNEYS,watchJourney,validWatchJourney,watchSites,useWatchContext,watchMeal,watchInstruction,tickWatchJourney} from './watch-journeys.js';
 import {PATROL_JOURNEYS,patrolJourney,validPatrolJourney,patrolSites,usePatrolContext,patrolMeal,patrolInstruction,tickPatrolJourney} from './patrol-journeys.js';
@@ -38,7 +39,8 @@ export const ADVENTURES={
  s23:{id:'sand-search',name:'A meal beneath the sand',description:'Blow a little water across the sand. Discover and eat at two different sites.',steps:['Use E near sand to uncover a meal','Eat at two different uncovered sites'],action:'Blow sand'},
  s19:{id:'changing-colors',name:'Colors of the reef',description:'Become still and blend with sand, then try a mottled reef surface.',steps:['Use E to blend into sand','Blend into mottled reef too'],action:'Blend in'}
 };
-export const DISCOVERIES=Object.values(ADVENTURES).map(a=>a.id);
+export const JOURNEYS={...ADVENTURES,...RESIDENT_JOURNEYS};
+export const DISCOVERIES=Object.values(JOURNEYS).map(a=>a.id);
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export const freshAdventure=()=>({visible:false,stage:0,joined:0,meals:[],patterns:[],home:null,departed:false,complete:false});
 export function adventureInstruction(sim){

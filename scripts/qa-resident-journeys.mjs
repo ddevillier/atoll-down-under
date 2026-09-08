@@ -1,0 +1,8 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';import {Simulation} from '../src/simulation.js';import {RESIDENT_JOURNEYS} from '../src/resident-journeys.js';
+const results=[];
+for(const seed of [2,42,57])for(const id of Object.keys(RESIDENT_JOURNEYS)){
+ const s=new Simulation(seed);s.start('practice',['s60','s62'].includes(id)?'s33':'s32');const reef=s.sections.findIndex(r=>r.entities.some(e=>e.alive&&e.species.id===id));assert.ok(reef>=0);while(s.current!==reef)s.transition(Math.sign(reef%3-s.current%3),Math.sign(Math.floor(reef/3)-Math.floor(s.current/3)));const e=s.section.entities.find(e=>e.alive&&e.species.id===id),count=s.sections.reduce((n,r)=>n+r.entities.length,0);s.observe(e);
+ for(let i=0;i<180*60&&s.phase==='playing'&&!s.residentJourneys[id].complete;i++)s.step(1/60);
+ assert.equal(s.sections.reduce((n,r)=>n+r.entities.length,0),count);results.push({seed,id,complete:s.residentJourneys[id].complete,seconds:s.time,phase:s.phase,journey:s.residentJourneys[id],resident:{alive:e.alive,behavior:e.behavior,satiated:e.satiated,retract:e.retract}});
+}
+const report={scope:'21 observations of generated residents. Existing habitats are selected by transitions; inspection starts each observation, then normal simulation runs. No food, appetite, position or entity replacements.',cases:results.length,completed:results.filter(r=>r.complete).length,results};fs.writeFileSync('artifacts/resident-journeys-generated.json',JSON.stringify(report,null,2));console.log(JSON.stringify({...report,results:results.filter(r=>!r.complete)}));assert.equal(report.completed,report.cases);

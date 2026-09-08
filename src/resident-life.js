@@ -1,3 +1,4 @@
+import {residentMealWitness} from './resident-journeys.js';
 import {FOODS} from './data.js';
 import {BOTTOM_RESIDENTS,groundSpeed,projectToGround,positionOnGround,walkOnGround,validGroundState,attachToNearestGround} from './ground-motion.js';
 import {mouthPoint} from './feeding-contact.js';
@@ -92,7 +93,7 @@ export function residentStep(sim,e,dt,edible){
    const action=e.residentMeal;action.x??=meal.x;action.y??=meal.y;action.food??=meal.food;action.elapsed+=dt;e.activity='feeding';e.behavior='Feeding on '+meal.name;
    if(!action.committed&&action.elapsed>=.22){
     meal.amount-=12;if(meal.amount<=0){meal.amount=100;meal.regrow=meal.food==='detritus'?30:8;}
-    action.committed=true;e.satiated=60;e.actionTime=.65;
+    action.committed=true;residentMealWitness(sim,e,meal);e.satiated=60;e.actionTime=.65;
    }
    if(action.elapsed>=.85)e.residentMeal=null;
    return;

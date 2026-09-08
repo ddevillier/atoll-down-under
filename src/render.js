@@ -1,3 +1,4 @@
+import {watchedResident} from './resident-journeys.js';
 import {escortCover} from './escort-journeys.js';
 import {ArticulatedSprites} from './articulated-motion.js';
 import {PaintedParts,PART_RIGS} from './part-motion.js';
@@ -152,6 +153,7 @@ export class ReefRenderer {
   for(const e of refugeLayers(living.filter(e=>!foregroundCleaner(e)))){
    if(cover===e){this.drawCreature(c,p,t,motionDt,1,playerWidth);playerDrawn=true;}
    this.drawCreature(c,e,t,motionDt,.98);
+   if(watchedResident(sim)===e&&this.hover!==e)this.tag(c,e.x,e.y-35,'Watching · '+e.species.name,1,60);
    if(e.species.ability==='clean'&&!sim.player.cleanTime)this.tag(c,e.x,e.y-30,e.behavior?.startsWith('Cleaning')?'Cleaner · Helping a fish':'Cleaner · Click to visit');
   }
   const buddy=companion(sim);if(buddy){const frame=creatureFrame(buddy);this.tag(c,frame.x,Math.max(30,frame.y-frame.height*.5-24),'Your companion',1,65);}
