@@ -1,0 +1,350 @@
+{
+  "version": 1,
+  "model": "gpt-4o-mini-tts-2025-12-15",
+  "voice": "marin",
+  "instructions": "Read the supplied game instructions exactly, in a warm, calm, conversational voice for a child exploring a reef with a parent. Quiet curiosity, clear words, comfortable natural pauses. Say the E key as the letter E. Do not add greetings, closing remarks, music or sound effects. Do not whisper or act out characters.",
+  "clips": {
+    "s11": {
+      "file": "s11.ogg",
+      "scriptHash": "68b840dc6bd2b8415ab9f4c294d078e90d4af21ce992b92c303db42a2b3df5de",
+      "audioHash": "07aaf7218a4ac003db9d4e02b3c3f7ca0dad0d950cbf0158c9b6966a97ed55de",
+      "duration": 24.2,
+      "text": "Your peach fairy basslet can share a feeding trip. Swim near two other basslets and click a patch of plankton. After your meal, watch for a hungry neighbor taking a bite from that same patch. Then rejoin the group for a few quiet seconds. A fish that is digesting may not join in immediately. Let the school move, follow its path, and try again when there is a good opportunity.",
+      "generatedAt": "2026-09-08T09:25:39.663Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Your peach fairy basslet can share a feeding trip. Swim near two other basslets and click a patch of plankton. After your meal, watch for a hungry neighbor taking a bite from that same patch. Then rejoin the group for a few quiet seconds. A fish that is digesting may not join in immediately. Let the school move, follow its path, and try again when there is a good opportunity.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s0": {
+      "file": "s0.ogg",
+      "scriptHash": "491ab5209e06d4d0432e4fa23777c9ae16e0968c2b7a7f0147d247e7eaa50783",
+      "audioHash": "0ef8ae08391590aec663c5d8eb7e2a8fb2ec9fc3032ee59091b4c51f7742b7d9",
+      "duration": 26.7,
+      "text": "Try a feeding trip with your silver sprat school. Find at least two nearby sprats, then click plankton to take a meal. Give a hungry schoolmate room to feed at that patch too. Afterwards, swim back beside the group and stay together for a moment. Your neighbors have their own appetite. If nobody is hungry, follow the school and try another patch later. You can keep exploring after the discovery appears in your journal.",
+      "generatedAt": "2026-09-08T09:25:38.437Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a feeding trip with your silver sprat school. Find at least two nearby sprats, then click plankton to take a meal. Give a hungry schoolmate room to feed at that patch too. Afterwards, swim back beside the group and stay together for a moment. Your neighbors have their own appetite. If nobody is hungry, follow the school and try another patch later. You can keep exploring after the discovery appears in your journal.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s58": {
+      "file": "s58.ogg",
+      "scriptHash": "034415ac47e27cb669c35d18d4770a6e7dea781aa19ba8af8ee1b711632a4859",
+      "audioHash": "494863ffc704ce00eaf8be8d847db7cd6094a61291ac98e206019a5a7f9985b7",
+      "duration": 25.5,
+      "text": "As a purple anthias, try feeding near your companions. With at least two other anthias nearby, click plankton and take a meal. A hungry neighbor may notice the same patch. Watch it feed, then swim back alongside the group. Stay together briefly to finish your shared trip. Your neighbors keep their own routines, so there is no need to hurry. If the group moves away, follow it to another feeding place.",
+      "generatedAt": "2026-09-08T09:27:43.172Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "As a purple anthias, try feeding near your companions. With at least two other anthias nearby, click plankton and take a meal. A hungry neighbor may notice the same patch. Watch it feed, then swim back alongside the group. Stay together briefly to finish your shared trip. Your neighbors keep their own routines, so there is no need to hurry. If the group moves away, follow it to another feeding place.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s16": {
+      "file": "s16.ogg",
+      "scriptHash": "3d6fddf7708143034e23eaba150bd2aa7a21dd301494ad6bcfe87c0ea5be2f2d",
+      "audioHash": "4c531102ea14a7dc04feee453385e956201dc8c6c23e4f15bbb986d2395b7857",
+      "duration": 25.3,
+      "text": "Try a quiet ambush as a coral grouper. Swim close to a marked ledge and press the E key. Settle for two seconds, then move the mouse to aim without leaving your position. When a suitable small fish comes close, click it for a short strike. You still need to reach your meal. If it escapes, choose a position and settle again. Press E, or click open water, whenever you want to leave.",
+      "generatedAt": "2026-09-08T09:25:44.861Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a quiet ambush as a coral grouper. Swim close to a marked ledge and press the E key. Settle for two seconds, then move the mouse to aim without leaving your position. When a suitable small fish comes close, click it for a short strike. You still need to reach your meal. If it escapes, choose a position and settle again. Press E or click open water whenever you want to leave.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s21": {
+      "file": "s21.ogg",
+      "scriptHash": "f85eb4ff610f155c585a6311136ede589550d4dfc4ee8834e10f2a114db8d6de",
+      "audioHash": "2cc41255450e747022048d2d5f0e5de977745b8455ed4c404cbee437792fa253",
+      "duration": 26.8,
+      "text": "Your scorpionfish can wait beside the bottom for a meal. Approach a marked ambush spot and press the E key. Become still for two seconds. Now the mouse changes where you aim instead of making you swim away. Let a suitable small fish come close, then click it to strike. A missed strike is another chance to choose your position. To stop waiting, press E again or click an empty part of the water.",
+      "generatedAt": "2026-09-08T09:25:50.860Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Your scorpionfish can wait beside the bottom for a meal. Approach a marked ambush spot and press the E key. Become still for two seconds. Now the mouse changes where you aim instead of making you swim away. Let a suitable small fish come close, then click it to strike. A missed strike is another chance to choose your position. To stop waiting, press E again or click an empty part of the water.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s54": {
+      "file": "s54.ogg",
+      "scriptHash": "2efc55b38e6505c8040c3f1823660885df232dae797838ce1387fbca72228bba",
+      "audioHash": "60e7198756c2972f5262ce124b6e74c2784b010486657f40a75d8fbed342757e",
+      "duration": 25.5,
+      "text": "Try waiting for a meal as a painted frogfish. Swim close to a marked bottom spot and press the E key. After you settle, watch your lure wave during quiet waiting moments. Aim with the mouse. When a suitable small fish comes within reach, click it for a short strike. The lure does not guarantee a visitor, so patience and position matter. You can leave at any time by pressing E or clicking open water.",
+      "generatedAt": "2026-09-08T09:25:52.665Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try waiting for a meal as a painted frogfish. Swim close to a marked bottom spot and press the E key. After you settle, watch your lure wave during quiet waiting moments. Aim with the mouse. When a suitable small fish comes within reach, click it for a short strike. The lure does not guarantee a visitor, so patience and position matter. You can leave at any time by pressing E or clicking open water.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s59": {
+      "file": "s59.ogg",
+      "scriptHash": "f2b7844354ba4d4001df17a56c8a44a8c9d17c4212433495b52a2e66664bba56",
+      "audioHash": "275a65baf9f2101385cb03b362de16377c740e876c2225126a1fe7391944e24d",
+      "duration": 24.6,
+      "text": "As a longsnout flathead, try a meal from an ambush position. Move close to a marked bottom spot and press the E key. After two seconds of stillness, use the mouse to aim at a suitable small fish nearby. Click to make a short strike. Reach the fish before the strike ends to take your meal. If it gets away, settle and try again. Press E or click open water to resume ordinary swimming.",
+      "generatedAt": "2026-09-08T09:25:56.008Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "As a long snout flathead, try a meal from an ambush position. Move close to a marked bottom spot and press the E key. After two seconds of stillness, use the mouse to aim at a suitable small fish nearby. Click to make a short strike. Reach the fish before the strike ends to take your meal. If it gets away, settle and try again. Press E or click open water to resume ordinary swimming.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 25
+      },
+      "transcriptMatches": true
+    },
+    "s5": {
+      "file": "s5.ogg",
+      "scriptHash": "ea0fa6d8e5acba22e9e1478597e4ffdc3c1253938f49b61020e66e1177628eb8",
+      "audioHash": "ebd519d606030365914763f9646a422316154c2ae2f7d67671688412a33cb3db",
+      "duration": 25.3,
+      "text": "Make a little grazing route with your surgeonfish. Click algae for your first meal, then swim to another plant patch and feed there. The first patch is now marked, so you can find it again. Give it time to recover, return close to it, and let your fish become still. Watch for the new growth. Other grazers may take bites too, so each visit can be different. This is a gentle circuit, not a race.",
+      "generatedAt": "2026-09-08T09:27:41.641Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Make a little grazing route with your surgeonfish. Click algae for your first meal. Then swim to another plant patch and feed there. The first patch is now marked, so you can find it again. Give it time to recover, return close to it, and let your fish become still. Watch for the new growth. Other grazers may take bites too, so each visit can be different. This is a gentle circuit, not a race.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 26
+      },
+      "transcriptMatches": true
+    },
+    "s15": {
+      "file": "s15.ogg",
+      "scriptHash": "2dff79dc705b1b57410965f1d88fe34159916e4f2e7daa1965b222c068a69aa2",
+      "audioHash": "6d9df92200a7594a8cbf473db92aaa5290989b1ea4e794bea4d6480affcbd7fd",
+      "duration": 27.7,
+      "text": "Try a grazing circuit as a parrotfish. Begin with a bite of algae, then find a different plant patch for your next meal. Your first patch will stay marked. Explore while it recovers, then return and become still nearby to see its new growth. If another fish has grazed there, the patch may need more time. Moving between feeding places gives you something to revisit, even after your discovery is saved in the journal.",
+      "generatedAt": "2026-09-08T09:26:00.337Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try a grazing circuit as a parrotfish. Begin with a bite of algae, then find a different plant patch for your next meal. Your first patch will stay marked. Explore while it recovers, then return and become still nearby to see its new growth. If another fish has grazed there, the patch may need more time. Moving between feeding places gives you something to revisit, even after your discovery is saved in the journal.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 28
+      },
+      "transcriptMatches": true
+    },
+    "s8": {
+      "file": "s8.ogg",
+      "scriptHash": "78fddc770ce31bbe3842eb5e78d7c6240dc4cbb1eea681b28d4bc26c52303a32",
+      "audioHash": "a16eb985e767c144aea74ed194673e469f9dbe87b0e33babaa5b726cc77e4522",
+      "duration": 27.3,
+      "text": "Look for a fish of your own species and press the E key nearby to invite a companion. Take a meal by clicking suitable food, and give your partner time to eat as well. Then swim close together and settle into a calm reunion. Your companion may need to digest, visit a cleaner, or move away from danger first. The label helps you follow the right fish. Press E again if you want to leave the partnership and explore on your own.",
+      "generatedAt": "2026-09-08T09:29:07.338Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Look for a fish of your own species, and press the E key nearby to invite a companion. Take a meal by clicking suitable food, and give your partner time to eat as well. Then swim close together and settle into a calm reunion. Your companion may need to digest, visit a cleaner, or move away from danger first. The label helps you follow the right fish. Press E again if you want to leave the partnership and explore on your own.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 28
+      },
+      "transcriptMatches": true
+    },
+    "s48": {
+      "file": "s48.ogg",
+      "scriptHash": "f2891aac234ae59c73e7e32cba3ae35761ae14f03cae37c958dbf8c8034cc729",
+      "audioHash": "a25ad7e518b941c3cdc2e6e892bf7fa50e1b83672082ffc39b70b09ed475f901",
+      "duration": 27.6,
+      "text": "Try browsing with another orange-spotted filefish. Find a free companion of your species and press the E key nearby. Take a suitable meal, watch your companion eat, then come back together for a few quiet seconds. Your partner has its own appetite and may pause or visit a cleaner. Follow its label, leave room to browse, and meet again when it is ready. If you want to continue alone, press E to end the invitation.",
+      "generatedAt": "2026-09-08T09:27:52.257Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Try browsing with another orange-spotted filefish. Find a free companion of your species and press the E key nearby. Take a suitable meal, watch your companion eat, then come back together for a few quiet seconds. Your partner has its own appetite and may pause or visit a cleaner. Follow its label, leave room to browse, and meet again when it is ready. If you want to continue alone, press E to end the invitation.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 28
+      },
+      "transcriptMatches": true
+    },
+    "s52": {
+      "file": "s52.ogg",
+      "scriptHash": "4ce36a3e19fa766fd1ae77551f878a927010447dd4d8e01a82a994dadc75826b",
+      "audioHash": "e7d956fac55179d5e6c0420b4c3818308ab5d6fe89f88ed41bb84880733250f4",
+      "duration": 28,
+      "text": "Your pencilled rabbitfish can make a shared feeding trip. Press the E key near another free rabbitfish of your species to invite it along. Both of you need to take a suitable meal, then meet again and stay close briefly. Watch your companion rather than rushing ahead. It may digest, seek cleaning, or respond to danger. If there is no partner here, the map can help you explore another habitat. Press E again to leave your companion.",
+      "generatedAt": "2026-09-08T09:26:08.019Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Your penciled rabbitfish can make a shared feeding trip. Press the E key near another free rabbitfish of your species to invite it along. Both of you need to take a suitable meal, then meet again and stay close briefly. Watch your companion rather than rushing ahead. It may digest, seek cleaning, or respond to danger. If there is no partner here, the map can help you explore another habitat. Press E again to leave your companion.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 28
+      },
+      "transcriptMatches": false
+    },
+    "s9": {
+      "file": "s9.ogg",
+      "scriptHash": "b37651916b1c591b0d841a66859e959215fa7686d2af25e2f70c4b5830399bc4",
+      "audioHash": "ed75f1702410766c53065b333fd2eb5cb2a35877b5071375091ab5fa0ffaed0b",
+      "duration": 26.9,
+      "text": "Search the sand as a yellow goatfish. Move near a sand-search marker and press the E key. Your barbels inspect the spot while you stay close. Click the uncovered meal to eat it. Next, inspect a different spot and leave that discovery for a nearby hungry forager. Watch the neighbor actually take a bite. A quiet patch may have no interested visitor yet. Try another opportunity. Moving the mouse or pressing E stops an inspection.",
+      "generatedAt": "2026-09-08T09:26:11.090Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Search the sand as a yellow goatfish. Move near a sand search marker and press the E key. Your barbels inspect the spot while you stay close. Click the uncovered meal to eat it. Next, inspect a different spot and leave that discovery for a nearby hungry forager. Watch the neighbor actually take a bite. A quiet patch may have no interested visitor yet. Try another opportunity. Moving the mouse or pressing E stops an inspection.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 27
+      },
+      "transcriptMatches": true
+    },
+    "s43": {
+      "file": "s43.ogg",
+      "scriptHash": "789dee8bf7e739dada811bfe376cf139cd0f88deb80c23d2c249439d6dc5be74",
+      "audioHash": "5eb0a4bc9eff30ae31d8d7a3745222933e180db2c674d8fa2068bd53b2ad6413",
+      "duration": 28.9,
+      "text": "Become a reef helper as a cleaner wrasse. Click a fish that needs cleaning, or press the E key to look for a client. Swim into position and watch your inspection move along its body. Removing parasites helps the client and provides your nourishment. Cleaning does not repair bite wounds or poison. Try helping three different kinds of fish. If a client is busy or already being cleaned, find another. Move the mouse away whenever you want to stop.",
+      "generatedAt": "2026-09-08T09:24:42.385Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Become a Reef Helper as a cleaner wrasse. Click a fish that needs cleaning, or press the E key to look for a client. Swim into position and watch your inspection move along its body. Removing parasites helps the client and provides your nourishment. Cleaning does not repair bite wounds or poison. Try helping three different kinds of fish. If a client is busy or already being cleaned, find another. Move the mouse away whenever you want to stop.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 29
+      },
+      "transcriptMatches": true
+    },
+    "s45": {
+      "file": "s45.ogg",
+      "scriptHash": "ffc4d0d50afce764a5709ba99a8397bc1daa2de68999e180f46793a8b7825251",
+      "audioHash": "161f2fe1f54a77ffb0f240911ab632798c2ac91d7154faf3d0e75b512294406c",
+      "duration": 28,
+      "text": "Help nighttime visitors as a banded coral shrimp. Click a fish that needs cleaning, or press the E key to find a client. Approach and use your claws to remove parasites as you inspect its body. This work feeds you while helping the other fish. Bite wounds and poison cannot be cleaned away. Visit three different kinds of client for your discovery. Some visitors need time or are already busy. Move away to end a visit and explore again.",
+      "generatedAt": "2026-09-08T09:26:12.894Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Help nighttime visitors as a banded coral shrimp. Click a fish that needs cleaning or press the E key to find a client. Approach and use your claws to remove parasites as you inspect its body. This work feeds you while helping the other fish. Bite wounds and poison cannot be cleaned away. Visit three different kinds of client for your discovery. Some visitors need time or are already busy. Move away to end a visit and explore again.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 28
+      },
+      "transcriptMatches": true
+    },
+    "s42": {
+      "file": "s42.ogg",
+      "scriptHash": "f33144a86763599c6c739971b99133897efd0e384b1866a7386676734652d207",
+      "audioHash": "4e12fdfc48ece61e892ae4e439e07086fabb8e1b7ccbefa8ae94b1e3f3c33ee4",
+      "duration": 29.3,
+      "text": "Find a place in the school as a yellowtail fusilier. Swim beside three schooling companions and stay with their moving group until your feeding trip begins. Then click a suitable meal and make a short excursion. Afterwards, find the school again and swim alongside it for a few seconds. The activity card shows your progress. You may also notice hungry neighbors feeding where you took plankton. Keep following the fish, rather than waiting at a place they have already left.",
+      "generatedAt": "2026-09-08T09:26:16.702Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Find a place in the school as a yellowtail fusilier. Swim beside three schooling companions and stay with their moving group until your feeding trip begins. Then click a suitable meal and make a short excursion. Afterwards, find the school again and swim alongside it for a few seconds. The activity card shows your progress. You may also notice hungry neighbors feeding where you took plankton. Keep following the fish rather than waiting at a place they have already left.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 30
+      },
+      "transcriptMatches": true
+    },
+    "s2": {
+      "file": "s2.ogg",
+      "scriptHash": "54b517cd505fc49d66d3d4eec041590bbe7d99e8cac9a7b4f5b6215fd00798f8",
+      "audioHash": "d2d5521b588e5650d1eff84f59cb70612a32627624f76cf5ef2683dd4d4c28b2",
+      "duration": 27.6,
+      "text": "Choose a familiar home as an orange coral goby. Swim close to a marked coral refuge and press the E key. Let your fish settle there. Then leave your home for a short feeding trip and click a suitable meal nearby. Return to the same refuge and become still again. Your discovery celebrates the whole journey: a home, a meal, and a return. You can continue exploring at your own pace once it is recorded in the journal.",
+      "generatedAt": "2026-09-08T09:26:18.699Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Choose a familiar home as an orange coral goby. Swim close to a marked coral refuge and press the E key. Let your fish settle there. Then leave your home for a short feeding trip and click a suitable meal nearby. Return to the same refuge and become still again. Your discovery celebrates the whole journey, a home, a meal, and a return. You can continue exploring at your own pace once it is recorded in the journal.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 28
+      },
+      "transcriptMatches": true
+    },
+    "s23": {
+      "file": "s23.ogg",
+      "scriptHash": "8059e13b276aa512aba31df453eddf831a5e1f2f9f22259ddce3eb654c1171e2",
+      "audioHash": "2b38d49fd43427e7351c5c7d046883ade2856e3136aab05e3770ada349cd7b47",
+      "duration": 28.1,
+      "text": "Look beneath the sand as a longhorn cowfish. Swim near a sand-search marker and press the E key to blow water over the spot. An existing hidden meal becomes available for a short time. Click it to approach and eat. Then find a different sand-search spot and repeat the discovery. Nearby hungry foragers may notice uncovered food as well. Your task is to uncover and eat at two different sites, with time to explore between them.",
+      "generatedAt": "2026-09-08T09:26:22.227Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Look beneath the sand as a longhorn cowfish. Swim near a sand search marker and press the E key to blow water over the spot. An existing hidden meal becomes available for a short time. Click it to approach and eat. Then find a different sand search spot and repeat the discovery. Nearby hungry foragers may notice uncovered food as well. Your task is to uncover and eat at two different sites with time to explore between them.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 29
+      },
+      "transcriptMatches": true
+    },
+    "s19": {
+      "file": "s19.ogg",
+      "scriptHash": "6b220aa1fd0ad2f38b850c069822caccfd132a7b3387d12132c8d0e4b40e593c",
+      "audioHash": "f0edb519ebebb6e33a64417f0fbc9f40fbbf39824143415e868fd4a4821e3077",
+      "duration": 30.5,
+      "text": "Explore changing patterns as a cuttlefish. Move near a marked sandy background and press the E key. Become still for two seconds and watch your pattern blend with the sand. Then move away and try the marked mottled reef surface too. Staying still lets you see the change; swimming reveals your usual pattern again. You can press E to stop blending. Trying both backgrounds records a discovery in your journal, and you can keep experimenting afterwards.",
+      "generatedAt": "2026-09-08T09:26:24.097Z",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "voice": "marin",
+      "humanReviewed": false,
+      "transcription": "Explore changing patterns as a cuttlefish. Move near a marked sandy background and press the E key. Become still for 2 seconds and watch your pattern blend with the sand. Then move away and try the marked mottled reef surface too. Staying still lets you see the change. Swimming reveals your usual pattern again. You can press E to stop blending. Trying both backgrounds records a discovery in your journal, and you can keep experimenting afterwards.",
+      "transcriptionModel": "whisper-1",
+      "transcriptionUsage": {
+        "type": "duration",
+        "seconds": 31
+      },
+      "transcriptMatches": false
+    }
+  }
+}
