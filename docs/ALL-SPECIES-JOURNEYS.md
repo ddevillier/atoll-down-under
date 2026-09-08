@@ -1,0 +1,44 @@
+# Journeys across the roster
+
+Active user goal, September 8: continue species journey development until everyone has a meaningful journey. The previous 19-journey build and all earlier ZIPs remain preserved. This front is not complete until its full roster coverage and delivery checks are demonstrated.
+
+## Required result
+
+1. Cover every one of the 57 current Practice species. Preserve the existing 19 journeys and their saved discovery identities. Resolve the seven non-playable residents as observation journeys or direct playable lives; the user has been asked that consequential question while fish development continues.
+2. Give each journey a coherent goal, consequential action, readable feedback and observable outcome. Reuse mechanics by behavior family, but do not count renamed generic meal counters as species differentiation. Use actual food, existing animals, home locations, activity states and anatomical feeding contact. Do not spawn rewards, prey or companions to manufacture success.
+3. Integrate progress into normal free exploration, optional journey cards and persistent journal discoveries. Provide clear location/opportunity guidance, safe interruption, repeatable activity after recognition and a way to restart a local relationship or home when conditions change.
+4. Preserve save compatibility, validate all added state, freeze while paused, and handle travel, death, creature respawn, lost hosts, occupied partners and unavailable food. Keep populations bounded and predator pressure gentle. No required timer race or mandatory combat escalation.
+5. Finish readable instructions and optional spoken guidance for all new journeys using the authorized phonics TTS checkpoint. Keep the existing audio, volume, stop behavior and offline packaging. Document authored abstractions; no new original-game research is needed.
+6. Prove complete paths through ordinary controls and generated reefs. Cover all species in simulation acceptance, meaningful negative/lifecycle cases, representative real browser controls for every family, both display sizes, journal/save import, native audio and Windows packaging. Preserve previous ZIPs and deliver one combined verified build.
+
+## Design map
+
+The seven residents are yellow seahorse, reef crab, red sea star, nudibranch, spiral snail, needle-spined urchin and sea anemone. They are not seven additional swimming fish; their journey design must respect their existing attached or bottom-supported routines.
+
+The following is the implementation map for the 38 uncovered playable species. These are targets, not completion claims.
+
+| Work front | Species | Decisions and feedback to develop |
+|---|---|---|
+| Home and feeding excursions | Neon damselfish, royal gramma, anemonefish, squirrelfish, Banggai cardinalfish, whitemouth moray, humbug damselfish, whitetip reef shark | Choose actual cover or a living host; make the species' suitable feeding excursion; return to the same place. Living-host identity, cave rest, branching-coral refuge and hovering feeding differ in what counts and how the fish settles. |
+| Choosing feeding grounds | Moorish idol, longnose butterflyfish, sixbar wrasse, oriental sweetlip, spotted pufferfish, clown triggerfish, regal angelfish, blue-spotted stingray, humphead wrasse, yellowspot emperor | Match real mouth/diet and substrate opportunities: crevice picking, sponge browsing, hard prey and bottom searches. Compare feeding choices at actual patches and organisms, with species-specific prerequisites and visual actions. |
+| Patrol and pursuit | Blackfin barracuda, crocodile needlefish, rainbow runner, blacktip reef shark, great white shark, tiger shark, coral trout, doublelined mackerel, silver trevally | Plan routes appropriate to surface, open water or reef edge; identify and reach a suitable meal; recover or rejoin. Speed use, chosen water layer, social return and dietary breadth should change the decision. |
+| Watch and approach | Lionfish, whitespot hawkfish, wobbegong, electric ray, giant grouper, golden snapper, checkerboard hawkfish | Choose useful cover, watch actual passing animals, and approach a real meal. Perches, bottom positions, deliberate stalking and post-meal refuge should produce different movement and feedback. |
+| Group browsing | Longfin batfish, longfin bannerfish | Forage within a loose group without turning it into a dense school; leave room for neighbors and return after a real meal. Their diets and feeding locations differ. |
+| Moving cover | Trumpetfish | Choose a compatible real host, follow its movement and use a feeding opportunity without trapping the host or overriding its needs. |
+| Light and school | Flashlight fish | Use the existing light behavior and night companions in a purposeful excursion and reunion, with clear light-state feedback. |
+
+Current evidence lives beside each implemented family and in the eventual build receipt. A catalog row alone does not complete a journey. Final review must reconcile all 64 catalog species and explicitly state the resident outcome.
+
+## Home-family implementation checkpoint
+
+Eight home/feeding journeys are now implemented, bringing source coverage to **27 of 57 Practice species**. This is a work checkpoint, not a completed roster or packaged release. The remaining 30 playable species and seven residents remain in scope. Observation journeys are the stated default for residents while the optional user question remains open.
+
+The new home choices use real refuge locations; anemonefish select a living anemone and track its identity and incarnation. A home must be reached and settled before departure. Feeding in place does not count as an excursion. Neon damselfish take algae then plankton; squirrelfish take shrimp then crab; the other journeys use their selected prey/diet and appropriate refuge/rest requirements. After feeding, the player returns to the same home and settles. Large cave-resting animals are not granted small-fish shelter immunity. Travel preserves the original location and supplies return guidance. A lost or replaced host cannot complete the relationship. E can choose a new home or restart a completed local trip while preserving the earned discovery.
+
+- `artifacts/home-journeys-generated-final.log`: all 24 generated trips pass (eight species × seeds 2/42/57), with ordinary steering, E and mouse-equivalent meals. No NPC, food, appetite or position replacements; generated population counts remain fixed.
+- `artifacts/journeys-home-unit-final.log`: all **319 unit checks** pass. New cases cover wrong food/order, feeding without departing, return/settle requirements, duplicate recognition, repeat trips, host death/incarnation, travel guidance, portable pause/replay and malformed state.
+- `artifacts/home-journeys-browser-final.log`: three actual mouse/E journeys pass: mixed-feeding damselfish at 1600×900, living-host anemonefish and cave-resting whitetip shark at 1024×768. They verify journal completion, population preservation and changing progress text. Final screenshots were inspected at both sizes.
+
+The first browser run exposed a gap in coverage: the journey completed, but its card still used generic definition steps. The final run explicitly checks feeding-return instructions and the invitation to repeat a trip. That defect is corrected. Spoken guidance for these eight journeys is still pending until their scripts join the broader narration batch. Existing 19 activity recordings and the verified Spoken Activities Windows ZIP are unchanged.
+
+Next fronts: feeding specialists and patrol/pursuit journeys, then watch/approach, loose-group browsing, trumpetfish moving cover, flashlight-fish night behavior and resident observation journeys. Finish their complete-path/lifecycle checks, spoken guidance and combined Windows delivery before closing the goal.
