@@ -28,7 +28,7 @@ export function approachCleaning(fish,dest,dt,speed){
 export function planCleaning(cleaner,player,entities,width,height){
  if(!cleaner?.alive)return null;
  const station=cleaner.station||cleaner,dock={x:station.x+35,y:station.y};
- const clients=entities.filter(e=>e!==cleaner&&e.alive&&e.species.parasites&&e.species.speed>0&&!e.holdfast&&e.health<65);
+ const clients=entities.filter(e=>e!==cleaner&&e.id!==player.service?.client&&e.alive&&e.species.parasites&&e.species.speed>0&&!e.holdfast&&e.health<65);
  const active=clients.find(e=>e.target===cleaner.id&&e.cleanTime>0);
  const playerNeedsHelp=player.species.parasites&&100-player.health-(player.poisonDamage||0)-(player.biteDamage||0)>1;
  const playerVisiting=player.cleanerTarget===cleaner.id||player.cleanTime>0||

@@ -9,6 +9,7 @@ import {lureDisplay} from './lure-motion.js';
 import {TitleReef} from './title-reef.js';
 import {REEFS,SPECIES,FOODS} from './data.js';
 import {sitesFor,selectedSite,ADVENTURES} from './adventures.js';
+import {companion} from './companion-activity.js';
 import {animationPhase} from './behaviors.js';
 import {poseFor} from './motion.js';
 import {creatureWidth,creatureFrame,groundPitch} from './geometry.js';
@@ -144,7 +145,7 @@ export class ReefRenderer {
   if(this.poses){const live=new Set([sim.player.id,...sim.section.entities.filter(e=>e.alive).map(e=>e.id)]);for(const id of this.poses.keys())if(!live.has(id))this.poses.delete(id);}
   const motionDt=sim.paused||sim.phase!=='playing'?0:dt;
   c.save();c.translate(0,TOP);
-  const buried=sim.player.species.id==='s23'?new Set(sitesFor(sim).filter(s=>!(s.food.uncovered>0)).map(s=>s.id)):new Set();
+  const buried=['s9','s23'].includes(sim.player.species.id)?new Set(sitesFor(sim).filter(s=>!(s.food.uncovered>0)).map(s=>s.id)):new Set();
   for(const f of sim.section.food){if(f.regrow>0)continue;if(buried.has(f.id)){c.fillStyle='#b8a47e';c.globalAlpha=.6;c.beginPath();c.ellipse(f.x,f.y,22,5,0,0,Math.PI*2);c.fill();c.globalAlpha=1;continue;}this.drawFood(c,f,t);}
   const living=sim.section.entities.filter(e=>e.alive),workingCleaners=living.filter(foregroundCleaner);
   for(const e of refugeLayers(living.filter(e=>!foregroundCleaner(e)))){
@@ -152,9 +153,10 @@ export class ReefRenderer {
    if(e.species.ability==='clean'&&!sim.player.cleanTime)this.tag(c,e.x,e.y-30,e.behavior?.startsWith('Cleaning')?'Cleaner · Helping a fish':'Cleaner · Click to visit');
   }
   const p=sim.player,playerWidth=creatureWidth(p.species);
+  const buddy=companion(sim);if(buddy){const frame=creatureFrame(buddy);this.tag(c,frame.x,Math.max(30,frame.y-frame.height*.5-24),'Your companion',1,65);}
   this.drawCreature(c,p,t,motionDt,p.hidden?(p.blending?.65:.25):1,playerWidth);
   for(const e of workingCleaners){this.drawCreature(c,e,t,motionDt,.98);if(!p.cleanTime)this.tag(c,e.x,e.y-30,'Cleaner · Helping a fish');}
-  if(ADVENTURES[p.species.id]&&!this.inspect){const chosen=selectedSite(sim);for(const site of sitesFor(sim)){if(Math.hypot(site.x-p.x,site.y-p.y)>240&&site.id!==chosen?.id)continue;if(Math.hypot(site.x-p.x,site.y-p.y)>420)continue;c.save();c.strokeStyle='#e5d6a4';c.globalAlpha=.65;c.lineWidth=1.5;c.setLineDash([4,7]);c.beginPath();c.ellipse(site.x,site.y,30,15,0,0,Math.PI*2);c.stroke();c.restore();if(site.id===chosen?.id)this.tag(c,site.x,site.y-28,site.name+' · E');}}
+  if(ADVENTURES[p.species.id]&&(!this.inspect||sim.adventure?.grazing)){const chosen=selectedSite(sim);for(const site of sitesFor(sim)){if(Math.hypot(site.x-p.x,site.y-p.y)>240&&site.id!==chosen?.id)continue;if(Math.hypot(site.x-p.x,site.y-p.y)>420)continue;c.save();c.strokeStyle='#e5d6a4';c.globalAlpha=.65;c.lineWidth=1.5;c.setLineDash([4,7]);c.beginPath();c.ellipse(site.x,site.y,30,15,0,0,Math.PI*2);c.stroke();c.restore();if(site.id===chosen?.id)this.tag(c,site.x,site.y-28,site.name+(ADVENTURES[p.species.id].action?' · E':''));}}
   if(sim.adventure?.home?.reef===sim.current){const h=sim.adventure.home;c.save();c.strokeStyle='#c5e8c6';c.lineWidth=2;c.beginPath();c.arc(h.x,h.y,35,0,Math.PI*2);c.stroke();c.restore();}
   this.playerMarker=playerLocator(this.poses.get(p.id)?.frame||creatureFrame(p),this.uiUnit);
   if(p.abilityTime>0){const a=p.species.ability;c.save();c.globalAlpha=.22;c.fillStyle=['ink','poison'].includes(a)?'#112f3d':'#caedcf';c.strokeStyle='#e0f6b9';c.lineWidth=2;if(['ink','poison'].includes(a)){c.beginPath();c.ellipse(p.x-p.facing*35,p.y,90,48,Math.sin(t)*.2,0,Math.PI*2);c.fill();}else if(a!=='camouflage'){c.beginPath();c.arc(p.x,p.y,p.species.size*.7+12+Math.sin(t*5)*5,0,Math.PI*2);c.stroke();}c.restore();}
@@ -182,6 +184,7 @@ export class ReefRenderer {
   for(const e of this.effects){if(!sim.paused)e.t+=dt;if(e.type==='sand'){c.save();c.globalAlpha=Math.max(0,.6-e.t*.4);c.fillStyle='#e5d4a7';for(let i=0;i<14;i++){const age=this.reducedMotion?0:e.t;c.beginPath();c.arc(e.x+Math.sin(i*2.4)*(12+age*40),e.y-Math.cos(i*1.7)*8-age*18,1.5+i%3,0,Math.PI*2);c.fill();}c.restore();}else if(e.type==='eat'){this.tag(c,e.x,e.y-28-(this.reducedMotion?0:e.t*20),e.label||'Meal taken',Math.min(1,(2.2-e.t)/1.2));}else if(e.type==='hurt'){c.fillStyle=`rgba(209,70,47,${Math.max(0,.13-e.t*.3)})`;c.fillRect(0,-TOP,1600,900);}else{c.strokeStyle=`rgba(234,246,221,${Math.max(0,.5-e.t*.5)})`;c.lineWidth=2;c.beginPath();c.arc(e.x,e.y,12+e.t*60,0,Math.PI*2);c.stroke();}}
   this.effects=this.effects.filter(e=>e.t<(e.type==='eat'?2.2:1.4));
   const interacting=new Set(living.filter(e=>e.activity==='shadowing'||e.activity==='probing'||e.activity==='investigating-lure'||lureDisplay(e)>.1||e.activity==='at-home'&&e.ecology?.watch||e.cleanTime>0||foregroundCleaner(e)));
+  if(buddy)interacting.add(buddy);
   // Inspection should reveal the fish and its nearby companions, including
   // a partner waiting above a meal where the hover label used to cover it.
   const focus=living.find(e=>e===this.hover);

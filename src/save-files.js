@@ -1,4 +1,6 @@
 import {validCare} from './journal.js';
+import {validSandSource} from './sand-search.js';
+import {validPatchRest} from './grazing-activity.js';
 import {Simulation} from './simulation.js';
 import {BY_ID,FOODS,ABILITIES} from './data.js';
 import {validGroundState} from './ground-motion.js';
@@ -83,6 +85,8 @@ export function importDive(text){
   for(const food of section.food){
    numbers(food,['x','y','size','amount','regrow','phase']);
    if(food.uncovered!==undefined&&(!finite(food.uncovered)||food.uncovered<0))fail();
+   if(!validSandSource(food.sandSource))fail();
+   if(!validPatchRest(food.patchRest))fail();
    if(food.kind!=='food'||!own(FOODS,food.food)||typeof food.id!=='string')fail();
   }
  }

@@ -1,7 +1,8 @@
 import {DISCOVERIES} from './adventures.js';
-import {PLAYABLE} from './data.js';
-const speciesIds=new Set(PLAYABLE.map(s=>s.id));
+import {PRACTICE_SPECIES} from './data.js';
+const speciesIds=new Set(PRACTICE_SPECIES.map(s=>s.id));
 export const BADGES=[
+ ['helper','A Helping Fin','Remove 10 parasite damage while helping another fish.'],
  ['meal','First Good Meal','Restore 10 energy with one suitable meal.'],
  ['clean','Fresh Again','Remove 10 parasite damage in a completed cleaner visit.'],
  ['shelter','Safe Harbour','Stay hidden in a suitable shelter for five seconds.'],
@@ -16,7 +17,7 @@ export const BADGES=[
  ['school','School Guest','Spend ten seconds beside three schooling companions.',null,true]
 ].map(([id,name,description,reward,secret])=>({id,name,description,reward,secret:!!secret}));
 export const freshJournal=()=>({version:1,played:[],cared:[],habitats:[],activities:[],discoveries:[],earned:{}});
-const activityIds=new Set(['meal','clean','shelter','night','neighbor','school']);
+const activityIds=new Set(['helper','meal','clean','shelter','night','neighbor','school']);
 export function validateJournal(value){
  const fail=()=>{throw new Error('This is not a valid Atoll family journal.');};
  if(!value||value.version!==1||!value.earned||typeof value.earned!=='object'||Array.isArray(value.earned))fail();
@@ -73,6 +74,7 @@ export function tickCare(sim,dt,sheltered){
 }
 export function careHint(p,previous=''){
  const parasites=Math.max(0,100-p.health-(p.biteDamage||0)-(p.poisonDamage||0));
+ if(p.species?.ability==='clean'&&p.energy<(previous==='food'?70:60))return {kind:'food',text:'Helping fish nourishes you · Click a client or press E'};
  if(p.energy<(previous==='food'?70:60))return {kind:'food',text:'A meal would help · Check your diet or press H for food hints'};
  if(parasites>=(previous==='clean'?3:10))return {kind:'clean',text:'Time for a cleaner · Click the partner or press C'};
  if((p.biteDamage||p.poisonDamage)&&p.energy>=50)return {kind:'rest',text:'Fed and recovering · Food and time help with injury and poison'};
