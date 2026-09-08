@@ -6,9 +6,9 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
-The current testing build is `dist/Atoll-Down-Under-Windows-Living-Reef-2026-09-07.zip`. It adds the full-roster animation and local ecology uplift, with cuttlefish animation preserved. Extract it completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape still pauses for inspection. See [the testing guide](docs/TESTING.md).
+The gameplay testing candidate is `dist/Atoll-Down-Under-Windows-Species-Life-2026-09-07.zip`. It adds playable cleaner care, grazing routes, companion trips, shared school feeding and ambush hunting to the full-roster animation and local ecology uplift. Cuttlefish animation is preserved. Extract it completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape still pauses for inspection. See [the testing guide](docs/TESTING.md).
 
-The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations, consistent poison score penalties, the complete Tournament preview and named portable saves. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-ROSTER-UPLIFT-BUILD.md).
+The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations, consistent poison score penalties, the complete Tournament preview and named portable saves. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-SPECIES-LIFE-BUILD.md).
 
 See [named, portable dive files](docs/PORTABLE-SAVES.md) for backup and import instructions. Earlier testing ZIPs remain available.
 
@@ -23,12 +23,12 @@ For a local browser development preview: `npm run dev`, then open http://127.0.0
 
 The living title now responds to your mouse and plays the peaceful Blue Passage arrangement. Open File → Family journal, or find it in the field guide, for shared badges, species care stamps and journal backup/restore. See [care and journal rules](docs/FAMILY-JOURNAL.md).
 
-Four optional Practice adventures now introduce schooling, coral-home visits, sand searching and cuttlefish camouflage. Each records a Ways of living discovery in the Family Journal. All 64 guide entries have an optional narrated introduction with a transcript; press Play to listen. See [species adventures](docs/SPECIES-ADVENTURES.md).
+Nineteen optional Practice adventures introduce cleaner care, grazing recovery, shared feeding trips, ambush hunting, coral-home visits, sand searching and cuttlefish camouflage. Each records a Ways of living discovery in the Family Journal. All 64 guide entries have an optional narrated introduction with a transcript; press Play to listen. See [ways of living](docs/SPECIES-LIFE.md).
 
 ## What's here
 
 - Nine distinct illustrated habitats: sunlit crest, high terrace, diagonal wreck cliff, vertical coral wall, dense coral cathedral, wreck interior, seagrass meadow, sandy shelf, and stacked grotto.
-- 64 illustrated marine creatures, including 55 playable species and nine supporting reef residents.
+- 64 illustrated marine creatures, with 57 Practice choices and the established 55-species Challenge/Tournament roster.
 - Practice, four-life Challenge, full-roster Tournament, and a configurable Create-a-Fish mode.
 - Species-specific diets, food rejection, poison, energy use, parasites, day/night cleaners, concealment, predator pursuit across reef boundaries, renewable food, abilities, scoring, and advancement.
 - Paused inspection, a searchable field guide and glossary, three manual save slots plus a last-dive save, and local Reef Rulers scores.
@@ -41,9 +41,9 @@ See the [nine-scene contact sheet](docs/REEF-CONTACT-SHEET.jpg) for the revised 
 
 | Input | Action |
 |---|---|
-| E / context button | Choose a coral home, blow sand or blend with a background |
-| Mouse movement | Swim toward the pointer |
-| Click an organism | Approach and attempt to eat |
+| E / context button | Use the species activity: help a client, inspect sand, invite a companion, choose an ambush, choose a home or blend |
+| Mouse movement | Swim toward the pointer; while ambushing, aim without leaving the position |
+| Click an organism | Approach and attempt to eat; playable cleaners instead help suitable clients |
 | Stop inside shelter | Hide, if your body fits |
 | Stop beside a cleaner | Request parasite removal |
 | Space | Activate your special ability |

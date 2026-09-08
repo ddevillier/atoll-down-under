@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Simulation,distance} from '../src/simulation.js';
-import {SPECIES} from '../src/data.js';
+import {SPECIES,PRACTICE_SPECIES} from '../src/data.js';
 
 function fixture(angle){
  const s=new Simulation(42);s.start('practice','s1');s.section.entities=[];s.section.food=[];
@@ -12,6 +12,14 @@ function samePose(a,b){
  assert.ok(Math.abs(Math.sin(a.angle)-Math.sin(b.angle))<.00001);
  assert.ok(Math.abs(Math.cos(a.angle)-Math.cos(b.angle))<.00001);
 }
+
+test('all Practice species settle at nearby mouse destinations instead of circling indefinitely',()=>{
+ for(const species of PRACTICE_SPECIES)for(const angle of [0,Math.PI/2,Math.PI,-Math.PI/2]){
+  const s=new Simulation(42);s.start('practice',species.id);s.section.entities=[];s.section.food=[];Object.assign(s.player,{x:800,y:300,angle});s.point(800,330);
+  for(let i=0;i<10*60;i++)s.step(1/60);
+  assert.ok(distance(s.player,{x:800,y:330})<=7,species.name+' should arrive from heading '+angle);assert.ok(s.player.still>1,species.name+' should settle');
+ }
+});
 
 test('steering remains responsive after accumulated full turns, including a loaded dive',()=>{
  const baseline=fixture(0);baseline.point(1100,330);

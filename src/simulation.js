@@ -281,7 +281,9 @@ export class Simulation {
    if(p.cleanerTarget)approachCleaning(p,dest,dt,speed);
    else{
    p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);
-   const advance=Math.min(speed*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;
+   // Brake inside the turning radius. Full speed near a mouse destination
+   // can otherwise produce an endless circle instead of a settled arrival.
+   const advance=Math.min(speed*dt,dist*p.species.agility*.7*dt,dist);p.x+=Math.cos(p.angle)*advance;p.y+=Math.sin(p.angle)*advance;p.facing=Math.cos(p.angle)>=0?1:-1;
    }
   }
   const moving=distance(old,p)>dt*6;
