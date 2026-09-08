@@ -1,20 +1,22 @@
 import {approachCleaning} from './cleaning-stations.js';
 import {REEFS} from './data.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
-export const pairedBrowser=p=>['s8','s48','s52'].includes(p.species.id);
-export function validBuddy(b){return b==null||typeof b==='object'&&(typeof b.id==='string'&&b.id.length>0&&b.id.length<100&&b.id!=='player'||Number.isInteger(b.id)&&b.id>=0)&&Number.isInteger(b.reef)&&b.reef>=0&&b.reef<9&&Number.isInteger(b.incarnation)&&b.incarnation>=0&&typeof b.playerMeal==='boolean'&&typeof b.partnerMeal==='boolean'&&Number.isFinite(b.rejoined)&&b.rejoined>=0&&b.rejoined<=3;}
-export function companion(sim){const b=sim.adventure?.buddy;return b&&b.reef===sim.current&&pairedBrowser(sim.player)?sim.section.entities.find(e=>e.id===b.id&&e.alive&&e.species.id===sim.player.species.id&&(e.incarnation||0)===b.incarnation):null;}
+export const pairedBrowser=p=>['s8','s48','s52','s40','s56'].includes(p.species.id);
+export const companionFoods=p=>p.species.id==='s40'?['algae','plankton']:p.species.id==='s56'?['plankton','worm']:null;
+const sameCommunity=(p,e)=>p.species.id==='s40'?!e.groundRoute&&!e.holdfast&&e.species.ability!=='clean'&&!e.species.diet.includes('fish')&&e.species.size>=30&&e.species.size<140&&e.species.diet.some(f=>['algae','plankton'].includes(f)):e.species.id===p.species.id;
+export function validBuddy(b){return b==null||typeof b==='object'&&(typeof b.id==='string'&&b.id.length>0&&b.id.length<100&&b.id!=='player'||Number.isInteger(b.id)&&b.id>=0)&&Number.isInteger(b.reef)&&b.reef>=0&&b.reef<9&&Number.isInteger(b.incarnation)&&b.incarnation>=0&&(b.foods===undefined||Array.isArray(b.foods)&&b.foods.length<=2&&b.foods.every(f=>['algae','plankton','worm'].includes(f)))&&typeof b.playerMeal==='boolean'&&typeof b.partnerMeal==='boolean'&&Number.isFinite(b.rejoined)&&b.rejoined>=0&&b.rejoined<=3;}
+export function companion(sim){const b=sim.adventure?.buddy;return b&&b.reef===sim.current&&pairedBrowser(sim.player)?sim.section.entities.find(e=>e.id===b.id&&e.alive&&sameCommunity(sim.player,e)&&(e.incarnation||0)===b.incarnation):null;}
 export function companionInstruction(sim){
  const a=sim.adventure,e=companion(sim);
  if(!e){
-  if(!sim.section.entities.some(e=>e.alive&&e.species.id===sim.player.species.id)){
-   const reef=sim.sections.findIndex(r=>r.entities.some(e=>e.alive&&e.species.id===sim.player.species.id));
-   if(reef>=0)return 'Visit '+REEFS[reef].name+' to find a companion of your species';
+  if(!sim.section.entities.some(e=>e.alive&&sameCommunity(sim.player,e))){
+   const reef=sim.sections.findIndex(r=>r.entities.some(e=>e.alive&&sameCommunity(sim.player,e)));
+   if(reef>=0)return 'Visit '+REEFS[reef].name+' to find '+(sim.player.species.id==='s40'?'a suitable browsing neighbor':'a companion of your species');
   }
-  return 'Swim near your species and press E to browse together';
+  return sim.player.species.id==='s40'?'Swim near a small reef grazer or plankton feeder and press E':'Swim near your species and press E to browse together';
  }
  if(e.cleanTime>0||sim.section.entities.some(b=>b.id===e.target&&b.species.ability==='clean'))return 'Your companion is visiting a cleaner · Wait nearby or explore';
- if(!a.buddy.playerMeal)return 'Take a meal within sight of your companion';
+ if(!a.buddy.playerMeal){const foods=companionFoods(sim.player);return foods?'Take '+foods[a.buddy.foods?.length||0]+' within sight of your companion':'Take a meal within sight of your companion';}
  if(!a.buddy.partnerMeal)return e.satiated>0?'Your companion is digesting · Explore together until it is hungry':'Browse near food and let your companion eat · Stay nearby';
  return `Meet your companion again · ${Math.floor(a.buddy.rejoined)}/3 seconds together`;
 }
@@ -24,11 +26,12 @@ export function releaseCompanion(sim){
  if(fish?.ecology?.partner===sim.player.id)fish.ecology.partner=null;
  sim.adventure.buddy=null;
 }
+export function companionCandidates(sim){const p=sim.player;return sim.section.entities.filter(e=>e.alive&&sameCommunity(p,e)&&e.health>0&&!e.hidden&&!e.stun&&!e.feeding&&!e.target&&!e.cleanTime).sort((a,b)=>distance(a,p)-distance(b,p));}
 export function inviteCompanion(sim){
  const p=sim.player;if(!pairedBrowser(p)||sim.paused||sim.phase!=='playing')return false;
  if(companion(sim)){releaseCompanion(sim);sim.event('message','You can each explore freely.');return true;}
- const e=sim.section.entities.filter(e=>e.alive&&e.species.id===p.species.id&&e.health>0&&!e.hidden&&!e.stun&&!e.feeding&&!e.target&&!e.cleanTime&&distance(e,p)<280).sort((a,b)=>distance(a,p)-distance(b,p))[0];
- if(!e){sim.event('message','Swim near a resting '+p.species.name.toLowerCase()+', then press E to browse together.');return false;}
+ const e=companionCandidates(sim).find(e=>distance(e,p)<280);
+ if(!e){sim.event('message','Swim near a resting '+(p.species.id==='s40'?'reef browsing neighbor':p.species.name.toLowerCase())+', then press E to browse together.');return false;}
  releaseCompanion(sim);
  const former=sim.section.entities.find(b=>b.id===e.ecology?.partner);if(former?.ecology?.partner===e.id)former.ecology.partner=null;
  e.ecology??={reef:sim.current,clock:0,point:0,wait:0,partner:null,host:null};e.ecology.partner=p.id;
@@ -47,7 +50,7 @@ export function followPlayerCompanion(sim,e,dt,speed){
 }
 export function companionMeal(sim,e,food){
  const c=companion(sim),b=sim.adventure?.buddy;if(!c||food.kind!=='food'||!e.species.diet.includes(food.food))return;
- if(e===sim.player&&distance(e,c)<300)b.playerMeal=true;
+ if(e===sim.player&&distance(e,c)<300){const foods=companionFoods(e);if(foods){b.foods??=[];if(food.food===foods[b.foods.length])b.foods.push(food.food);b.playerMeal=b.foods.length===foods.length;}else b.playerMeal=true;}
  if(e===c&&distance(e,sim.player)<300)b.partnerMeal=true;
 }
 export function tickCompanion(sim,dt){

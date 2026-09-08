@@ -1,3 +1,4 @@
+import {ESCORT_JOURNEYS,escortJourney,validEscortJourney,escortSites,useEscortContext,escortMeal,escortInstruction,tickEscortJourney} from './escort-journeys.js';
 import {WATCH_JOURNEYS,watchJourney,validWatchJourney,watchSites,useWatchContext,watchMeal,watchInstruction,tickWatchJourney} from './watch-journeys.js';
 import {PATROL_JOURNEYS,patrolJourney,validPatrolJourney,patrolSites,usePatrolContext,patrolMeal,patrolInstruction,tickPatrolJourney} from './patrol-journeys.js';
 import {FORAGING_JOURNEYS,foragingJourney,validForagingJourney,foragingSites,useForagingContext,foragingMeal,foragingInstruction,tickForagingJourney} from './foraging-journeys.js';
@@ -10,6 +11,9 @@ import {sandSearcher,startSandProbe,uncoverSand,sandOpportunityHint} from './san
 import {pairedBrowser,validBuddy,companion,companionInstruction,inviteCompanion,companionMeal,tickCompanion} from './companion-activity.js';
 import {routeGrazer,validGrazing,grazeMeal,grazingHome,grazingRecovered,tickGrazing} from './grazing-activity.js';
 export const ADVENTURES={
+ s40:{id:'batfish-loose-browsing',name:'Among the reef browsers',description:'Browse algae and plankton beside a compatible reef neighbor. Let it feed too, then reunite.',steps:['Invite a reef browsing neighbor with E','Take algae, then plankton; let your neighbor feed','Meet again'],action:'Find browsing neighbor'},
+ s56:{id:'bannerfish-mixed-trip',name:'Floating food and a bottom visit',description:'Browse with another bannerfish. Take plankton, then a worm, let your companion feed, and reunite.',steps:['Invite a bannerfish with E','Take plankton, then worm; let your neighbor feed','Meet again'],action:'Find bannerfish'},
+ ...ESCORT_JOURNEYS,
  ...WATCH_JOURNEYS,
  ...PATROL_JOURNEYS,
  ...HOME_JOURNEYS,
@@ -39,11 +43,13 @@ const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export const freshAdventure=()=>({visible:false,stage:0,joined:0,meals:[],patterns:[],home:null,departed:false,complete:false});
 export function adventureInstruction(sim){
  const a=sim.adventure,d=ADVENTURES[sim.player.species.id];if(!d)return '';
+ if(escortJourney(sim.player))return escortInstruction(sim);
  if(watchJourney(sim.player))return watchInstruction(sim);
  if(patrolJourney(sim.player))return patrolInstruction(sim);
  if(homeJourney(sim.player))return homeJourneyInstruction(sim);
  if(foragingJourney(sim.player))return foragingInstruction(sim);
  if(sim.player.species.ability==='clean'&&!a.complete)return 'Click a fish to help · '+Math.min(3,a.clients?.length||0)+'/3 kinds of client';
+ if(['s40','s56'].includes(sim.player.species.id))return a.buddy?.rejoined>=3?'Discovered · E releases this companion; invite another to repeat':companionInstruction(sim);
  if(a.complete)return 'Discovered · This way of living is in your journal.';
  if(feedingSchool(sim.player)&&sim.player.species.id!=='s42')return schoolInstruction(sim);
  if(ambushHunter(sim.player))return !sim.player.ambush?'Choose a marked ambush spot · Move close and press E':sim.player.ambush.strike>0?'A short strike · E or click open water to stop':sim.player.ambush.settled<2?'Become still for two seconds · E or click open water to leave':'Aim at a small nearby fish and click · E or click open water to leave';
@@ -55,9 +61,10 @@ export function adventureInstruction(sim){
  if(sim.player.species.id==='s23')return `Uncover with E, then click the meal · ${Math.min(2,a.meals.length)}/2 sand sites`;
  return d.steps[Math.min(a.stage,d.steps.length-1)];
 }
-export function validAdventure(a){return !!a&&validWatchJourney(a.watchJourney)&&validPatrolJourney(a.patrolJourney)&&validHomeJourney(a.homeJourney)&&validForagingJourney(a.foragingJourney)&&validSchoolTrip(a.school)&&(a.ambushCatch===undefined||typeof a.ambushCatch==='boolean')&&validGrazing(a.grazing)&&validBuddy(a.buddy)&&(a.shared===undefined||typeof a.shared==='string'&&a.shared.length<100)&&(a.clients===undefined||Array.isArray(a.clients)&&a.clients.length<=64&&a.clients.every(id=>/^s(?:[0-9]|[1-5][0-9]|6[0-3])$/.test(id))&&new Set(a.clients).size===a.clients.length)&&typeof a.visible==='boolean'&&Number.isInteger(a.stage)&&a.stage>=0&&a.stage<=3&&Number.isFinite(a.joined)&&a.joined>=0&&typeof a.departed==='boolean'&&typeof a.complete==='boolean'&&Array.isArray(a.meals)&&a.meals.length<=100&&a.meals.every(x=>typeof x==='string')&&Array.isArray(a.patterns)&&a.patterns.every(x=>['sand','reef'].includes(x))&&(a.home===null||(Number.isInteger(a.home.reef)&&REEFS[a.home.reef]&&Number.isFinite(a.home.x)&&Number.isFinite(a.home.y)));}
+export function validAdventure(a){return !!a&&validEscortJourney(a.escortJourney)&&validWatchJourney(a.watchJourney)&&validPatrolJourney(a.patrolJourney)&&validHomeJourney(a.homeJourney)&&validForagingJourney(a.foragingJourney)&&validSchoolTrip(a.school)&&(a.ambushCatch===undefined||typeof a.ambushCatch==='boolean')&&validGrazing(a.grazing)&&validBuddy(a.buddy)&&(a.shared===undefined||typeof a.shared==='string'&&a.shared.length<100)&&(a.clients===undefined||Array.isArray(a.clients)&&a.clients.length<=64&&a.clients.every(id=>/^s(?:[0-9]|[1-5][0-9]|6[0-3])$/.test(id))&&new Set(a.clients).size===a.clients.length)&&typeof a.visible==='boolean'&&Number.isInteger(a.stage)&&a.stage>=0&&a.stage<=3&&Number.isFinite(a.joined)&&a.joined>=0&&typeof a.departed==='boolean'&&typeof a.complete==='boolean'&&Array.isArray(a.meals)&&a.meals.length<=100&&a.meals.every(x=>typeof x==='string')&&Array.isArray(a.patterns)&&a.patterns.every(x=>['sand','reef'].includes(x))&&(a.home===null||(Number.isInteger(a.home.reef)&&REEFS[a.home.reef]&&Number.isFinite(a.home.x)&&Number.isFinite(a.home.y)));}
 export function sitesFor(sim,fish=sim.player){
  const reef=REEFS[sim.current];
+ if(fish===sim.player&&escortJourney(fish))return escortSites(sim);
  if(fish===sim.player&&watchJourney(fish))return watchSites(sim);
  if(fish===sim.player&&patrolJourney(fish))return patrolSites(sim);
  if(fish===sim.player&&homeJourney(fish))return homeJourneySites(sim);
@@ -70,10 +77,11 @@ export function sitesFor(sim,fish=sim.player){
  return [];
 }
 export function selectedSite(sim){const sites=sitesFor(sim),pointer=sim.pointer;return sites.sort((a,b)=>dist(a,pointer)-dist(b,pointer)).find(s=>dist(s,pointer)<90)||sites.sort((a,b)=>dist(a,sim.player)-dist(b,sim.player))[0]||null;}
-export function contextLabel(sim){const a=ADVENTURES[sim.player.species.id];if(!a?.action)return '';return sim.adventure.watchJourney?.watching?'Leave watching place':sim.player.ambush?'Leave ambush':companion(sim)?'Leave companion':sim.player.foragingPrep?'Stop preparing meal':sim.player.sandProbe?'Stop inspecting':sim.player.blending?'Stop blending':a.action;}
+export function contextLabel(sim){const a=ADVENTURES[sim.player.species.id];if(!a?.action)return '';return sim.adventure.escortJourney?.following?'Leave follow':sim.adventure.watchJourney?.watching?'Leave watching place':sim.player.ambush?'Leave ambush':companion(sim)?'Leave companion':sim.player.foragingPrep?'Stop preparing meal':sim.player.sandProbe?'Stop inspecting':sim.player.blending?'Stop blending':a.action;}
 export function stopBlend(p){p.blending=null;p.blendTime=0;p.hidden=false;}
 export function useContext(sim){
  const p=sim.player;if(sim.paused||sim.phase!=='playing')return false;
+ if(escortJourney(p))return useEscortContext(sim);
  if(watchJourney(p))return useWatchContext(sim);
  if(patrolJourney(p))return usePatrolContext(sim);
  if(homeJourney(p))return chooseJourneyHome(sim);
@@ -99,6 +107,7 @@ export function useContext(sim){
 }
 export function mealAdventure(sim,food){
  const p=sim.player,a=sim.adventure;if(!a)return;
+ escortMeal(sim,food);
  watchMeal(sim,food);
  patrolMeal(sim,food);
  homeJourneyMeal(sim,food);
@@ -122,7 +131,7 @@ export function tickAdventure(sim,dt){
  if(a.home){const near=a.home.reef===sim.current&&dist(p,a.home)<55;if(near&&p.still>SHELTER_SETTLE_SECONDS&&a.stage===0)a.stage=1;if(!near&&a.stage>=1)a.departed=true;}
  const pairedDone=tickCompanion(sim,dt);
  const schoolDone=tickSchoolTrip(sim,dt);
- const done=watchJourney(p)?tickWatchJourney(sim,dt):patrolJourney(p)?tickPatrolJourney(sim,dt):foragingJourney(p)?tickForagingJourney(sim,dt):homeJourney(p)?tickHomeJourney(sim,dt):feedingSchool(p)&&p.species.id!=='s42'?schoolDone:ambushHunter(p)?a.ambushCatch===true:routeGrazer(p)?tickGrazing(sim):pairedBrowser(p)?pairedDone:p.species.id==='s9'?a.meals.length>0&&!!a.shared&&a.meals.some(id=>id!==a.shared):p.species.ability==='clean'?(a.clients?.length||0)>=3:p.species.id==='s42'?a.stage===2&&a.joined>=5:p.species.id==='s23'?a.meals.length>=2:p.species.id==='s19'?a.patterns.length>=2:a.stage===2&&a.home?.reef===sim.current&&dist(p,a.home)<55&&p.still>SHELTER_SETTLE_SECONDS;
+ const done=escortJourney(p)?tickEscortJourney(sim,dt):watchJourney(p)?tickWatchJourney(sim,dt):patrolJourney(p)?tickPatrolJourney(sim,dt):foragingJourney(p)?tickForagingJourney(sim,dt):homeJourney(p)?tickHomeJourney(sim,dt):feedingSchool(p)&&p.species.id!=='s42'?schoolDone:ambushHunter(p)?a.ambushCatch===true:routeGrazer(p)?tickGrazing(sim):pairedBrowser(p)?pairedDone:p.species.id==='s9'?a.meals.length>0&&!!a.shared&&a.meals.some(id=>id!==a.shared):p.species.ability==='clean'?(a.clients?.length||0)>=3:p.species.id==='s42'?a.stage===2&&a.joined>=5:p.species.id==='s23'?a.meals.length>=2:p.species.id==='s19'?a.patterns.length>=2:a.stage===2&&a.home?.reef===sim.current&&dist(p,a.home)<55&&p.still>SHELTER_SETTLE_SECONDS;
  if(done&&!a.complete){a.complete=true;sim.event('discovery','A new way of living · '+definition.name,{value:definition.id});}
 }
 // Lightweight routines share the same food/home/background opportunities as the player.
