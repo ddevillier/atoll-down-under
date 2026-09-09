@@ -16,7 +16,7 @@ The animation/ecology pass is complete and parked for testing. Tested runtime co
 
 All 277 unit checks and 75 distinct browser scenarios have passing evidence across the combined run and targeted fixture/presentation corrections described in the final roster review. Three packaged Windows checks pass with isolated profiles and no reported errors: fullscreen and ordinary gameplay; real portable save download/import; and the cuttlefish E/adventure, camouflage checkpoint, local narration, audio ducking, stop-on-close, reduced motion and narration volume.
 
-The final four native habitat measurements at both display sizes report draw p95 at most 10.8 ms and animation callback p95 at most 17.6 ms. Cached mesh pixels stay below the existing limit. These are software-rendered Windows measurements, not a universal monitor-FPS guarantee. All recorded runtime hashes match the delivered source.
+The final four native habitat measurements at both display sizes report draw p95 at most 10.8 ms and animation callback p95 at most 17.6 ms. Cached mesh pixels stay below the existing limit. These are Windows measurements, not a universal monitor-FPS guarantee. The GPU flag was captured before asset loading and does not reliably establish the backend during measurement. All recorded runtime hashes match the delivered source.
 
 All 259 checked source/asset/document files and package metadata matched before these receipt edits. All 73 ZIP payload files match the tested application byte-for-byte; CRC passes. The previous Species Adventures ZIP retains its original hash.
 

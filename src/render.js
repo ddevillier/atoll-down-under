@@ -132,7 +132,7 @@ export class ReefRenderer {
  addEffect(type,x=800,y=350,label=null){this.effects.push({type,x,y,t:0,label});}
  draw(sim,dt,home=false){
   this.tagQueue=[];this.labelLayout=[];this.playerMarker=null;
-  this.articulation?.beginFrame(sim?.paused?Infinity:3.5);
+  this.articulation?.beginFrame();
   if(home||!sim||(!sim.paused&&sim.phase==='playing'))this.clock+=dt;const c=this.ctx;c.setTransform(this.canvas.width/1600,0,0,this.canvas.height/900,0,0);c.clearRect(0,0,1600,900);
   const reef=home?this.splash:this.reefs[sim?.current??0];if(reef)c.drawImage(reef,0,0,1600,900);else{c.fillStyle='#1b6c7d';c.fillRect(0,0,1600,900);}
   if(!this.ready)return;
