@@ -1,6 +1,6 @@
 # Cuttlefish restoration and caudal motion correction
 
-September 9. Active work; completion remains unproven.
+September 9. Completed and packaged for Windows testing. Runtime checkpoint 46e62db; see [the verified build receipt](../WINDOWS-MOTION-CORRECTION-BUILD.md).
 
 ## Plan and acceptance
 
@@ -41,4 +41,8 @@ These are displacement ranges of the same painted landmark in body-local coordin
 The first ordinary-control cuttlefish tests exposed a test-navigation issue: the target sand point was underneath the activity card at compact sizes. The test hides its expanded guidance and swims through an unobscured waypoint so the normal card-avoidance behavior exposes the target at both sizes. The corrected test then swims to the real site, blends, verifies animation during rest, pauses and resumes, and swims away to release camouflage. No animal or food positions are changed.
 
 
-All **351 unit tests** pass. The 11 distinct targeted browser scenarios pass across the completed regression run and corrected three-case cuttlefish rerun: normal controls at both sizes, full cuttlefish phase updates under exhausted background budget, painted-piece alignment and pause/reduced motion across all 45 painted rigs, and fin/rigid/swimmer motion plus actual feeding. Native packaging and timing are the final gates.
+All **351 unit tests** pass. The 11 distinct targeted browser scenarios pass across the completed regression run and corrected three-case cuttlefish rerun: normal controls at both sizes, full cuttlefish phase updates under exhausted background budget, painted-piece alignment and pause/reduced motion across all 45 painted rigs, and fin/rigid/swimmer motion plus actual feeding.
+
+Both packaged native functional checks passed in isolated storage, including fullscreen controls, feeding and travel, cuttlefish sand blending, saved camouflage state, narration and reduced motion. The 54-case native performance survey covered nine habitats, two widths and three player species, with no page errors and at least 180 measured frames per case. Worst draw p95 was 12.4 ms and callback interval p95 was 20.8 ms on this software-rendered Windows session. Across the 18 player-cuttlefish cases there were no deferred player mesh requests; its longest sampled pose hold was 49.1 ms. Other mesh animals still had budget deferrals and a worst sampled hold of 287.9 ms. These measurements do not establish monitor presentation rate or smoothness on other PCs.
+
+The moving comparison, `artifacts/caudal-rendered/motion-comparison.mp4`, passed full decoding (23.96 seconds). Actual cuttlefish control screenshots were also inspected. The verified archive matches all 73 tested payload files; all five preceding Windows ZIPs retain their original hashes. No Apple Silicon build was made. Exact historical user-approved footage remains unidentified; the restored behavior is the documented flowing ribbon and expressive arms, with existing camouflage preserved.

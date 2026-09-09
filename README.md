@@ -6,7 +6,7 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
-The next Windows testing candidate is `dist/Atoll-Down-Under-Windows-Motion-Correction-2026-09-09.zip`: a restored flowing cuttlefish cycle and corrected caudal-fin projection across 53 fish species. See [the motion investigation and measurements](docs/animation-strategy/caudal-cuttlefish-correction.md).
+The latest verified Windows testing build is `dist/Atoll-Down-Under-Windows-Motion-Correction-2026-09-09.zip`. It includes all 64 journeys and their offline spoken guidance, a restored flowing cuttlefish cycle, and corrected caudal-fin projection across 53 fish species. See [the Windows build receipt](docs/WINDOWS-MOTION-CORRECTION-BUILD.md) and [motion investigation and measurements](docs/animation-strategy/caudal-cuttlefish-correction.md).
 
 The verified all-species testing build is `dist/Atoll-Down-Under-Windows-All-Species-Journeys-2026-09-08.zip`. It includes a journey for each of the 57 playable species, seven resident observation journeys, persistent discoveries, and optional spoken guidance for all 64 activities. See [the verified Windows receipt](docs/WINDOWS-ALL-SPECIES-JOURNEYS-BUILD.md), [journey coverage and verification](docs/ALL-SPECIES-JOURNEYS.md) and [spoken activity guidance](docs/ACTIVITY-AUDIO.md). Extract the ZIP completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape pauses for inspection. See [the testing guide](docs/TESTING.md).
 
