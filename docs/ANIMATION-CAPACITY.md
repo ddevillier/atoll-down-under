@@ -1,6 +1,6 @@
 # Animation capacity investigation
 
-September 9, 2026. Windows release candidate; final packaging evidence follows after native verification.
+September 9, 2026. Completed and packaged for Windows testing at runtime checkpoint **a2f92f4**. See [the verified Windows receipt](WINDOWS-FULL-ANIMATION-BUILD.md).
 
 ## Finding and implementation
 
@@ -32,4 +32,14 @@ Nine generated scenes per experiment: three habitat layouts with day, night and 
 
 The initial GPU comparison recorded a maximum pose hold of 99.3 ms, with most cases around 50–56 ms, versus 266.6 ms in the 3.5 ms comparison. Pose identity is sampled at renderer callbacks, so normal sample quantization and callback delays are included; a changed canvas is not proof that every subpixel change is perceptible. Zero budget deferrals does not mean zero frame-time spikes.
 
-Local evidence: `artifacts/budget-3.5`, `budget-8`, `budget-unlimited`, `budget-full-quality`, `budget-cached-influences` and `budget-gpu-mesh`, each containing a native report; `budget-gpu-info.json` records the initialized hardware probe. The complete roster survey, larger-display stress case, visual comparison and Windows receipt will establish the final handoff.
+Local evidence: `artifacts/budget-3.5`, `budget-8`, `budget-unlimited`, `budget-full-quality`, `budget-cached-influences` and `budget-gpu-mesh`, each containing a native report; `budget-gpu-info.json` records the initialized hardware probe.
+
+## Completed verification
+
+The packaged runtime passed **54 native cases** across nine habitats, two viewport sizes and three players. All used the WebGL mesh backend, with hardware acceleration confirmed after loading and at completion. There were no page errors and **zero budget deferrals**. Each case measured at least 180 frames. Worst per-case draw p95 was **15.0 ms**, callback interval p95 **18.5 ms**, and maximum observed pose hold **61.6 ms**. The prior complete survey recorded a 287.9 ms maximum hold. These surveys differ in runtime and should not be interpreted as a controlled hardware benchmark.
+
+Nine additional cases used a 1920×1080 logical viewport and an actual **3841×2160 backing canvas** (the extra pixel comes from display scaling/rounding). All used WebGL with zero deferrals and no page errors, with at least 239 measured frames per case. Worst draw p95 was **16.1 ms**, callback interval p95 **19.9 ms**, and maximum pose hold **80.9 ms**. This demonstrates useful capacity at a 4K workload, not guaranteed locked 60 FPS.
+
+All **351 unit tests** and **23 distinct browser scenarios** passed. The sampling test was expanded and rerun to cover every one of the 19 mesh-rendered species; all supply current poses without deferrals and stay inside cache bounds. Existing painted-part tests cover the other 45 rigs. GPU-versus-Canvas pixel checks cover all 19 mesh species at two phases: no missing opaque pixels by the test's coverage criterion, and maximum per-comparison mean RGB error **1.672/255**. The six-species contact sheet and native gameplay screenshot were visually inspected. Pause, reduced motion, live feeding, camouflage and loss of the WebGL context remain functional.
+
+Both packaged native functional checks passed in isolated save profiles, covering fullscreen, steering, feeding, travel, map, cuttlefish context/camouflage, portable paused state and narration. The Windows ZIP matches all 73 payload files and preserves all six previous testing ZIPs byte for byte. See the receipt for hashes and remaining performance limits. No species journey, diet, authored animation amplitude or cycle speed was changed.

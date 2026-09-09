@@ -6,7 +6,7 @@ test('default quality supplies current poses for slow residents and mesh fish wi
  const result=await page.evaluate(async()=>{
   const {ArticulatedSprites}=await import('/src/articulated-motion.js'),{SPECIES}=await import('/src/data.js'),r=window.atoll.renderer;
   const cache=new ArticulatedSprites(),ctx=document.createElement('canvas').getContext('2d');
-  const tracks=[4,13,19,20,26,37,44,45,46,47,60,61,62,63].map(id=>({id,changes:0,hold:0,maxHold:0,last:null}));
+  const tracks=[4,13,19,20,22,24,26,37,40,44,45,46,47,48,56,60,61,62,63].map(id=>({id,changes:0,hold:0,maxHold:0,last:null}));
   for(let frame=0;frame<120;frame++){
    cache.beginFrame();
    for(const t of tracks){
