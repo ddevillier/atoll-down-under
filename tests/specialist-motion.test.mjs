@@ -21,3 +21,11 @@ test('specialist meshes retain positive orientation and repeat through swim, fee
   assert.ok(area(a,b,c)>0&&area(b,d,c)>0,id+' folded mesh '+[x,y,i,effort,feed]);assert.ok(gap(a,deformPoint(p,x/20,y/16,t+1/p.frequency,effort,state))<1e-10,id+' cycle');
  }}
 });
+
+test('resting cuttlefish carries a visible wave through the middle of the fin ribbon',()=>{
+ const p=ANIMAL_PROFILES.s19;
+ for(const [u,v] of [[.62,.74],[.47,.90],[.38,.98]]){
+  const y=Array.from({length:96},(_,i)=>deformPoint(p,u,v,i/96/p.frequency,0).y);
+  assert.ok(Math.max(...y)-Math.min(...y)>.06,'fin ribbon was suppressed by arm root weighting');
+ }
+});

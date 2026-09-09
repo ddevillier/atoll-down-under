@@ -88,7 +88,8 @@ export class ReefRenderer {
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);this.customCache.set(key,tint);}im=this.customCache.get(key);}
   const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
   const animate=!this.reducedMotion&&time>0;
-  if(animate&&PART_RIGS[species.id]&&!state.puff){this.parts??=new PaintedParts();this.parts.draw(ctx,im,species.id,width,h,time,activity,state);}
+  const partId=species.id==='custom'?'s'+species.index:species.id;
+  if(animate&&PART_RIGS[partId]&&!state.puff){this.parts??=new PaintedParts();this.parts.draw(ctx,im,partId,width,h,time,activity,state);}
   else if(animate||state.puff>0){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,this.reducedMotion?0:time,this.reducedMotion?0:activity,state,Math.max(1,this.canvas.width/1600));}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
  }

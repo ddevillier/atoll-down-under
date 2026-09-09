@@ -43,8 +43,7 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
   // The extended painting has a continuous body. A front-to-rear wave moves
   // each cross-section together; the skull does not shear with its markings.
   const rear=clamp((.84-u)/.84)**1.3,drive=.12+a*.88;
-  y+=Math.sin(phase+u*7)*rear*p.tail*drive/Math.max(.15,state.aspect||.2);
-  x+=Math.cos(phase+u*7)*rear*p.tail*.13*drive;
+  x+=(1-Math.cos(phase+u*7))*.5*rear*p.tail*.6*drive;
   const jaw=bell(u,.95,.07)*bell(v,.45,.13);
   y+=jaw*(.009*(1+Math.sin(phase))+.04*feed);
  }else if(family==='ray'||family==='electric-ray'){
@@ -64,7 +63,7 @@ export function deformPoint(p,u,v,time,effort=.5,state={}){
  const turn=Math.max(-1,Math.min(1,state.turn||0));
  if(turn&&!['crab','star','slug','snail','urchin','anemone','seahorse','ray','electric-ray'].includes(family)){
   const rear=clamp((.76-u)/.76),rigid=['rigid','fan','frogfish'].includes(family),amplitude=rigid?.012:family==='eel'?.075:.036;
-  y+=turn*rear**2*amplitude/Math.max(.2,state.aspect||.5);
+  if(family!=='eel')y+=turn*rear**2*amplitude/Math.max(.2,state.aspect||.5);
  }
  if(rig.eye){const d=Math.hypot((u-rig.eye[0])/.075,(v-rig.eye[1])/.10),keep=clamp((d-.65)/.65);x=u+(x-u)*keep;y=v+(y-v)*keep;}
  return {x,y};
@@ -101,7 +100,7 @@ export class ArticulatedSprites{
   const p=animalProfile(species),baseBins=width<150?16:24;
   // Slow radial cycles need more phase samples, not faster animal motion.
   // Keep whole multiples of the old grid and the same bounded raster cache.
-  const bins=RADIAL_IDS.has(p.id)?Math.min(96,Math.max(baseBins,Math.ceil(10/(p.frequency*.55)/baseBins)*baseBins)):baseBins;
+  const bins=p.id==='s19'?48:RADIAL_IDS.has(p.id)?Math.min(96,Math.max(baseBins,Math.ceil(10/(p.frequency*.55)/baseBins)*baseBins)):baseBins;
   const cycle=((time*p.frequency)%1+1)%1,tick=Math.floor(cycle*bins),a=Math.round(clamp(effort)*2)/2,feed=Math.round(clamp(state.feed||0)*5)/5,retract=Math.round(clamp(state.retract||0)*5)/5,puff=Math.round(clamp(state.puff||0)*5)/5;
   const turn=Math.round(Math.max(-1,Math.min(1,state.turn||0))*3)/3;
   const heading=p.id==='s47'?directionBin(state.heading):0,feedAngle=p.id==='s47'&&feed?directionBin(state.feedAngle??state.heading):0;
@@ -110,7 +109,9 @@ export class ArticulatedSprites{
   const group=[this.images.get(image),p.id,w,bins,a,feed,retract,puff,turn,heading,feedAngle].join(':'),key=group+':'+tick,slot=state.instance==null?group:[this.images.get(image),p.id,w,bins,state.instance].join(':');let frame=this.cache.get(key);
   if(frame){this.cache.delete(key);this.cache.set(key,frame);this.pending.delete(slot);this.hits++;}
   else{
-   if(this.remaining<=0){
+   // The focal cuttlefish and its camouflage overlay must show the requested
+   // phase, even after background creatures spent this frame's mesh budget.
+   if(this.remaining<=0&&!(p.id==='s19'&&state.instance==='player')){
     this.pending.set(slot,{image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,turn,heading,feedAngle,group,key});
     while(this.pending.size>128)this.pending.delete(this.pending.keys().next().value);
     this.deferred++;let closest=Infinity;

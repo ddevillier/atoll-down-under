@@ -26,14 +26,17 @@ export function specialistPoint(p,u,v,time,effort,state={}){
   if(v>=.78)return {x:u,y:v};
   return {x,y};
  }
- const skirt=pathWeight(u,v,CUTTLE_SKIRT,.085),wave=phase-skirt.progress*9;
- const drive=(.45+a*.55)*(1-feed*.4);
- x+=Math.cos(wave)*skirt.weight*.007*drive;y+=Math.sin(wave)*skirt.weight*.025*drive;
+ const skirt=pathWeight(u,v,CUTTLE_SKIRT,.12),wave=phase-skirt.progress*9;
+ // pathWeight tapers an appendage from root to tip. A continuous fin ribbon
+ // needs a full travelling wave along its length, not an almost-static front.
+ const ribbon=skirt.progress>0?skirt.weight/skirt.progress**1.5*smooth(0,.12,skirt.progress):0;
+ const drive=(.9+a*.1)*(1-feed*.25);
+ x+=Math.cos(wave)*ribbon*.012*drive;y+=Math.sin(wave)*ribbon*.046*drive;
  let dx=0,dy=0,total=0;
  for(const [i,path] of CUTTLE_ARMS.entries()){
-  const {weight,progress}=pathWeight(u,v,path,.048),lag=phase+i*1.8-progress*3;
-  dx+=(Math.sin(lag)*.009*(1-a*.6)+feed*.028)*weight;
-  dy+=Math.cos(lag)*.012*(1-a*.5)*weight;total+=weight;
+  const {weight,progress}=pathWeight(u,v,path,.075),lag=phase+i*1.8-progress*3;
+  dx+=(Math.sin(lag)*.022*(1-a*.4)+feed*.028)*weight;
+  dy+=Math.cos(lag)*.028*(1-a*.4)*weight;total+=weight;
  }
  x+=dx/Math.max(1,total);y+=dy/Math.max(1,total);
  let keep=coreFreedom(u,v,CUTTLE_CORE);

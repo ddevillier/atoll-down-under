@@ -28,10 +28,17 @@ export function rotateFin(u,v,f,angle){
  return {x:x*cos-y*sin-x,y:x*sin+y*cos-y};
 }
 
+// Side-view caudal stroke: retain the painted vertical extent, shorten the
+// projected span as the fin turns away from the image plane.
+export function projectTail(u,v,f,phase,drive){
+ const weight=finWeight(u,v,f),fold=Math.min(.35,f.angle*5)*drive*(1-Math.cos(phase))*.5;
+ return {x:(f.root[0]-u)*weight*fold,y:0};
+}
+
 export function finPoint(p,u,v,time,effort,state={}){
  const f=FIN_RIGS[p.id],rig=rigFor(p),a=clamp(effort),feed=clamp(state.feed||0),turn=Math.max(-1,Math.min(1,state.turn||0));
  const phase=time*p.frequency*Math.PI*2;let x=u,y=v;
- const tail=rotateFin(u,v,f.tail,Math.sin(phase)*f.tail.angle*(.07+a*.93)*(1-feed*.7)+turn*.07);
+ const tail=projectTail(u,v,f.tail,phase,(.07+a*.93)*(1-feed*.7));
  x+=tail.x;y+=tail.y;
  // Broad fin sectors pivot around their shoulders. Stationary fish keep
  // stabilizing strokes; this does not make the rigid torso breathe or sway.

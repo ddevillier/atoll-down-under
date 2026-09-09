@@ -290,20 +290,32 @@ export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,pr
  const drive=name==='tail'?.05+.95*Math.sqrt(a):rig.scull!=null?rig.scull+(1-rig.scull)*a:.12+.88*Math.sqrt(a);
  const stroke=(1-Math.cos(phase))*.5,active=drive*(1-clamp(feed)*.65);
  const fold=part.fold*active*(1-clamp(brake)*.75);
- return {scale:1-fold*stroke,shear:Math.sin(phase)*part.sweep*active+Math.max(-1,Math.min(1,turn))*.08,brake:clamp(brake)};
+ return {scale:1-fold*stroke,shear:name==='tail'&&id!=='s27'?0:Math.sin(phase)*part.sweep*active+Math.max(-1,Math.min(1,turn))*.08,brake:clamp(brake)};
 }
 
 export function bodyPoint(id,u,v,time,effort=1,state={}){
  if(!PART_RIGS[id]?.spine)return {x:u,y:v};
  const rig=PART_RIGS[id],f=rig.spine===true?{root:.21,front:.78,axis:.54,amplitude:.060,lag:1.8}:rig.spine;
- const a=clamp(effort),span=f.front-f.root,rear=clamp((f.front-u)/span),phase=time*rig.frequency*TAU;
- const drive=(.035+.965*Math.sqrt(a))*(1-clamp(state.feed||0)*.75),aspect=state.aspect||.44;
- const bend=q=>Math.sin(phase+q*f.lag)*q*q*f.amplitude*drive+(state.turn||0)*q*q*.026;
- // The tail hinge uses the same tangent as the final body section. Switching
- // to zero slope exactly at the joint made that cross-section discontinuous.
- const derivative=u<f.front?-(Math.cos(phase+rear*f.lag)*f.lag*rear*rear*f.amplitude*drive+Math.sin(phase+rear*f.lag)*2*rear*f.amplitude*drive+(state.turn||0)*2*rear*.026)/span:0;
- const angle=Math.atan(derivative),cross=(v-f.axis)*aspect;
- return {x:u-cross*Math.sin(angle),y:f.axis+(cross*Math.cos(angle)+bend(rear))/aspect};
+ const a=clamp(effort),rear=clamp((f.front-u)/(f.front-f.root)),phase=time*rig.frequency*TAU;
+ const drive=(.035+.965*Math.sqrt(a))*(1-clamp(state.feed||0)*.75);
+ // A side-on fish bends out of the image plane. Project that bend as a small
+ // change in rear-body length, not an up/down wave through the caudal joint.
+ const compression=(1-Math.cos(phase+rear*f.lag))*.5*f.amplitude*.6*drive;
+ return {x:u+rear*rear*compression,y:v};
+}
+
+// Shared with numerical landmark QA; the rendered-pixel audit independently
+// reads Canvas transforms from actual draws of the opaque painted tail.
+export function partTransform(id,p,width,height,time,effort,state={}){
+ const pose=partPose(id,p.name,time,effort,state),[a,b]=p.hinge,s={...state,aspect:height/width},A=bodyPoint(id,...a,time,effort,s),B=bodyPoint(id,...b,time,effort,s);
+ const ax=a[0]*width,ay=a[1]*height,bx=b[0]*width,by=b[1]*height,length=Math.hypot(bx-ax,by-ay),ux=(bx-ax)/length,uy=(by-ay)/length;
+ if(p.name==='tail'&&id!=='s27'){
+  // Horizontal foreshortening about the authored (possibly sloped) hinge.
+  // Both endpoints remain attached, and each painted pixel keeps its height.
+  return {ax,ay,matrix:[pose.scale,0,(bx-ax)/(by-ay)*(1-pose.scale),1,A.x*width,A.y*height]};
+ }
+ const vx=(B.x-A.x)*width/length,vy=(B.y-A.y)*height/length,nx=-vy*pose.scale+vx*pose.shear,ny=vx*pose.scale+vy*pose.shear;
+ return {ax,ay,matrix:[vx*ux-nx*uy,vy*ux-ny*uy,vx*uy+nx*ux,vy*uy+ny*ux,A.x*width,A.y*height]};
 }
 
 function path(c,points,w,h){c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x*w,y*h):c.moveTo(x*w,y*h));c.closePath();}
@@ -359,12 +371,8 @@ export class PaintedParts{
     if(pose.angle>0)c.drawImage(p.cavityCanvas,p.left/image.width*width,p.top/image.height*height,p.cavityCanvas.width/image.width*width,p.cavityCanvas.height/image.height*height);
     c.save();c.translate(ax,ay);c.rotate(pose.angle);c.drawImage(p.canvas,p.left/image.width*width-ax,p.top/image.height*height-ay,p.canvas.width/image.width*width,p.canvas.height/image.height*height);c.restore();continue;
    }
-   const pose=partPose(id,p.name,time,effort,state),[a,b]=p.hinge,A=bodyPoint(id,...a,time,effort,s),B=bodyPoint(id,...b,time,effort,s);
-   const ax=a[0]*width,ay=a[1]*height,bx=b[0]*width,by=b[1]*height,length=Math.hypot(bx-ax,by-ay),ux=(bx-ax)/length,uy=(by-ay)/length;
-   const vx=(B.x-A.x)*width/length,vy=(B.y-A.y)*height/length;
-   // In hinge coordinates, tangent is fixed; normal is foreshortened and swept.
-   const nx=-vy*pose.scale+vx*pose.shear,ny=vx*pose.scale+vy*pose.shear;
-   c.save();c.translate(A.x*width,A.y*height);c.transform(vx*ux-nx*uy,vy*ux-ny*uy,vx*uy+nx*ux,vy*uy+ny*ux,0,0);c.drawImage(p.canvas,p.left/image.width*width-ax,p.top/image.height*height-ay,p.canvas.width/image.width*width,p.canvas.height/image.height*height);c.restore();
+   const m=partTransform(id,p,width,height,time,effort,state);
+   c.save();c.transform(...m.matrix);c.drawImage(p.canvas,p.left/image.width*width-m.ax,p.top/image.height*height-m.ay,p.canvas.width/image.width*width,p.canvas.height/image.height*height);c.restore();
   }
   c.restore();
  }

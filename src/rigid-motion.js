@@ -1,6 +1,6 @@
 import {rigFor} from './animal-rigs.js';
 import {coreFreedom} from './resident-motion.js';
-import {rotateFin} from './fin-motion.js';
+import {projectTail,rotateFin} from './fin-motion.js';
 const clamp=n=>Math.max(0,Math.min(1,n));
 const smooth=(a,b,n)=>{const t=clamp((n-a)/(b-a));return t*t*(3-2*t);};
 const fin=(root,tip,radius,angle,phase=0)=>({root,tip,radius,angle,phase});
@@ -27,7 +27,7 @@ export function inflationOffset(id,u,v,puff){
 
 export function rigidPoint(p,u,v,time,effort,state={}){
  const f=RIGID_RIGS[p.id],rig=rigFor(p),a=clamp(effort),feed=clamp(state.feed||0),turn=Math.max(-1,Math.min(1,state.turn||0)),phase=time*p.frequency*Math.PI*2;
- const tail=rotateFin(u,v,f.tail,(Math.sin(phase)*(.12+.88*a)*(1-feed*.6)+turn*.5)*f.tail.angle);
+ const tail=projectTail(u,v,f.tail,phase,(.12+.88*a)*(1-feed*.6));
  let dx=tail.x,dy=tail.y;
  for(const part of f.fins){const offset=rotateFin(u,v,part,(Math.sin(phase+part.phase)*(.7+a*.3)*(1-feed*.2)+turn*.15)*part.angle);dx+=offset.x;dy+=offset.y;}
  const freedom=coreFreedom(u,v,f.core);dx*=freedom;dy*=freedom;
