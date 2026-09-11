@@ -18,7 +18,7 @@ function contours(image){const c=image.getContext('2d'),{width:w,height:h}=image
 export class CreationPainter{
  constructor(art){this.art=art;this.cache=new Map();this.prepared=0;}
  prepare(s){
-  const g=anatomy(s),a=g.a,key=JSON.stringify([s.body,s.color,g.depth,g.length,a]);
+  const g=anatomy(s),a=g.a,key=JSON.stringify([s.body,s.color,s.ability,g.depth,g.length,a]);
   if(this.cache.has(key)){const v=this.cache.get(key);this.cache.delete(key);this.cache.set(key,v);return v;}
   const d=g.depth,root=-.28*g.length,bodyWidth=.45-root,headWidth={small:.31,wide:.36,beak:.33,tube:.43}[a.mouth],headX=g.mouthX-headWidth;
   const headV={small:.65,wide:.50,beak:.64,tube:.66}[a.mouth],headH=d*1.68,headY=-headH*headV;
@@ -52,16 +52,17 @@ export class CreationPainter{
   const tailH={fan:.34,fork:.38,lyre:.46,point:.25}[a.tail],tail=fin('tail-'+a.tail,[-.515,-tailH*.5,root+.522,tailH]);
   const dorsalH={low:.14,sail:.30,spiny:.23,ribbon:.23}[a.dorsal],dorsalY=-d*.66;
   const silhouette=layer([root-.01,Math.min(-d,headY),g.mouthX-root+.02,Math.max(d*.92,headY+headH)-Math.min(-d,headY)],c=>{paint(c,body);paint(c,fullHead);}),outline=contours(silhouette.image);
-  const dorsalSkin=tint(this.art['dorsal-'+a.dorsal],a.finColor),finOutline=contours(dorsalSkin),dx=root+.15;
-  const dorsal=layer([dx,Math.min(-d,headY)-dorsalH,.40,dorsalH+Math.max(d,headH)],c=>{
+  const makeDorsal=(name,height)=>{const dorsalSkin=tint(this.art['dorsal-'+name],a.finColor),finOutline=contours(dorsalSkin),dx=root+.15;
+  return layer([dx,Math.min(-d,headY)-height,.40,height+Math.max(d,headH)],c=>{
    // Each fin ray meets the actual painted back, including free proportions
    // and long/short heads. Body paint then covers the embedded attachment.
    for(let sx=0;sx<dorsalSkin.width;sx++){
     const x=dx+sx/dorsalSkin.width*.40,ix=Math.max(0,Math.min(outline.length-1,Math.round((x-silhouette.x)*N))),back=silhouette.y+outline[ix][0]/N;
     const bottom=finOutline[sx][1];if(!bottom)continue;
-    c.drawImage(dorsalSkin,sx,0,1,dorsalSkin.height,x,back+.014-bottom/dorsalSkin.height*dorsalH,.40/dorsalSkin.width+.0008,dorsalH);
+    c.drawImage(dorsalSkin,sx,0,1,dorsalSkin.height,x,back+.014-bottom/dorsalSkin.height*height,.40/dorsalSkin.width+.0008,height);
    }
-  });
+  });};
+  const dorsal=makeDorsal(a.dorsal,dorsalH),defenseDorsal=s.ability==='spines'?makeDorsal('spiny',Math.max(.25,dorsalH)):null;
   const anal=fin('dorsal-low',[root+.12,d*.62,.32,.12],true);
   const ph=[.14,d*.10],ps={paddle:[.17,.17],wing:[.28,.27],point:[.24,.15]}[a.pectoral];
   const pectoral=fin('pectoral-'+a.pectoral,[ph[0]-ps[0],ph[1],ps[0]+.008,ps[1]]);
@@ -73,20 +74,25 @@ export class CreationPainter{
   const jaw=layer(headRect,c=>{polygon(c,jawPoints);c.clip();paint(c,fullHead);});
   const head=layer(headRect,c=>{paint(c,fullHead);c.globalCompositeOperation='destination-out';polygon(c,jawPoints);c.fill();});
   const cavity=layer(headRect,c=>{paint(c,jaw);c.globalCompositeOperation='source-in';c.fillStyle='#173337';c.fillRect(...headRect);});
-  const result={body,head,jaw,cavity,tail,dorsal,anal,pectoral,pelvic,root,dh:[root+.35,dorsalY],ph,hinge,g};
+  const mimicStripe=s.ability==='mimic'?layer([silhouette.x,silhouette.y,silhouette.w,silhouette.h],c=>{
+   c.fillStyle='#182e39';c.beginPath();c.moveTo(root,0);c.bezierCurveTo(-.05,-d*.25,.22,-d*.22,g.mouthX,-d*.15);c.lineTo(g.mouthX,d*.08);c.bezierCurveTo(.20,d*.12,-.1,d*.08,root,.025);c.closePath();c.fill();c.globalCompositeOperation='destination-in';paint(c,silhouette);
+  }):null;
+  const result={body,head,jaw,cavity,tail,dorsal,defenseDorsal,mimicStripe,anal,pectoral,pelvic,root,dh:[root+.35,dorsalY],ph,hinge,g};
   if(this.cache.size>=12)this.cache.delete(this.cache.keys().next().value);this.cache.set(key,result);this.prepared++;return result;
  }
  draw(c,s,texture,width,time,effort,state={}){
   const r=this.prepare(s),feed=clamp(state.feed||0),drive=.18+.82*clamp(effort),phase=time*TAU*(1.15+(s.speed||140)/180),motion=time>0?1:0;
   const joint=(p,x,y,angle,sx=1,sy=1)=>{c.save();c.translate(x*width,y*width);c.rotate(angle);c.scale(sx,sy);c.translate(-x*width,-y*width);paint(c,p,width);c.restore();};
   c.save();c.scale(1,1+clamp(state.puff||0)*.55);
-  const bend=Math.sin(phase)*.075*drive+(state.turn||0)*.13;
+  const bend=Math.sin(phase)*.075*drive+(state.turn||0)*.13+(state.sting?Math.sin(phase*1.3)*.48:0);
   joint(r.tail,r.root,0,bend*motion,1-(1-Math.cos(phase))*.25*drive*motion);
   // Compress about the attachment without lifting the ray bases off the back.
-  joint(r.dorsal,...r.dh,0,1,1-(1-Math.cos(phase*.6))*.025*motion);
+  joint(state.spines&&r.defenseDorsal?r.defenseDorsal:r.dorsal,...r.dh,0,1,1-(1-Math.cos(phase*.6))*.025*motion);
   paint(c,r.anal,width);paint(c,r.pelvic,width);
   paint(c,r.body,width);
   paint(c,r.head,width);paint(c,r.cavity,width);joint(r.jaw,...r.hinge,feed*({small:.15,wide:.28,beak:.19,tube:.08}[r.g.a.mouth]));
+  if(r.mimicStripe)paint(c,r.mimicStripe,width);
+  if(s.ability==='flash'){c.save();c.scale(width,width);c.globalAlpha=state.flash?1:.18;c.fillStyle='#e6fff1';c.beginPath();c.ellipse(.29,r.g.depth*.10,.023,.012,-.15,0,TAU);c.fill();c.restore();}
   joint(r.pectoral,...r.ph,(-.08+Math.sin(phase+.8)*.20)*motion,1,1-(1-Math.cos(phase+.8))*.32*motion+(state.brake||0)*.25);
   if(s.ability==='lure'){c.save();c.scale(width,width);c.strokeStyle=r.g.a.finColor;c.lineWidth=.004;c.beginPath();c.moveTo(.25,-r.g.depth*.66);c.quadraticCurveTo(.36,-r.g.depth-.16,.43,-r.g.depth-.055+Math.sin(time*3)*.012*motion);c.stroke();c.fillStyle=state.lure>.2?'#fff4b8':r.g.a.finColor;c.beginPath();c.arc(.43,-r.g.depth-.055+Math.sin(time*3)*.012*motion,.012,0,TAU);c.fill();c.restore();}
   c.restore();

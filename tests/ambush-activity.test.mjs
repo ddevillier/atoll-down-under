@@ -29,8 +29,11 @@ test('a concealed waiting frogfish invites eligible prey without manufacturing a
 test('generated communities support ambush catches with ordinary steering, waiting and repeat attempts',()=>{
  for(const id of ['s16','s21','s54','s59']){
   const s=new Simulation(42);s.start('practice',id);const count=s.section.entities.length,score=p=>s.section.entities.filter(e=>e.alive&&edible(s.player,e)&&!e.species.poison&&Math.hypot(e.x-p.x,e.y-p.y)<340).length;
-  const site=sitesFor(s).sort((a,b)=>score(b)-score(a))[0];s.point(site.x,site.y);
+  let site=sitesFor(s).sort((a,b)=>score(b)-score(a))[0];s.point(site.x,site.y);
   for(let i=0;i<120*60&&s.phase==='playing'&&!s.adventure.complete;i++){
+   // Real prey can defend themselves and leave the waiting area. Reassess the
+   // visible community instead of relying on the same fish returning forever.
+   if(i>0&&i%(20*60)===0){site=sitesFor(s).sort((a,b)=>score(b)-score(a))[0];s.point(site.x,site.y);}
    if(!s.player.ambush){if(Math.hypot(s.player.x-site.x,s.player.y-site.y)<100)s.useContext();else s.point(site.x,site.y);}
    if(s.player.ambush?.settled>=2&&!s.player.ambush.strike){const e=s.section.entities.find(e=>e.alive&&!e.hidden&&edible(s.player,e)&&!e.species.poison&&Math.hypot(s.player.x-e.x,s.player.y-e.y)<130);if(e){const f=creatureFrame(e);s.eatAt(f.x,f.y);}}
    s.step(1/60);

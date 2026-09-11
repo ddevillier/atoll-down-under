@@ -133,7 +133,7 @@ function homeHTML(){
  const modes=[['practice','Practice','Choose a creature. Explore its life.'],['challenge','Challenge','Four lives, from small fry to reef ruler.'],['tournament','Tournament','Journey through all 55 playable species.'],['create','Create a fish','Shape a life of your own.']];
  return `<h1 class="sr-only">Atoll Down Under</h1><nav class="splash-bar" aria-label="Main menu" ${modal?'inert aria-hidden="true"':''}><details class="splash-menu"><summary>File</summary><div class="splash-dropdown">${sim?button('resume','Continue dive','play'):''}${button('saves','Saved dives','save')}${button('creations','My creations','fish')}${button('journal','Family journal','book')}${button('scores','Reef rulers','trophy')}${button('settings','Settings','gear')}${fullscreenButton()}</div></details><details class="splash-menu"><summary>Game</summary><div class="splash-dropdown splash-modes">${modes.map(([m,title,sub])=>`<button data-action="mode-${m}"><span><b>${title}</b><small>${sub}</small></span></button>`).join('')}</div></details><details class="splash-menu splash-help"><summary>Help</summary><div class="splash-dropdown">${button('guide','Field guide','book')}${button('help','How to play','info')}</div></details></nav><button class="sound-enable secondary-button" data-action="enable-sound" hidden>Enable sound</button>`;
 }
-function dietText(s){return s.diet.map(f=>FOODS[f]?.name||({fish:'smaller fish',crab:'crabs',snail:'snails',urchin:'urchins',star:'sea stars',parasite:'parasites',detritus:'detritus'})[f]||f).join(' · ');}
+function dietText(s){return s.diet.map(f=>f==='fish'&&s.ability==='mimic'?'bites from other fish':FOODS[f]?.name||({fish:'smaller fish',crab:'crabs',snail:'snails',urchin:'urchins',star:'sea stars',parasite:'parasites',detritus:'detritus'})[f]||f).join(' · ');}
 function reefMapHTML(){
  const selected=REEFS[mapSelection],visited=new Set(sim.visited),route=routeBetween(sim.current,mapSelection),meals=availableMeals(sim.player.species,sim.sections[mapSelection]);
  const tiles=REEFS.map(r=>`<button class="reef-map-tile" data-action="map-select" data-reef="${r.id}" aria-pressed="${r.id===mapSelection}" ${r.id===sim.current?'aria-current="location"':''}><img src="${r.image}" alt=""><span>${escape(r.name)}<small>${r.id===sim.current?'You are here':visited.has(r.id)?'Visited':'Not yet visited'}</small></span></button>`).join('');
@@ -349,7 +349,7 @@ function events(){for(const e of sim?.events.splice(0)||[]){
  if(e.type==='discovery'){progress('discovery',e.value);audio.effect('ui',.45);notify(e.text);continue;}
  if(e.type==='sand'){renderer.addEffect('sand',e.x,e.y);audio.effect('bubble');notify(e.text);continue;}
  if(e.type==='progress'){progress(e.kind,e.value);continue;}
- if(e.type==='ability'){audio.effect(e.ability==='poison'?'ink':e.ability);renderer.addEffect(e.ability,e.x,e.y);notify(ABILITIES[e.ability].name);}
+ if(e.type==='ability'){audio.effect(e.ability==='mimic'?'clean':e.ability==='poison'?'ink':e.ability,e.actor&&e.actor!=='player'?.35:1);renderer.addEffect(e.ability,e.x,e.y);if(!e.actor||e.actor==='player')notify(ABILITIES[e.ability].name);}
  else{if(['eat','hurt','clean'].includes(e.type))renderer.addEffect(e.type,e.x??sim.player.x,e.y??sim.player.y,e.type==='eat'&&e.energyGained>=1?'+'+Math.round(e.energyGained)+' energy':null);audio.effect(e.type);notify(e.text);}
  if(e.type==='death'){sim.deathReason=e.text;openModal('dead');}
  if(e.type==='advance'||e.type==='won'){openModal(e.type);saveSlot(0,false);}

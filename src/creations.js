@@ -30,6 +30,7 @@ export function validateCreation(value){
 export function remember(c,m){if(c&&!c.memories.includes(m)&&c.memories.length<32)c.memories.push(m);}
 export function abilityIssue(config){
  const s=createSpecies(config);
+ if(s.ability==='mimic'&&!s.diet.includes('fish'))return 'Imitating a cleaner needs a hunter diet: this fish eats small bites from other fish.';
  if(s.ability==='lure'&&!Object.values(BY_ID).some(p=>edible({species:s},{species:p})))return 'Lure needs suitable animal prey. Choose a hunter diet and a larger body, or another ability.';
  return '';
 }

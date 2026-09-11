@@ -272,7 +272,7 @@ export const PART_RIGS={
  ]}
 };
 
-export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,probe=0,lure=0}={}){
+export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,probe=0,lure=0,sting=0,spines=0}={}){
  const rig=PART_RIGS[id],part=rig.parts.find(p=>p.name===name),a=clamp(effort);
  if(part.mode==='jaw')return {scale:1,shear:0,angle:part.open*clamp(feed),brake:0};
  if(part.mode==='glow')return {scale:1,shear:0,opacity:lightVisibility(time,{feed,flash}),brake:0};
@@ -285,6 +285,10 @@ export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,pr
   return {scale:1-part.fold*active*(1-Math.cos(phase))*.5,shear:part.sweep*active*Math.sin(phase),brake:0};
  }
  const phase=time*rig.frequency*TAU+part.phase;
+ if(id==='s27'&&name==='tail'&&sting)return {scale:1,shear:Math.sin(phase*2)*.55+.15,brake:0};
+ if(spines&&name.includes('dorsal'))return {scale:1.22,shear:0,brake:0};
+ if(spines&&name==='pectoral')return {scale:1.12,shear:0,brake:1};
+ if(spines&&name==='tail')return {scale:.72+.28*Math.cos(phase*1.7)**2,shear:0,brake:0};
  // Propulsion is legible at ordinary NPC speed. Braking opens stabilizing fins
  // while the tail comes to rest; hoverers and cowfish keep sculling in place.
  const drive=name==='tail'?.05+.95*Math.sqrt(a):rig.scull!=null?rig.scull+(1-rig.scull)*a:.12+.88*Math.sqrt(a);

@@ -1,4 +1,5 @@
 import {chooseCustomRefuge,customMeal,tickCustomLife} from './custom-life.js';
+import {triggerAbility,defended as hasDefense,mimicTrusted,approachMimic,mimicBite,validMimicMemory,driftTowardLight,validLightOrigin,DEFENSIVE_ABILITIES} from './ability-rules.js';
 import {newCreation,validateCreation,legacyCreation,blueprint} from './creations.js';
 import {beginResidentObservation,tickResidentObservation,validResidentJourneys} from './resident-journeys.js';
 import {releaseEscortFollow,tickEscortFollow,escortCover} from './escort-journeys.js';
@@ -121,7 +122,7 @@ export class Simulation {
   prepareResidentFood(entities,food,reef);
   return {entities,food,residentFoodVersion:2};
  }
- useContext(){if(this.creation?.blueprint.diet==='grazer'&&this.player.species.size<125)return chooseCustomRefuge(this);return this.player?.species.ability==='clean'?requestPlayerService(this):useContext(this);}
+ useContext(){if(this.player?.stun>0)return false;if(this.creation?.blueprint.diet==='grazer'&&this.player.species.size<125)return chooseCustomRefuge(this);return this.player?.species.ability==='clean'?requestPlayerService(this):useContext(this);}
  get section(){return this.sections[this.current];}
  get mealTarget(){
   const id=this.player?.target;
@@ -140,7 +141,7 @@ export class Simulation {
   return 'Ready for cleaning · Settling beside your cleaner';
  }
  requestCleaning(cleaner=this.section?.entities.find(e=>e.alive&&e.species.ability==='clean')){
-  const p=this.player;if(!p||this.paused||this.phase!=='playing')return false;
+  const p=this.player;if(!p||this.paused||this.phase!=='playing'||p.stun>0)return false;
   releaseEscortFollow(this);cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;p.target=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};
   if(!cleaner?.alive||cleaner.species.ability!=='clean'){this.event('message','The cleaner is away. Try again when it returns to the station.');return false;}
   if(!p.species.parasites||healthState(p).parasites<=1){this.event('message','No parasites to remove. Food and rest help your fish recover from bites or poison.');return false;}
@@ -192,7 +193,7 @@ export class Simulation {
   return candidates.sort((a,b)=>distance(a.species?creatureFrame(a):a,p)-distance(b.species?creatureFrame(b):b,p))[0]||null;
  }
  eatAt(x,y){
-  if(!this.player||this.paused||this.phase!=='playing')return false;
+  if(!this.player||this.paused||this.phase!=='playing'||this.player.stun>0)return false;
   const t=this.findAt(x,y);if(!t){this.point(x,y);return false;}
   startWatchApproach(this,t);
   if(edible(this.player,t)&&preparationKind(this.player,t)&&!(t.kind==='food'&&t.uncovered>0&&t.sandSource===this.player.id))return startForagingPrep(this,t,true);
@@ -205,19 +206,20 @@ export class Simulation {
  }
  useAbility(){
   const p=this.player;if(!p||this.phase!=='playing'||this.paused)return false;
+  if(p.stun>0){this.event('message','Wait for the stun to wear off before using your ability.');return false;}
   if(p.species.ability==='clean')return requestPlayerService(this);
   if(p.species.ability==='none'){this.event('message','This species relies on swimming and shelter.');return false;}
   if(p.species.ability==='crush'){this.event('message','Crushing jaws are always available. Click a food in your diet to use them.');return false;}
+  if(p.species.ability==='toxic'){this.event('message','Your poisonous body is always a defense. No activation or energy is needed.');return false;}
   if(p.cooldown>0){this.event('message','Your ability is recovering.');return false;}
   if(p.energy<12){this.event('message','Find food before using more energy.');return false;}
-  releaseEscortFollow(this);cancelWatch(this);p.foragingPrep=null;this.protected=false;p.energy-=8;p.cooldown=12;p.abilityTime=['lure','camouflage'].includes(p.species.ability)?6:4;
-  p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;
-  const ability=p.species.ability;
-  for(const e of this.section.entities){if(distance(p,e)>230)continue;if(['shock','sting','sonic'].includes(ability)||ability==='flash'&&e.alive&&edible(e,p))e.stun=4;if(['ink','poison','spines','puff'].includes(ability)){if(e.alive&&e.target==='player')this.event('pursuit-release',e.species.name+' stopped pursuing.',{animalId:e.id,reason:'defense',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.stun=1.5;e.angle=Math.atan2(e.y-p.y,e.x-p.x);}}
-  this.event('ability',ability,{ability,x:p.x,y:p.y});return true;
+  releaseEscortFollow(this);cancelWatch(this);p.foragingPrep=null;this.protected=false;
+  return triggerAbility(this,p);
  }
  consume(target){
-  const p=this.player;if(p.biteCooldown>0)return;p.blending=null;p.blendTime=0;p.actionTime=.65;p.activity='feeding';p.biteCooldown=.45;
+  const p=this.player;if(p.biteCooldown>0||p.stun>0)return;
+  if(target.species&&hasDefense(target)){p.target=null;cancelPreparation(p);this.event('message',target.species.name+' is defending itself. Wait or choose another meal.');return;}
+  p.blending=null;p.blendTime=0;p.actionTime=.65;p.activity='feeding';p.biteCooldown=.45;
   const b=target.species;const good=edible(p,target);const poison=target.kind==='food'?target.food==='sponge'&&!p.species.diet.includes('sponge'):b?.poison&&!['crush','poison'].includes(p.species.ability);
   if(b?.ability==='clean'){p.target=null;this.event('message','That animal is a cleaning partner. Click it to request cleaning.');return;}
   const name=target.name||b?.name;
@@ -238,13 +240,14 @@ export class Simulation {
    this.event('reject',name+reason);
   }
   else{
-   const whole=target.kind!=='food';const gain=whole?clamp(b.size*.33,12,65):FOODS[target.food].nutrition;
+   const nip=p.species.ability==='mimic'&&b&&(b.food||'fish')==='fish';
+   const whole=target.kind!=='food'&&!nip;const gain=nip?16:whole?clamp(b.size*.33,12,65):FOODS[target.food].nutrition;
    mealAdventure(this,target);const energyBefore=p.energy;p.energy=clamp(p.energy+gain,0,100);const points=whole?1000:500;if(this.mode!=='practice'){this.score+=points;this.stageScore+=points;}
-   if(whole){target.alive=false;target.respawn=20;}else{disturbPatch(target);target.amount-=35;if(target.amount<=0){target.regrow=8;target.amount=100;}}
+   if(nip)mimicBite(this,p,target);else if(whole){target.alive=false;target.respawn=20;}else{disturbPatch(target);target.amount-=35;if(target.amount<=0){target.regrow=8;target.amount=100;}}
    this.careProgress.nourishment=(this.careProgress.nourishment||0)+(p.energy-energyBefore);if(this.careProgress.nourishment>=10)this.careProgress.fed=true;
    if(p.energy-energyBefore>=10){this.event('progress','',{kind:'activity',value:'meal'});if(this.period==='night')this.event('progress','',{kind:'activity',value:'night'});}
    customMeal(this,p.energy-energyBefore);
-   this.event('eat','A good meal: '+name+'.',{points:this.mode==='practice'?0:points,energyGained:p.energy-energyBefore,x:target.x,y:target.y});
+   this.event('eat',nip?'A small nip. '+name+' survived and recognizes your disguise.':'A good meal: '+name+'.',{points:this.mode==='practice'?0:points,energyGained:p.energy-energyBefore,x:target.x,y:target.y});
   }
   p.target=null;this.pointer={x:p.x,y:p.y};
  }
@@ -267,6 +270,8 @@ export class Simulation {
  step(dt){
   if(this.paused||this.phase!=='playing'||!this.player)return;
   dt=Math.min(dt,.05);this.time+=dt;const p=this.player;p.cooldown=Math.max(0,p.cooldown-dt);p.abilityTime=Math.max(0,p.abilityTime-dt);p.biteCooldown=Math.max(0,p.biteCooldown-dt);
+  p.stun=Math.max(0,p.stun-dt);
+  driftTowardLight(this,dt);
   tickFeeding(p,dt);
   const cleaningPlan=this.cleaningPlan();
   if(p.cleanerTarget){
@@ -277,8 +282,8 @@ export class Simulation {
   tickAmbush(this,dt);const target=this.mealTarget;
   if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
   const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y,alive:p.alive};
-  const speed=p.species.speed*(p.ambush?.strike>0?3:1)*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
-  const serving=tickPlayerService(this,dt),probing=tickSandProbe(this,dt),foraging=tickForagingPrep(this,dt),escorting=tickEscortFollow(this,dt);
+  const speed=p.stun>0?0:p.species.speed*(p.ambush?.strike>0?3:1)*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
+  const serving=p.stun<=0&&tickPlayerService(this,dt),probing=p.stun<=0&&tickSandProbe(this,dt),foraging=p.stun<=0&&tickForagingPrep(this,dt),escorting=p.stun<=0&&tickEscortFollow(this,dt);
   const contact=target?approachMeal(p,target,dt,speed,p.species.agility*(p.ambush?.strike>0?3:1)):null;
   if(!serving&&!probing&&!foraging&&!escorting&&!target&&dist>7){
    if(p.cleanerTarget)approachCleaning(p,dest,dt,speed);
@@ -338,6 +343,8 @@ export class Simulation {
  }
  stepNpc(e,dt,cleaningPlan=this.cleaningPlan()){
   const previous={x:e.x,y:e.y,alive:e.alive};
+  e.cooldown=Math.max(0,(e.cooldown||0)-dt);e.abilityTime=Math.max(0,(e.abilityTime||0)-dt);
+  if(e.alive)e.energy=Math.min(100,e.energy+dt*.7);
   tickFeeding(e,dt);
   e.activity='cruising';if(e.target){e.blending=null;e.blendTime=0;}e.actionTime=Math.max(0,(e.actionTime||0)-dt);this.stepNpcBody(e,dt,cleaningPlan);
   if(e.feeding&&!e.feeding.committed&&e.target!==e.feeding.target)cancelPreparation(e);
@@ -349,7 +356,7 @@ export class Simulation {
  stepNpcBody(e,dt,cleaningPlan=this.cleaningPlan()){
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
    e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;
-   e.residentMeal=null;e.feeding=null;e.ecology=null;e.actionTime=0;e.retract=0;delete e.passerExposure;e.incarnation=(e.incarnation||0)+1;
+   e.residentMeal=null;e.feeding=null;e.ecology=null;e.actionTime=0;e.retract=0;delete e.passerExposure;delete e.mimicMemory;e.incarnation=(e.incarnation||0)+1;
    // A returning cleaner belongs to the established station, where players
    // and clients know to wait, rather than an arbitrary point in open water.
    if(e.species.ability==='clean'&&e.station){e.x=e.station.x;e.y=e.station.y;}
@@ -357,6 +364,11 @@ export class Simulation {
    if(e.holdfast){e.x=e.holdfast.x;e.y=e.holdfast.y;}
   }return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
+  if(DEFENSIVE_ABILITIES.includes(e.species.ability)&&e.cooldown<=0&&!e.cleanTime){
+   const threat=[this.player,...this.section.entities].find(b=>b!==e&&b.alive&&!b.hidden&&b.target===e.id&&edible(b,e)&&distance(b,e)<100);
+   if(threat)triggerAbility(this,e);
+  }
+  if(approachMimic(this,e,dt))return;
   clearRelationships(this,e);
   if(respondToPlayerService(this,e,dt))return;
   if(e.entering&&e.x>=10&&e.x<=W-10&&e.y>=25&&e.y<=H-20)delete e.entering;
@@ -394,27 +406,30 @@ export class Simulation {
   // Old saves can contain a meal target aimed at a cleaner. A healthy client
   // releases that target; parasite-driven visits are handled above.
   if(e.target&&this.section.entities.some(b=>b.id===e.target&&b.species.ability==='clean')){e.target=null;e.pursuit=0;e.think=0;}
-  const defended=p.abilityTime>0&&['spines','puff','poison','ink','shock','sting'].includes(p.species.ability);
+  const defended=hasDefense(p);
   // Older saves represented lure curiosity as a meal target on the player.
   // Release that alias before normal diet checks or the new observation step.
   if(e.target==='player'&&e.behavior==='Following lure'){e.target=null;e.pursuit=0;e.behavior='Exploring';}
-  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&!settledCleaningClient(p,cleaningPlan)&&edible(e,p);
+  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&!mimicTrusted(this,e,p)&&!settledCleaningClient(p,cleaningPlan)&&edible(e,p);
   if(e.target==='player'&&!canEatPlayer){const reason=p.hidden?'concealment':this.protected?'protection':defended?'defense':'eligibility';this.event('pursuit-release',reason==='concealment'?e.species.name+' lost sight of you.':e.species.name+' stopped pursuing.',{animalId:e.id,reason,x:e.x,y:e.y});e.target=null;e.pursuit=0;e.think=.8;e.angle=Math.atan2(e.y-p.y,e.x-p.x);e.behavior='Leaving pursuit';}
-  if(e.target&&e.target!=='player'&&(settledCleaningClient(this.section.entities.find(b=>b.id===e.target),cleaningPlan)||treatingClient(this,this.section.entities.find(b=>b.id===e.target)))){e.target=null;e.pursuit=0;e.think=0;cancelPreparation(e);}
+  if(e.target&&e.target!=='player'){
+   const victim=this.section.entities.find(b=>b.id===e.target);
+   if(victim&&(victim.hidden||hasDefense(victim)||victim.species.poison||mimicTrusted(this,e,victim)||settledCleaningClient(victim,cleaningPlan)||treatingClient(this,victim))){e.target=null;e.pursuit=0;e.think=0;cancelPreparation(e);}
+  }
   if(e.target){e.pursuit+=dt;if(e.pursuit>6){if(e.target==='player')this.event('pursuit-release',e.species.name+' ended its chase.',{animalId:e.id,reason:'timeout',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
   let speed=e.species.speed*.35;
   if(e.think<=0){
    e.think=.65+this.random()*.55;
    const pd=distance(e,p);
-   const threats=this.section.entities.filter(b=>b!==e&&b.alive&&b.satiated<=0&&edible(b,e)&&distance(e,b)<100);
-   if((edible(p,e)&&pd<100&&!p.hidden)||defended&&pd<150)threats.push(p);
+   const threats=this.section.entities.filter(b=>b!==e&&b.alive&&b.satiated<=0&&edible(b,e)&&!mimicTrusted(this,e,b)&&distance(e,b)<100);
+   if((edible(p,e)&&pd<100&&!p.hidden&&!mimicTrusted(this,e,p))||defended&&edible(e,p)&&pd<150)threats.push(p);
    const threat=threats.sort((a,b)=>distance(e,a)-distance(e,b))[0];
    if(threat){if(e.target==='player')this.event('pursuit-release',e.species.name+' turned away from a threat.',{animalId:e.id,reason:'threat',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.angle=Math.atan2(e.y-threat.y,e.x-threat.x);e.behavior='Moving away from '+threat.species.name;e.activity='avoiding';}
    else if(!e.target){
     const candidates=e.satiated<=0&&e.rest<=0?[
      // Helpers and clients settled at service positions are left alone.
      // Ordinary prey and food remain available outside that interaction.
-     ...this.section.entities.filter(b=>b!==e&&b.alive&&b.species.ability!=='clean'&&!settledCleaningClient(b,cleaningPlan)&&!treatingClient(this,b)&&edible(e,b)&&!b.species.poison),
+     ...this.section.entities.filter(b=>b!==e&&b.alive&&!b.hidden&&!hasDefense(b)&&!mimicTrusted(this,e,b)&&b.species.ability!=='clean'&&!settledCleaningClient(b,cleaningPlan)&&!treatingClient(this,b)&&edible(e,b)&&!b.species.poison),
      ...this.section.food.filter(f=>f.regrow<=0&&edible(e,f)),
      ...(canEatPlayer?[p]:[])
     ].filter(b=>distance(e,b)<165&&sharedMealAvailable(e,b,this.section.entities)).sort((a,b)=>distance(e,a)+patchCrowdingCost(a)-distance(e,b)-patchCrowdingCost(b)):[];
@@ -434,8 +449,9 @@ export class Simulation {
      speed=0;
      if(mealContact(e,dest,dt,contact.contact)){
      e.biteCooldown=2;e.actionTime=.65;
-     if(dest===p&&canEatPlayer){p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
+     if(dest===p&&canEatPlayer){if(e.species.ability==='mimic')mimicBite(this,e,p);else{p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;}p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
      else if(dest!==p&&dest.kind==='food'){schoolMeal(this,e,dest);witnessSandMeal(this,e,dest);companionMeal(this,e,dest);disturbPatch(dest);dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
+     else if(dest!==p&&e.species.ability==='mimic'&&(dest.species.food||'fish')==='fish'){mimicBite(this,e,dest);}
      else if(dest!==p){dest.alive=false;dest.respawn=24;}
      if(e.target==='player')this.event('pursuit-release',e.species.name+' is digesting its meal.',{animalId:e.id,reason:'fed',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
      }
@@ -492,6 +508,7 @@ export class Simulation {
   // Custom fish keep their chosen diets, regardless of their illustrations.
   for(const fish of [d.player,...d.sections.flatMap(section=>section.entities||[])]){
    if(!validHome(fish.ecology?.home)||!validPerchWatch(fish.ecology?.watch))throw new Error('The saved refuge is damaged.');
+   if(!validMimicMemory(fish.mimicMemory))throw new Error('The saved mimic encounter is damaged.');
    if(!validFeeding(fish.feeding))throw new Error('The saved feeding action is damaged.');
    if(!validResidentMeal(fish.residentMeal))throw new Error('The saved resident meal is damaged.');
    if(fish.passerExposure!==undefined&&(!Number.isFinite(fish.passerExposure)||fish.passerExposure<0||fish.passerExposure>4))throw new Error('The saved resident response is damaged.');
@@ -521,7 +538,7 @@ export class Simulation {
    if(d.player.species.id==='custom'&&d.custom)d.player.species.diet=createSpecies({...d.custom,ability:'crush'}).diet;
   }
   if(!Number.isInteger(d.destination)||!REEFS[d.destination]||d.destination===d.current)d.destination=null;
-  for(const section of d.sections)for(const food of section.food||[])if(!validSandSource(food.sandSource)||!validPatchRest(food.patchRest))throw new Error('The saved sand discovery is damaged.');
+  for(const section of d.sections)for(const food of section.food||[])if(!validSandSource(food.sandSource)||!validPatchRest(food.patchRest)||!validLightOrigin(food.lightOrigin))throw new Error('The saved food discovery is damaged.');
   if(!validAmbush(d.player.ambush))throw new Error('The saved ambush is damaged.');
   if(!validForagingPrep(d.player.foragingPrep))throw new Error('The saved foraging preparation is damaged.');
   if(!validSandProbe(d.player.sandProbe))throw new Error('The saved sand search is damaged.');

@@ -1,4 +1,5 @@
 import {CreationPainter,CREATION_ART} from './creation-render.js';
+import {displayPose,abilityWater} from './ability-visuals.js';
 import {anatomy} from './creation-appearance.js';
 import {watchedResident} from './resident-journeys.js';
 import {escortCover} from './escort-journeys.js';
@@ -93,7 +94,8 @@ export class ReefRenderer {
   const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
   const animate=!this.reducedMotion&&time>0;
   const partId=species.id==='custom'?'s'+species.index:species.id;
-  if(animate&&PART_RIGS[partId]&&!state.puff){this.parts??=new PaintedParts();this.parts.draw(ctx,im,partId,width,h,time,activity,state);}
+  const heldAbility=this.reducedMotion&&(species.ability==='flash'||state.spines||state.sting);
+  if((animate||heldAbility)&&PART_RIGS[partId]&&!state.puff){this.parts??=new PaintedParts();this.parts.draw(ctx,im,partId,width,h,this.reducedMotion?2.25:time,this.reducedMotion?0:activity,state);}
   else if(animate||state.puff>0){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,this.reducedMotion?0:time,this.reducedMotion?0:activity,state,Math.max(1,this.canvas.width/1600));}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
  }
@@ -113,8 +115,9 @@ export class ReefRenderer {
   const underside=['s47','s62'].includes(e.species.id);
   if(underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
   if(e.groundRoute){ctx.save();ctx.globalAlpha=alpha*.18;ctx.translate(e.x,e.y);ctx.scale(width*.42,Math.max(2,width*.065));const shadow=ctx.createRadialGradient(0,0,.05,0,0,1);shadow.addColorStop(0,'#102d27');shadow.addColorStop(1,'#102d2700');ctx.fillStyle=shadow;ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fill();ctx.restore();}
-  ctx.save();ctx.translate(frame.x+turn.pivot*width,frame.y);ctx.rotate(rotation+turn.bank);
-  pose.frame={...frame,x:frame.x+turn.pivot*width,rotation:rotation+turn.bank,width:width*Math.abs(facing)};
+  const display=displayPose(e,clock,this.reducedMotion);
+  ctx.save();ctx.translate(frame.x+turn.pivot*width+display.x,frame.y+display.y);ctx.rotate(rotation+turn.bank+display.pitch);
+  pose.frame={...frame,x:frame.x+turn.pivot*width+display.x,y:frame.y+display.y,rotation:rotation+turn.bank+display.pitch,width:width*Math.abs(facing)};
   const feed=feedingEnvelope(e);
   pose.lure??=0;if(dt>0)pose.lure+=(lureDisplay(e)-pose.lure)*(1-Math.exp(-dt*7));
   const desiredProbe=e.species.id==='s9'&&['searching','probing'].includes(e.activity)?1:0;pose.probe??=0;if(dt>0)pose.probe+=(desiredProbe-pose.probe)*(1-Math.exp(-dt*6));
@@ -122,7 +125,7 @@ export class ReefRenderer {
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
   const feedAngle=e.residentMeal?Math.atan2(e.residentMeal.y-e.y,e.residentMeal.x-e.x):e.angle||0;
   const effort=SWIM_RIGS[e.species.id==='custom'?'s'+e.species.index:e.species.id]?pose.propulsion:pose.activity;
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{instance:e.id,feed,lure:pose.lure,probe:pose.probe,flash:e.species.ability==='flash'&&e.abilityTime>0?1:0,brake:pose.brake,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,effort,e.blending.kind,{instance:e.id,feed,turn:turn.bend});ctx.restore();
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{instance:e.id,feed,lure:pose.lure,probe:pose.probe,sting:e.species.ability==='sting'&&e.abilityTime>0?1:0,spines:e.species.ability==='spines'&&e.abilityTime>0?1:0,mimic:e.species.ability==='mimic'&&e.abilityTime>0?1:0,flash:e.species.ability==='flash'&&e.abilityTime>0?1:0,brake:pose.brake,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if(e.blending&&blend>0)this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*blend,effort,e.blending.kind,{instance:e.id,feed,turn:turn.bend});ctx.restore();
   if(!underside)this.drawResidentMorsel(ctx,e,rotation,alpha);
  }
  drawResidentMorsel(ctx,e,rotation,alpha){
@@ -168,7 +171,7 @@ export class ReefRenderer {
   if(sim.creation||sim.trial){const saved=sim.creation?.home;for(const [i,site]of REEFS[sim.current].shelters.entries()){if(sim.trial||sim.player.species.size<125){const own=saved?.reef===sim.current&&saved.index===i;c.save();c.strokeStyle=own?'#f4c76e':'#d6ecd2';c.lineWidth=own?2:1;c.beginPath();c.ellipse(site.x,site.y,site.r*.65,site.r*.3,0,0,Math.PI*2);c.stroke();c.restore();this.tag(c,site.x,site.y-35,own?'Your refuge':sim.trial?'Shelter · Settle here':'Refuge · E');}}}
   if(sim.adventure?.home?.reef===sim.current){const h=sim.adventure.home;c.save();c.strokeStyle='#c5e8c6';c.lineWidth=2;c.beginPath();c.arc(h.x,h.y,35,0,Math.PI*2);c.stroke();c.restore();}
   this.playerMarker=playerLocator(this.poses.get(p.id)?.frame||creatureFrame(p),this.uiUnit);
-  if(p.abilityTime>0){const a=p.species.ability;c.save();c.globalAlpha=.22;c.fillStyle=['ink','poison'].includes(a)?'#112f3d':'#caedcf';c.strokeStyle='#e0f6b9';c.lineWidth=2;if(['ink','poison'].includes(a)){c.beginPath();c.ellipse(p.x-p.facing*35,p.y,90,48,Math.sin(t)*.2,0,Math.PI*2);c.fill();}else if(a!=='camouflage'){c.beginPath();c.arc(p.x,p.y,p.species.size*.7+12+Math.sin(t*5)*5,0,Math.PI*2);c.stroke();}c.restore();}
+  for(const actor of [p,...living])abilityWater(c,actor,t,this.reducedMotion);
   if(p.cleanTime>0)this.tag(c,p.x,p.y-45,'Removing parasites',1,60);
   if(this.foodHints&&!this.inspect&&!p.cleanTime&&!sim.mealTarget){
    const hints=nearbyFoodHints(sim);
