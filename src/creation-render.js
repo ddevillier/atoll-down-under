@@ -4,7 +4,13 @@ export const CREATION_ART=['body-rounded','body-slender','body-sturdy','tail-fan
 function surface(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return c;}
 function layer([x,y,w,h],draw){const image=surface(Math.ceil(w*N)+4,Math.ceil(h*N)+4),c=image.getContext('2d');c.translate(2-x*N,2-y*N);c.scale(N,N);draw(c);return {image,x:x-2/N,y:y-2/N,w:image.width/N,h:image.height/N};}
 function paint(c,p,width=1){c.drawImage(p.image,p.x*width,p.y*width,p.w*width,p.h*width);}
-function tint(source,color){const out=surface(source.width,source.height),c=out.getContext('2d');c.drawImage(source,0,0);c.globalCompositeOperation='color';c.fillStyle=color;c.fillRect(0,0,out.width,out.height);c.globalCompositeOperation='destination-in';c.drawImage(source,0,0);return out;}
+function tint(source,color){
+ const out=surface(source.width,source.height),c=out.getContext('2d');c.drawImage(source,0,0);c.globalCompositeOperation='color';c.fillStyle=color;c.fillRect(0,0,out.width,out.height);c.globalCompositeOperation='destination-in';c.drawImage(source,0,0);
+ // Color blending alone discards RGB lightness: black and white would both
+ // become the same gray fish. Shift value while preserving painted shading.
+ const rgb=[1,3,5].map(i=>parseInt(color.slice(i,i+2),16)/255),lightness=(Math.max(...rgb)+Math.min(...rgb))/2;
+ c.globalCompositeOperation='source-atop';c.globalAlpha=Math.abs(lightness-.5)*1.5;c.fillStyle=lightness<.5?'#000000':'#ffffff';c.fillRect(0,0,out.width,out.height);return out;
+}
 function polygon(c,points){c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();}
 function contours(image){const c=image.getContext('2d'),{width:w,height:h}=image,data=c.getImageData(0,0,w,h).data;return Array.from({length:w},(_,x)=>{let top=h,bottom=0;for(let y=0;y<h;y++)if(data[(y*w+x)*4+3]>12){top=Math.min(top,y);bottom=y+1;}return [top,bottom];});}
 // Painted components retain fine scales and membrane rays. Cache cropped layers,
