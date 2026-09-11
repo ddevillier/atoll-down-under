@@ -36,7 +36,16 @@ export const refugeRole=c=>!!c&&c.blueprint.diet==='grazer'&&c.blueprint.size<12
 
 let database;
 function db(){return database??=new Promise((resolve,reject)=>{
- const r=indexedDB.open('atoll-creations',1);r.onupgradeneeded=()=>r.result.createObjectStore('fish',{keyPath:'id'});r.onsuccess=()=>resolve(r.result);r.onerror=()=>{database=null;reject(r.error);};r.onblocked=()=>{database=null;reject(new Error('Close another Atoll window to save creations.'));};
+ let blocked=false;
+ const r=indexedDB.open('atoll-creations',1);r.onupgradeneeded=()=>r.result.createObjectStore('fish',{keyPath:'id'});r.onsuccess=()=>{
+  const connection=r.result;
+  if(blocked){connection.close();return;}
+  const opened=database;
+  const clear=()=>{if(database===opened)database=null;};
+  connection.onclose=clear;
+  connection.onversionchange=()=>{clear();connection.close();};
+  resolve(connection);
+ };r.onerror=()=>{database=null;reject(r.error);};r.onblocked=()=>{blocked=true;database=null;reject(new Error('Close another Atoll window to save creations.'));};
 }).catch(err=>{database=null;throw err;});}
 async function transaction(mode,action){const d=await db();return new Promise((resolve,reject)=>{const t=d.transaction('fish',mode),r=action(t.objectStore('fish'));let result;r.onsuccess=()=>{result=r.result;};t.oncomplete=()=>resolve(result);t.onerror=t.onabort=()=>reject(t.error||new Error('Creation storage unavailable.'));});}
 export const listCreations=()=>transaction('readonly',s=>s.getAll());
@@ -46,10 +55,17 @@ export function storeCreation(sim){
  const c=validateCreation(sim.creation),state=JSON.parse(sim.serialize());
  return transaction('readwrite',s=>s.put({id:c.id,creation:c,state,savedAt:Date.now()}));
 }
+// JSON object property order is not part of a portable save's identity.
+function sameState(a,b){
+ if(a===b)return true;
+ if(!a||!b||typeof a!=='object'||typeof b!=='object'||Array.isArray(a)!==Array.isArray(b))return false;
+ const keys=Object.keys(a);
+ return keys.length===Object.keys(b).length&&keys.every(k=>Object.hasOwn(b,k)&&sameState(a[k],b[k]));
+}
 export async function resolveImportedCreation(sim){
  if(!sim.creation)return sim;
  const existing=await getCreation(sim.creation.id);
- if(existing&&JSON.stringify(existing.state)!==sim.serialize()){
+ if(existing&&!sameState(existing.state,JSON.parse(sim.serialize()))){
   const previous=sim.creation.id;sim.creation.id=globalThis.crypto.randomUUID();sim.creation.parentId=previous;
  }
  return sim;

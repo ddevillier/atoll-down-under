@@ -213,7 +213,7 @@ export class Simulation {
   releaseEscortFollow(this);cancelWatch(this);p.foragingPrep=null;this.protected=false;p.energy-=8;p.cooldown=12;p.abilityTime=['lure','camouflage'].includes(p.species.ability)?6:4;
   p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;
   const ability=p.species.ability;
-  for(const e of this.section.entities){if(distance(p,e)>230)continue;if(['shock','sting','sonic'].includes(ability)||ability==='flash'&&e.alive&&edible(e,p))e.stun=4;if(['ink','poison','spines','puff'].includes(ability)){e.target=null;e.stun=1.5;e.angle=Math.atan2(e.y-p.y,e.x-p.x);}}
+  for(const e of this.section.entities){if(distance(p,e)>230)continue;if(['shock','sting','sonic'].includes(ability)||ability==='flash'&&e.alive&&edible(e,p))e.stun=4;if(['ink','poison','spines','puff'].includes(ability)){if(e.alive&&e.target==='player')this.event('pursuit-release',e.species.name+' stopped pursuing.',{animalId:e.id,reason:'defense',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.stun=1.5;e.angle=Math.atan2(e.y-p.y,e.x-p.x);}}
   this.event('ability',ability,{ability,x:p.x,y:p.y});return true;
  }
  consume(target){
@@ -499,7 +499,20 @@ export class Simulation {
    if(fish.species?.id==='s22'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('coral'))fish.species={...fish.species,diet:[...fish.species.diet,'coral']};
   }
   if(d.mode==='create'){
-   if(d.creation){d.creation=validateCreation(d.creation);if(JSON.stringify(blueprint(d.custom))!==JSON.stringify(d.creation.blueprint))throw new Error('The saved creation and its blueprint do not match.');}
+   if(d.creation){
+    d.creation=validateCreation(d.creation);if(JSON.stringify(blueprint(d.custom))!==JSON.stringify(d.creation.blueprint))throw new Error('The saved creation and its blueprint do not match.');
+    // Metadata cannot describe a grazer while its live body uses hunter rules.
+    // Compare only production traits, not transient movement, injury or prose.
+    const expected=createSpecies(d.creation.blueprint);
+    // Pre-passive crushing saves contain precisely the ordinary diet. Upgrade
+    // that known old shape before validation, without repairing arbitrary diets.
+    if(expected.ability==='crush'&&d.player.species.ability==='crush'&&JSON.stringify(d.player.species.diet)===JSON.stringify(createSpecies({...d.creation.blueprint,ability:'none'}).diet))d.player.species.diet=[...expected.diet];
+    for(const key of ['id','index','atlas','cell','size','speed','agility','metabolism','ability','active','diet','habitat','parasites','poison','armor','food','endurance']){
+     const actual=d.player.species[key],wanted=expected[key];
+     const matches=typeof wanted==='number'?Number.isFinite(actual)&&Math.abs(actual-wanted)<=1e-9:JSON.stringify(actual)===JSON.stringify(wanted);
+     if(!matches)throw new Error('The saved creation and its live fish traits do not match.');
+    }
+   }
    else{d.creation=legacyCreation(d.custom,d.player.species,d.seed);d.custom=structuredClone(d.creation.blueprint);}
   }
   if(d.player.species.ability==='crush'){

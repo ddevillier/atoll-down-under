@@ -16,7 +16,7 @@ export function customInstruction(sim){const c=sim.creation;if(!c)return '';
  return !c.departed?'Leave your refuge and find a needed meal':!c.meal?'Take a suitable meal while you need energy':'Return to your refuge and become still';
 }
 export function customMeal(sim,gained){if(sim.trial||!sim.creation||gained<1)return;remember(sim.creation,'meal');if(sim.creation.home&&sim.creation.departed)sim.creation.meal=true;}
-export function tickCustomLife(sim){const c=sim.creation;if(!c||sim.trial)return;const p=sim.player;
+export function tickCustomLife(sim){const c=sim.creation;if(!c||sim.trial||sim.paused||sim.phase!=='playing')return;const p=sim.player;if(!p||p.health<=0||p.energy<=0)return;
  if(p.hidden&&canUseShelter(p.species)&&shelterAt(REEFS[sim.current],p))remember(c,'refuge');
  if(sim.careProgress?.healthy>=30)remember(c,'care');
  if(!c.home)return;const site=REEFS[c.home.reef].shelters[c.home.index];

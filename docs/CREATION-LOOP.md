@@ -15,7 +15,7 @@ September 10, 2026. Implementation of the approved six-stage plan. The selected 
 
 Creation metadata has its own version, stable ID, optional parent ID, revision, normalized blueprint, bounded memories and life number. The editable draft never aliases the simulation config. A saved record contains both metadata and a simulation snapshot in one IndexedDB transaction.
 
-Portable exports use `atoll-dive` envelope version 2, retaining simulation state version 1 with optional creation metadata. The importer accepts envelope versions 1 and 2. Legacy custom dives derive a stable migration ID from seed and blueprint, reconstruct traits from the live saved fish, and retain their world. A new-style metadata/config mismatch is rejected. Identical imported state reuses its identity; a conflicting incoming record becomes a separate copy. Older game versions are not expected to read new version-2 exports.
+Portable exports use `atoll-dive` envelope version 2, retaining simulation state version 1 with optional creation metadata. The importer accepts envelope versions 1 and 2. Legacy custom dives derive a stable migration ID from seed and blueprint, reconstruct traits from the live saved fish, and retain their world. A new-style metadata/config or static gameplay-trait mismatch is rejected after applicable legacy migrations. Identical imported state reuses its identity; a conflicting incoming record becomes a separate copy. Older game versions are not expected to read new version-2 exports.
 
 New swim and death continuation increment the life number and reset the current home/trip while preserving historical memories. Ordinary saves, home transitions, periodic checkpoints, visibility changes and important creation events persist progress. An interrupted/failed write is not reported as successful creation storage. As with existing saves, abrupt process termination can lose changes since the last completed checkpoint.
 
@@ -38,3 +38,9 @@ The independent UI review's final disposition is **ship**. Its one material find
 No child or returning-fan playtest has been conducted. Voluntary replay, comprehension and enjoyment remain unverified. The first custom role is complete; other diets keep free exploration and applicable personal care memories, not invented species-specific journeys. Ability mechanics were not broadly rebalanced. No new narration was generated, and no offscreen ecosystem or extra population was added.
 
 Next, watch whether a player deliberately changes one trait and returns to their original fish. Use that observation to choose between sand-sharing feedback and a compatible social-browsing role. Do not automatically expand the task catalog.
+
+## Completion audit
+
+Four delegated contributors supported this milestone: `creation_finish_reviewer` reviewed the interface, `creation_documenter` recorded its design contract, `creation_persistence_completion` audited and fixed portable identity/storage recovery, and `creation_lifecycle_completion` audited and fixed lifecycle/defense feedback. The main agent integrated and packaged the result.
+
+The final correctness pass makes object-key reordering irrelevant to identical imports, reconnects storage after IndexedDB connection closure, prevents terminal or paused lives from earning return memories, and emits pursuit-release feedback when an active defense actually clears a predator target. Regression coverage exercises those boundaries, repeated trips, travel/reload, death continuation and deterministic trials. The final Windows receipt records the refreshed build and its test results.
