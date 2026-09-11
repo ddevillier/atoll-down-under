@@ -1,3 +1,4 @@
+import {appearance} from './creation-appearance.js';
 import {FEEDING_SITES,BOTTOM_ROUTES} from './feeding-sites.js';
 // Independently authored game ecology. Values are gameplay abstractions, not zoological measurements.
 const rows = [
@@ -84,5 +85,5 @@ export function createSpecies(config={}){
  const diet=config.diet==='grazer'?['algae','grass','plankton']:config.diet==='hunter'?['fish','shrimp','worm']:['algae','shrimp','worm','plankton'];
  if(ability==='crush')diet.push(...(config.diet==='grazer'?['coral']:['crab','snail','urchin']));
  const template=({rounded:SPECIES[5],slender:SPECIES[42],sturdy:SPECIES[16]})[config.body]||(agility>=speed&&agility>=endurance?SPECIES[5]:speed>=endurance?SPECIES[42]:SPECIES[16]);
- return {...template,id:'custom',name:String(config.name||'Lagoon wanderer').slice(0,36),size,speed,agility:agility/45,metabolism:Math.max(.23,.9-endurance/500+size/500),ability,active:config.active||'day',diet,description:'Your own reef dweller. Its body, diet and abilities reflect the choices you made.',color:config.color||'#68d1c0',playable:true,parasites:true,cost,budget:1600,endurance};
+ return {...template,id:'custom',body:config.body||({5:'rounded',42:'slender',16:'sturdy'}[template.index]),appearance:appearance(config),name:String(config.name||'Lagoon wanderer').slice(0,36),size,speed,agility:agility/45,metabolism:Math.max(.23,.9-endurance/500+size/500),ability,active:config.active||'day',diet,description:'Your own reef dweller. Its body, diet and abilities reflect the choices you made.',color:config.color||'#68d1c0',playable:true,parasites:true,cost,budget:1600,endurance};
 }

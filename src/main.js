@@ -55,8 +55,9 @@ function persistCreation(value){
 }
 function updateCreationFields(){
  const s=createSpecies(config),issue=abilityIssue(config);
+ $('#free-proportions').hidden=config.shapeMode==='adapted';$('#proportion-note').textContent=config.shapeMode==='adapted'?'Swimming traits reshape your fish: speed lengthens, agility deepens, endurance streamlines.':'Keep your chosen proportions while experimenting with swimming traits.';
  $('#created-diet').textContent='Diet: '+dietText(s);$('#ability-note').textContent=issue||ABILITIES[s.ability].description;
- for(const key of ['size','speed','endurance','agility'])$('#config-'+key).textContent=config[key];
+ for(const key of ['size','speed','endurance','agility','bodyLength','bodyDepth'])$('#config-'+key).textContent=config[key];
  $('#budget').textContent=(1600-s.cost)+' points remaining';$('#budget').classList.toggle('over',s.cost>1600);
  $('#create-begin').disabled=$('#create-test').disabled=s.cost>1600||!!issue;
  $('#shape-note').textContent=canUseShelter(s)?'Small enough to settle inside reef shelters.':'Too large for reef shelters; try a smaller variation.';
@@ -287,7 +288,7 @@ ui.addEventListener('input',e=>{
  if(el.id==='web-species'){selection=el.value;drawUI();$('#web-species')?.focus();return;}
  if(el.id==='species-search'){search=el.value;const caret=el.selectionStart;drawUI();const input=$('#species-search');input.focus();try{input.setSelectionRange(caret,caret);}catch{}return;}
  if(el.dataset.setting){const k=el.dataset.setting;settings[k]=el.type==='checkbox'?el.checked:Number(el.value);audio.update(settings);renderer.reducedMotion=settings.reducedMotion;renderer.foodHints=settings.foodHints;write('atoll-settings',settings);const label=$('#setting-'+k);if(label)label.textContent=Math.round(settings[k]*100)+'%';return;}
- if(el.dataset.config){const k=el.dataset.config;config[k]=['size','speed','endurance','agility'].includes(k)?Number(el.value):el.value;updateCreationFields();}
+ if(el.dataset.config){const k=el.dataset.config;config[k]=['size','speed','endurance','agility','bodyLength','bodyDepth'].includes(k)?Number(el.value):el.value;config.appearanceVersion=1;updateCreationFields();}
 
 });
 ui.addEventListener('change',async e=>{

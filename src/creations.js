@@ -1,10 +1,11 @@
+import {APPEARANCE_DEFAULTS,appearance} from './creation-appearance.js';
 // Creation identity is independent of scientific species and of a mutable editor draft.
 import {edible} from './diet.js';
 import {createSpecies,BY_ID,ABILITIES} from './data.js';
 export const BODY_FORMS={rounded:'s5',slender:'s42',sturdy:'s16'};
-export const DEFAULT_BLUEPRINT={name:'Lagoon wanderer',size:75,speed:140,endurance:150,agility:150,ability:'none',active:'day',diet:'grazer',color:'#60bba5',body:'rounded'};
+export const DEFAULT_BLUEPRINT={name:'Lagoon wanderer',size:75,speed:140,endurance:150,agility:150,ability:'none',active:'day',diet:'grazer',color:'#60bba5',body:'rounded',...APPEARANCE_DEFAULTS};
 export function blueprint(config={}){
- const c={...DEFAULT_BLUEPRINT,...structuredClone(config)};
+ const c={...DEFAULT_BLUEPRINT,...structuredClone(config),...appearance(config)};
  if(!config.body)c.body=c.agility>=c.speed&&c.agility>=c.endurance?'rounded':c.speed>=c.endurance?'slender':'sturdy';
  const ranges={size:[30,180],speed:[70,220],endurance:[50,250],agility:[50,250]};
  for(const [k,[min,max]]of Object.entries(ranges))if(!Number.isFinite(c[k])||c[k]<min||c[k]>max)throw new Error('This creation has an invalid '+k+'.');

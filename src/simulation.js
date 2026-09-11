@@ -504,6 +504,7 @@ export class Simulation {
     // Metadata cannot describe a grazer while its live body uses hunter rules.
     // Compare only production traits, not transient movement, injury or prose.
     const expected=createSpecies(d.creation.blueprint);
+    if(expected.appearance.appearanceVersion===1&&(!d.player.species.appearance||Object.keys(expected.appearance).some(k=>d.player.species.appearance[k]!==expected.appearance[k])||d.player.species.body!==expected.body))throw new Error('The saved creation and its anatomy do not match.');
     // Pre-passive crushing saves contain precisely the ordinary diet. Upgrade
     // that known old shape before validation, without repairing arbitrary diets.
     if(expected.ability==='crush'&&d.player.species.ability==='crush'&&JSON.stringify(d.player.species.diet)===JSON.stringify(createSpecies({...d.creation.blueprint,ability:'none'}).diet))d.player.species.diet=[...expected.diet];

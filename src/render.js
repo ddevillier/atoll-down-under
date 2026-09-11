@@ -1,3 +1,5 @@
+import {CreationPainter,CREATION_ART} from './creation-render.js';
+import {anatomy} from './creation-appearance.js';
 import {watchedResident} from './resident-journeys.js';
 import {escortCover} from './escort-journeys.js';
 import {ArticulatedSprites} from './articulated-motion.js';
@@ -43,6 +45,7 @@ export class ReefRenderer {
    const right=i<6?Math.min(food.width,Math.ceil(left+cw*1.22)):left+cw,bottom=i<6?Math.min(food.height,Math.ceil(top+ch*1.12)):top+ch;
    this.foodSprites.push(this.extractCell(food,i,4,2,i<6,{x,y,w:right-x,h:bottom-y}));
   }
+  this.creationArt=Object.fromEntries(await Promise.all(CREATION_ART.map(async key=>[key,await img('assets/creatures/creation-v1/'+key+'.png')])));
   this.ready=true;
  }
  extractCell(image,cell,cols,rows,mainOnly,region=null){
@@ -84,6 +87,7 @@ export class ReefRenderer {
  }
  drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1,activity=1,pattern=null,state={}){
   const b=this.bounds[species.index];let im=this.sprites[species.index];if(!b||!im)return;
+  if(species.id==='custom'&&species.appearance?.appearanceVersion===1){this.creationPainter??=new CreationPainter(this.creationArt);ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;this.creationPainter.draw(ctx,species,im,width,this.reducedMotion?0:time,activity,state);ctx.restore();return;}
   if(pattern&&species.id==='s19'){const key='pattern-'+pattern;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.55;tc.fillStyle=pattern==='sand'?'#b9a06b':'#536b61';tc.fillRect(0,0,tint.width,tint.height);if(pattern==='reef'){tc.globalAlpha=.5;tc.fillStyle='#293f37';for(let i=0;i<80;i++){tc.beginPath();tc.ellipse(i*97%im.width,i*59%im.height,im.width*.018,im.height*.04,i,0,Math.PI*2);tc.fill();}}if(this.customCache.size>=64)this.customCache.delete(this.customCache.keys().next().value);this.customCache.set(key,tint);}im=this.customCache.get(key);}
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);if(this.customCache.size>=64)this.customCache.delete(this.customCache.keys().next().value);this.customCache.set(key,tint);}im=this.customCache.get(key);}
   const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
@@ -128,7 +132,7 @@ export class ReefRenderer {
    ctx.save();ctx.globalAlpha=alpha*(meal.committed?Math.max(0,1-(meal.elapsed-.22)/.2):1);ctx.fillStyle=FOODS[meal.food]?.color||'#e7ce97';ctx.beginPath();ctx.arc(meal.x+(end.x-meal.x)*ease,meal.y+(end.y-meal.y)*ease,2,0,Math.PI*2);ctx.fill();ctx.restore();
   }
  }
- portrait(canvas,species,time=0,pointer=.6){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const b=this.bounds[species.index];if(!b)return;this.drawSprite(ctx,species,canvas.width*(.4+pointer*.2),canvas.height/2,Math.min(canvas.width*.78,canvas.height*.78*b.w/b.h),pointer<.5?-1:1,time);}
+ portrait(canvas,species,time=0,pointer=.6){const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);const b=this.bounds[species.index];if(!b)return;this.drawSprite(ctx,species,canvas.width*(.4+pointer*.2),canvas.height/2,(species.appearance?.appearanceVersion===1?Math.min(canvas.width*.78,canvas.height*.78/anatomy(species).height)*(.40+species.size/180*.60):Math.min(canvas.width*.78,canvas.height*.78*b.w/b.h)),pointer<.5?-1:1,time);}
  addEffect(type,x=800,y=350,label=null){this.effects.push({type,x,y,t:0,label});}
  draw(sim,dt,home=false){
   this.tagQueue=[];this.labelLayout=[];this.playerMarker=null;

@@ -1,3 +1,4 @@
+import {anatomy} from './creation-appearance.js';
 import {creatureWidth,creatureFrame} from './geometry.js';
 import {rigFor} from './animal-rigs.js';
 import {turnTowards} from './steering.js';
@@ -8,7 +9,8 @@ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 export function mouthPoint(e,{facing=e.facing||1,rotation=0}={}){
  const frame=creatureFrame({...e,facing},creatureWidth(e.species),rotation),rig=rigFor({id:e.species.id==='custom'?'s'+e.species.index:e.species.id});
  const direction=['s44','s46','s47','s62','s63'].includes(e.species.id)?1:facing;
- const dx=(rig.mouth[0]-.5)*frame.width*direction,dy=(rig.mouth[1]-.5)*frame.height;
+ const custom=e.species.appearance?.appearanceVersion===1;
+ const dx=(custom?anatomy(e.species).mouthX:rig.mouth[0]-.5)*frame.width*direction,dy=custom?0:(rig.mouth[1]-.5)*frame.height;
  return {x:frame.x+dx*Math.cos(rotation)-dy*Math.sin(rotation),y:frame.y+dx*Math.sin(rotation)+dy*Math.cos(rotation)};
 }
 export function feedingSurface(target,facing){
