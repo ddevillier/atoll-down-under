@@ -18,7 +18,7 @@ try{
  await page.getByRole('button',{name:'Keep and meet the reef'}).click();evidence.creationId=await page.evaluate(()=>window.atoll.simulation.creation.id);
  await page.getByRole('button',{name:'My creations',exact:true}).click();await expect(page.locator('.creation-row')).toHaveCount(1);
  await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:'My creations',exact:true});await page.getByRole('button',{name:'Resume',exact:true}).click();
- expect(await page.evaluate(()=>window.atoll.simulation.creation.id)).toBe(evidence.creationId);
+ await page.waitForFunction(id=>window.atoll.simulation?.creation?.id===id,evidence.creationId);expect(await page.evaluate(()=>window.atoll.simulation.creation.id)).toBe(evidence.creationId);
  await page.getByRole('button',{name:'Field guide',exact:true}).click();await expect(page.getByText('This is your invention, not a real species.')).toBeVisible();await page.getByRole('button',{name:'Return',exact:true}).click();
  await page.screenshot({path:output+'/resumed-fish.png'});expect(evidence.errors).toEqual([]);evidence.passed=true;
 }catch(error){evidence.failure=String(error);process.exitCode=1;}finally{await app.close();fs.writeFileSync(output+'/report.json',JSON.stringify(evidence,null,2));}
