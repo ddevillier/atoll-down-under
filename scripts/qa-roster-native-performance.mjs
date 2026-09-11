@@ -25,7 +25,7 @@ try{
  if(option('budget'))await page.evaluate(budget=>{const m=window.atoll.renderer.articulation,begin=m.beginFrame;m.beginFrame=function(value){return begin.call(this,value===Infinity?value:budget);};},Number(option('budget')));
  for(const width of widths)for(const species of players){
   await app.evaluate(({BrowserWindow},{width,height})=>BrowserWindow.getAllWindows()[0].setContentSize(width,height),{width,height:Number(option('height')||(width>=1600?Math.round(width*9/16):768))});
-  await page.evaluate(async species=>{const {Simulation}=await import(new URL('src/simulation.js',location.href)),s=new Simulation(42);s.start('practice',species);Object.assign(window.atoll.simulation,s);window.atoll.renderer.poses=new Map();},species);
+  await page.evaluate(async species=>{const {Simulation}=await import(new URL('src/simulation.js',location.href)),s=new Simulation(42);if(species.startsWith('custom')){const {DEFAULT_BLUEPRINT}=await import(new URL('src/creations.js',location.href));s.start('create','custom',{...DEFAULT_BLUEPRINT,active:species==='custom-night'?'night':'day'});}else s.start('practice',species);Object.assign(window.atoll.simulation,s);window.atoll.renderer.poses=new Map();},species);
   for(const reef of reefs){
    await page.evaluate(reef=>{const s=window.atoll.simulation;s.current=reef;s.player.x=800;s.player.y=370;s.point(800,370);s.paused=false;const p=window.perfProbe;p.active=false;p.times=[];p.intervals=[];p.animals.clear();p.last=0;},reef);
    await page.waitForTimeout(400);await page.evaluate(()=>{window.perfProbe.active=true;});await page.waitForTimeout(duration);

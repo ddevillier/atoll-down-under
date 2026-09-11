@@ -1,3 +1,5 @@
+import {chooseCustomRefuge,customMeal,tickCustomLife} from './custom-life.js';
+import {newCreation,validateCreation,legacyCreation,blueprint} from './creations.js';
 import {beginResidentObservation,tickResidentObservation,validResidentJourneys} from './resident-journeys.js';
 import {releaseEscortFollow,tickEscortFollow,escortCover} from './escort-journeys.js';
 import {edible,suitableMeal} from './diet.js';
@@ -45,11 +47,12 @@ export class Simulation {
  random(){this.seed=(Math.imul(1664525,this.seed)+1013904223)>>>0;return this.seed/4294967296;}
  event(type,text,extra={}){this.events.push({type,text,...extra});}
  start(mode='practice',speciesId='s1',custom=null){
-  this.mode=mode;this.phase='playing';this.time=0;this.score=0;this.stage=0;this.stageScore=0;this.events=[];this.custom=custom;this.visited=[];this.observations=[];this.residentJourneys={};this.residentFocus=null;
+  this.mode=mode;this.phase='playing';this.time=0;this.score=0;this.stage=0;this.stageScore=0;this.events=[];this.custom=structuredClone(custom);this.creation=mode==='create'?newCreation(custom||{}):null;this.visited=[];this.observations=[];this.residentJourneys={};this.residentFocus=null;
   if(mode==='tournament')this.sequence=[...PLAYABLE.filter(s=>s.id!=='s34').map(s=>s.id),'s34'];
   else if(mode==='challenge'){const bands=[PLAYABLE.slice(0,14),PLAYABLE.slice(14,28),PLAYABLE.slice(28,42),PLAYABLE.slice(42)];this.sequence=bands.map(a=>a[Math.floor(this.random()*a.length)].id);}
   else this.sequence=[speciesId];
-  this.spawnPlayer(mode==='create'?createSpecies(custom):BY_ID[this.sequence[0]]);
+  if(this.creation)this.custom=structuredClone(this.creation.blueprint);
+  this.spawnPlayer(mode==='create'?createSpecies(this.custom):BY_ID[this.sequence[0]]);
   this.event('start','Welcome to '+REEFS[this.current].name+'. Swim and look around; press Esc to observe.');
  }
  spawnPlayer(species){
@@ -118,7 +121,7 @@ export class Simulation {
   prepareResidentFood(entities,food,reef);
   return {entities,food,residentFoodVersion:2};
  }
- useContext(){return this.player?.species.ability==='clean'?requestPlayerService(this):useContext(this);}
+ useContext(){if(this.creation?.blueprint.diet==='grazer'&&this.player.species.size<125)return chooseCustomRefuge(this);return this.player?.species.ability==='clean'?requestPlayerService(this):useContext(this);}
  get section(){return this.sections[this.current];}
  get mealTarget(){
   const id=this.player?.target;
@@ -240,11 +243,13 @@ export class Simulation {
    if(whole){target.alive=false;target.respawn=20;}else{disturbPatch(target);target.amount-=35;if(target.amount<=0){target.regrow=8;target.amount=100;}}
    this.careProgress.nourishment=(this.careProgress.nourishment||0)+(p.energy-energyBefore);if(this.careProgress.nourishment>=10)this.careProgress.fed=true;
    if(p.energy-energyBefore>=10){this.event('progress','',{kind:'activity',value:'meal'});if(this.period==='night')this.event('progress','',{kind:'activity',value:'night'});}
+   customMeal(this,p.energy-energyBefore);
    this.event('eat','A good meal: '+name+'.',{points:this.mode==='practice'?0:points,energyGained:p.energy-energyBefore,x:target.x,y:target.y});
   }
   p.target=null;this.pointer={x:p.x,y:p.y};
  }
  transition(dx,dy){
+  if(this.trial)return false;
   const r=Math.floor(this.current/3),c=this.current%3,nr=clamp(r+dy,0,2),nc=(c+dx+3)%3;if(nr===r&&dy)return false;
   releaseEscortFollow(this);cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;releaseCompanion(this);const old=this.current,departure={x:this.player.x,y:this.player.y};this.current=nr*3+nc;this.player.x=dx>0?35:dx<0?W-35:this.player.x;this.player.y=dy>0?35:dy<0?H-35:this.player.y;
   this.player.feeding=null;
@@ -325,7 +330,9 @@ export class Simulation {
   recordVelocity(p,old,dt);
   const npcCleaningPlan=this.section.entities.includes(cleaningPlan?.cleaner)?cleaningPlan:this.cleaningPlan();
   for(const e of [...this.section.entities])this.stepNpc(e,dt,npcCleaningPlan);
-  if(p.energy>0&&p.health>0)tickCare(this,dt,!!(canUseShelter(p.species)&&shelterAt(REEFS[this.current],p)));
+  if(this.trial){p.energy=Math.max(1,p.energy);p.health=Math.max(1,p.health);}
+  if(!this.trial&&p.energy>0&&p.health>0)tickCare(this,dt,!!(canUseShelter(p.species)&&shelterAt(REEFS[this.current],p)));
+  tickCustomLife(this);
   if(p.energy<=0)this.die('Your energy ran out. Look for food that suits your fish.');else if(p.health<=0)this.die(p.lastHarm?.type==='poison'?'Your fish did not recover after eating '+p.lastHarm.name+'.':p.lastHarm?.type==='bite'?'Your fish did not recover after a bite from '+p.lastHarm.name+'.':'Parasites overwhelmed your fish. Observe a cleaning station on your next dive.');
   if(this.phase==='playing'&&['challenge','tournament'].includes(this.mode)&&this.stageScore>=this.required){this.score+=1500;this.phase=this.stage>=this.sequence.length-1?'won':'advance';this.event(this.phase,this.phase==='won'?'You have mastered this stretch of reef.':'A new life on the reef awaits.');}
  }
@@ -392,9 +399,9 @@ export class Simulation {
   // Release that alias before normal diet checks or the new observation step.
   if(e.target==='player'&&e.behavior==='Following lure'){e.target=null;e.pursuit=0;e.behavior='Exploring';}
   const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&!settledCleaningClient(p,cleaningPlan)&&edible(e,p);
-  if(e.target==='player'&&!canEatPlayer){e.target=null;e.pursuit=0;e.think=0;}
+  if(e.target==='player'&&!canEatPlayer){const reason=p.hidden?'concealment':this.protected?'protection':defended?'defense':'eligibility';this.event('pursuit-release',reason==='concealment'?e.species.name+' lost sight of you.':e.species.name+' stopped pursuing.',{animalId:e.id,reason,x:e.x,y:e.y});e.target=null;e.pursuit=0;e.think=.8;e.angle=Math.atan2(e.y-p.y,e.x-p.x);e.behavior='Leaving pursuit';}
   if(e.target&&e.target!=='player'&&(settledCleaningClient(this.section.entities.find(b=>b.id===e.target),cleaningPlan)||treatingClient(this,this.section.entities.find(b=>b.id===e.target)))){e.target=null;e.pursuit=0;e.think=0;cancelPreparation(e);}
-  if(e.target){e.pursuit+=dt;if(e.pursuit>6){e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
+  if(e.target){e.pursuit+=dt;if(e.pursuit>6){if(e.target==='player')this.event('pursuit-release',e.species.name+' ended its chase.',{animalId:e.id,reason:'timeout',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
   let speed=e.species.speed*.35;
   if(e.think<=0){
    e.think=.65+this.random()*.55;
@@ -402,7 +409,7 @@ export class Simulation {
    const threats=this.section.entities.filter(b=>b!==e&&b.alive&&b.satiated<=0&&edible(b,e)&&distance(e,b)<100);
    if((edible(p,e)&&pd<100&&!p.hidden)||defended&&pd<150)threats.push(p);
    const threat=threats.sort((a,b)=>distance(e,a)-distance(e,b))[0];
-   if(threat){e.target=null;e.pursuit=0;e.angle=Math.atan2(e.y-threat.y,e.x-threat.x);e.behavior='Moving away from '+threat.species.name;e.activity='avoiding';}
+   if(threat){if(e.target==='player')this.event('pursuit-release',e.species.name+' turned away from a threat.',{animalId:e.id,reason:'threat',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.angle=Math.atan2(e.y-threat.y,e.x-threat.x);e.behavior='Moving away from '+threat.species.name;e.activity='avoiding';}
    else if(!e.target){
     const candidates=e.satiated<=0&&e.rest<=0?[
      // Helpers and clients settled at service positions are left alone.
@@ -411,7 +418,7 @@ export class Simulation {
      ...this.section.food.filter(f=>f.regrow<=0&&edible(e,f)),
      ...(canEatPlayer?[p]:[])
     ].filter(b=>distance(e,b)<165&&sharedMealAvailable(e,b,this.section.entities)).sort((a,b)=>distance(e,a)+patchCrowdingCost(a)-distance(e,b)-patchCrowdingCost(b)):[];
-    const near=sharedSchoolFood(this,e)||sharedSandFood(this,e)||candidates[0];e.target=near?.id||null;e.pursuit=0;
+    const near=sharedSchoolFood(this,e)||sharedSandFood(this,e)||candidates[0];e.target=near?.id||null;e.pursuit=0;if(e.target==='player')this.event('pursuit-start',e.species.name+' noticed you.',{animalId:e.id,x:e.x,y:e.y});
     e.behavior=near?(near.kind==='food'?'Foraging for ':'Hunting ')+(near.name||near.species.name):e.satiated>0?'Digesting a meal':e.rest>0?'Resting between feeding trips':'Exploring';
     if(!near&&this.random()<.45)e.angle+=(this.random()-.5)*1.1;
    }
@@ -430,7 +437,7 @@ export class Simulation {
      if(dest===p&&canEatPlayer){p.health-=35;p.biteDamage=(p.biteDamage||0)+35;p.recoveryDelay=10;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite. Pause to learn about its diet.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
      else if(dest!==p&&dest.kind==='food'){schoolMeal(this,e,dest);witnessSandMeal(this,e,dest);companionMeal(this,e,dest);disturbPatch(dest);dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}}
      else if(dest!==p){dest.alive=false;dest.respawn=24;}
-     e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
+     if(e.target==='player')this.event('pursuit-release',e.species.name+' is digesting its meal.',{animalId:e.id,reason:'fed',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
      }
     }else cancelPreparation(e);
    }else{e.target=null;e.pursuit=0;}
@@ -469,10 +476,10 @@ export class Simulation {
  }
  next(){if(this.phase==='advance'){this.stage++;this.stageScore=0;this.spawnPlayer(BY_ID[this.sequence[this.stage]]);}}
  die(reason){if(this.phase!=='playing')return;releaseEscortFollow(this);cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;releaseCompanion(this);this.phase='dead';this.event('death',reason);}
- continueRun(){this.score=0;this.stageScore=0;this.spawnPlayer(this.player.species);}
- serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,visited:this.visited,destination:this.destination,difficulty:this.difficulty,observations:this.observations,residentJourneys:this.residentJourneys,residentFocus:this.residentFocus,careProgress:this.careProgress,adventure:this.adventure});}
+ continueRun(){if(this.creation){this.creation.life++;this.creation.home=null;this.creation.departed=false;this.creation.meal=false;}this.score=0;this.stageScore=0;this.spawnPlayer(this.player.species);}
+ serialize(){return JSON.stringify({version:1,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,creation:this.creation,visited:this.visited,destination:this.destination,difficulty:this.difficulty,observations:this.observations,residentJourneys:this.residentJourneys,residentFocus:this.residentFocus,careProgress:this.careProgress,adventure:this.adventure});}
  static restore(raw){
-  const d=typeof raw==='string'?JSON.parse(raw):raw;
+  const d=typeof raw==='string'?JSON.parse(raw):structuredClone(raw);
   if(d.version!==1||!Array.isArray(d.sections)||d.sections.length!==9||!d.player?.species||!Number.isInteger(d.current)||d.current<0||d.current>8||!['practice','challenge','tournament','create'].includes(d.mode))throw new Error('This save is not a compatible Atoll game.');
   for(const k of ['x','y','energy','health'])if(!Number.isFinite(d.player[k]))throw new Error('The saved fish is damaged.');
   // Older saves only recorded aggregate health. Preserve known poison loss;
@@ -490,6 +497,10 @@ export class Simulation {
    if(fish.passerExposure!==undefined&&(!Number.isFinite(fish.passerExposure)||fish.passerExposure<0||fish.passerExposure>4))throw new Error('The saved resident response is damaged.');
    if(fish.species?.id==='s20'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('crab'))fish.species={...fish.species,diet:[...fish.species.diet,'crab']};
    if(fish.species?.id==='s22'&&Array.isArray(fish.species.diet)&&!fish.species.diet.includes('coral'))fish.species={...fish.species,diet:[...fish.species.diet,'coral']};
+  }
+  if(d.mode==='create'){
+   if(d.creation){d.creation=validateCreation(d.creation);if(JSON.stringify(blueprint(d.custom))!==JSON.stringify(d.creation.blueprint))throw new Error('The saved creation and its blueprint do not match.');}
+   else{d.creation=legacyCreation(d.custom,d.player.species,d.seed);d.custom=structuredClone(d.creation.blueprint);}
   }
   if(d.player.species.ability==='crush'){
    d.player.cooldown=0;d.player.abilityTime=0;

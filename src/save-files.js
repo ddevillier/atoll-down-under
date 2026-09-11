@@ -12,7 +12,7 @@ export const MAX_SAVE_BYTES=8*1024*1024;
 const own=(o,k)=>Object.hasOwn(o,k);
 const object=o=>o!==null&&typeof o==='object'&&!Array.isArray(o);
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
-const stateKeys=['version','seed','time','uid','mode','phase','score','stage','stageScore','sequence','sections','player','protected','period','current','pointer','custom','visited','destination','difficulty','observations','residentJourneys','residentFocus','careProgress','adventure'];
+const stateKeys=['version','seed','time','uid','mode','phase','score','stage','stageScore','sequence','sections','player','protected','period','current','pointer','custom','creation','visited','destination','difficulty','observations','residentJourneys','residentFocus','careProgress','adventure'];
 const fail=()=>{throw new Error('This dive file is damaged or incompatible. Choose another file.');};
 export const diveName=value=>String(value??'').trim().slice(0,60)||'My reef dive';
 export function diveFilename(name){
@@ -20,7 +20,8 @@ export function diveFilename(name){
  return (/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\.|$)/i.test(stem)?'Dive '+stem:stem)+'.atoll';
 }
 export function exportDive(sim,name){
- return JSON.stringify({format:'atoll-dive',version:1,name:diveName(name),savedAt:new Date().toISOString(),state:JSON.parse(sim.serialize())});
+ if(sim.trial)throw new Error('Return to your fish before exporting. Test swims are not saved.');
+ return JSON.stringify({format:'atoll-dive',version:2,name:diveName(name),savedAt:new Date().toISOString(),state:JSON.parse(sim.serialize())});
 }
 
 // File input is untrusted. Check the complete saved world before restore can
@@ -63,7 +64,7 @@ function animal(e,player=false){
 export function importDive(text){
  if(typeof text!=='string'||new TextEncoder().encode(text).length>MAX_SAVE_BYTES)throw new Error('This file is too large. Choose an Atoll dive file under 8 MB.');
  let file;try{file=JSON.parse(text);}catch{throw new Error('This is not a readable dive file. Choose a file exported by Atoll.');}
- if(!object(file)||file.format!=='atoll-dive'||file.version!==1)throw new Error('This is not a supported Atoll dive file. Choose a .atoll file exported by this game.');
+ if(!object(file)||file.format!=='atoll-dive'||![1,2].includes(file.version))throw new Error('This is not a supported Atoll dive file. Choose a .atoll file exported by this game.');
  safeTree(file);
  const d=file.state;
  if(!object(d)||d.version!==1||Object.keys(d).some(k=>!stateKeys.includes(k)))fail();

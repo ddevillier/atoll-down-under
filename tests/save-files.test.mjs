@@ -33,7 +33,7 @@ test('created fish and older health fields remain importable',()=>{
 
 test('malformed worlds and unsupported files are rejected before a simulation is installed',()=>{
  const s=new Simulation();s.start();const raw=exportDive(s,'Original');
- const mutations=[f=>f.version=2,f=>f.state.step='broken',f=>f.state.sections[0].entities=null,f=>f.state.player.species.ability='missing',f=>f.state.player.species.speed=null,f=>f.state.sections[0].food[0].food='missing',f=>f.state.sequence=['missing'],f=>f.state.stage=999,f=>f.state.pointer.x=null,f=>f.state.phase='idle',f=>f.state.player.constructor={},f=>f.state.sections[0].entities[0].station={x:null,y:4}];
+ const mutations=[f=>f.version=999,f=>f.state.step='broken',f=>f.state.sections[0].entities=null,f=>f.state.player.species.ability='missing',f=>f.state.player.species.speed=null,f=>f.state.sections[0].food[0].food='missing',f=>f.state.sequence=['missing'],f=>f.state.stage=999,f=>f.state.pointer.x=null,f=>f.state.phase='idle',f=>f.state.player.constructor={},f=>f.state.sections[0].entities[0].station={x:null,y:4}];
  for(const mutate of mutations){const f=JSON.parse(raw);mutate(f);assert.throws(()=>importDive(JSON.stringify(f)));}
  assert.throws(()=>importDive('{'));
  assert.throws(()=>importDive(' '.repeat(MAX_SAVE_BYTES+1)),/too large/);

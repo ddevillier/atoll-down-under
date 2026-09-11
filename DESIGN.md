@@ -307,3 +307,17 @@ Sequence chips are small rectangular labels with pale green backgrounds and 10px
 - **Don't** replace the compact rectangular controls with oversized pill or card treatments.
 - **Don't** allow portrait canvases to overflow their stages or obscure text.
 - **Don't** hide save or load feedback behind the active dialog.
+
+### Creation surfaces appendix — September 10, 2026
+
+This bounded addition records the shipped creation editor and collection shelf. An ordinary extension does not need a new visual world: these surfaces retain the painted reef, warm paper dialogs, teal actions, Spectral headings, and DM Sans controls above. Existing tokens and the design sidecar remain authoritative and unchanged.
+
+The editor keeps two equal columns: name, interactive fish portrait, appearance and readable diet/shelter notes on the left; four labeled sliders, diet, ability explanation and remaining budget on the right. The portrait stays clipped to its reef stage. The footer places My creations on the left and Test swim beside the teal Keep and meet the reef action on the right. Keep the complete sentence “Test swims never change saved fish.” visible beneath the budget. Invalid ability combinations or an exceeded budget disable both entry actions; explanatory text and the existing earthy-red budget treatment communicate the reason.
+
+At viewport heights up to 850px, the editor uses a shorter portrait (120px), tighter field spacing (8px bottom margin and 4px label gap), smaller field padding (6px), and compact body copy (12px with 1.45 line height). The budget becomes 16px; body padding above and below becomes 14px. This height-specific adjustment preserves the two-column composition and readable footer at 1280×720.
+
+My creations uses flat separated rows within the paper dialog, each pairing a fish portrait with its name, habitat, life number, memory sentence and four secondary actions: Resume, New swim, Make a variation, and Rename. Portraits occupy 180×90px beside the flexible text column, separated by 22px; rows have 20px vertical padding. The final row has no bottom divider. At the existing 1100px width breakpoint, portraits become 120×70px and the gap becomes 14px. Actions wrap with 8px gaps. The shelf is capped at 820px inside the standard dialog, whose body retains internal scrolling. The empty shelf gives a short invitation; the footer retains Return and the teal Make a fish action.
+
+Test swims reuse the gameplay toolbar with the explicit “Test swim · Nothing is saved” label, Change my fish, and Reset test. Kept small grazers reuse the existing activity note for choosing a refuge and returning after feeding. The custom guide uses the same portrait and paper presentation, states that the animal is invented, and offers a path to the real-species guide. Rename uses the existing small name-field dialog. These extensions retain inherited focus, modal, feedback and reduced-motion treatments.
+
+Visual evidence: `artifacts/creation-editor-1280.png`, `artifacts/creation-editor-1920.png`, `artifacts/creation-shelf-1280.png`, and `artifacts/creation-shelf-1920.png`. The bounded review in `docs/CREATION-UI-REVIEW.md` has disposition **ship** after resolving the editor's test-swim sentence visibility. That verdict covers the reviewed screenshots, not runtime verification. Surface strategy is recorded in `.impeccable/surfaces/src-creation-ui-js.md`.
