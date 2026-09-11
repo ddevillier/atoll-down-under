@@ -6,7 +6,7 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
-The latest verified testing build is `dist/Atoll-Down-Under-Windows-Create-a-Fish-2026-09-10.zip`. Create, test, vary and keep your own fish; small grazers can choose a refuge and return after feeding. File → My creations resumes a familiar fish. All species journeys, offline audio and full-quality GPU animation remain included. See [the Windows receipt](docs/WINDOWS-CREATION-BUILD.md) and [creation loop](docs/CREATION-LOOP.md).
+The latest verified testing build is `dist/Atoll-Down-Under-Windows-Create-a-Fish-Audited-2026-09-10.zip`. Create, test, vary and keep your own fish; small grazers can choose a refuge and return after feeding. File → My creations resumes a familiar fish. All species journeys, offline audio and full-quality GPU animation remain included. See [the Windows receipt](docs/WINDOWS-CREATION-AUDIT-BUILD.md) and [creation loop](docs/CREATION-LOOP.md).
 
 The preceding verified build, `dist/Atoll-Down-Under-Windows-Full-Animation-2026-09-09.zip`, remains available as rollback. See [its receipt](docs/WINDOWS-FULL-ANIMATION-BUILD.md) and [capacity investigation](docs/ANIMATION-CAPACITY.md). The earlier Motion Correction ZIP is also retained.
 
