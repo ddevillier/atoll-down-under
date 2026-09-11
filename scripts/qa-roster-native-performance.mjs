@@ -31,7 +31,8 @@ try{
    await page.waitForTimeout(400);await page.evaluate(()=>{window.perfProbe.active=true;});await page.waitForTimeout(duration);
    const stats=await page.evaluate(()=>{
     const p=window.perfProbe;p.active=false;const r=window.atoll.renderer,s=window.atoll.simulation,summary=values=>{const v=[...values].sort((a,b)=>a-b);return {n:v.length,mean:v.reduce((a,b)=>a+b,0)/v.length,p50:v[Math.floor(v.length*.5)],p95:v[Math.floor(v.length*.95)],max:v.at(-1)};};
-    return {reef:s.current,count:s.section.entities.filter(e=>e.alive).length,canvas:[r.canvas.width,r.canvas.height],drawMs:summary(p.times),intervalMs:summary(p.intervals),mesh:[...p.animals.values()].map(({lastImage,lastChange,...a})=>a),meshBackend:r.articulation.rasterizer?.available?'webgl':'canvas',cachePixels:r.articulation.pixels,cacheFrames:r.articulation.cache.size,partPixels:r.parts?.preparedPixels||0};
+    const creationCache=r.creationPainter?{entries:r.creationPainter.cache.size,prepared:r.creationPainter.prepared,bytes:[...r.creationPainter.cache.values()].reduce((n,v)=>n+Object.values(v).reduce((m,p)=>m+(p?.image?p.image.width*p.image.height*4:0),0),0)}:null;
+    return {reef:s.current,count:s.section.entities.filter(e=>e.alive).length,canvas:[r.canvas.width,r.canvas.height],drawMs:summary(p.times),intervalMs:summary(p.intervals),mesh:[...p.animals.values()].map(({lastImage,lastChange,...a})=>a),meshBackend:r.articulation.rasterizer?.available?'webgl':'canvas',cachePixels:r.articulation.pixels,cacheFrames:r.articulation.cache.size,partPixels:r.parts?.preparedPixels||0,creationCache};
    });
    results.push({width,player:species,...stats});console.log(JSON.stringify({width,player:species,reef:stats.reef,drawP95:stats.drawMs.p95,intervalP95:stats.intervalMs.p95,worstHold:Math.max(0,...stats.mesh.map(a=>a.maxHoldMs)),deferred:stats.mesh.reduce((n,a)=>n+a.deferred,0)}));
   }

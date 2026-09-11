@@ -6,7 +6,7 @@ An offline, widescreen 2D life-science exploration game with original painted ar
 
 On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
 
-The latest verified testing build is `dist/Atoll-Down-Under-Windows-Create-a-Fish-Audited-2026-09-10.zip`. Create, test, vary and keep your own fish; small grazers can choose a refuge and return after feeding. File → My creations resumes a familiar fish. All species journeys, offline audio and full-quality GPU animation remain included. See [the Windows receipt](docs/WINDOWS-CREATION-AUDIT-BUILD.md) and [creation loop](docs/CREATION-LOOP.md).
+The latest verified testing build is `dist/Atoll-Down-Under-Windows-Creature-Workshop-2026-09-10.zip`. Create fish from painted bodies, tails, fins and heads, with separate body/fin/marking colors, patterns and adjustable proportions. Test, revise, keep and resume a familiar life; small grazers can choose a refuge and return after feeding. All species journeys and offline audio remain included. See [the Windows receipt](docs/WINDOWS-CREATURE-WORKSHOP-BUILD.md), [original creator comparison](docs/CREATION-VARIETY-COMPARISON.md), and [creation loop](docs/CREATION-LOOP.md). The preceding Create-a-Fish-Audited ZIP is retained.
 
 The preceding verified build, `dist/Atoll-Down-Under-Windows-Full-Animation-2026-09-09.zip`, remains available as rollback. See [its receipt](docs/WINDOWS-FULL-ANIMATION-BUILD.md) and [capacity investigation](docs/ANIMATION-CAPACITY.md). The earlier Motion Correction ZIP is also retained.
 
@@ -14,7 +14,7 @@ The earlier all-species milestone was `Atoll-Down-Under-Windows-All-Species-Jour
 
 The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations, consistent poison score penalties, the complete Tournament preview and named portable saves. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-SPECIES-LIFE-BUILD.md).
 
-See [named, portable dive files](docs/PORTABLE-SAVES.md) for backup and import instructions. The latest testing ZIP and one rollback ZIP remain available. Older Windows ZIPs were removed on September 10; [the cleanup receipt](docs/BUILD-CLEANUP-2026-09-10.md) records what was retained and removed.
+See [named, portable dive files](docs/PORTABLE-SAVES.md) for backup and import instructions. Earlier verified rollback ZIPs remain available. Some older Windows ZIPs were removed on September 10; [the historical cleanup receipt](docs/BUILD-CLEANUP-2026-09-10.md) records that cleanup. The Creature Workshop checkpoint did not delete archives.
 
 From source (Node.js 22 or later):
 
