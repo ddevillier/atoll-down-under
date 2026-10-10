@@ -4,7 +4,10 @@ const { pathToFileURL } = require('node:url');
 // Native checks get their own storage, so entering a test dive cannot replace a player's save.
 if(process.env.ATOLL_QA){
   const fs=require('node:fs');
-  const qaProfile=fs.mkdtempSync(path.join(app.getPath('temp'),'atoll-qa-'));
+  const qaRequested=process.env.ATOLL_QA_PROFILE;
+  const qaProfile=qaRequested?path.resolve(qaRequested):fs.mkdtempSync(path.join(app.getPath('temp'),'atoll-qa-'));
+  const tempRoot=fs.realpathSync(app.getPath('temp'));
+  if(qaRequested&&(!path.isAbsolute(qaRequested)||!fs.existsSync(qaProfile)||!fs.realpathSync(qaProfile).startsWith(tempRoot+path.sep)||!path.basename(qaProfile).startsWith('atoll-qa-')))throw new Error('QA profile must be an existing atoll-qa directory inside the temporary folder.');
   app.setPath('userData',qaProfile);
 }
 protocol.registerSchemesAsPrivileged([{ scheme: 'atoll', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }]);
@@ -16,7 +19,7 @@ app.whenReady().then(() => {
     return net.fetch(pathToFileURL(target===root?path.join(root,'index.html'):target).toString());
   });
   session.defaultSession.setPermissionRequestHandler((_web,_permission,callback)=>callback(false));
-  const window = new BrowserWindow({ width: 1440, height: 850, minWidth: 960, minHeight: 600, fullscreen: true, backgroundColor: '#082e39', icon: path.join(app.getAppPath(),'assets/icon.png'), title: 'Atoll Down Under', show: false, webPreferences: { preload: path.join(__dirname,'preload.cjs'), nodeIntegration: false, contextIsolation: true, sandbox: true } });
+  const window = new BrowserWindow({ width: 1440, height: 850, minWidth: 960, minHeight: 600, fullscreen: true, backgroundColor: '#082e39', icon: path.join(app.getAppPath(),'assets/icon.png'), title: 'Atoll Down Under', show: false, webPreferences: { preload: path.join(__dirname,'preload.cjs'), nodeIntegration: false, contextIsolation: true, sandbox: true, backgroundThrottling: !process.env.ATOLL_QA } });
   const ownFrame=event=>event.sender===window.webContents&&event.senderFrame===window.webContents.mainFrame&&event.senderFrame.url.startsWith('atoll://game/');
   ipcMain.handle('atoll:fullscreen-state',event=>{if(!ownFrame(event))throw new Error('Unavailable');return window.isFullScreen();});
   const toggleFullscreen=()=>{const next=!window.isFullScreen();window.setFullScreen(next);return next;};

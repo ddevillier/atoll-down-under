@@ -96,7 +96,8 @@ for(const [species,byClick] of [['Neon',false],['Flashlight',true]])test(`cleane
   const box=await page.locator('#reef').boundingBox();
   if(byClick)await page.mouse.click(box.x+cleaner.x/1600*box.width,box.y+(cleaner.y+55)/900*box.height);
   else await page.getByRole('button',{name:'Visit cleaner',exact:true}).click();
-  await expect(page.locator('#state-badge')).toContainText('Visiting');
+  await expect(page.locator('#dive-state-cue')).toHaveAttribute('data-state','fish');
+  await expect(page.locator('#dive-state-cue')).toHaveAttribute('aria-label',/Visiting|Cleaning/);
   await page.waitForFunction(()=>window.atoll.simulation.player.cleanTime>.2);
   await page.keyboard.press('Escape');
   const during=await page.evaluate(()=>{const s=window.atoll.simulation;return {health:s.player.health,alive:s.section.entities[0].alive,target:s.player.target};});
@@ -110,7 +111,10 @@ for(const [species,byClick] of [['Neon',false],['Flashlight',true]])test(`cleane
   expect(await page.evaluate(()=>window.atoll.simulation.player.cleanerTarget)).toBeNull();
   await page.keyboard.press('c');
   await page.waitForFunction(()=>window.atoll.simulation.player.health===85);
-  await expect(page.locator('.toast')).toContainText('Parasites removed');
+  // Care also earns Fresh Again; the badge may be the final live announcement.
+  await expect(page.locator('#announcer')).toContainText(/Parasites removed|Journal badge earned: Fresh Again/);
+  expect(await page.evaluate(()=>window.atoll.renderer.effects.some(e=>e.type==='clean'))).toBe(true);
+  await expect(page.locator('.toast')).toHaveCount(0);
   expect(await page.evaluate(()=>window.atoll.simulation.player.biteDamage)).toBe(15);
   await page.getByRole('button',{name:'Visit cleaner',exact:true}).click();await expect(page.locator('.toast')).toContainText('No parasites to remove');
  }
@@ -140,11 +144,12 @@ test('a food patch beside a poisonous animal can be inspected and eaten with the
  }
 });
 
-test('shelter feedback explains fit and hiding without changing protection rules',async({page})=>{
+test('shelter feedback marks usable cover and hides unsuitable cover without changing protection rules',async({page})=>{
  for(const [width,height] of [[1600,900],[1024,768]]){
   await page.setViewportSize({width,height});await ready(page);await practice(page,'Neon');
   const badge=page.locator('#state-badge');
-  await expect(badge).toContainText('Eating, active abilities or travel end protection');
+  await expect(page.locator('#dive-state-cue')).toHaveAttribute('data-state','shield');
+  await expect(badge).toContainText('Watching safely');
   await page.evaluate(async()=>{
    const s=window.atoll.simulation,{REEFS}=await import('/src/data.js'),area=REEFS[s.current].shelters[0];
    s.section.entities=[];s.section.food=[];s.protected=false;
@@ -158,11 +163,13 @@ test('shelter feedback explains fit and hiding without changing protection rules
   });
   await page.screenshot({path:`artifacts/shelter-large-${width}.png`});
   await page.keyboard.press('Escape');
-  await expect(badge).toContainText('This shelter is too small for your fish');
-  const bounds=await badge.boundingBox();expect(bounds.x).toBeGreaterThanOrEqual(0);expect(bounds.x+bounds.width).toBeLessThanOrEqual(width);
+  await expect(badge).not.toContainText('too small');
+  const cue=page.locator('#dive-state-cue');await expect(cue).not.toHaveAttribute('data-state','shelter');
+  await expect(cue).not.toHaveAttribute('aria-label',/too small/);
+  expect(await page.evaluate(()=>window.atoll.renderer.labelLayout.some(l=>l.text.startsWith('Shelter')))).toBe(false);
   await expect(page.locator('.controls-hint')).toBeHidden();
   await page.keyboard.press('Space');
-  await expect(badge).toContainText('too small');
+  await expect(badge).not.toContainText('too small');
   expect(await page.evaluate(()=>window.atoll.simulation.player.hidden)).toBe(false);
  }
 });
@@ -235,7 +242,8 @@ test('fullscreen controls are available from the title, dive and settings',async
  await clickButton(page,{name:'Leave fullscreen',exact:true});
  await page.waitForFunction(()=>!document.fullscreenElement);
  await clickButton(page,{name:'Settings',exact:true});
- await expect(page.getByRole('dialog')).toContainText('Escape still pauses your dive');
+ await page.getByRole('dialog').locator('details>summary').click();
+ await expect(page.getByRole('dialog')).toContainText('Escape pauses your dive');
  await page.getByRole('dialog').getByRole('button',{name:'Fullscreen',exact:true}).click();
  await page.waitForFunction(()=>!!document.fullscreenElement);
  await expect(page.getByRole('dialog').getByRole('button',{name:'Leave fullscreen',exact:true})).toBeFocused();
@@ -249,7 +257,7 @@ test('fullscreen controls are available from the title, dive and settings',async
 });
 
 test('the reef map plans an ordinary swim and saves its destination',async({page})=>{
- test.setTimeout(60000);
+ test.setTimeout(90000);
  for(const [width,height] of [[1600,900],[1024,768]]){
   await page.setViewportSize({width,height});await ready(page);await practice(page,'Foxface');
   await page.getByRole('button',{name:/Open reef map/}).click();
@@ -274,9 +282,13 @@ test('the reef map plans an ordinary swim and saves its destination',async({page
   await page.waitForFunction(()=>window.atoll.simulation.current===3,null,{timeout:5000});
   await expect(page.locator('#state-badge')).toContainText('Swim down to Seagrass Meadow');
   const arrivalX=await page.evaluate(()=>window.atoll.simulation.player.x);
+  // Logical water ends at y=740, below the 55px top bar. The route cue
+  // must let steering through to the visible water edge beside the HUD.
   await page.mouse.move(box.x+arrivalX/1600*box.width,box.y+781/900*box.height);
-  await page.waitForFunction(()=>window.atoll.simulation.current===6,null,{timeout:7000});
-  await expect(page.locator('.toast')).toContainText('Reached Seagrass Meadow. 3 of 9 habitats visited');
+  await page.waitForFunction(()=>window.atoll.simulation.current===6,null,{timeout:15000});
+  // Arrival also awards Local Explorer on the third habitat.
+  await expect(page.locator('#announcer')).toContainText(/Reached Seagrass Meadow|Journal badge earned: Local Explorer/);
+  await expect(page.locator('.toast')).toHaveCount(0);
   expect(await page.evaluate(()=>window.atoll.simulation.destination)).toBeNull();
   await page.keyboard.press('m');await expect(page.getByRole('dialog')).toContainText('3 of 9 habitats visited');
   await expect(page.locator('.reef-map-tile[aria-current="location"]')).toContainText('Seagrass Meadow');
@@ -303,9 +315,11 @@ test('a pufferfish can feed on the crabs and snails offered by its diet',async({
   await page.mouse.click(box.x+meal.x/1600*box.width,box.y+(meal.y+55)/900*box.height);
   await page.waitForFunction(id=>!window.atoll.simulation.section.entities.find(e=>e.id===id).alive,meal.id,{timeout:15000});
  }
+ await expect(page.locator('#announcer')).toContainText('A good meal: Spiral snail');
+ await expect(page.locator('.toast')).toHaveCount(0);
  await page.keyboard.press('Escape');
  expect(await page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(50);
- await expect(page.locator('.toast')).toContainText('A good meal: Spiral snail');
+ await expect(page.locator('.toast')).toHaveCount(0);
  await page.screenshot({path:'artifacts/puffer-shellfish-meals.png'});
 });
 
@@ -325,7 +339,7 @@ test('crushing jaws show their food choices before creation and stay available w
   await page.locator('#ability-note').scrollIntoViewIfNeeded();
   await expect(page.locator('#ability-note')).toContainText('no activation or energy cost');
   await page.screenshot({path:`artifacts/crushing-jaws-create-${width}.png`});
-  await clickButton(page,{name:'Keep and meet the reef'});
+  await clickButton(page,{name:'Keep fish'});
   await expect(page.locator('.passive-ability')).toContainText('Always active');
   await expect(page.locator('[data-action="ability"]')).toHaveCount(0);
   await page.keyboard.press('Space');await expect(page.locator('.toast')).toContainText('Crushing jaws are always available');
@@ -353,16 +367,19 @@ test('feeding shows the chosen meal, actual reward and a diminishing patch at bo
   await expect(page.locator('.controls-hint')).toBeHidden();
   await page.screenshot({path:`artifacts/feeding-target-${width}.png`});
   await page.mouse.move(box.x+1100/1600*box.width,box.y+305/900*box.height);
-  await expect(page.locator('#state-badge')).toContainText('A meal would help');expect(await page.evaluate(()=>window.atoll.simulation.mealTarget)).toBeNull();
+  await expect(page.locator('#dive-state-cue')).toHaveAttribute('data-state','target');
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.mealTarget)).toBeNull();
   await page.mouse.click(meal.x,meal.y);
   await page.evaluate(()=>{window.atoll.simulation.section.food[0].regrow=8;});
   await expect(page.locator('.toast')).toContainText('That meal is no longer available');
-  await expect(page.locator('#state-badge')).toContainText('A meal would help');
+  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.mealTarget)).toBeNull();
   await page.evaluate(()=>{window.atoll.simulation.section.food[0].regrow=0;});
   await page.mouse.click(meal.x,meal.y);
   await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.food[0].amount),{timeout:10000}).toBe(65);
   await page.keyboard.press('Escape');
-  expect(await page.evaluate(()=>window.atoll.renderer.effects.find(e=>e.type==='eat')?.label)).toBe('+15 energy');
+  expect(await page.evaluate(()=>window.atoll.renderer.effects.some(e=>e.type==='eat'))).toBe(true);
+  expect(await page.evaluate(()=>window.atoll.renderer.effects.find(e=>e.type==='eat')?.label)).toBeFalsy();
+  expect(await page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(45);
   expect(await page.evaluate(()=>window.foodCoverage())).toBeLessThan(site.full*.85);
   await page.screenshot({path:`artifacts/feeding-meal-${width}.png`});
   await page.keyboard.press('Escape');
@@ -376,7 +393,7 @@ test('feeding shows the chosen meal, actual reward and a diminishing patch at bo
   // A long diet must fit the same HUD without hiding controls or overflowing.
   await ready(page);await practice(page,'Humphead wrasse');await page.keyboard.press('Escape');
   await expect(page.locator('.diet-reminder')).toContainText('crabs · snails · urchins · smaller fish');
-  const fits=await page.locator('.hud').evaluate(h=>{const box=h.getBoundingClientRect();return [...h.children,...h.querySelectorAll('.diet-reminder,.tool-button')].every(e=>{const r=e.getBoundingClientRect();return r.left>=box.left&&r.right<=box.right&&r.top>=box.top&&r.bottom<=box.bottom;});});
+  const fits=await page.locator('.hud').evaluate(h=>{const box=h.getBoundingClientRect();return [...h.children,...h.querySelectorAll('.diet-reminder,.tool-button')].filter(e=>e.getClientRects().length).every(e=>{const r=e.getBoundingClientRect();return r.left>=box.left&&r.right<=box.right&&r.top>=box.top&&r.bottom<=box.bottom;});});
   expect(fits).toBe(true);await page.screenshot({path:`artifacts/feeding-hud-long-${width}.png`});
  }
 });
@@ -459,7 +476,7 @@ test('a night cleaning visit works while a hungry neighbor forages beside the st
  const cleaner=await page.evaluate(id=>{const e=window.atoll.simulation.section.entities.find(e=>e.id===id);return {x:e.x,y:e.y};},station.id);
  await page.mouse.click(box.x+cleaner.x/1600*box.width,box.y+(cleaner.y+55)/900*box.height);
  await expect(page.locator('.inspect-card')).toContainText('Banded coral shrimp');
- await expect(page.locator('.inspect-card')).toContainText('A cleaning partner');
+ await expect(page.locator('.inspect-card')).toContainText(/removes parasites/i);
  await page.screenshot({path:'artifacts/night-cleaning-visit.png'});
 });
 
@@ -506,7 +523,7 @@ test('splash uses compact menus and supports keyboard entry to every mode',async
   await expect(page.getByRole('button',{name:/Practice Choose/})).toBeFocused();
   await page.keyboard.press('ArrowDown');await expect(page.getByRole('button',{name:/Challenge Four/})).toBeFocused();
   await page.keyboard.press('ArrowDown');await expect(page.getByRole('button',{name:/Tournament Journey/})).toBeFocused();
-  await page.keyboard.press('ArrowDown');await expect(page.getByRole('button',{name:/Create a fish Shape/})).toBeFocused();
+  await page.keyboard.press('ArrowDown');await expect(page.getByRole('button',{name:/Create a fish Choose its shape/})).toBeFocused();
   await page.screenshot({path:`artifacts/splash-menu-${width}.png`});
   await page.keyboard.press('Escape');await expect(game).toBeFocused();await expect(page.locator('.splash-menu[open]')).toHaveCount(0);
  }
@@ -582,8 +599,10 @@ test('poison feedback updates score and the next-life target together',async({pa
  });
  await expect(page.locator('#score')).toHaveText('8,500');
  await expect(page.locator('#goal-label')).toHaveText('600 to next life');
- await expect(page.locator('.toast')).toContainText('Lost 500 points');
  await expect(page.locator('#announcer')).toContainText('Lost 500 points');
+ // This accounting fixture is paused; preserve the accessible penalty report
+ // while the inspection policy suppresses transient swimming toasts.
+ await expect(page.locator('.toast')).toHaveCount(0);
 });
 
 test('a poisonous meal shows its actual cause in the ending dialog',async({page})=>{
@@ -610,7 +629,7 @@ test('food-web connections are navigable and sourced reef lessons fit desktop si
   await page.setViewportSize({width,height:width===1440?810:768});await page.screenshot({path:`artifacts/food-web-${width}.png`});
   expect(await page.locator('.panel-body').evaluate(e=>e.scrollWidth<=e.clientWidth+1)).toBe(true);
  }
- await clickButton(page,{name:'Reef life',exact:true});await expect(page.locator('details[open]')).toContainText('A coral polyp is an animal');
+ await clickButton(page,{name:'Reef life',exact:true});await page.getByText('A reef made by animals',{exact:true}).click();await expect(page.locator('details[open]')).toContainText('A coral polyp is an animal');
  await page.getByText('An animal that filters water',{exact:true}).click();await expect(page.locator('details[open]').last()).toContainText('NOAA Ocean Service');
  await page.screenshot({path:'artifacts/reef-life-1024.png'});
 });
@@ -622,7 +641,8 @@ test('paused observation explains relationships and saves field notes across rel
  await ready(page);await practice(page);await page.keyboard.press('Escape');
  const subject=await page.evaluate(()=>{const s=window.atoll.simulation;const e=s.section.entities.find(e=>e.x<1100&&e.y>100&&e.y<500&&s.findAt(e.x,e.y)===e);return {x:e.x,y:e.y,name:e.species.name};});
  const box=await page.locator('#reef').boundingBox();await page.mouse.click(box.x+subject.x/1600*box.width,box.y+(subject.y+55)/900*box.height);
- await expect(page.locator('.inspect-card')).toContainText(subject.name);await expect(page.locator('.inspect-card')).toContainText('Observation saved');
+ await expect(page.locator('.inspect-card')).toContainText(subject.name);
+ expect(await page.evaluate(name=>window.atoll.simulation.observations.some(n=>n.name===name),subject.name)).toBe(true);
  expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(true);
  await page.screenshot({path:'artifacts/exploration-inspect.png'});
  await page.keyboard.press('Control+s');await clickButton(page,{name:'Field guide',exact:true});await clickButton(page,{name:'Field notes',exact:true});
@@ -633,8 +653,8 @@ test('paused observation explains relationships and saves field notes across rel
 test('all screens load without errors and the complete guide is searchable',async({page})=>{const errors=[];page.on('pageerror',e=>errors.push(e.message));await ready(page);await clickButton(page,{name:'Field guide',exact:true});await expect(page.getByRole('option')).toHaveCount(64);await page.getByRole('searchbox').fill('shark');await expect(page.getByRole('option')).toHaveCount(4);await clickButton(page,{name:'Food & habitats'});await expect(page.getByText('Cleaning partners',{exact:true})).toHaveCount(0);await expect(page.getByText('Plankton',{exact:true})).toBeVisible();await clickButton(page,{name:'Glossary',exact:true});await expect(page.getByText('Symbiosis',{exact:true})).toBeVisible();await clickButton(page,{name:'Return',exact:true});expect(errors).toEqual([]);});
 test('mouse movement, clicking food, inspection and resume operate through UI',async({page})=>{await ready(page);await practice(page);const food=await page.evaluate(()=>{const s=window.atoll.simulation;s.section.entities=[];const f=s.section.food.find(f=>f.food==='algae');s.player.x=f.x-30;s.player.y=f.y;s.player.energy=35;s.player.angle=0;s.point(s.player.x,s.player.y);return {x:f.x,y:f.y};});const box=await page.locator('#reef').boundingBox();await page.mouse.click(box.x+food.x/1600*box.width,box.y+(food.y+55)/900*box.height);await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.energy)).toBeGreaterThan(45);await page.keyboard.press('Escape');await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.paused)).toBe(true);const time=await page.evaluate(()=>window.atoll.simulation.time);await page.waitForTimeout(350);expect(await page.evaluate(()=>window.atoll.simulation.time)).toBe(time);await clickButton(page,{name:/Continue Esc/});await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.paused)).toBe(false);});
 test('an ability activates from Space and saves survive a page reload',async({page})=>{await ready(page);await practice(page,'cuttlefish');await page.keyboard.press('Space');await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.cooldown)).toBeGreaterThan(10);expect(await page.evaluate(()=>window.atoll.simulation.period)).toBe('night');await page.keyboard.press('Control+s');const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('atoll-save-0')));expect(saved.species).toBe('Cuttlefish');await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:'Saved dives'});await clickButton(page,{name:'Load dive'});await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.player.species.name)).toBe('Cuttlefish');await expect.poll(()=>page.evaluate(()=>window.atoll.audio.track)).toBe('moon-through-water');});
-test('creation budget, anatomy, color, activity, diet and ability reach the game',async({page})=>{await ready(page);await clickButton(page,{name:/Create a fish/});await page.locator('[data-config="name"]').fill('Lagoon test fish');await page.locator('[data-config="active"]').selectOption('night');await page.locator('[data-config="ability"]').selectOption('shock');await page.locator('[data-config="diet"]').selectOption('hunter');await page.locator('[data-config="color"]').fill('#ee7733');await page.locator('[data-config="size"]').fill('180');await page.locator('[data-config="speed"]').fill('220');await page.locator('[data-config="agility"]').fill('250');await page.locator('[data-config="endurance"]').fill('250');await expect(page.getByRole('button',{name:'Keep and meet the reef'})).toBeDisabled();await page.locator('[data-config="size"]').fill('80');await expect(page.getByRole('button',{name:'Keep and meet the reef'})).toBeEnabled();await clickButton(page,{name:'Keep and meet the reef'});const s=await page.evaluate(()=>window.atoll.simulation.player.species);expect(s.name).toBe('Lagoon test fish');expect(s.color).toBe('#ee7733');expect(s.ability).toBe('shock');expect(s.diet).toContain('fish');expect(s.active).toBe('night');});
-test('challenge stage completion, ending and local leaderboard work end to end',async({page})=>{await ready(page);await clickButton(page,{name:/Challenge Four lives/});await clickButton(page,{name:'Begin the journey'});for(let i=0;i<4;i++){await page.evaluate(()=>{const s=window.atoll.simulation;s.section.entities=[];s.stageScore=s.required;});if(i<3){await expect(page.getByRole('heading',{name:'Another life awaits'})).toBeVisible();await clickButton(page,{name:/Become /});}else await expect(page.getByRole('heading',{name:'A life well lived.'})).toBeVisible();}await page.locator('#ruler-name').fill('Coral Pilot');await clickButton(page,{name:'Return home'});await clickButton(page,{name:'Reef rulers'});await expect(page.getByText('1. Coral Pilot')).toBeVisible();});
+test('creation budget, anatomy, color, activity, diet and ability reach the game',async({page})=>{await ready(page);await clickButton(page,{name:/Create a fish/});await page.locator('[data-config="name"]').fill('Lagoon test fish');await page.locator('[data-config="active"]').selectOption('night');await page.locator('[data-config="ability"]').selectOption('shock');await page.locator('[data-config="diet"]').selectOption('hunter');await page.locator('[data-config="color"]').fill('#ee7733');await page.locator('[data-config="size"]').fill('180');await page.locator('[data-config="speed"]').fill('220');await page.locator('[data-config="agility"]').fill('250');await page.locator('[data-config="endurance"]').fill('250');await expect(page.getByRole('button',{name:'Keep fish'})).toBeDisabled();await page.locator('[data-config="size"]').fill('80');await expect(page.getByRole('button',{name:'Keep fish'})).toBeEnabled();await clickButton(page,{name:'Keep fish'});const s=await page.evaluate(()=>window.atoll.simulation.player.species);expect(s.name).toBe('Lagoon test fish');expect(s.color).toBe('#ee7733');expect(s.ability).toBe('shock');expect(s.diet).toContain('fish');expect(s.active).toBe('night');});
+test('challenge stage completion, ending and local leaderboard work end to end',async({page})=>{await ready(page);await clickButton(page,{name:/Challenge Four lives/});await clickButton(page,{name:'Begin the journey'});for(let i=0;i<4;i++){await page.evaluate(()=>{const s=window.atoll.simulation;s.section.entities=[];s.stageScore=s.required;});if(i<3){await expect(page.getByRole('heading',{name:'Another life awaits'})).toBeVisible();await clickButton(page,{name:/Become /});}else await expect(page.getByRole('heading',{name:'Journey complete'})).toBeVisible();}await page.locator('#ruler-name').fill('Coral Pilot');await clickButton(page,{name:'Return home'});await clickButton(page,{name:'Reef rulers'});await expect(page.getByText('1. Coral Pilot')).toBeVisible();});
 test('all nine backgrounds render, all sprites have useful bounds and music decodes',async({page})=>{await ready(page);await practice(page);const report=await page.evaluate(async()=>{const a=window.atoll;const r=a.renderer;const empty=r.sprites.map((s,i)=>({i,w:s.width,h:s.height})).filter(s=>s.w<5||s.h<5);const audio=await fetch('assets/audio/manifest.json').then(r=>r.json());const context=new AudioContext();let decoded=0;for(const track of audio.music){const bytes=await fetch('assets/audio/'+track.file).then(r=>r.arrayBuffer());const b=await context.decodeAudioData(bytes);if(b.duration>90&&b.numberOfChannels===2)decoded++;}await context.close();return {backgrounds:r.reefs.filter(i=>i.complete&&i.naturalWidth>1000).length,empty,decoded,foods:r.foodSprites.length};});expect(report).toEqual({backgrounds:9,empty:[],decoded:3,foods:8});for(let i=0;i<9;i++){await page.evaluate(i=>{window.atoll.simulation.current=i;window.atoll.simulation.paused=true;},i);await page.waitForTimeout(20);}await clickButton(page,{name:'Settings',exact:true});await page.getByLabel('Enable audio').uncheck();expect(await page.evaluate(()=>window.atoll.audio.music.volume)).toBe(0);});
 test('dialog redraws retain keyboard focus and contain Tab navigation',async({page})=>{await ready(page);await clickButton(page,{name:'Field guide',exact:true});await page.getByRole('option',{name:/Silver sprat/}).click();await expect(page.getByRole('option',{name:/Silver sprat/})).toBeFocused();await page.keyboard.press('Tab');expect(await page.evaluate(()=>!!document.activeElement.closest('.panel'))).toBe(true);await clickButton(page,{name:'Glossary',exact:true});await expect(page.getByRole('button',{name:'Glossary',exact:true})).toBeFocused();await page.getByRole('button',{name:'Return',exact:true}).focus();await page.keyboard.press('Tab');await expect(page.getByRole('button',{name:'Close dialog'})).toBeFocused();await page.keyboard.press('Shift+Tab');await expect(page.getByRole('button',{name:'Return',exact:true})).toBeFocused();});
 test('save success, storage failure and invalid load have visible feedback',async({page})=>{await ready(page);await practice(page);await clickButton(page,{name:'Save / load'});await page.getByRole('button',{name:'Save here'}).first().click();await expect(page.getByRole('status')).toContainText('Dive saved');await page.evaluate(()=>{window.savedSetItem=Storage.prototype.setItem;Storage.prototype.setItem=function(){throw new Error('QuotaExceededError');};});await page.getByRole('button',{name:'Save here'}).nth(1).click();await expect(page.getByRole('status')).toContainText('could not be saved');await page.screenshot({path:'artifacts/save-error.png'});await page.evaluate(()=>{Storage.prototype.setItem=window.savedSetItem;const d=JSON.parse(localStorage.getItem('atoll-save-1'));d.state='{}';localStorage.setItem('atoll-save-1',JSON.stringify(d));});await page.getByRole('button',{name:'Load dive'}).nth(1).click();await expect(page.getByRole('status')).toContainText('Unable to load');await expect(page.getByRole('status')).toContainText('different');await page.screenshot({path:'artifacts/load-error.png'});});

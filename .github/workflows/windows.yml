@@ -1,0 +1,72 @@
+name: Verify and build Windows
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows:
+    name: Clean checkout, tests and Windows x64 build
+    runs-on: windows-2022
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out complete source and assets
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Set up pinned Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Set up archive helper
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.13'
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Verify complete offline setup
+        run: npm run check
+      - name: Unit and source asset tests
+        run: npm test
+      - name: Install browser test runtime
+        run: npx playwright install chromium
+      - name: Browser gameplay tests
+        run: npm run test:e2e -- --workers=2
+      - name: Source Electron checks
+        run: npm run test:desktop
+      - name: Build and verify Windows package
+        run: npm run build:win -- --out dist/github-windows
+      - name: Packaged activity, speech and restart checks
+        run: node scripts/qa-reef-stories-native.mjs "dist/github-windows/Atoll Down Under-win32-x64/Atoll Down Under.exe" artifacts/packaged-native
+      - name: Create and verify complete portable archive
+        run: python scripts/archive-living-reef.py --built-folder "dist/github-windows/Atoll Down Under-win32-x64" --zip dist/Atoll-Down-Under-Windows.zip
+      - name: Upload verified Windows download
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Atoll-Down-Under-Windows
+          path: |
+            dist/Atoll-Down-Under-Windows.zip
+            dist/Atoll-Down-Under-Windows.receipt.json
+            dist/github-windows/build.json
+            dist/github-windows/packaged-source.json
+          compression-level: 0
+          retention-days: 30
+          if-no-files-found: error
+      - name: Upload test evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Windows-test-evidence
+          path: artifacts/
+          retention-days: 14
+          if-no-files-found: ignore

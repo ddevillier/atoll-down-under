@@ -1,5 +1,6 @@
 import {animalProfile} from './animal-profiles.js';
 import {followPlayerCompanion} from './companion-activity.js';
+import {greetingRoutine} from './reef-memories.js';
 import {REEFS} from './data.js';
 import {creatureWidth,creatureFrame} from './geometry.js';
 import {turnTowards} from './steering.js';
@@ -38,6 +39,7 @@ export function localRoutine(sim,e,dt,speed){
  if(e.activity==='avoiding'||e.behavior?.startsWith('Moving away')||e.entering)return speed;
  if(e.rest>0){e.activity='resting';e.behavior='Resting between feeding trips';return speed*.7;}
  if(e.actionTime>0){e.activity='feeding';return speed*.15;}
+ const greeting=greetingRoutine(sim,e,dt,speed);if(greeting!==null)return greeting;
  if(['s2','s19','s23'].includes(e.species.id))return speed;
  const following=followPlayerCompanion(sim,e,dt,speed);if(following!==null)return following;
  const others=sim.section.entities.filter(b=>b!==e&&b.alive&&b.species.ability!=='clean');

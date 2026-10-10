@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';import {clickButton} from '../../scripts/ui-actions.mjs';
 async function start(page,name='Bluestreak cleaner wrasse'){
- await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill(name);await page.getByRole('option').click();await clickButton(page,{name:'Try adventure',exact:true});
+ await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill(name);await page.getByRole('option').click();await clickButton(page,{name:'Show goal',exact:true});
 }
 test('spoken activity pauses safely, uses real offline audio, supports stop/replay and returns to play at both sizes',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await start(page);expect(await page.evaluate(()=>window.atoll.audio.narration)).toBeNull();

@@ -22,5 +22,8 @@ export function turningPose(pose,e,dt,reduced=false){
  const q=clamp(pose.yaw,-1,1),amount=1-q*q,side=q<0?-1:q>0?1:target;
  const family=animalProfile(e.species).family,compression=family==='eel'||[18,41].includes(e.species.index)?.12:.22;
  const width=1-amount*compression,facing=side*width,direction=pose.turnDirection||1;
- return {facing,amount,bank:Math.sin(Math.PI*(q+1)/2)*.16*direction,pivot:-facing*amount*.40,bend:amount*direction};
+ // The painting changes side at the midpoint, but its center must not. Using
+ // the mirrored scale here moved a large shark by most of its body width in
+ // one frame. Yaw remains continuous through zero and on an interrupted turn.
+ return {facing,amount,bank:Math.sin(Math.PI*(q+1)/2)*.16*direction,pivot:-q*amount*.40,bend:amount*direction};
 }

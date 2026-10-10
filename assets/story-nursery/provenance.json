@@ -1,0 +1,11 @@
+{
+  "asset": "banggai-juvenile-v1.png",
+  "role": "Dedicated juvenile Banggai cardinalfish illustration for Dad's Big Mouth nursery story",
+  "generatedOn": "2026-10-10",
+  "generator": "Built-in image_gen.imagegen",
+  "reference": "assets/creatures/fish-atlas-0.png; bottom row, second column adult Banggai, used only as style/species reference",
+  "generatedSource": "C:/Users/Daniel/.codex/generated_images/01a127aa-dc23-7fe2-a833-fbe47f4c0784/exec-fe062bd6-24e6-4b3e-9cbc-b27585311c16.png",
+  "processing": "Copied unmodified, preserving generated alpha. Renderer crops the connected alpha silhouette at load time using its existing extractCell method.",
+  "prompt": "Use case: illustration-story. Asset type: transparent PNG sprite for a child-friendly natural-history reef game. Input image: reference only for painted illustration style and Banggai cardinalfish adult appearance, specifically the black-and-silver fish in bottom row second column. Primary request: create ONE single very young juvenile Banggai cardinalfish in full side profile, facing RIGHT, centered and isolated on a genuinely transparent background. The juvenile is a distinct young illustration, NOT a shrunken adult: relatively larger eye, round compact silver body, noticeably shorter dorsal/anal fin rays and shorter forked tail than the adult, small neat mouth. Preserve authentic three prominent vertical black bars across head/body, silvery cream body, scattered small white pearl spots along black fin areas, delicate translucent fins with clear painted edges. Style: faithful soft naturalist digital painting with lightly textured scales matching the reference, friendly calm realistic appearance, no human expression. Composition: complete uncropped silhouette with transparent margin around all fins, body horizontal, no ground shadow. Constraints: one fish only; no coral, eggs, adult, water, labels, letters, border, glow, background color, checkerboard painting or watermark.",
+  "validation": "PNG Format32bppArgb with transparent outer samples. Dedicated compact-body juvenile art, not a scaled adult sprite. Existing adult atlas left unchanged."
+}

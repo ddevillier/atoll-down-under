@@ -1,3 +1,4 @@
+import {loadNarrationCredential} from './narration-credentials.mjs';
 // Operator-only: the key is read in memory from the existing phonics convention.
 import fs from 'node:fs';import crypto from 'node:crypto';import {execFileSync} from 'node:child_process';
 const catalog=JSON.parse(fs.readFileSync('src/activity-narration.json','utf8'));
@@ -10,7 +11,7 @@ const only=process.argv.find(x=>x.startsWith('--only='))?.slice(7).split(',');
 const jobs=Object.entries(catalog).filter(([id])=>!only||only.includes(id)).map(([id,text])=>({id,text,scriptHash:hash(JSON.stringify({model,voice,instructions,input:text,response_format:'wav',speed:1}))}));
 console.log(JSON.stringify({execute:process.argv.includes('--execute'),model,voice,clips:jobs.length,words:jobs.reduce((n,j)=>n+j.text.split(/\s+/).length,0)}));
 if(!process.argv.includes('--execute'))process.exit(0);
-if(!process.env.OPENAI_API_KEY)process.loadEnvFile(process.env.ATOLL_NARRATION_ENV||'C:/Users/Daniel/Desktop/phonics/.env.local');
+loadNarrationCredential();
 if(!process.env.OPENAI_API_KEY)throw Error('Operator API credential unavailable');
 fs.mkdirSync(dir,{recursive:true});fs.mkdirSync(masters,{recursive:true});
 function save(){fs.writeFileSync(manifestPath+'.tmp',JSON.stringify(manifest,null,2)+'\n');fs.renameSync(manifestPath+'.tmp',manifestPath);}

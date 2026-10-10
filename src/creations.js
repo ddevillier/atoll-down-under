@@ -2,6 +2,7 @@ import {APPEARANCE_DEFAULTS,appearance} from './creation-appearance.js';
 // Creation identity is independent of scientific species and of a mutable editor draft.
 import {edible} from './diet.js';
 import {createSpecies,BY_ID,ABILITIES} from './data.js';
+import {validMemory} from './reef-memories.js';
 export const BODY_FORMS={rounded:'s5',slender:'s42',sturdy:'s16'};
 export const DEFAULT_BLUEPRINT={name:'Lagoon wanderer',size:75,speed:140,endurance:150,agility:150,ability:'none',active:'day',diet:'grazer',color:'#60bba5',body:'rounded',...APPEARANCE_DEFAULTS};
 export function blueprint(config={}){
@@ -11,6 +12,9 @@ export function blueprint(config={}){
  for(const [k,[min,max]]of Object.entries(ranges))if(!Number.isFinite(c[k])||c[k]<min||c[k]>max)throw new Error('This creation has an invalid '+k+'.');
  if(!Object.hasOwn(BODY_FORMS,c.body)||!['grazer','hunter','omnivore'].includes(c.diet)||!['day','night'].includes(c.active)||!Object.hasOwn(ABILITIES,c.ability)||c.ability==='clean'||!/^#[0-9a-f]{6}$/i.test(c.color))throw new Error('This creation has invalid traits.');
  c.name=String(c.name).trim().slice(0,36)||'Lagoon wanderer';
+ // Keep imported and stored lives subject to the same rules as the workshop.
+ if(createSpecies(c).cost>1600)throw new Error('This creation exceeds the 1600 point budget.');
+ const issue=abilityIssue(c);if(issue)throw new Error(issue);
  return Object.fromEntries(Object.keys(DEFAULT_BLUEPRINT).map(k=>[k,c[k]]));
 }
 export const newCreation=(config,parentId=null,id=globalThis.crypto.randomUUID())=>({version:1,id,parentId,revision:1,blueprint:blueprint(config),memories:[],life:1,home:null,departed:false,meal:false});
@@ -25,6 +29,8 @@ export function validateCreation(value){
  if(!Array.isArray(c.memories)||c.memories.length>32||c.memories.some(m=>!['meal','refuge','return','care'].includes(m)))throw new Error('This creation memory is damaged.');
  if(c.home!==null&&(!c.home||!Number.isInteger(c.home.reef)||c.home.reef<0||c.home.reef>8||!Number.isInteger(c.home.index)||c.home.index<0||c.home.index>20))throw new Error('This creation refuge is damaged.');
  if(typeof c.departed!=='boolean'||typeof c.meal!=='boolean')throw new Error('This creation activity is damaged.');
+ if(c.recentMemories!==undefined&&(!Array.isArray(c.recentMemories)||c.recentMemories.length>12||!c.recentMemories.every(validMemory)||new Set(c.recentMemories.map(m=>m.id)).size!==c.recentMemories.length))throw new Error('This creation field memory is damaged.');
+ if(c.tripFood!==undefined&&!['algae','plankton','grass','coral','sponge','worm','shrimp','detritus','fish','crab','snail','urchin','star'].includes(c.tripFood))throw new Error('This creation feeding memory is damaged.');
  return c;
 }
 export function remember(c,m){if(c&&!c.memories.includes(m)&&c.memories.length<32)c.memories.push(m);}
@@ -34,7 +40,7 @@ export function abilityIssue(config){
  if(s.ability==='lure'&&!Object.values(BY_ID).some(p=>edible({species:s},{species:p})))return 'Lure needs suitable animal prey. Choose a hunter diet and a larger body, or another ability.';
  return '';
 }
-export const refugeRole=c=>!!c&&c.blueprint.diet==='grazer'&&c.blueprint.size<125;
+export const refugeRole=c=>!!c&&c.blueprint.size<125;
 
 let database;
 function db(){return database??=new Promise((resolve,reject)=>{

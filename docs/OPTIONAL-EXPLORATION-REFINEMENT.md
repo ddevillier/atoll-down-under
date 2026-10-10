@@ -1,0 +1,13 @@
+# Optional exploration, earned colors and discovery commentary
+
+This refinement makes the existing species journeys clearer as optional goals within Practice. Explore freely and Show goal enter the same simulation; the latter opens guidance. Hiding guidance never stops the activity. All 57 existing Practice species and all nine habitats remain available regardless of badges.
+
+The compact goal reads actual journey state and meaningful counters. Detailed controls stay under Activity details. A discovery recorded in an earlier dive is identified separately from completion in the current dive. The seven resident observations retain their individual and habitat requirements.
+
+The family journal records accomplishments and reconciles older discoveries into three new milestones: one, five and fifteen ways of living. Awards persist, merge without duplication and retain the earliest recorded date. Ten earned color recipes decorate created fish. Three come directly from discovery milestones; the others reward needed meals, cleaner care, helping clients, shelter, species care, travel and nighttime feeding. Body, fins and markings remain independently editable. Recipes change appearance only. Keeping, importing or resuming an appearance does not require owning its recipe. No species or habitat is gated by these rewards.
+
+New offline commentary introduces each of the 57 playable species briefly, reflects on the 64 possible discoveries, and acknowledges selected new badges. A discovery and its milestone badge share one spoken reflection. Previously recorded accomplishments, imported journals and restored saves stay quiet. The existing 128 manually requested guide and activity recordings remain available.
+
+Automatic commentary defaults on; Settings provides Discovery commentary, narration volume and overall audio controls. It speaks while exploration continues, ducks music temporarily and restores it when finished or interrupted. Explicit guide narration takes priority. Menus and pause stop automatic speech; home, death, test swims and opt-out clear it. A bounded queue, settling delay, expiry and quiet gaps keep discoveries from becoming continuous chatter. Missing audio fails quietly without stopping play. The game uses packaged recordings and never needs an API key or a network connection to narrate.
+
+Verification evidence is collected in `artifacts/optional-exploration/`, with voice generation and signal/transcription checks in the discovery narration artifacts. A fresh Windows build must pass source-to-package matching, native playback and persistence checks, and ZIP payload integrity before it is delivered. Historical Windows checkpoints are retained; no Apple Silicon build is part of this refinement.

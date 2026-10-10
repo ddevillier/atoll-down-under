@@ -1,6 +1,33 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {arrangeLabels,overlaps,playerLocator,projectedBounds} from '../src/world-labels.js';
+import {arrangeLabels,overlaps,playerLocator,projectedBounds,creatureLabel,activitySiteLabel} from '../src/world-labels.js';
 import {SPECIES} from '../src/data.js';import {creatureFrame} from '../src/geometry.js';
+import {Simulation} from '../src/simulation.js';import {sitesFor} from '../src/adventures.js';
+
+test('creature labels use a cleaner role without appending names or behavior',()=>{
+ for(const species of SPECIES){
+  const animal={species,activity:'probing',behavior:'Inspecting a meal'};
+  assert.equal(creatureLabel(animal),species.ability==='clean'?'Cleaner':species.name);
+ }
+ assert.equal(creatureLabel({name:'Worms'}),'Worms');
+ assert.equal(creatureLabel({name:'A long familiar name',species:SPECIES.find(s=>s.ability==='clean')}),'Cleaner');
+});
+
+test('generated activity places carry short labels while full instructions remain in their definitions',()=>{
+ const kinds=new Set();
+ for(const species of SPECIES.filter(s=>s.playable)){
+  const sim=new Simulation(42);sim.start('practice',species.id);
+  for(let reef=0;reef<9;reef++){
+   sim.current=reef;
+   for(const site of sitesFor(sim)){
+    const label=activitySiteLabel(site);kinds.add(site.kind);
+    assert.ok(label.length>0&&label.length<=16,species.name+': '+label);
+    assert.ok(!label.includes(' · '),label);
+    assert.ok(site.name.length>0);
+   }
+  }
+ }
+ for(const kind of ['home','sand','reef','meal','companion','watch','route','ambush'])assert.ok(kinds.has(kind),kind);
+});
 
 test('player locators follow the visible height, stay in view and clear every roster body at center',()=>{
  for(const species of SPECIES)for(const unit of [1,1600/1024]){

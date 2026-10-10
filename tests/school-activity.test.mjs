@@ -1,10 +1,30 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {Simulation} from '../src/simulation.js';
 import {schoolMeal,sharedSchoolFood,tickSchoolTrip,schoolNeighbors} from '../src/school-activity.js';import {tickAdventure} from '../src/adventures.js';
+import {feedingApproach} from '../src/feeding-contact.js';
 function scene(id='s0'){const s=new Simulation(42);s.start('practice',id);s.section.entities=[1,2,3].map((id,i)=>({...structuredClone(s.player),id:900+id,x:s.player.x+50+i*30,y:s.player.y,alive:true,hidden:false,target:null,feeding:null,activity:'schooling',satiated:0,rest:0,cleanTime:0,stun:0}));const f=s.section.food.find(f=>f.food==='plankton');f.x=s.player.x+160;f.y=s.player.y;return {s,f};}
 test('school activity requires the player meal, a real neighbor meal and regrouping instead of waiting alone',()=>{
  for(const id of ['s0','s11','s58']){const {s,f}=scene(id);schoolMeal(s,s.player,f);tickAdventure(s,5);assert.equal(s.adventure.complete,false);
   schoolMeal(s,s.section.entities[0],f);s.section.entities.forEach(e=>e.target=f.id);tickAdventure(s,5);assert.equal(s.adventure.complete,false);
   s.section.entities.forEach(e=>e.target=null);tickAdventure(s,2);assert.equal(s.adventure.complete,false);tickAdventure(s,1);assert.equal(s.adventure.complete,true);
+ }
+});
+test('a repeat player meal alone cannot replace an actual schoolmate meal',()=>{
+ for(const id of ['s0','s11','s58']){
+  const {s,f}=scene(id),group=s.section.entities;
+  s.consume(f);const trip=s.adventure.school;
+  assert.ok(trip,id);assert.equal(trip.neighborMeal,false);
+  group.forEach(e=>e.x=1500);s.player.biteCooldown=0;s.consume(f);
+  assert.equal(s.events.filter(e=>e.type==='eat').length,2);
+  assert.equal(s.adventure.school,trip);assert.equal(trip.neighborMeal,false,'another player meal is not a neighbor meal');
+  group.forEach((e,i)=>e.x=s.player.x+50+i*30);
+  tickAdventure(s,3);assert.equal(s.adventure.complete,false,'regrouping still requires a schoolmate meal');
+  const neighbor=group[0];neighbor.angle=0;neighbor.facing=1;neighbor.target=f.id;
+  Object.assign(neighbor,feedingApproach(neighbor,f));
+  const amount=f.amount;
+  for(let i=0;i<90&&!trip.neighborMeal;i++)s.stepNpc(neighbor,1/60);
+  assert.ok(f.amount<amount,'the distinct NPC actually consumes plankton');
+  assert.equal(trip.neighborMeal,true);
+  tickAdventure(s,3);assert.equal(s.adventure.complete,true);
  }
 });
 test('local school feeding invitations respect appetite, availability and the existing two-fish limit',()=>{

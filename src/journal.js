@@ -1,5 +1,6 @@
 import {DISCOVERIES} from './adventures.js';
 import {PRACTICE_SPECIES} from './data.js';
+import {validMemory} from './reef-memories.js';
 const speciesIds=new Set(PRACTICE_SPECIES.map(s=>s.id));
 export const BADGES=[
  ['helper','A Helping Fin','Remove 10 parasite damage while helping another fish.'],
@@ -12,11 +13,14 @@ export const BADGES=[
  ['play10','Many Lives','Play ten species for at least a minute each.','school'],
  ['visit3','Local Explorer','Visit three habitats.','seahorse'],
  ['visit9','Around the Atoll','Visit all nine habitats.'],
+ ['discovery1','A New Discovery','Discover one way of living on the reef.'],
+ ['discovery5','Reef Observer','Discover five different ways of living.'],
+ ['discovery15','Curious Explorer','Discover fifteen different ways of living.'],
  ['night','Night Owl','Take a needed meal at night.',null,true],
  ['neighbor','Good Neighbours','Inspect a fish while it receives cleaning.',null,true],
  ['school','School Guest','Spend ten seconds beside three schooling companions.',null,true]
 ].map(([id,name,description,reward,secret])=>({id,name,description,reward,secret:!!secret}));
-export const freshJournal=()=>({version:1,played:[],cared:[],habitats:[],activities:[],discoveries:[],earned:{}});
+export const freshJournal=()=>({version:1,played:[],cared:[],habitats:[],activities:[],discoveries:[],memories:[],earned:{}});
 const activityIds=new Set(['helper','meal','clean','shelter','night','neighbor','school']);
 export function validateJournal(value){
  const fail=()=>{throw new Error('This is not a valid Atoll family journal.');};
@@ -31,30 +35,60 @@ export function validateJournal(value){
   if(!BADGES.some(b=>b.id===id)||typeof date!=='string'||!Number.isFinite(Date.parse(date)))fail();
   result.earned[id]=date;
  }
- const found=value.discoveries??[];if(!Array.isArray(found)||found.some(id=>!DISCOVERIES.includes(id)))fail();result.discoveries=[...new Set(found)];
+ const found=value.discoveries??[];if(!Array.isArray(found)||found.length>DISCOVERIES.length||found.some(id=>!DISCOVERIES.includes(id)))fail();result.discoveries=[...new Set(found)];
+ const memories=value.memories??[];if(!Array.isArray(memories)||memories.length>64||!memories.every(validMemory)||new Set(memories.map(m=>m.id)).size!==memories.length)fail();result.memories=structuredClone(memories);
  return result;
 }
-function eligible(j,b){
- if(b.id.startsWith('care'))return j.cared.length>=Number(b.id.slice(4));
- if(b.id.startsWith('play'))return j.played.length>=Number(b.id.slice(4));
- if(b.id.startsWith('visit'))return j.habitats.length>=Number(b.id.slice(5));
- return j.activities.includes(b.id);
+export function recordJournalMemory(j,m,now=new Date().toISOString()){
+ if(!validMemory(m)||!Number.isFinite(Date.parse(now)))return false;
+ j.memories??=[];if(j.memories.some(e=>e.id===m.id))return false;
+ j.memories.push({...structuredClone(m),recordedAt:now});j.memories=j.memories.slice(-64);return true;
+}
+export function badgeProgress(j,badge){
+ const b=typeof badge==='string'?BADGES.find(b=>b.id===badge):badge;
+ if(!b||!BADGES.some(entry=>entry.id===b.id))return null;
+ const id=b.id;
+ const [key,target]=id.startsWith('care')?['cared',Number(id.slice(4))]:id.startsWith('play')?['played',Number(id.slice(4))]:id.startsWith('visit')?['habitats',Number(id.slice(5))]:id.startsWith('discovery')?['discoveries',Number(id.slice(9))]:['activities',1];
+ const count=key==='activities'?(j.activities.includes(id)?1:0):new Set(j[key]||[]).size;
+ return {current:Math.min(count,target),target,complete:!!j.earned[id],eligible:count>=target};
+}
+function eligible(j,b){return badgeProgress(j,b).eligible;}
+// An old journal may already contain discoveries earned before these badges
+// existed. Reconcile deliberately on load/persist; validation itself stays pure.
+export function reconcileJournal(j,now=new Date().toISOString()){
+ if(typeof now!=='string'||!Number.isFinite(Date.parse(now)))return [];
+ const newly=[];for(const badge of BADGES)if(!j.earned[badge.id]&&eligible(j,badge)){j.earned[badge.id]=now;newly.push(badge);}
+ return newly;
 }
 export function recordProgress(j,kind,value,now=new Date().toISOString()){
- if(kind==='discovery'){if(DISCOVERIES.includes(value)&&!j.discoveries.includes(value))j.discoveries.push(value);return [];}
+ if(!['discovery','played','cared','habitat','activity'].includes(kind)||typeof now!=='string'||!Number.isFinite(Date.parse(now)))return [];
+ if(kind==='discovery'){
+  if(!DISCOVERIES.includes(value))return [];
+  j.discoveries??=[];if(!j.discoveries.includes(value))j.discoveries.push(value);
+  return reconcileJournal(j,now);
+ }
  let key=kind==='played'?'played':kind==='cared'?'cared':kind==='habitat'?'habitats':'activities';
  const valid=key==='habitats'?Number.isInteger(value)&&value>=0&&value<9:key==='activities'?activityIds.has(value):speciesIds.has(value);
  if(!valid)return [];
  if(!j[key].includes(value))j[key].push(value);
- const newly=[];for(const badge of BADGES)if(!j.earned[badge.id]&&eligible(j,badge)){j.earned[badge.id]=now;newly.push(badge);}
- return newly;
+ return reconcileJournal(j,now);
 }
 export function mergeJournals(a,b){
  const result=validateJournal(a),incoming=validateJournal(b);
  for(const key of ['played','cared','habitats','activities','discoveries'])result[key]=[...new Set([...result[key],...incoming[key]])];
+ result.memories=[...new Map([...incoming.memories,...result.memories].map(m=>[m.id,m])).values()].sort((a,b)=>(Date.parse(a.recordedAt)||0)-(Date.parse(b.recordedAt)||0)||a.id.localeCompare(b.id)).slice(-64);
  for(const [id,date]of Object.entries(incoming.earned))if(!result.earned[id]||Date.parse(date)<Date.parse(result.earned[id]))result.earned[id]=date;
- for(const badge of BADGES)if(!result.earned[badge.id]&&eligible(result,badge))result.earned[badge.id]=new Date().toISOString();
+ reconcileJournal(result);
  return result;
+}
+export function persistJournal(j,storage){
+ const raw=storage.getItem('atoll-journal');let stored=null;
+ // A damaged old snapshot must not prevent backing up new valid progress.
+ if(raw)try{stored=validateJournal(JSON.parse(raw));}catch{}
+ const merged=stored?mergeJournals(j,stored):validateJournal(j);
+ reconcileJournal(merged);
+ storage.setItem('atoll-journal',JSON.stringify(merged));
+ return merged;
 }
 export function journalRewards(j){return BADGES.filter(b=>b.reward&&j.earned[b.id]).map(b=>b.reward);}
 export const freshCare=()=>({nourishment:0,played:0,healthy:0,shelter:0,school:0,fed:false,playedDone:false,careDone:false,shelterDone:false,schoolDone:false});

@@ -11,4 +11,4 @@ export function edible(predator,prey){
  return true;
 }
 // Guidance must distinguish a diet match from a poisonous meal.
-export function suitableMeal(predator,prey){const p=predator.species||predator;return edible(predator,prey)&&(!prey.species?.poison||['crush','poison'].includes(p.ability));}
+export function suitableMeal(predator,prey){const p=predator.species||predator,b=prey.species||prey;return edible(predator,prey)&&(!b.poison||['crush','poison'].includes(p.ability));}

@@ -2,7 +2,7 @@ import {_electron as electron,expect} from '@playwright/test';import fs from 'no
 const executablePath=process.argv[2],app=await electron.launch({...(executablePath?{executablePath}:{args:['.']}),env:{...process.env,ATOLL_QA:'1'}});
 try{
  const profile=await app.evaluate(({app})=>app.getPath('userData'));expect(profile).toMatch(/atoll-qa-/);const page=await app.firstWindow(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.waitForFunction(()=>window.atoll?.renderer.ready);
- await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Bluestreak cleaner wrasse');await page.getByRole('option').click();await clickButton(page,{name:'Try adventure',exact:true});await page.keyboard.press('Escape');
+ await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Bluestreak cleaner wrasse');await page.getByRole('option').click();await clickButton(page,{name:'Show goal',exact:true});await page.keyboard.press('Escape');
  const report=await page.evaluate(async()=>{
   const module=path=>import(new URL('src/'+path,location.href).href),{Simulation}=await module('simulation.js'),{canHelp,requestPlayerService}=await module('player-cleaner.js'),{exportDive,importDive}=await module('save-files.js'),{PRACTICE_SPECIES,SPECIES}=await module('data.js'),{ADVENTURES,JOURNEYS}=await module('adventures.js');const roles=[];
   for(const id of ['s43','s45']){

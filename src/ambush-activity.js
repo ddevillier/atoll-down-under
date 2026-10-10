@@ -1,3 +1,4 @@
+import {enterReefLife} from './risk-cues.js';
 import {REEFS} from './data.js';
 import {turnTowards} from './steering.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -11,14 +12,18 @@ export function ambushSites(sim){
 export function cancelAmbush(sim){const p=sim.player;if(p?.ambush){if(p.ambush.target!=null&&p.target===p.ambush.target){p.target=null;p.feeding=null;sim.pointer={x:p.x,y:p.y};}p.ambush=null;p.hidden=false;}}
 export function beginAmbush(sim,site){
  const p=sim.player;p.target=null;p.feeding=null;p.cleanerTarget=null;p.cleanTime=0;
- p.ambush={reef:sim.current,x:p.x,y:p.y,settled:0,clock:0,strike:0,target:null};sim.pointer={x:p.x,y:p.y};sim.protected=false;
- sim.event('message','Settle beside this '+(site.kind==='ambush'?'ambush spot':'refuge')+' · Wait for a small passing fish.');
+ p.ambush={reef:sim.current,x:p.x,y:p.y,settled:0,clock:0,strike:0,target:null};sim.pointer={x:p.x,y:p.y};enterReefLife(sim,'activity');
+ sim.event('activity-step','Settling into ambush');
 }
 export function aimAmbush(sim,x,y){const a=sim.player?.ambush;if(a&&!a.strike&&Number.isFinite(x)&&Number.isFinite(y))a.aim={x:Math.max(0,Math.min(1600,x)),y:Math.max(0,Math.min(740,y))};}
 export const ambushConcealed=p=>!!p.ambush&&p.ambush.settled>=2&&p.ambush.strike===0&&!p.target;
 export function startAmbushStrike(sim,target){
  const p=sim.player,a=p.ambush;if(!a)return;
- if(a.settled>=2&&target.species&&target.alive&&distance(p,target)<=160){a.strike=.8;a.target=target.id;p.hidden=false;sim.event('message','A short strike · Reach your meal before it escapes.');}
+ if(a.settled>=2&&target.species&&target.alive&&distance(p,target)<=160){
+  // Retargeting spends the remaining strike time; it cannot renew the burst.
+  if(a.strike>0){a.target=target.id;return;}
+  a.strike=.8;a.target=target.id;p.hidden=false;sim.event('activity-step','Short strike');
+ }
  else cancelAmbush(sim);
 }
 export function tickAmbush(sim,dt){
@@ -27,7 +32,7 @@ export function tickAmbush(sim,dt){
  a.clock+=dt;
  if(a.strike>0){
   a.strike=Math.max(0,a.strike-dt);
-  if(a.strike===0){if(p.target===a.target){p.target=null;p.feeding=null;sim.pointer={x:p.x,y:p.y};sim.event('message','The fish escaped. Choose a position and settle again.');}cancelAmbush(sim);}
+  if(a.strike===0){if(p.target===a.target){p.target=null;p.feeding=null;sim.pointer={x:p.x,y:p.y};sim.event('message','The fish escaped. Settle again.');}cancelAmbush(sim);}
  }else if(distance(p,a)>7||p.target)cancelAmbush(sim);
  else{a.settled=Math.min(2,a.settled+dt);if(a.aim&&distance(p,a.aim)>15){p.angle=turnTowards(p.angle,Math.atan2(a.aim.y-p.y,a.aim.x-p.x),p.species.agility*dt);p.facing=Math.cos(p.angle)>=0?1:-1;}}
 }

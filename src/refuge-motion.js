@@ -1,4 +1,4 @@
-import {creatureFrame} from './geometry.js';import {individualSeed} from './individual-motion.js';import {turnTowards} from './steering.js';
+import {creatureFrame} from './geometry.js';import {individualSeed} from './individual-motion.js';import {turnTowards} from './steering.js';import {edible} from './diet.js';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 function restingFootprint(e){const f=creatureFrame(e);return e.species.id==='s41'?{width:f.width*Math.cos(1.1)+f.height*Math.sin(1.1),height:f.width*Math.sin(1.1)+f.height*Math.cos(1.1)}:f;}
 export function validHome(h){return h==null||typeof h==='object'&&!Array.isArray(h)&&Number.isFinite(h.x)&&Number.isFinite(h.y)&&h.x>=10&&h.x<=1590&&h.y>=25&&h.y<=720&&(h.host==null||typeof h.host==='string'||typeof h.host==='number'&&Number.isFinite(h.host));}
@@ -45,6 +45,8 @@ export function approachRefuge(e,dest,dt,speed,stop=10,heading=null){
 export function compatibleShadow(e,b){
  if(b===e||!b.alive||b.hidden||b.target||b.feeding||b.actionTime>0||b.activity==='avoiding'||b.cleanTime||b.cleanerTarget||b.stun>0||b.holdfast||b.groundRoute||b.species.ability==='clean'||b.species.speed<=0)return false;
  if(b.species.diet.includes('fish')&&e.species.size<b.species.size*.77)return false;
+ // A prey animal would flee the close follower instead of providing cover.
+ if(edible(e,b))return false;
  const a=creatureFrame(e),f=creatureFrame(b);return f.width>a.width*.7&&f.width*f.height>a.width*a.height*1.25;
 }
 export function followShadow(e,host,dest,dt,speed){

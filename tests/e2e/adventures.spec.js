@@ -1,13 +1,13 @@
 import {test,expect} from '@playwright/test';import {clickButton} from '../../scripts/ui-actions.mjs';
 async function ready(page){await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);}
-async function start(page,name){await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill(name);await page.getByRole('option').first().click();await clickButton(page,{name:'Try adventure',exact:true});}
+async function start(page,name){await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill(name);await page.getByRole('option').first().click();await clickButton(page,{name:'Show goal',exact:true});}
 async function move(page,p,click=false){const b=await page.locator('#reef').boundingBox();const x=b.x+p.x/1600*b.width,y=b.y+(p.y+55)/900*b.height;if(click)await page.mouse.click(x,y);else await page.mouse.move(x,y);}
 async function place(page,p){await page.evaluate(p=>{const s=window.atoll.simulation;Object.assign(s.player,{x:p.x,y:p.y,angle:0,energy:65});s.point(p.x,p.y);},p);await move(page,p);}
 async function sites(page){return page.evaluate(async()=>{const {sitesFor}=await import('/src/adventures.js');return sitesFor(window.atoll.simulation).map(({id,x,y,kind})=>({id,x,y,kind}));});}
 test('cowfish ordinary E and click controls complete two distinct searches; hidden adventure still records discovery',async({page})=>{
- await ready(page);await start(page,'Longhorn');await page.evaluate(()=>window.atoll.simulation.section.entities=[]);const spots=await sites(page);await clickButton(page,{name:'Hide adventure'});
+ await ready(page);await start(page,'Longhorn');await page.evaluate(()=>window.atoll.simulation.section.entities=[]);const spots=await sites(page);await clickButton(page,{name:'Hide goal'});
  for(const p of spots){await place(page,{x:p.x-30,y:p.y});await move(page,p);await page.keyboard.press('e');await move(page,p,true);await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.adventure.meals.length)).toBe(spots.indexOf(p)+1);}
- await expect.poll(()=>page.evaluate(()=>window.atoll.journal.discoveries)).toContain('sand-search');await clickButton(page,{name:'Try this adventure'});await expect(page.locator('#adventure-step')).toContainText('Discovered');
+ await expect.poll(()=>page.evaluate(()=>window.atoll.journal.discoveries)).toContain('sand-search');await clickButton(page,{name:'Activity',exact:true});await expect(page.locator('#adventure-step')).toContainText('Discovered');
  await clickButton(page,{name:'Field guide',exact:true});await clickButton(page,{name:'Family journal',exact:true});await expect(page.locator('.discovery-list')).toContainText('A meal beneath the sand');
 });
 test('goby home loop responds to choosing home, a feeding excursion and a settled return',async({page})=>{

@@ -1,3 +1,4 @@
+import {loadNarrationCredential} from './narration-credentials.mjs';
 // Operator-only generator. Credentials are never written into the Atoll project.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,12 +15,12 @@ const only=process.argv.find(a=>a.startsWith('--only='))?.slice(7).split(',');
 const jobs=Object.entries(catalog).filter(([id])=>!only||only.includes(id)).map(([id,n])=>({id,...n,hash:hash(JSON.stringify({text:n.text,model,voice,instructions}))})).filter(j=>!manifest.clips[j.id]?.transcriptFromService||manifest.clips[j.id]?.scriptHash!==j.hash||!fs.existsSync(path.join(output,j.id+'.ogg')));
 console.log(JSON.stringify({mode:process.argv.includes('--execute')?'generate':'dry run',clips:jobs.length,words:jobs.reduce((n,j)=>n+j.text.split(/\s+/).length,0),model,voice}));
 if(!process.argv.includes('--execute'))process.exit(0);
-if(!process.env.OPENAI_API_KEY){const envFile=process.env.ATOLL_NARRATION_ENV||'C:/Users/Daniel/Desktop/phonics/.env.local';if(fs.existsSync(envFile))process.loadEnvFile(envFile);}
+loadNarrationCredential();
 if(!process.env.OPENAI_API_KEY)throw Error('OPENAI_API_KEY is unavailable in the operator environment.');
 fs.mkdirSync(output,{recursive:true});fs.mkdirSync(masters,{recursive:true});
 function wavFile(pcm){const h=Buffer.alloc(44);h.write('RIFF',0);h.writeUInt32LE(pcm.length+36,4);h.write('WAVEfmt ',8);h.writeUInt32LE(16,16);h.writeUInt16LE(1,20);h.writeUInt16LE(1,22);h.writeUInt32LE(24000,24);h.writeUInt32LE(48000,28);h.writeUInt16LE(2,32);h.writeUInt16LE(16,34);h.write('data',36);h.writeUInt32LE(pcm.length,40);return Buffer.concat([h,pcm]);}
 async function renderRealtime(text){
- const operatorRequire=createRequire(path.join(process.env.ATOLL_PHONICS_ROOT||'C:/Users/Daniel/Desktop/phonics','packages/content/package.json'));
+ const operatorRequire=createRequire(path.resolve(process.env.ATOLL_NARRATION_SDK_ROOT||'.','package.json'));
  const {RealtimeAgent,RealtimeSession}=operatorRequire('@openai/agents/realtime');
  const agent=new RealtimeAgent({name:'Atoll fixed narration',instructions});
  const session=new RealtimeSession(agent,{model,transport:'websocket',tracingDisabled:true,historyStoreAudio:false,config:{outputModalities:['audio'],audio:{output:{format:'pcm16',voice}}}});

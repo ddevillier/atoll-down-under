@@ -1,0 +1,858 @@
+{
+  "version": 1,
+  "style": "Brief, warm offline commentary; discoveries describe recorded play, introductions use the existing sourced field guide.",
+  "introductions": {
+    "s2": {
+      "id": "discoveries/intro-s2",
+      "text": "You are an orange coral goby. A coral colony can provide both shelter and food.",
+      "source": "https://fishesofaustralia.net.au/home/species/2231"
+    },
+    "s0": {
+      "id": "discoveries/intro-s0",
+      "text": "You are a silver sprat. These little fish gather in great, shimmering schools.",
+      "source": "https://www.fao.org/4/ad471e/ad471e12.pdf"
+    },
+    "s11": {
+      "id": "discoveries/intro-s11",
+      "text": "You are a peach fairy basslet. Males and females have different colors and fin shapes.",
+      "source": "https://fishesofaustralia.net.au/home/species/4390"
+    },
+    "s30": {
+      "id": "discoveries/intro-s30",
+      "text": "You are a humbug damselfish. Branching coral offers shelter between trips for drifting plankton.",
+      "source": "https://fishesofaustralia.net.au/home/species/347"
+    },
+    "s45": {
+      "id": "discoveries/intro-s45",
+      "text": "You are a banded coral shrimp. Long white antennae help attract fish to its cleaning services.",
+      "source": "https://aquarium.org/animals/banded-coral-shrimp/"
+    },
+    "s1": {
+      "id": "discoveries/intro-s1",
+      "text": "You are a neon damselfish. Look for its brilliant blue body and yellow tail.",
+      "source": "https://fishesofaustralia.net.au/home/species/2341"
+    },
+    "s13": {
+      "id": "discoveries/intro-s13",
+      "text": "You are a Banggai cardinalfish. These small fish come from sheltered waters around Indonesia’s Banggai islands.",
+      "source": "https://www.fisheries.noaa.gov/species/banggai-cardinalfish"
+    },
+    "s43": {
+      "id": "discoveries/intro-s43",
+      "text": "You are a cleaner wrasse. Removing parasites gives the cleaner food and helps its visiting clients.",
+      "source": "https://australian.museum/blog/amri-news/news-from-lirs-learning-from-the-cleaners-and-their-clients/"
+    },
+    "s58": {
+      "id": "discoveries/intro-s58",
+      "text": "You are a purple anthias. These colorful fish gather along drop-offs and steep reef slopes.",
+      "source": "https://australian.museum/learn/animals/fishes/purple-queen-pseudanthias-tuka/"
+    },
+    "s7": {
+      "id": "discoveries/intro-s7",
+      "text": "You are an anemonefish. Its mucus coating helps it live among an anemone’s stinging tentacles.",
+      "source": "https://australian.museum/learn/animals/fishes/why-dont-anemonefishes-get-stung/"
+    },
+    "s3": {
+      "id": "discoveries/intro-s3",
+      "text": "You are a royal gramma. These reef fish live close to caves and overhanging ledges.",
+      "source": "https://www.aquarium-larochelle.com/en/species-encyclopedia/royal-gramma/"
+    },
+    "s53": {
+      "id": "discoveries/intro-s53",
+      "text": "You are a flashlight fish. Living bacteria beneath its eyes provide light that the fish can reveal.",
+      "source": "https://www.aquariumofpacific.org/onlinelearningcenter/species/splitfin_flashlight_fish"
+    },
+    "s10": {
+      "id": "discoveries/intro-s10",
+      "text": "You are a sixbar wrasse. This little reef fish searches for a varied collection of small meals.",
+      "source": "https://fishesofaustralia.net.au/home/species/284"
+    },
+    "s6": {
+      "id": "discoveries/intro-s6",
+      "text": "You are a longnose butterflyfish. Its narrow snout reaches toward small foods around the reef.",
+      "source": "https://fishesofaustralia.net.au/home/species/2410"
+    },
+    "s57": {
+      "id": "discoveries/intro-s57",
+      "text": "You are our checkerboard hawkfish. This game character explores the reef from quiet watching places.",
+      "source": "https://fishesofaustralia.net.au/home/species/2428"
+    },
+    "s31": {
+      "id": "discoveries/intro-s31",
+      "text": "You are a whitespot hawkfish. Small fish and crustaceans make up its main meals near the reef.",
+      "source": "https://churaumi.okinawa/en/fishbook/1610175140/"
+    },
+    "s9": {
+      "id": "discoveries/intro-s9",
+      "text": "You are a yellow goatfish. Its whisker-like barbels explore the sand by touch and taste.",
+      "source": "https://www.waikikiaquarium.org/experience/animal-guide/fishes/goatfishes/goatfishes/"
+    },
+    "s12": {
+      "id": "discoveries/intro-s12",
+      "text": "You are a squirrelfish. Large eyes help these nighttime hunters explore after sheltering by day.",
+      "source": "https://fishesofaustralia.net.au/home/species/4445"
+    },
+    "s42": {
+      "id": "discoveries/intro-s42",
+      "text": "You are a yellowtail fusilier. Large schools feed on tiny animal plankton in midwater.",
+      "source": "https://australian.museum/learn/animals/fishes/yellowtail-fusilier-caesio-cuning-bloch-1791/"
+    },
+    "s54": {
+      "id": "discoveries/intro-s54",
+      "text": "You are a painted frogfish. Its colors vary so much that color alone cannot identify it.",
+      "source": "https://australian.museum/learn/animals/fishes/painted-anglerfish-antennarius-pictus/"
+    },
+    "s5": {
+      "id": "discoveries/intro-s5",
+      "text": "You are a palette surgeonfish. Tiny plankton and growing algae both belong on its menu.",
+      "source": "https://www.georgiaaquarium.org/animal/palette-surgeonfish/"
+    },
+    "s56": {
+      "id": "discoveries/intro-s56",
+      "text": "You are a longfin bannerfish. Its meals include drifting plankton and small animals on the bottom.",
+      "source": "https://australian.museum/learn/animals/fishes/longfin-bannerfish-heniochus-acuminatus-linnaeus-1758/"
+    },
+    "s4": {
+      "id": "discoveries/intro-s4",
+      "text": "You are a Moorish idol. Larger idols often travel in small groups around the reef.",
+      "source": "https://lifg.australian.museum/Group.html?groupId=5W64cXWZ&hierarchyId=qBHH2Q3E"
+    },
+    "s52": {
+      "id": "discoveries/intro-s52",
+      "text": "You are a pencilled rabbitfish. They graze algae, seaweed and seagrass, in pairs or schools.",
+      "source": "https://fishesofaustralia.net.au/home/species/1049"
+    },
+    "s8": {
+      "id": "discoveries/intro-s8",
+      "text": "You are a foxface rabbitfish. Young foxfaces school together, while larger fish can form pairs.",
+      "source": "https://australian.museum/learn/animals/fishes/foxface-siganus-vulpinus/"
+    },
+    "s23": {
+      "id": "discoveries/intro-s23",
+      "text": "You are a longhorn cowfish. It blows water at sand to uncover little animals beneath.",
+      "source": "https://fishesofaustralia.net.au/home/species/837"
+    },
+    "s25": {
+      "id": "discoveries/intro-s25",
+      "text": "You are a regal angelfish. Sponges and tunicates are animals, and part of its natural menu.",
+      "source": "https://fishesofaustralia.net.au/home/species/658"
+    },
+    "s48": {
+      "id": "discoveries/intro-s48",
+      "text": "You are an orange-spotted filefish. Branching coral provides its natural food and nighttime shelter.",
+      "source": "https://fishesofaustralia.net.au/home/species/812"
+    },
+    "s22": {
+      "id": "discoveries/intro-s22",
+      "text": "You are a spotted pufferfish. Individuals can look quite different, even when they belong to the same species.",
+      "source": "https://australian.museum/learn/animals/fishes/blackspotted-pufferfish-arothron-nigropunctatus-bloch-schneider-1801/"
+    },
+    "s19": {
+      "id": "discoveries/intro-s19",
+      "text": "You are a cuttlefish. Changing colors and skin textures can help cuttlefishes disappear against their surroundings.",
+      "source": "https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/"
+    },
+    "s40": {
+      "id": "discoveries/intro-s40",
+      "text": "You are a longfin batfish. Its especially tall juvenile fins change proportion as it grows.",
+      "source": "https://australian.museum/learn/animals/fishes/roundface-batfish-platax-teira/"
+    },
+    "s14": {
+      "id": "discoveries/intro-s14",
+      "text": "You are an oriental sweetlip. Its meals include little animals living on the seabed.",
+      "source": "https://www.aquariumbiarritz.com/en/oriental-sweetlips/"
+    },
+    "s24": {
+      "id": "discoveries/intro-s24",
+      "text": "You are a clown triggerfish. Pale body spots and yellow around the mouth help identify it.",
+      "source": "https://australian.museum/learn/animals/fishes/clown-triggerfish-balistoides-conspicillum-bloch-schneider-1801/"
+    },
+    "s20": {
+      "id": "discoveries/intro-s20",
+      "text": "You are a lionfish. Broad, fan-like fins and separate spines make its silhouette distinctive.",
+      "source": "https://oceanservice.noaa.gov/facts/lionfish-facts.html"
+    },
+    "s21": {
+      "id": "discoveries/intro-s21",
+      "text": "You are a devil scorpionfish. Bright colors hidden inside its fins can startle an approaching predator.",
+      "source": "https://australian.museum/learn/animals/fishes/false-stonefish-scorpaenopsis-diabolus/"
+    },
+    "s15": {
+      "id": "discoveries/intro-s15",
+      "text": "You are a parrotfish. Many parrotfishes bite reef surfaces with teeth joined into a beak.",
+      "source": "https://ocean.si.edu/ocean-life/fish/tough-teeth-and-parrotfish-poop"
+    },
+    "s50": {
+      "id": "discoveries/intro-s50",
+      "text": "You are a yellowspot emperor. Look for the bright yellow blotch below its rear dorsal fin.",
+      "source": "https://fishesofaustralia.net.au/home/species/2222"
+    },
+    "s16": {
+      "id": "discoveries/intro-s16",
+      "text": "You are a coral grouper. Look for the bright blue spots on its orange-red body.",
+      "source": "https://australian.museum/learn/animals/fishes/coral-cod-cephalopholis-miniata-forsskal-1775/"
+    },
+    "s41": {
+      "id": "discoveries/intro-s41",
+      "text": "You are a trumpetfish. A larger neighbor can become moving cover for its approach to a meal.",
+      "source": "https://fishesofaustralia.net.au/home/species/1875"
+    },
+    "s37": {
+      "id": "discoveries/intro-s37",
+      "text": "You are an electric ray. This flattened Australian ray often waits buried in sand or mud.",
+      "source": "https://fishesofaustralia.net.au/home/species/1843"
+    },
+    "s51": {
+      "id": "discoveries/intro-s51",
+      "text": "You are a golden snapper. Even silty coastal water can hold a rich collection of small meals.",
+      "source": "https://fishesofaustralia.net.au/home/species/558"
+    },
+    "s39": {
+      "id": "discoveries/intro-s39",
+      "text": "You are a coral trout. Fishes and crustaceans are on this spotted grouper’s menu.",
+      "source": "https://fishesofaustralia.net.au/home/species/4521"
+    },
+    "s27": {
+      "id": "discoveries/intro-s27",
+      "text": "You are a blue-spotted stingray. Sandy areas beside reefs offer worms, shrimp and other small meals.",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/bluespotted-ribbontail-ray/"
+    },
+    "s59": {
+      "id": "discoveries/intro-s59",
+      "text": "You are a longsnout flathead. Its low, broad head can rest partly buried in sandy reef areas.",
+      "source": "https://fishesofaustralia.net.au/home/species/3369"
+    },
+    "s18": {
+      "id": "discoveries/intro-s18",
+      "text": "You are a crocodile needlefish. Its long, toothed jaws hunt small fish near the surface.",
+      "source": "https://fishesofaustralia.net.au/home/species/2097"
+    },
+    "s55": {
+      "id": "discoveries/intro-s55",
+      "text": "You are a silver trevally. These schooling fish use reefs and nearby sand in southern waters.",
+      "source": "https://fishesofaustralia.net.au/home/species/4279"
+    },
+    "s28": {
+      "id": "discoveries/intro-s28",
+      "text": "You are a rainbow runner. Even a large, fast swimmer can depend on tiny animals for food.",
+      "source": "https://fishesofaustralia.net.au/home/species/4273"
+    },
+    "s26": {
+      "id": "discoveries/intro-s26",
+      "text": "You are a whitemouth moray. White spots, a pale mouth and a yellow tail tip help identify it.",
+      "source": "https://fishesofaustralia.net.au/Home/species/3812"
+    },
+    "s49": {
+      "id": "discoveries/intro-s49",
+      "text": "You are a doublelined mackerel. Dense schools gather near reefs and feed on fish and crustaceans.",
+      "source": "https://fishesofaustralia.net.au/home/species/722"
+    },
+    "s29": {
+      "id": "discoveries/intro-s29",
+      "text": "You are a humphead wrasse. These long-lived reef fish take years to mature.",
+      "source": "https://fishesofaustralia.net.au/home/species/2962"
+    },
+    "s17": {
+      "id": "discoveries/intro-s17",
+      "text": "You are a blackfin barracuda. Dark bars and a deeply forked tail mark this large reef fish.",
+      "source": "https://fishesofaustralia.net.au/home/species/2554"
+    },
+    "s33": {
+      "id": "discoveries/intro-s33",
+      "text": "You are a whitetip reef shark. Unlike some sharks, it can breathe while resting in a cave.",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/whitetip-reef-shark/"
+    },
+    "s36": {
+      "id": "discoveries/intro-s36",
+      "text": "You are a wobbegong. Carpet sharks often rest on sandy or rocky bottoms and feed at night.",
+      "source": "https://australian.museum/learn/animals/fishes/spotted-wobbegong-orectolobus-maculatus-bonnaterre-1788/"
+    },
+    "s32": {
+      "id": "discoveries/intro-s32",
+      "text": "You are a blacktip reef shark. These sharks often stay close to familiar, shallow reef areas.",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/blacktip-reef-shark/"
+    },
+    "s38": {
+      "id": "discoveries/intro-s38",
+      "text": "You are a giant grouper. A large individual may hover quietly or remain still on the bottom.",
+      "source": "https://fishesofaustralia.net.au/home/species/4672"
+    },
+    "s35": {
+      "id": "discoveries/intro-s35",
+      "text": "You are a tiger shark. A varied diet and occasional bursts of speed suit its hunting life.",
+      "source": "https://www.floridamuseum.ufl.edu/discover-fish/species-profiles/tiger-shark/"
+    },
+    "s34": {
+      "id": "discoveries/intro-s34",
+      "text": "You are a great white shark. Its powerful body and crescent-shaped tail suit coastal and offshore waters.",
+      "source": "https://www.fisheries.noaa.gov/species/white-shark"
+    }
+  },
+  "discoveries": {
+    "sprat-feeding-wave": {
+      "id": "discoveries/journey-s0",
+      "text": "A shared meal, then together again. You and your sprat neighbors found food without leaving the school behind.",
+      "species": "s0",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#sprat-feeding-wave"
+    },
+    "damsel-territory": {
+      "id": "discoveries/journey-s1",
+      "text": "Back at your familiar coral. A feeding excursion and a safe return make a little circuit through the reef.",
+      "species": "s1",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#damsel-territory"
+    },
+    "coral-home": {
+      "id": "discoveries/journey-s2",
+      "text": "Home again. You found a meal and returned to the same coral refuge.",
+      "species": "s2",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#coral-home"
+    },
+    "gramma-ledge": {
+      "id": "discoveries/journey-s3",
+      "text": "Back beneath the ledge. Even a short feeding trip can end in a familiar sheltered place.",
+      "species": "s3",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#gramma-ledge"
+    },
+    "idol-browsing-group": {
+      "id": "discoveries/journey-s4",
+      "text": "Sponge, algae, and company again. Your Moorish idol explored different feeding places before finding a fellow browser.",
+      "species": "s4",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#idol-browsing-group"
+    },
+    "surgeonfish-route": {
+      "id": "discoveries/journey-s5",
+      "text": "There is new growth at your first patch. Moving between meals gave this little garden time to recover.",
+      "species": "s5",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#surgeonfish-route"
+    },
+    "butterflyfish-crevices": {
+      "id": "discoveries/journey-s6",
+      "text": "Two small feeding places explored. Your narrow snout helped you investigate the reef’s little crevices.",
+      "species": "s6",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#butterflyfish-crevices"
+    },
+    "anemone-partner": {
+      "id": "discoveries/journey-s7",
+      "text": "Back among the tentacles. Your feeding trip ended at the same living anemone you chose as home.",
+      "species": "s7",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#anemone-partner"
+    },
+    "foxface-companion": {
+      "id": "discoveries/journey-s8",
+      "text": "Both foxfaces fed, then met again. Making room for a neighbor became part of your own feeding trip.",
+      "species": "s8",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#foxface-companion"
+    },
+    "sand-neighbors": {
+      "id": "discoveries/journey-s9",
+      "text": "Your sand search helped a neighbor too. A hidden meal became a discovery that another forager could share.",
+      "species": "s9",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#sand-neighbors"
+    },
+    "wrasse-search": {
+      "id": "discoveries/journey-s10",
+      "text": "A worm, then a shrimp. Searching different little places brought your wrasse a varied meal.",
+      "species": "s10",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#wrasse-search"
+    },
+    "basslet-feeding-wave": {
+      "id": "discoveries/journey-s11",
+      "text": "Your basslet neighbors fed and regrouped. The feeding patch was a stop along the school’s shared journey.",
+      "species": "s11",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#basslet-feeding-wave"
+    },
+    "squirrelfish-night-trip": {
+      "id": "discoveries/journey-s12",
+      "text": "Back to your nighttime refuge. Two different crustacean meals made a quiet trip through the dark.",
+      "species": "s12",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#squirrelfish-night-trip"
+    },
+    "cardinalfish-cover": {
+      "id": "discoveries/journey-s13",
+      "text": "A short trip from cover, then home. Your cardinalfish did not need a long chase to find food.",
+      "species": "s13",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#cardinalfish-cover"
+    },
+    "sweetlip-bottom-route": {
+      "id": "discoveries/journey-s14",
+      "text": "Two bottom patches explored. Your sweetlip found different small meals along the seabed.",
+      "species": "s14",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#sweetlip-bottom-route"
+    },
+    "parrotfish-route": {
+      "id": "discoveries/journey-s15",
+      "text": "Your first grazing patch is growing again. A circuit around the reef can give yesterday’s meal time to renew.",
+      "species": "s15",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#parrotfish-route"
+    },
+    "grouper-ambush": {
+      "id": "discoveries/journey-s16",
+      "text": "A patient wait became a meal. Your grouper let its prey come close before making a short strike.",
+      "species": "s16",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#grouper-ambush"
+    },
+    "barracuda-pursuit": {
+      "id": "discoveries/journey-s17",
+      "text": "A burst, a meal, and a quiet return. Your barracuda’s pursuit was one part of a longer patrol.",
+      "species": "s17",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#barracuda-pursuit"
+    },
+    "needlefish-surface": {
+      "id": "discoveries/journey-s18",
+      "text": "Back along the upper water. Your needlefish found a small meal near its chosen surface route.",
+      "species": "s18",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#needlefish-surface"
+    },
+    "changing-colors": {
+      "id": "discoveries/journey-s19",
+      "text": "Sand and mottled reef, two different disguises. Your cuttlefish changed its pattern to match the places it explored.",
+      "species": "s19",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#changing-colors"
+    },
+    "lionfish-watch": {
+      "id": "discoveries/journey-s20",
+      "text": "A careful approach, then back to the ledge. Your lionfish watched its meal before making the feeding trip.",
+      "species": "s20",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#lionfish-watch"
+    },
+    "scorpionfish-ambush": {
+      "id": "discoveries/journey-s21",
+      "text": "Stillness, then a sudden strike. Your scorpionfish found a meal by waiting close to the bottom.",
+      "species": "s21",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#scorpionfish-ambush"
+    },
+    "puffer-shell-meal": {
+      "id": "discoveries/journey-s22",
+      "text": "A hard shell and a softer sponge. Your puffer explored two very different kinds of feeding place.",
+      "species": "s22",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#puffer-shell-meal"
+    },
+    "sand-search": {
+      "id": "discoveries/journey-s23",
+      "text": "Two meals uncovered beneath the sand. A little water from your cowfish revealed food that was hidden before.",
+      "species": "s23",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#sand-search"
+    },
+    "triggerfish-hard-prey": {
+      "id": "discoveries/journey-s24",
+      "text": "A crab and a snail opened. Your triggerfish’s strong mouth helped with two armored meals.",
+      "species": "s24",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#triggerfish-hard-prey"
+    },
+    "angelfish-quiet-browse": {
+      "id": "discoveries/journey-s25",
+      "text": "Sponge, algae, then quiet cover. Your angelfish returned from its browsing trip to a sheltered place.",
+      "species": "s25",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#angelfish-quiet-browse"
+    },
+    "moray-cave-trip": {
+      "id": "discoveries/journey-s26",
+      "text": "Back inside your chosen cave. Your moray made a feeding excursion and returned to rest.",
+      "species": "s26",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#moray-cave-trip"
+    },
+    "stingray-sifting": {
+      "id": "discoveries/journey-s27",
+      "text": "Shrimp and worms found below. Your stingray searched two different patches along the bottom.",
+      "species": "s27",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#stingray-sifting"
+    },
+    "runner-speed-trip": {
+      "id": "discoveries/journey-s28",
+      "text": "A quick pursuit, then room to recover. Your rainbow runner returned to its route after a real meal.",
+      "species": "s28",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#runner-speed-trip"
+    },
+    "humphead-hard-prey": {
+      "id": "discoveries/journey-s29",
+      "text": "Two armored meals explored. Your humphead wrasse handled a snail and a crab on this feeding trip.",
+      "species": "s29",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#humphead-hard-prey"
+    },
+    "humbug-coral-trip": {
+      "id": "discoveries/journey-s30",
+      "text": "After a plankton meal, your humbug damselfish is back among the coral branches of its chosen refuge.",
+      "species": "s30",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#humbug-coral-trip"
+    },
+    "hawkfish-perch": {
+      "id": "discoveries/journey-s31",
+      "text": "Back on your lookout. Your hawkfish watched a meal, fed nearby, and returned to its reef perch.",
+      "species": "s31",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#hawkfish-perch"
+    },
+    "blacktip-reef-edge": {
+      "id": "discoveries/journey-s32",
+      "text": "A meal at the reef edge, then around again. Your blacktip returned to the route it surveyed.",
+      "species": "s32",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#blacktip-reef-edge"
+    },
+    "whitetip-rest-trip": {
+      "id": "discoveries/journey-s33",
+      "text": "Resting again after a feeding trip. Your whitetip found a meal and returned to its chosen ledge.",
+      "species": "s33",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#whitetip-rest-trip"
+    },
+    "white-shark-meal": {
+      "id": "discoveries/journey-s34",
+      "text": "A substantial meal, then back to open water. Your white shark completed the route it chose to explore.",
+      "species": "s34",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#white-shark-meal"
+    },
+    "tiger-varied-route": {
+      "id": "discoveries/journey-s35",
+      "text": "Fish and crab along one route. Your tiger shark explored two different kinds of hunting ground.",
+      "species": "s35",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#tiger-varied-route"
+    },
+    "wobbegong-bottom": {
+      "id": "discoveries/journey-s36",
+      "text": "The bottom became a watching place. Your wobbegong waited, noticed a meal, then made a short feeding trip.",
+      "species": "s36",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#wobbegong-bottom"
+    },
+    "electric-ray-watch": {
+      "id": "discoveries/journey-s37",
+      "text": "A bottom meal, then rest. Your electric ray is back at its chosen watching place.",
+      "species": "s37",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#electric-ray-watch"
+    },
+    "giant-grouper-watch": {
+      "id": "discoveries/journey-s38",
+      "text": "A quiet watch from a broad ledge. Your giant grouper made a feeding trip and returned to the same place.",
+      "species": "s38",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#giant-grouper-watch"
+    },
+    "trout-reef-trip": {
+      "id": "discoveries/journey-s39",
+      "text": "Out from the reef and back again. Your coral trout found a small fish along its surveyed route.",
+      "species": "s39",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#trout-reef-trip"
+    },
+    "batfish-loose-browsing": {
+      "id": "discoveries/journey-s40",
+      "text": "Two browsers fed, then reunited. Your batfish shared a trip across algae and drifting plankton.",
+      "species": "s40",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#batfish-loose-browsing"
+    },
+    "trumpetfish-moving-cover": {
+      "id": "discoveries/journey-s41",
+      "text": "Your neighbor became moving cover. Your trumpetfish followed, found a meal, and returned to that same companion.",
+      "species": "s41",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#trumpetfish-moving-cover"
+    },
+    "school-life": {
+      "id": "discoveries/journey-s42",
+      "text": "A meal, then back in the school. Your fusilier found its companions again after the feeding excursion.",
+      "species": "s42",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#school-life"
+    },
+    "reef-helper": {
+      "id": "discoveries/journey-s43",
+      "text": "Three kinds of client helped. Your cleaner wrasse found food while removing parasites from other reef fish.",
+      "species": "s43",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#reef-helper"
+    },
+    "seahorse-holdfast-meal": {
+      "id": "discoveries/journey-s44",
+      "text": "A meal from a holdfast, then rest. The seahorse took food and settled among the plants.",
+      "species": "s44",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#seahorse-holdfast-meal"
+    },
+    "night-helper": {
+      "id": "discoveries/journey-s45",
+      "text": "Three kinds of nighttime visitor helped. Your cleaner shrimp’s claws made a difference to other reef neighbors.",
+      "species": "s45",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#night-helper"
+    },
+    "crab-detritus-walk": {
+      "id": "discoveries/journey-s46",
+      "text": "A small scavenger carries on. The crab handled its meal, then continued along the bottom.",
+      "species": "s46",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#crab-detritus-walk"
+    },
+    "sea-star-bottom-meal": {
+      "id": "discoveries/journey-s47",
+      "text": "A quiet meal on the reef. The sea star finished feeding and settled to digest.",
+      "species": "s47",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#sea-star-bottom-meal"
+    },
+    "filefish-companion": {
+      "id": "discoveries/journey-s48",
+      "text": "Both filefish browsed, then met again. You made room for a companion during your shared feeding trip.",
+      "species": "s48",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#filefish-companion"
+    },
+    "mackerel-pursuit": {
+      "id": "discoveries/journey-s49",
+      "text": "A burst of speed, then a breather. Your mackerel returned to its route after pursuing a meal.",
+      "species": "s49",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#mackerel-pursuit"
+    },
+    "emperor-bottom-hunt": {
+      "id": "discoveries/journey-s50",
+      "text": "A bottom crab and a swimming fish. Your emperor explored two very different meals on one trip.",
+      "species": "s50",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#emperor-bottom-hunt"
+    },
+    "snapper-two-visits": {
+      "id": "discoveries/journey-s51",
+      "text": "Two watched visits in the dark. A return to the lookout connected your shrimp and fish meals.",
+      "species": "s51",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#snapper-two-visits"
+    },
+    "rabbitfish-companion": {
+      "id": "discoveries/journey-s52",
+      "text": "A shared feeding trip, then together again. Both rabbitfish had room to browse before reuniting.",
+      "species": "s52",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#rabbitfish-companion"
+    },
+    "flashlight-night-excursion": {
+      "id": "discoveries/journey-s53",
+      "text": "Light in the dark, then together again. Your flashlight fish fed and returned to its nighttime companion.",
+      "species": "s53",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#flashlight-night-excursion"
+    },
+    "frogfish-ambush": {
+      "id": "discoveries/journey-s54",
+      "text": "A lure, a visitor, and a short strike. Your frogfish’s patient ambush became a meal.",
+      "species": "s54",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#frogfish-ambush"
+    },
+    "trevally-feeding-route": {
+      "id": "discoveries/journey-s55",
+      "text": "Across two feeding grounds and back. Your trevally found shrimp and fish along its chosen route.",
+      "species": "s55",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#trevally-feeding-route"
+    },
+    "bannerfish-mixed-trip": {
+      "id": "discoveries/journey-s56",
+      "text": "Floating food and a bottom visit. Both bannerfish fed before finding one another again.",
+      "species": "s56",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#bannerfish-mixed-trip"
+    },
+    "hawkfish-lookouts": {
+      "id": "discoveries/journey-s57",
+      "text": "A second lookout found. Your hawkfish fed from one perch, then settled at a different watching place.",
+      "species": "s57",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#hawkfish-lookouts"
+    },
+    "anthias-feeding-wave": {
+      "id": "discoveries/journey-s58",
+      "text": "Your anthias neighbors fed and regrouped. The school’s shared trip connected a meal with a return to company.",
+      "species": "s58",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#anthias-feeding-wave"
+    },
+    "flathead-ambush": {
+      "id": "discoveries/journey-s59",
+      "text": "A quiet surprise above the sand. Your flathead waited until a small fish came close before striking.",
+      "species": "s59",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#flathead-ambush"
+    },
+    "nudibranch-browsing": {
+      "id": "discoveries/journey-s60",
+      "text": "Along the sponge garden. You watched a nudibranch browse, then continue its slow route across the reef.",
+      "species": "s60",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#nudibranch-browsing"
+    },
+    "snail-grazing": {
+      "id": "discoveries/journey-s61",
+      "text": "A grazing trail continues. You noticed a snail take algae, then move onward along the reef.",
+      "species": "s61",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#snail-grazing"
+    },
+    "urchin-night-graze": {
+      "id": "discoveries/journey-s62",
+      "text": "A grazer after dark. You watched an urchin feed on algae and settle again.",
+      "species": "s62",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#urchin-night-graze"
+    },
+    "anemone-passing-food": {
+      "id": "discoveries/journey-s63",
+      "text": "Food at an attached home. You watched an anemone take a meal, then relax its tentacles.",
+      "species": "s63",
+      "kind": "recorded gameplay",
+      "reference": "src/adventures.js#anemone-passing-food"
+    },
+    "reef-clinic": {
+      "id": "discoveries/story-clinic",
+      "text": "A familiar face at your clinic. Gentle care helped two visitors, and one came back to greet you.",
+      "species": "s43",
+      "kind": "recorded gameplay",
+      "reference": "src/reef-story-data.js#reef-clinic"
+    },
+    "disappearing-artist": {
+      "id": "discoveries/story-artist",
+      "text": "Three disguises discovered. Matching sand, shade, and mottled rock helped you hide from a passing fish.",
+      "species": "s19",
+      "kind": "recorded gameplay",
+      "reference": "src/reef-story-data.js#disappearing-artist"
+    },
+    "sandcastle-engineer": {
+      "id": "discoveries/story-engineer",
+      "text": "Your grazing left sand behind. Resting a patch let its algae renew, and another fish found a meal.",
+      "species": "s15",
+      "kind": "recorded gameplay",
+      "reference": "src/reef-story-data.js#sandcastle-engineer"
+    },
+    "whisker-detective": {
+      "id": "discoveries/story-detective",
+      "text": "A discovery worth sharing. Your barbels found a buried meal, and a reef neighbor enjoyed it.",
+      "species": "s9",
+      "kind": "recorded gameplay",
+      "reference": "src/reef-story-data.js#whisker-detective"
+    },
+    "cardinalfish-nursery": {
+      "id": "discoveries/story-nursery",
+      "text": "A quiet nursery for your young. Their father carried the brood in his mouth until they were ready.",
+      "species": "s13",
+      "kind": "recorded gameplay",
+      "reference": "src/reef-story-data.js#cardinalfish-nursery"
+    }
+  },
+  "achievements": {
+    "helper": {
+      "id": "discoveries/badge-helper",
+      "text": "A helping fin. Your cleaning has made another reef fish feel better.",
+      "kind": "recorded accomplishment"
+    },
+    "meal": {
+      "id": "discoveries/badge-meal",
+      "text": "A first good meal. You found suitable food when your fish needed energy.",
+      "kind": "recorded accomplishment"
+    },
+    "clean": {
+      "id": "discoveries/badge-clean",
+      "text": "Fresh again. A completed cleaner visit removed parasites from your fish.",
+      "kind": "recorded accomplishment"
+    },
+    "shelter": {
+      "id": "discoveries/badge-shelter",
+      "text": "Safe harbour. Your fish spent a quiet moment hidden in a shelter that fits.",
+      "kind": "recorded accomplishment"
+    },
+    "care1": {
+      "id": "discoveries/badge-care1",
+      "text": "Your first care stamp. A species stayed fed and healthy with your help.",
+      "kind": "recorded accomplishment"
+    },
+    "care3": {
+      "id": "discoveries/badge-care3",
+      "text": "Three species well cared for. Your growing journal remembers each one.",
+      "kind": "recorded accomplishment"
+    },
+    "play3": {
+      "id": "discoveries/badge-play3",
+      "text": "Three different lives explored. Each species offers another way to see the reef.",
+      "kind": "recorded accomplishment"
+    },
+    "play10": {
+      "id": "discoveries/badge-play10",
+      "text": "Ten different lives explored. Your journal is becoming a collection of reef perspectives.",
+      "kind": "recorded accomplishment"
+    },
+    "visit3": {
+      "id": "discoveries/badge-visit3",
+      "text": "Three habitats visited. Different corners of the atoll are becoming familiar.",
+      "kind": "recorded accomplishment"
+    },
+    "visit9": {
+      "id": "discoveries/badge-visit9",
+      "text": "Around the atoll. All nine habitats are now part of your journal.",
+      "kind": "recorded accomplishment"
+    },
+    "discovery1": {
+      "id": "discoveries/badge-discovery1",
+      "text": "Your first way of living discovered. A small reef story now has a place in your journal.",
+      "kind": "recorded accomplishment"
+    },
+    "discovery5": {
+      "id": "discoveries/badge-discovery5",
+      "text": "Five ways of living discovered. Your careful observations are building a richer picture of the reef.",
+      "kind": "recorded accomplishment"
+    },
+    "discovery15": {
+      "id": "discoveries/badge-discovery15",
+      "text": "Fifteen ways of living discovered. Your journal holds many different rhythms of reef life.",
+      "kind": "recorded accomplishment"
+    },
+    "night": {
+      "id": "discoveries/badge-night",
+      "text": "A meal after dark. Your fish found needed food beneath the nighttime water.",
+      "kind": "recorded accomplishment"
+    },
+    "neighbor": {
+      "id": "discoveries/badge-neighbor",
+      "text": "Good neighbors. You noticed another fish receiving a cleaner’s help.",
+      "kind": "recorded accomplishment"
+    },
+    "school": {
+      "id": "discoveries/badge-school",
+      "text": "A guest in the school. Your fish spent time swimming beside its companions.",
+      "kind": "recorded accomplishment"
+    }
+  }
+}

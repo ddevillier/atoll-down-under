@@ -9,7 +9,7 @@ async function shot(name,species,action,seconds){
  const context=await browser.newContext({viewport:{width:1920,height:1080},recordVideo:{dir:out,size:{width:1920,height:1080}}});
  const start=Date.now(),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>window.atoll?.renderer.ready);
- if(species){await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill(species);await page.getByRole('option',{name:new RegExp('^'+species)}).click();await clickButton(page,{name:'Try adventure',exact:true});}
+ if(species){await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill(species);await page.getByRole('option',{name:new RegExp('^'+species)}).click();await clickButton(page,{name:'Show goal',exact:true});}
  await page.waitForTimeout(1000);const begin=(Date.now()-start)/1000;
  const box=await page.locator('#reef').boundingBox(),move=async(p,click=false)=>{const x=box.x+p.x/1600*box.width,y=box.y+(p.y+55)/900*box.height;await page.mouse[click?'click':'move'](x,y);};
  console.log('Capturing '+name);const t=Date.now();await action(page,move);await page.waitForTimeout(Math.max(0,seconds*1000-(Date.now()-t)));

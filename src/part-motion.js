@@ -1,6 +1,8 @@
 // A small set of painted pieces, cut once and posed every frame. Hinge lines stay
 // joined as fins fold in projection; body markings follow rigid cross-sections.
 // These are authored 2D motion signatures, not measured swimming kinematics.
+import {animalProfile} from './animal-profiles.js';
+import {swimmingStroke} from './swim-motion.js';
 const clamp=x=>Math.max(0,Math.min(1,x)),TAU=Math.PI*2;
 const part=(name,polygon,hinge,fold,sweep,phase=0)=>({name,polygon,hinge,fold,sweep,phase});
 const jaw=(polygon,root,open,cavity)=>({name:'jaw',mode:'jaw',polygon,hinge:[root,[root[0]+.01,root[1]]],open,cavity});
@@ -239,22 +241,26 @@ export const PART_RIGS={
  s32:{frequency:1.05,spine:true,parts:[
   part('tail',[[0,0],[.21,0],[.21,1],[0,1]],[[.21,.425],[.21,.65]],.22,.25,1.7),
   part('dorsal',[[.435,.37],[.435,0],[.60,0],[.623,.345]],[[.445,.366],[.613,.345]],.12,.04,.3),
-  part('pectoral',[[.605,.633],[.728,.606],[.725,.652],[.69,.800],[.627,.92],[.562,1.08],[.50,1.08],[.545,.84]],[[.610,.640],[.721,.621]],.43,.17,1.1)
+  part('pectoral',[[.605,.633],[.728,.606],[.725,.652],[.69,.800],[.627,.92],[.562,1.08],[.50,1.08],[.545,.84]],[[.610,.640],[.721,.621]],.43,.17,1.1),
+  jaw([[.865,.615],[.91,.59],[.98,.555],[1.025,.59],[.99,.645],[.94,.677],[.884,.67]],[.864,.635],.11,'#162b35')
  ]},
  s33:{frequency:.90,spine:{root:.20,front:.79,axis:.56,amplitude:.070,lag:2.4},parts:[
   part('tail',[[0,0],[.20,0],[.20,1],[0,1]],[[.20,.455],[.20,.643]],.16,.23,1.8),
   part('dorsal',[[.43,.412],[.43,0],[.624,0],[.624,.34]],[[.440,.401],[.615,.348]],.11,.04,.3),
-  part('pectoral',[[.627,.660],[.732,.61],[.73,.73],[.61,.96],[.55,1.03],[.575,.86]],[[.638,.661],[.725,.632]],.40,.16,1.1)
+  part('pectoral',[[.627,.660],[.732,.61],[.73,.73],[.61,.96],[.55,1.03],[.575,.86]],[[.638,.661],[.725,.632]],.40,.16,1.1),
+  jaw([[.872,.626],[.926,.604],[.98,.575],[1.025,.61],[.98,.665],[.918,.688],[.875,.668]],[.870,.648],.10,'#172a30')
  ]},
  s34:{frequency:.72,spine:{root:.188,front:.76,axis:.56,amplitude:.040,lag:1.7},parts:[
   part('tail',[[0,0],[.188,0],[.188,1],[0,1]],[[.188,.476],[.188,.614]],.15,.20,1.8),
   part('dorsal',[[.430,.32],[.43,0],[.632,0],[.632,.28]],[[.443,.308],[.620,.287]],.085,.025,.3),
-  part('pectoral',[[.515,.712],[.670,.604],[.68,.650],[.626,.81],[.55,.94],[.48,1.10],[.405,1.10],[.448,.89]],[[.529,.692],[.664,.628]],.32,.12,1.1)
+  part('pectoral',[[.515,.712],[.670,.604],[.68,.650],[.626,.81],[.55,.94],[.48,1.10],[.405,1.10],[.448,.89]],[[.529,.692],[.664,.628]],.32,.12,1.1),
+  jaw([[.850,.612],[.899,.586],[.954,.537],[1.024,.582],[.986,.651],[.919,.681],[.859,.667]],[.849,.645],.13,'#132731')
  ]},
  s35:{frequency:.82,spine:{root:.18,front:.78,axis:.58,amplitude:.060,lag:2.4},parts:[
   part('tail',[[0,0],[.18,0],[.18,1],[0,1]],[[.18,.507],[.18,.657]],.20,.27,1.8),
   part('dorsal',[[.430,.367],[.43,0],[.631,0],[.631,.303]],[[.444,.359],[.621,.312]],.12,.04,.3),
-  part('pectoral',[[.578,.72],[.711,.631],[.713,.69],[.665,.80],[.603,.90],[.54,1.1],[.465,1.1],[.525,.87]],[[.591,.704],[.698,.655]],.37,.16,1.1)
+  part('pectoral',[[.578,.72],[.711,.631],[.713,.69],[.665,.80],[.603,.90],[.54,1.1],[.465,1.1],[.525,.87]],[[.591,.704],[.698,.655]],.37,.16,1.1),
+  jaw([[.861,.622],[.916,.590],[.978,.553],[1.025,.603],[.979,.662],[.917,.681],[.869,.670]],[.860,.644],.11,'#152b35')
  ]},
  s42:{frequency:2.2,spine:true,parts:[
   part('tail',[[0,0],[.21,0],[.21,1],[0,1]],[[.21,.46],[.21,.59]],.30,.34,1.7),
@@ -272,7 +278,12 @@ export const PART_RIGS={
  ]}
 };
 
-export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,probe=0,lure=0,sting=0,spines=0}={}){
+const poweredFamilies=new Set(['cruiser','reef','hover','wrasse','ribbon','heavy','shark','carpet','needle','percher']);
+const poweredIds=new Set(Object.keys(PART_RIGS).filter(id=>poweredFamilies.has(animalProfile({id}).family)));
+const heavyIds=new Set(Object.keys(PART_RIGS).filter(id=>['shark','carpet','heavy'].includes(animalProfile({id}).family)));
+export const SWIMMING_PART_IDS=Object.freeze([...poweredIds]);
+
+export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,probe=0,lure=0,sting=0,spines=0,tactile=0,barbelContact=0}={}){
  const rig=PART_RIGS[id],part=rig.parts.find(p=>p.name===name),a=clamp(effort);
  if(part.mode==='jaw')return {scale:1,shear:0,angle:part.open*clamp(feed),brake:0};
  if(part.mode==='glow')return {scale:1,shear:0,opacity:lightVisibility(time,{feed,flash}),brake:0};
@@ -281,8 +292,8 @@ export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,pr
   return {scale:1-part.fold*active*(1-Math.cos(phase))*.5,shear:Math.sin(phase)*part.sweep*active,brake:0};
  }
  if(part.mode==='barbel'){
-  const phase=time*TAU*1.1+part.phase,active=.12+.88*Math.max(clamp(probe),clamp(feed));
-  return {scale:1-part.fold*active*(1-Math.cos(phase))*.5,shear:part.sweep*active*Math.sin(phase),brake:0};
+  const phase=time*TAU*(1.1+.5*clamp(tactile))+part.phase,active=.12+.88*Math.max(clamp(probe),clamp(feed));
+  return {scale:1-part.fold*active*(1-Math.cos(phase))*.5,shear:part.sweep*active*Math.sin(phase)*(1+clamp(tactile)*.45),brake:0};
  }
  const phase=time*rig.frequency*TAU+part.phase;
  if(id==='s27'&&name==='tail'&&sting)return {scale:1,shear:Math.sin(phase*2)*.55+.15,brake:0};
@@ -291,8 +302,9 @@ export function partPose(id,name,time,effort=1,{brake=0,turn=0,feed=0,flash=0,pr
  if(spines&&name==='tail')return {scale:.72+.28*Math.cos(phase*1.7)**2,shear:0,brake:0};
  // Propulsion is legible at ordinary NPC speed. Braking opens stabilizing fins
  // while the tail comes to rest; hoverers and cowfish keep sculling in place.
+ const heavy=heavyIds.has(id);
  const drive=name==='tail'?.05+.95*Math.sqrt(a):rig.scull!=null?rig.scull+(1-rig.scull)*a:.12+.88*Math.sqrt(a);
- const stroke=(1-Math.cos(phase))*.5,active=drive*(1-clamp(feed)*.65);
+ const stroke=name==='tail'&&poweredIds.has(id)?swimmingStroke(phase,heavy):(1-Math.cos(phase))*.5,active=drive*(1-clamp(feed)*.65);
  const fold=part.fold*active*(1-clamp(brake)*.75);
  return {scale:1-fold*stroke,shear:name==='tail'&&id!=='s27'?0:Math.sin(phase)*part.sweep*active+Math.max(-1,Math.min(1,turn))*.08,brake:clamp(brake)};
 }
@@ -304,7 +316,8 @@ export function bodyPoint(id,u,v,time,effort=1,state={}){
  const drive=(.035+.965*Math.sqrt(a))*(1-clamp(state.feed||0)*.75);
  // A side-on fish bends out of the image plane. Project that bend as a small
  // change in rear-body length, not an up/down wave through the caudal joint.
- const compression=(1-Math.cos(phase+rear*f.lag))*.5*f.amplitude*.6*drive;
+ const stroke=poweredIds.has(id)?swimmingStroke(phase+rear*f.lag,heavyIds.has(id)):(1-Math.cos(phase+rear*f.lag))*.5;
+ const compression=stroke*f.amplitude*(poweredIds.has(id)?.8:.6)*drive;
  return {x:u+rear*rear*compression,y:v};
 }
 

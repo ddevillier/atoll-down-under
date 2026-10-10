@@ -52,3 +52,17 @@ test('sand feedback distinguishes no nearby appetite, an eligible neighbor and a
  const e={...structuredClone(s.player),id:900,species:SPECIES[10],x:f.x+100,y:f.y,satiated:0,rest:0,target:null,cleanTime:0,feeding:null,stun:0,hidden:false};s.section.entities=[e];assert.match(sandOpportunityHint(s,[f]),/may share/);
  e.satiated=10;assert.match(sandOpportunityHint(s,[f]),/No hungry/);e.target=f.id;assert.match(sandOpportunityHint(s,[f]),/is approaching/);
 });
+
+test('sand journeys credit player discoveries while NPC discoveries remain edible',()=>{
+ for(const species of ['s9','s23']){
+  const s=new Simulation(42);s.start('practice',species);s.section.entities=[];
+  const foods=sitesFor(s).map(site=>site.food);
+  const bite=f=>{position(s,f);s.player.biteCooldown=0;const amount=f.amount;s.eatAt(f.x,f.y);for(let i=0;i<180&&f.amount===amount;i++)step(s);assert.equal(f.amount,amount-35);};
+  for(const f of foods){uncoverSand(s,f,{id:900,actionTime:0});bite(f);}
+  assert.deepEqual(s.adventure.meals,[],species+' must uncover its own discoveries');
+  assert.equal(s.adventure.complete,false);
+  for(const f of foods){uncoverSand(s,f,s.player);bite(f);}
+  assert.deepEqual(s.adventure.meals,foods.map(f=>s.current+':'+f.id));
+  tickAdventure(s,.01);assert.equal(s.adventure.complete,species==='s23');
+ }
+});

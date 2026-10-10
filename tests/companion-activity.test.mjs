@@ -12,20 +12,34 @@ test('paired browsers invite a real neighbor and complete only after both meals 
  }
 });
 test('companion moves at bounded speed and yields to actual feeding, danger and cleaning',()=>{
- const {s,e}=scene();inviteCompanion(s);e.x=s.player.x+300;const x=e.x,y=e.y;assert.equal(localRoutine(s,e,1/60,70),0);assert.ok(Math.hypot(e.x-x,e.y-y)<=70/60+.001);assert.equal(e.behavior,'Returning to your side');
+ const {s,e}=scene();inviteCompanion(s);e.satiated=30;e.x=s.player.x+300;const x=e.x,y=e.y;assert.equal(localRoutine(s,e,1/60,70),0);assert.ok(Math.hypot(e.x-x,e.y-y)<=70/60+.001);assert.equal(e.behavior,'Returning to your side');
  e.target='food';assert.equal(localRoutine(s,e,1/60,70),70);e.target=null;e.activity='avoiding';assert.equal(localRoutine(s,e,1/60,70),70);
  e.activity='cruising';e.cleanTime=1;assert.equal(tickCompanion(s,3),false);
+});
+test('a hungry generated companion makes a real nearby feeding excursion and reunites without hunger or position edits',()=>{
+ const s=new Simulation(42);s.start('practice','s48');for(let i=0;i<30;i++)s.step(1/60);s.useContext();const e=companion(s);
+ const food=s.section.food.filter(f=>f.regrow<=0&&s.player.species.diet.includes(f.food)).sort((a,b)=>Math.hypot(a.x-e.x,a.y-e.y)-Math.hypot(b.x-e.x,b.y-e.y))[0];s.eatAt(food.x,food.y);
+ for(let i=0;i<30*60;i++)s.step(1/60);
+ assert.equal(s.adventure.buddy.playerMeal,true);assert.equal(s.adventure.buddy.partnerMeal,true);assert.equal(s.adventure.complete,true);assert.equal(s.reefMemory.entries.filter(m=>m.kind==='shared-trip').length,1);assert.ok(e.satiated>0);
 });
 test('invitation cleanly releases an earlier pair and cannot recruit a busy fish',()=>{
  const {s,e}=scene(),other={...structuredClone(e),id:901,ecology:{partner:e.id}};e.ecology={reef:s.current,partner:other.id};s.section.entities.push(other);
  e.feeding={target:'meal'};other.feeding={target:'meal'};assert.equal(inviteCompanion(s),false);e.feeding=null;assert.equal(inviteCompanion(s),true);assert.equal(other.ecology.partner,null);assert.equal(e.ecology.partner,s.player.id);
  assert.equal(inviteCompanion(s),true);assert.equal(e.ecology.partner,null);assert.equal(companion(s),null);
 });
-test('companion identity survives saves and releases on death, reincarnation, distance and travel',()=>{
- for(const change of [(s,e)=>{e.alive=false;},(s,e)=>{e.incarnation=1;},(s,e)=>{e.x=s.player.x+700;},s=>s.transition(1,0)]){
+test('companion identity survives saves and releases on death or reincarnation',()=>{
+ for(const change of [(s,e)=>{e.alive=false;},(s,e)=>{e.incarnation=1;}]){
   const {s,e}=scene();inviteCompanion(s);const restored=Simulation.restore(s.serialize());assert.equal(companion(restored).id,e.id);change(s,e);tickAdventure(s,.1);assert.equal(s.adventure.buddy,null);assert.equal(e.ecology.partner,null);
  }
  const {s}=scene();inviteCompanion(s);const bad=JSON.parse(s.serialize());bad.adventure.buddy.rejoined=-1;assert.throws(()=>Simulation.restore(bad));
+});
+test('distance and travel part companions without forgetting or teleporting them',()=>{
+ for(const leave of [(s,e)=>{e.x=s.player.x+700;},s=>s.transition(1,0)]){
+  const {s,e}=scene();inviteCompanion(s);const reef=s.current,id=e.id;leave(s,e);tickAdventure(s,.1);
+  assert.equal(s.adventure.buddy.id,id);assert.equal(s.adventure.buddy.away,true);assert.equal(e.ecology.partner,null);assert.ok(s.sections[reef].entities.includes(e));
+  if(s.current!==reef)s.transition(-1,0);Object.assign(s.player,{x:e.x-100,y:e.y});s.point(s.player.x,s.player.y);tickAdventure(s,.1);
+  assert.equal(companion(s),e);assert.equal(s.adventure.buddy.away,false);assert.equal(e.ecology.partner,'player');
+ }
 });
 
 test('real player and NPC feeding commits complete a companion trip without adding food or animals',()=>{

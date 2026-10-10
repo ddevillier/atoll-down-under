@@ -38,10 +38,12 @@
 .state-badge{width:max-content;max-width:calc(100% - 32px);text-align:center;line-height:1.4}
 
 /* A shared album: quiet illustrations, readable milestones, familiar dialog controls. */
+@media(max-width:1100px){.hud{min-height:74px}}
 .sound-enable,.journal-unsaved{position:absolute;bottom:24px;left:24px;pointer-events:auto;z-index:5}
 .journal-unsaved{left:auto;right:24px}
 .journal-intro{max-width:65ch;margin-top:0}
 .journal-summary{display:flex;gap:12px 28px;flex-wrap:wrap;padding:14px 0 22px;border-bottom:1px solid var(--line,#b4c8c1)}
+.journal-colors{padding:22px 0;border-bottom:1px solid var(--line)}.journal-colors h3{margin:0 0 12px}.journal-colors details{margin-top:12px}.color-recipes{display:flex;flex-wrap:wrap;gap:8px 20px}.color-recipe{display:flex;align-items:center;gap:10px;padding:8px 0}.color-swatches{display:flex;gap:2px}.color-swatches i{display:block;width:18px;height:22px;border:1px solid var(--ink)}
 .journal-badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
 .journal-badge{display:flex;align-items:center;gap:14px;padding:22px 0;border-bottom:1px solid var(--line,#b4c8c1)}
 .journal-badge h3{margin:0 0 5px}.journal-badge p{margin:0 0 8px;font-size:14px}.journal-badge small{display:block;line-height:1.5}.badge-date{margin-top:6px;color:#526b65}
@@ -52,6 +54,9 @@
 
 .adventure-note{position:absolute;top:70px;left:18px;max-width:280px;padding:12px;background:#f4f0dff2;color:var(--ink);pointer-events:auto}.adventure-note p{font-size:13px;line-height:1.55;margin:8px 0 12px}.adventure-note .secondary-button{font-size:12px;padding:8px 10px}.adventure-heading{display:flex;gap:12px;align-items:start}.adventure-heading strong{font-family:AtollDisplay,Georgia,serif;font-size:18px}.adventure-heading button{margin-left:auto;border:0;background:none;color:var(--ink);font-size:22px;cursor:pointer}.adventure-note small{display:block;font-size:11px;line-height:1.5}.adventure-note kbd{margin-left:8px}.adventure-preview{margin:18px 0;padding-top:14px;border-top:1px solid var(--line)}.adventure-preview h4{font-size:18px;font-family:AtollDisplay,Georgia,serif}.adventure-preview p{margin:7px 0}.guide-narration{margin:14px 0 20px;padding:14px 0;border-block:1px solid var(--line)}.guide-narration small{display:block;margin:8px 0;color:var(--muted);font-size:11px}.guide-narration p{font-size:14px;line-height:1.65}.discovery-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.discovery-list>div{border-bottom:1px solid var(--line);padding-bottom:16px}.discovery-list canvas{float:left;width:95px;height:65px;object-fit:contain;margin-right:10px}.discovery-list strong,.discovery-list small{display:block}.discovery-list small{font-size:12px;line-height:1.5;margin-top:5px}@media(max-width:1100px){.adventure-note{top:64px;left:12px;max-width:220px;padding:10px}.adventure-heading strong{font-size:16px}}
 
+/* Guidance text should not block swimming; its controls still receive input. */
+#ui>.adventure-note{pointer-events:none}
+.adventure-note button,.adventure-note a{pointer-events:auto}
 .adventure-note.avoid-player{left:auto;right:18px}@media(max-width:1100px){.adventure-note.avoid-player{right:12px}}
 
 .activity-listen{display:block;margin-top:8px;text-decoration:underline;text-underline-offset:3px;font-size:12px;padding:7px 0}
@@ -65,3 +70,40 @@
 .creation-workshop{grid-template-columns:42% 1fr;align-items:start}.creation-workshop .create-preview{position:sticky;top:0}.creation-workshop .portrait-stage{height:240px}.creation-colors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.creation-colors input[type=color]{width:100%;height:34px;padding:2px}.creation-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}.creation-pair[hidden]{display:none}.create-controls h3{font-size:21px;margin:22px 0 14px}.create-controls h3:first-child{margin-top:0}.creation-workshop .budget{margin:12px 0}.creation-workshop .field{min-width:0}.creation-workshop select{min-width:0;width:100%}@media(max-height:850px){.creation-workshop .portrait-stage{height:180px}.creation-workshop .create-preview p{font-size:11px}.creation-workshop .create-controls h3{font-size:18px;margin-bottom:10px}}
 
 .creation-status{text-align:center}.creation-status .budget{margin:0}.creation-status .subtle{margin:3px 0 0;font-size:11px}
+
+/* A few concrete encounters on the same paper used by the family journal. */
+.reef-memories{list-style:none;padding:0;margin:12px 0 24px;max-width:70ch;text-align:left}
+.reef-memories li{padding:14px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}
+.reef-memories strong{font-size:14px}.reef-memories p{margin:5px 0;line-height:1.6;font-size:14px}
+.reef-memories small{color:var(--muted);font-size:12px}.creation-row .reef-memories{margin:8px 0 14px}
+.creation-row .reef-memories li{padding:8px 0}.creation-row .reef-memories strong{font-size:12px}
+.creation-row .reef-memories p{font-size:12px;margin:3px 0}.familiar-note{color:var(--ink);font-weight:600}
+.food-hints-button[aria-pressed=true]{background:var(--teal);color:var(--on-teal,#fff6da)}
+#reef:focus-visible{outline:3px solid var(--focus,#f4c76e);outline-offset:-3px}
+
+/* Small state cues leave the reef available for swimming and observation. */
+.dive-state-cue{position:absolute;right:2%;bottom:13%;width:30px;height:30px;display:grid;place-items:center;color:var(--paper);background:#173d46e0;border-radius:3px;pointer-events:none!important}
+.dive-state-cue svg{width:20px;height:20px}
+.dive-state-cue[hidden]{display:none}
+.dive-state-cue[data-state=caution]{color:#f4c76e}
+.activity-details{margin-top:8px;font-size:12px;pointer-events:none}
+.activity-details>summary{cursor:pointer;color:var(--muted);padding:4px 0;font-size:11px;pointer-events:auto}
+.activity-details>summary:focus-visible{outline:2px solid #f4c76e;outline-offset:2px}
+.activity-details[open]>summary{margin-bottom:7px}
+.activity-details p{margin:0 0 8px;line-height:1.45}
+.panel details>summary{cursor:pointer;color:var(--ink);padding:6px 0}
+.panel details>summary:focus-visible{outline:2px solid #f4c76e;outline-offset:2px}
+.panel details>p{margin:8px 0}
+.panel details+details{margin-top:8px}
+#custom-guide-portrait{object-fit:contain}
+#ui [hidden]{display:none}
+
+/* Optional adventures reuse the compact field-guide frame. */
+.reef-story{max-height:62%;overflow-y:auto;scrollbar-color:var(--teal) var(--paper)}
+.story-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;pointer-events:none}
+.story-actions button{pointer-events:auto;padding:7px 9px;font-size:12px}
+.reef-story .activity-details button,.story-invitation button{pointer-events:auto}
+.story-invitation{margin-top:12px}
+#story-step{margin:8px 0 5px;font-size:13px;line-height:1.45}
+#story-record{color:var(--muted);font-size:11px}
+@media(max-width:1100px){.reef-story{max-width:280px}.story-actions button{font-size:11px;padding:6px 8px}}

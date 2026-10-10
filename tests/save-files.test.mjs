@@ -45,3 +45,32 @@ test('dive filenames are Windows-safe while keeping readable names',()=>{
  assert.equal(diveFilename('CON'),'Dive CON.atoll');assert.equal(diveFilename('a/b:c?'),'a-b-c-.atoll');
  assert.equal(diveFilename(''),'My reef dive.atoll');
 });
+
+test('saved difficulty rejects corrupt multipliers while retaining legacy defaults',()=>{
+ const s=new Simulation(1);s.start();const file=JSON.parse(exportDive(s,'Difficulty'));
+ for(const difficulty of [null,'broken','1',true,{},[],-1]){
+  const bad=structuredClone(file);bad.state.difficulty=difficulty;
+  assert.throws(()=>importDive(JSON.stringify(bad)));
+  assert.throws(()=>Simulation.restore(bad.state));
+ }
+ for(const difficulty of [NaN,Infinity])assert.throws(()=>Simulation.restore({...file.state,difficulty}));
+ delete file.state.difficulty;
+ const legacy=importDive(JSON.stringify(file)).simulation;
+ assert.equal(legacy.difficulty,1);assert.equal(Simulation.restore(file.state).difficulty,1);
+ legacy.paused=false;legacy.protected=false;legacy.step(.05);
+ assert.ok(Number.isFinite(legacy.player.energy));assert.ok(Number.isFinite(legacy.player.health));
+ for(const difficulty of [0,.5,1,2]){
+  file.state.difficulty=difficulty;
+  assert.equal(importDive(JSON.stringify(file)).simulation.difficulty,difficulty);
+ }
+});
+
+test('portable terminal metadata rejects damage and permits older omitted fields',()=>{
+ const s=new Simulation(1);s.start();const file=JSON.parse(exportDive(s,'Terminal metadata'));
+ for(const [key,values]of Object.entries({recorded:[null,'false',0,{}],deathReason:[false,1,{},'x'.repeat(501)]})){
+  for(const value of values){const bad=structuredClone(file);bad.state[key]=value;assert.throws(()=>importDive(JSON.stringify(bad)));}
+ }
+ delete file.state.recorded;delete file.state.deathReason;
+ const legacy=importDive(JSON.stringify(file)).simulation;
+ assert.equal(legacy.recorded,false);assert.equal(legacy.deathReason,null);
+});

@@ -92,7 +92,7 @@ export class CreationPainter{
   paint(c,r.body,width);
   paint(c,r.head,width);paint(c,r.cavity,width);joint(r.jaw,...r.hinge,feed*({small:.15,wide:.28,beak:.19,tube:.08}[r.g.a.mouth]));
   if(r.mimicStripe)paint(c,r.mimicStripe,width);
-  if(s.ability==='flash'){c.save();c.scale(width,width);c.globalAlpha=state.flash?1:.18;c.fillStyle='#e6fff1';c.beginPath();c.ellipse(.29,r.g.depth*.10,.023,.012,-.15,0,TAU);c.fill();c.restore();}
+  if(s.ability==='flash'){c.save();c.scale(width,width);c.globalAlpha*=state.flash?1:.18;c.fillStyle='#e6fff1';c.beginPath();c.ellipse(.29,r.g.depth*.10,.023,.012,-.15,0,TAU);c.fill();c.restore();}
   joint(r.pectoral,...r.ph,(-.08+Math.sin(phase+.8)*.20)*motion,1,1-(1-Math.cos(phase+.8))*.32*motion+(state.brake||0)*.25);
   if(s.ability==='lure'){c.save();c.scale(width,width);c.strokeStyle=r.g.a.finColor;c.lineWidth=.004;c.beginPath();c.moveTo(.25,-r.g.depth*.66);c.quadraticCurveTo(.36,-r.g.depth-.16,.43,-r.g.depth-.055+Math.sin(time*3)*.012*motion);c.stroke();c.fillStyle=state.lure>.2?'#fff4b8':r.g.a.finColor;c.beginPath();c.arc(.43,-r.g.depth-.055+Math.sin(time*3)*.012*motion,.012,0,TAU);c.fill();c.restore();}
   c.restore();

@@ -3,7 +3,7 @@ test('goatfish discovers and eats generated sand food through E and mouse contro
  test.setTimeout(90000);
  for(const [width,height] of [[1600,900],[1024,768]]){
   await page.setViewportSize({width,height});await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);
-  await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Yellow goatfish');await page.getByRole('option').click();await clickButton(page,{name:'Try adventure',exact:true});await page.keyboard.press('Escape');
+  await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Yellow goatfish');await page.getByRole('option').click();await clickButton(page,{name:'Show goal',exact:true});await page.keyboard.press('Escape');
   const site=await page.evaluate(async()=>{const {sitesFor}=await import('/src/adventures.js'),{feedingApproach}=await import('/src/feeding-contact.js'),s=window.atoll.simulation;const f=sitesFor(s).sort((a,b)=>Math.hypot(a.x-s.player.x,a.y-s.player.y)-Math.hypot(b.x-s.player.x,b.y-s.player.y))[0].food;return {id:f.id,x:f.x,y:f.y,dock:feedingApproach(s.player,f),amount:f.amount,count:s.section.entities.length};});
   const box=await page.locator('#reef').boundingBox(),screen=p=>({x:box.x+p.x/1600*box.width,y:box.y+(p.y+55)/900*box.height});
   await page.keyboard.press('Escape');const dock=screen(site.dock);await page.mouse.move(dock.x,dock.y);

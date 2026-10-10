@@ -1,3 +1,4 @@
+import {enterReefLife} from './risk-cues.js';
 import {suitableMeal} from './diet.js';
 import {REEFS} from './data.js';import {approachMeal} from './feeding-contact.js';import {uncoverSand} from './sand-search.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -27,17 +28,17 @@ function targets(sim){const d=foragingJourney(sim.player),j=sim.adventure.foragi
 export function foragingSites(sim){const d=foragingJourney(sim.player);if(!d)return [];const j=sim.adventure.foragingJourney;if(j?.meals.length===2&&!j.finished&&sim.player.species.id==='s4')return sim.section.entities.filter(e=>e.alive&&e.species.id==='s4').map(e=>({id:'reunion-'+e.id,x:e.x,y:e.y,kind:'companion',name:'Fellow idol'}));if(j?.meals.length===2&&!j.finished&&sim.player.species.id==='s25')return REEFS[sim.current].shelters.map((s,i)=>({id:'quiet-'+i,x:s.x,y:s.y,kind:'home',name:'Quiet cover'}));return targets(sim).slice(0,3).map(f=>({id:'forage-'+f.id,x:f.x,y:f.y,kind:'meal',name:(d.kind==='shell'?'Hard prey':d.kind==='sift'?'Bottom search':d.kind==='probe'?'Crevice search':'Browsing ground')+' · '+foodType(f),food:f}));}
 export function startForagingPrep(sim,target,eat=false){
  const p=sim.player,kind=preparationKind(p,target);if(!kind)return false;
- p.foragingPrep={reef:sim.current,target:target.id,incarnation:target.incarnation||0,kind,elapsed:0,eat};p.target=null;p.feeding=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;p.hidden=false;sim.protected=false;sim.pointer={x:p.x,y:p.y};
- sim.event('message',kind==='shell'?'Opening a hard meal · Stay in contact, or move to stop.':kind==='sift'?'Sifting this patch · Move to stop.':'Inspecting with your snout · Move to stop.');return true;
+ p.foragingPrep={reef:sim.current,target:target.id,incarnation:target.incarnation||0,kind,elapsed:0,eat};p.target=null;p.feeding=null;p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;p.hidden=false;enterReefLife(sim,'meal');sim.pointer={x:p.x,y:p.y};
+ sim.event('activity-step',kind==='shell'?'Opening a hard meal':kind==='sift'?'Sifting this patch':'Inspecting with your snout');return true;
 }
 export function useForagingContext(sim){
  const p=sim.player,d=foragingJourney(p);if(p.foragingPrep){p.foragingPrep=null;sim.pointer={x:p.x,y:p.y};return true;}
  if(sim.adventure.foragingJourney?.finished)sim.adventure.foragingJourney=fresh();
  if(sim.adventure.foragingJourney?.meals.length===2){const site=foragingSites(sim).sort((a,b)=>distance(a,p)-distance(b,p))[0];if(site)sim.point(site.x,site.y);sim.event('message',foragingInstruction(sim));return true;}
  const f=targets(sim).find(f=>distance(f,p)<220);if(!f){sim.event('message','Look for '+d.foods[sim.adventure.foragingJourney?.meals.length||0]+' nearby, or use the map to find another feeding ground.');return false;}
- if(d.kind==='browse'){sim.adventure.foragingJourney??=fresh();sim.point(f.x,f.y);sim.event('message','A browsing ground is marked. Click the food when you want to take a meal.');return true;}
+ if(d.kind==='browse'){sim.adventure.foragingJourney??=fresh();sim.point(f.x,f.y);sim.event('activity-step','Browsing ground marked');return true;}
  if(startForagingPrep(sim,f,d.kind==='shell'))return true;
- sim.point(f.x,f.y);sim.event('message','Click this suitable meal to approach and eat.');return true;
+ sim.point(f.x,f.y);sim.event('activity-step','Meal marked');return true;
 }
 export function tickForagingPrep(sim,dt){
  const p=sim.player,q=p.foragingPrep;if(!q)return false;
@@ -57,8 +58,8 @@ export function foragingMeal(sim,target){
  const food=foodType(target);if(food!==d.foods[j.meals.length])return;
  if(['probe','sift'].includes(d.kind)&&!(target.uncovered>0&&target.sandSource===sim.player.id))return;
  if(openable(target)&&d.kind==='shell'&&!(sim.player.foragingPrep?.target===target.id&&sim.player.foragingPrep.elapsed>=1.5))return;
- const first=j.meals[0];if(first&&first.reef===sim.current&&distance(first,target)<120){sim.event('message','That meal was close to your first feeding ground. Explore farther for your next discovery.');return;}
- j.meals.push({reef:sim.current,id:target.id,x:target.x,y:target.y,food});j.rest=0;sim.event('message',j.meals.length===1?'One feeding ground explored. Look for '+d.foods[1]+' at a different place.':d.kind==='browse'?(sim.player.species.id==='s4'?'Find a fellow idol and swim close for a quiet reunion.':'Return to a quiet shelter and settle after browsing.'):'Two different feeding opportunities explored.');
+ const first=j.meals[0];if(first&&first.reef===sim.current&&distance(first,target)<120){sim.event('message','This meal is too close to your first feeding ground. Explore farther.');return;}
+ j.meals.push({reef:sim.current,id:target.id,x:target.x,y:target.y,food});j.rest=0;sim.event('activity-step',j.meals.length===1?'First feeding ground explored':'Second feeding ground explored');
 }
 export function foragingInstruction(sim){
  const p=sim.player,d=foragingJourney(p),j=sim.adventure.foragingJourney;if(p.foragingPrep)return p.foragingPrep.kind==='shell'?'Opening a shell · Hold contact; move or E to stop':'Inspecting a feeding patch · Move or E to stop';

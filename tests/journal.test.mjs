@@ -4,12 +4,14 @@ import {BADGES,freshJournal,validateJournal,recordProgress,mergeJournals,journal
 import {Simulation} from '../src/simulation.js';
 import {PLAYABLE} from '../src/data.js';
 import {TitleReef} from '../src/title-reef.js';
+import {DISCOVERIES} from '../src/adventures.js';
 const ids=PLAYABLE.slice(0,10).map(s=>s.id),date='2026-09-06T12:00:00.000Z';
 for(const badge of BADGES)test('badge threshold and dedup: '+badge.id,()=>{
  const j=freshJournal();let kind='activity',values=[badge.id];
  if(badge.id.startsWith('care')){kind='cared';values=ids.slice(0,Number(badge.id.slice(4)));}
  if(badge.id.startsWith('play')){kind='played';values=ids.slice(0,Number(badge.id.slice(4)));}
  if(badge.id.startsWith('visit')){kind='habitat';values=Array.from({length:Number(badge.id.slice(5))},(_,i)=>i);}
+ if(badge.id.startsWith('discovery')){kind='discovery';values=DISCOVERIES.slice(0,Number(badge.id.slice(9)));}
  for(const value of values.slice(0,-1))recordProgress(j,kind,value,date);
  assert.equal(j.earned[badge.id],undefined);recordProgress(j,kind,values.at(-1),date);assert.equal(j.earned[badge.id],date);
  assert.deepEqual(recordProgress(j,kind,values.at(-1)),[]);assert.deepEqual(validateJournal(JSON.parse(JSON.stringify(j))),j);

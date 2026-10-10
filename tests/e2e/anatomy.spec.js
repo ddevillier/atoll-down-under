@@ -11,8 +11,8 @@ test('anatomy and three color regions follow ordinary editor, trial, save and re
  await page.locator('#fish-name').fill('Ribbon');await page.getByRole('button',{name:'Test swim',exact:true}).click();
  const trial=await page.evaluate(()=>window.atoll.simulation.player.species.appearance);const {body,...partChoices}=choices;expect(trial).toMatchObject(partChoices);
  await page.getByRole('button',{name:'Change my fish'}).click();await expect(page.locator('[data-config="tail"]')).toHaveValue('lyre');
- await page.getByRole('button',{name:'Keep and meet the reef'}).click();const id=await page.evaluate(()=>window.atoll.simulation.creation.id);
- await page.getByRole('button',{name:'My creations',exact:true}).click();await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:'My creations',exact:true});await page.getByRole('button',{name:'Resume',exact:true}).click();await page.waitForFunction(id=>window.atoll.simulation?.creation?.id===id,id);
+ await page.getByRole('button',{name:'Keep fish'}).click();const id=await page.evaluate(()=>window.atoll.simulation.creation.id);
+ await clickButton(page,{name:'My creations',exact:true});await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:'My creations',exact:true});await page.getByRole('button',{name:'Resume',exact:true}).click();await page.waitForFunction(id=>window.atoll.simulation?.creation?.id===id,id);
  expect(await page.evaluate(()=>window.atoll.simulation.player.species.appearance)).toEqual(trial);expect(errors).toEqual([]);
 });
 test('every part and color choice changes rendered pixels; extreme fins remain inside source layers',async({page})=>{

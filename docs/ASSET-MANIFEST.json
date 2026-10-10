@@ -1,5 +1,10 @@
 [
   {
+    "path": "assets/LICENSE.md",
+    "bytes": 887,
+    "sha256": "d24924f0962e18290210ad5788d1f2afa0e660de2365720284a7c81a86d12458"
+  },
+  {
     "path": "assets/audio/advance.ogg",
     "bytes": 24669,
     "sha256": "a06e3cb767f40b9965d5853216b9e5e113717da5c00890e79dbfe4188bba472f"
@@ -175,6 +180,1371 @@
     "sha256": "92de98ddd38496ed2a2c353bb2854553eed2a83fb9765ccee58a5abc2d3f00f9"
   },
   {
+    "path": "assets/audio/narration/activities/manifest.json",
+    "bytes": 89040,
+    "sha256": "0d5ee4f8d975e40477d3ae3b7d090dcf6b75be781f2ad24e0ab57e599ce890cf"
+  },
+  {
+    "path": "assets/audio/narration/activities/s0.ogg",
+    "bytes": 278133,
+    "sha256": "0ef8ae08391590aec663c5d8eb7e2a8fb2ec9fc3032ee59091b4c51f7742b7d9"
+  },
+  {
+    "path": "assets/audio/narration/activities/s1.ogg",
+    "bytes": 266874,
+    "sha256": "48616237ed358482a5b05c01acb13899e0f07b428bac86ba77ccd85efa3bb1c4"
+  },
+  {
+    "path": "assets/audio/narration/activities/s10.ogg",
+    "bytes": 274010,
+    "sha256": "00add744ed1a78688cdb1767d20ecde7abadd31f4b45c670bad7b60373e27085"
+  },
+  {
+    "path": "assets/audio/narration/activities/s11.ogg",
+    "bytes": 238084,
+    "sha256": "07aaf7218a4ac003db9d4e02b3c3f7ca0dad0d950cbf0158c9b6966a97ed55de"
+  },
+  {
+    "path": "assets/audio/narration/activities/s12.ogg",
+    "bytes": 254534,
+    "sha256": "83c4cba7b820e73fca8bb149d14246f2519636b8f50dbf5b8322389288b6f580"
+  },
+  {
+    "path": "assets/audio/narration/activities/s13.ogg",
+    "bytes": 262759,
+    "sha256": "5c8e75acbca02072847d540ce327828ffc5ea19c7609555920f0db3a13347a66"
+  },
+  {
+    "path": "assets/audio/narration/activities/s14.ogg",
+    "bytes": 280375,
+    "sha256": "0fd83163781a11d160591540dd3de1c5469b8d26aa1350651389230c8f4548a5"
+  },
+  {
+    "path": "assets/audio/narration/activities/s15.ogg",
+    "bytes": 302656,
+    "sha256": "6d9df92200a7594a8cbf473db92aaa5290989b1ea4e794bea4d6480affcbd7fd"
+  },
+  {
+    "path": "assets/audio/narration/activities/s16.ogg",
+    "bytes": 270775,
+    "sha256": "4c531102ea14a7dc04feee453385e956201dc8c6c23e4f15bbb986d2395b7857"
+  },
+  {
+    "path": "assets/audio/narration/activities/s17.ogg",
+    "bytes": 258731,
+    "sha256": "6b2425475cf29a21f92086f824a722a968a0c5994fe99ef7ed7ae919f2dbad11"
+  },
+  {
+    "path": "assets/audio/narration/activities/s18.ogg",
+    "bytes": 277367,
+    "sha256": "7bb404d59a3d64aa62eb4bdc814e6a72b3a4dd4beb5635e47acb32932eca353d"
+  },
+  {
+    "path": "assets/audio/narration/activities/s19.ogg",
+    "bytes": 336077,
+    "sha256": "f0edb519ebebb6e33a64417f0fbc9f40fbbf39824143415e868fd4a4821e3077"
+  },
+  {
+    "path": "assets/audio/narration/activities/s2.ogg",
+    "bytes": 303420,
+    "sha256": "d2d5521b588e5650d1eff84f59cb70612a32627624f76cf5ef2683dd4d4c28b2"
+  },
+  {
+    "path": "assets/audio/narration/activities/s20.ogg",
+    "bytes": 261268,
+    "sha256": "86b45cbd9fd5a786643e90e7c0bcc4454bcae5ef29a2b367ab9bcc56686de566"
+  },
+  {
+    "path": "assets/audio/narration/activities/s21.ogg",
+    "bytes": 295857,
+    "sha256": "2cc41255450e747022048d2d5f0e5de977745b8455ed4c404cbee437792fa253"
+  },
+  {
+    "path": "assets/audio/narration/activities/s22.ogg",
+    "bytes": 262472,
+    "sha256": "f2201c6dd4d36179e3dc1cf6259d2438c3d830f7e47ca07569565e5aeae897e2"
+  },
+  {
+    "path": "assets/audio/narration/activities/s23.ogg",
+    "bytes": 302943,
+    "sha256": "2b38d49fd43427e7351c5c7d046883ade2856e3136aab05e3770ada349cd7b47"
+  },
+  {
+    "path": "assets/audio/narration/activities/s24.ogg",
+    "bytes": 276115,
+    "sha256": "4cc396214150fe82b0139680320a3e8fc732fca71b9990600ed0d55dcad41bfe"
+  },
+  {
+    "path": "assets/audio/narration/activities/s25.ogg",
+    "bytes": 259017,
+    "sha256": "472c16fe69e385d75f332bab793e1f97d59b283a0eab3506812dba3ba25fa7d9"
+  },
+  {
+    "path": "assets/audio/narration/activities/s26.ogg",
+    "bytes": 255304,
+    "sha256": "fbbf6d557a1b815b694ac7d9f22c75a93063affde0b08d8c9128cf793abaaadb"
+  },
+  {
+    "path": "assets/audio/narration/activities/s27.ogg",
+    "bytes": 261828,
+    "sha256": "c8c593a141fccc81ccc139b70da3d732fb5f3544a2fdb82e69a918d635fe9959"
+  },
+  {
+    "path": "assets/audio/narration/activities/s28.ogg",
+    "bytes": 284589,
+    "sha256": "06820c001f9f6d58c88f55815718562c3bc9219ca81a7da09452353cee052177"
+  },
+  {
+    "path": "assets/audio/narration/activities/s29.ogg",
+    "bytes": 269251,
+    "sha256": "fc70f85036520703b3ac800b4a732243d3ee981728b606c666b0aeb5196c96bd"
+  },
+  {
+    "path": "assets/audio/narration/activities/s3.ogg",
+    "bytes": 241814,
+    "sha256": "c8e8d02302a7be9eeac69fcf0f46165def472507abe407800e5d2836755808a3"
+  },
+  {
+    "path": "assets/audio/narration/activities/s30.ogg",
+    "bytes": 278556,
+    "sha256": "d751a041ffb763fa0ff970668aeddbfbc4c570bf848264546c23bc8da92395ed"
+  },
+  {
+    "path": "assets/audio/narration/activities/s31.ogg",
+    "bytes": 248410,
+    "sha256": "e99c2b4f8bb6f87f5d1ea8b2f47033cd7c8355c295c9388f606a53df752f1e2d"
+  },
+  {
+    "path": "assets/audio/narration/activities/s32.ogg",
+    "bytes": 274363,
+    "sha256": "c79a91ce5bfbdee36785f88e455f4fe36ddd5724fe98b21889916662bc3748c0"
+  },
+  {
+    "path": "assets/audio/narration/activities/s33.ogg",
+    "bytes": 269512,
+    "sha256": "a2f8bc4b16fecbfb4834892d045aada61ff3fb4e2a6d2af24b5ddcd0ea656097"
+  },
+  {
+    "path": "assets/audio/narration/activities/s34.ogg",
+    "bytes": 271542,
+    "sha256": "79205bb4db0597e0debe7c715a50e23749fcaf740b8df60a6a25e1030da3be84"
+  },
+  {
+    "path": "assets/audio/narration/activities/s35.ogg",
+    "bytes": 261725,
+    "sha256": "f6658cf32c2fcc976ac556102340aa10eb96cbe5f0020a2ce5d2a457de4464fc"
+  },
+  {
+    "path": "assets/audio/narration/activities/s36.ogg",
+    "bytes": 253216,
+    "sha256": "beb9815f6f327387f42fcc5af88c8d4931f6811aa09ebe709a6b331423cf434d"
+  },
+  {
+    "path": "assets/audio/narration/activities/s37.ogg",
+    "bytes": 270658,
+    "sha256": "0c75cb437e9f5a567c3c1f859981edcfe5f26e840cba8be696175cc0982e72d8"
+  },
+  {
+    "path": "assets/audio/narration/activities/s38.ogg",
+    "bytes": 273116,
+    "sha256": "769b69d4b7fb8a3425f8105f41f8593cfe6d8fc5ad58e7e428bf1da3ffe15678"
+  },
+  {
+    "path": "assets/audio/narration/activities/s39.ogg",
+    "bytes": 257589,
+    "sha256": "2f9f760ad508808dd028dd02453f639b57d664129f762bd9bfb39d37f264c76a"
+  },
+  {
+    "path": "assets/audio/narration/activities/s4.ogg",
+    "bytes": 284081,
+    "sha256": "ee96ad2caf4116366e7ab26a00d1f0cb894fb16e54cb3dc2efa62dbba0bc49c1"
+  },
+  {
+    "path": "assets/audio/narration/activities/s40.ogg",
+    "bytes": 276465,
+    "sha256": "766c4cd5968def1d0640924db86d51cd71770962aeab1fa89c8e68389bbcdfe2"
+  },
+  {
+    "path": "assets/audio/narration/activities/s41.ogg",
+    "bytes": 299412,
+    "sha256": "fdf247544d136e1d53ae3afe32ef80fc53b94ecf5cf5f772cf264d6b8d460d00"
+  },
+  {
+    "path": "assets/audio/narration/activities/s42.ogg",
+    "bytes": 325662,
+    "sha256": "4e12fdfc48ece61e892ae4e439e07086fabb8e1b7ccbefa8ae94b1e3f3c33ee4"
+  },
+  {
+    "path": "assets/audio/narration/activities/s43.ogg",
+    "bytes": 311944,
+    "sha256": "5eb0a4bc9eff30ae31d8d7a3745222933e180db2c674d8fa2068bd53b2ad6413"
+  },
+  {
+    "path": "assets/audio/narration/activities/s44.ogg",
+    "bytes": 338074,
+    "sha256": "5f430be7d97bc7848400dbd4dc96b84685f717a1daac7140f4b65ffc9969d531"
+  },
+  {
+    "path": "assets/audio/narration/activities/s45.ogg",
+    "bytes": 305693,
+    "sha256": "161f2fe1f54a77ffb0f240911ab632798c2ac91d7154faf3d0e75b512294406c"
+  },
+  {
+    "path": "assets/audio/narration/activities/s46.ogg",
+    "bytes": 259285,
+    "sha256": "bdb100fd16f067bbf0684a42a309448363b1c392c8bc28f9b20d83863a8d48a8"
+  },
+  {
+    "path": "assets/audio/narration/activities/s47.ogg",
+    "bytes": 292369,
+    "sha256": "0d9275dbc968acefa3baa27fa233320d62eb7dc9d4232b5b498ff306bd019ef6"
+  },
+  {
+    "path": "assets/audio/narration/activities/s48.ogg",
+    "bytes": 294695,
+    "sha256": "a25ad7e518b941c3cdc2e6e892bf7fa50e1b83672082ffc39b70b09ed475f901"
+  },
+  {
+    "path": "assets/audio/narration/activities/s49.ogg",
+    "bytes": 261213,
+    "sha256": "835d0a98ddf6fd688aaee9ed55a2483470c96b14757ffdff3812c12ceb620633"
+  },
+  {
+    "path": "assets/audio/narration/activities/s5.ogg",
+    "bytes": 269598,
+    "sha256": "ebd519d606030365914763f9646a422316154c2ae2f7d67671688412a33cb3db"
+  },
+  {
+    "path": "assets/audio/narration/activities/s50.ogg",
+    "bytes": 283076,
+    "sha256": "db1b0a7dfe011b59baa372d7a2b49fc519df810ccc8658df8995b5a4e4bd11bc"
+  },
+  {
+    "path": "assets/audio/narration/activities/s51.ogg",
+    "bytes": 259136,
+    "sha256": "a9c4d7640a58ce286494f34940883da5409f1e35c244922865972faa28b117a0"
+  },
+  {
+    "path": "assets/audio/narration/activities/s52.ogg",
+    "bytes": 311591,
+    "sha256": "e7d956fac55179d5e6c0420b4c3818308ab5d6fe89f88ed41bb84880733250f4"
+  },
+  {
+    "path": "assets/audio/narration/activities/s53.ogg",
+    "bytes": 283188,
+    "sha256": "d0205e32e35a1555df804b654dbf82cb81f7ec7c341a183370cb1a29b84409f1"
+  },
+  {
+    "path": "assets/audio/narration/activities/s54.ogg",
+    "bytes": 276272,
+    "sha256": "60e7198756c2972f5262ce124b6e74c2784b010486657f40a75d8fbed342757e"
+  },
+  {
+    "path": "assets/audio/narration/activities/s55.ogg",
+    "bytes": 260096,
+    "sha256": "dc5f9d17851aefd1b308a7ccc4f97a1f74b3fe61e4cfe8379a85ecd038269e49"
+  },
+  {
+    "path": "assets/audio/narration/activities/s56.ogg",
+    "bytes": 228661,
+    "sha256": "c876778a8faa32a7831732de10dcf56c99d3f76440559cf193f1eb987a900c4e"
+  },
+  {
+    "path": "assets/audio/narration/activities/s57.ogg",
+    "bytes": 256735,
+    "sha256": "8cc54d3cb952fd21874bc0f4e066e0af7ffff5c60a19401d548c39a09a1b9505"
+  },
+  {
+    "path": "assets/audio/narration/activities/s58.ogg",
+    "bytes": 283402,
+    "sha256": "494863ffc704ce00eaf8be8d847db7cd6094a61291ac98e206019a5a7f9985b7"
+  },
+  {
+    "path": "assets/audio/narration/activities/s59.ogg",
+    "bytes": 266396,
+    "sha256": "275a65baf9f2101385cb03b362de16377c740e876c2225126a1fe7391944e24d"
+  },
+  {
+    "path": "assets/audio/narration/activities/s6.ogg",
+    "bytes": 282591,
+    "sha256": "ad893b94f9652c0c22a5f6de4e047d0ec485b36593e7a875dcf10346973ddf4e"
+  },
+  {
+    "path": "assets/audio/narration/activities/s60.ogg",
+    "bytes": 273759,
+    "sha256": "b42bc30745b897ec9a986ad988472b992c5884ba02db37a6e53d45ea9cfa2d54"
+  },
+  {
+    "path": "assets/audio/narration/activities/s61.ogg",
+    "bytes": 281132,
+    "sha256": "fd624608e46091121c83879c4da62faf031a19d10a2cfaa9f2dadd8616dd7b4e"
+  },
+  {
+    "path": "assets/audio/narration/activities/s62.ogg",
+    "bytes": 290246,
+    "sha256": "2bdfaf9d84f5668277ab17f58ef39dfd4bdd2dbfb0eac37c26d4233a6e35f357"
+  },
+  {
+    "path": "assets/audio/narration/activities/s63.ogg",
+    "bytes": 296378,
+    "sha256": "849e2e539178f3d8a59dacf877650089418ecb0a02476b95940ca7b0e20dddae"
+  },
+  {
+    "path": "assets/audio/narration/activities/s7.ogg",
+    "bytes": 237932,
+    "sha256": "ca3b4e3b27ea5248288ce60ea7292b512a9f5a1910b954d9c9c5e819efca23ff"
+  },
+  {
+    "path": "assets/audio/narration/activities/s8.ogg",
+    "bytes": 283859,
+    "sha256": "a16eb985e767c144aea74ed194673e469f9dbe87b0e33babaa5b726cc77e4522"
+  },
+  {
+    "path": "assets/audio/narration/activities/s9.ogg",
+    "bytes": 298241,
+    "sha256": "ed75f1702410766c53065b333fd2eb5cb2a35877b5071375091ab5fa0ffaed0b"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-care1.ogg",
+    "bytes": 75459,
+    "sha256": "feda7873d01e911215ab53cfb3c3a578dc5b97a0df91ec8e9c1d8e66a9e48409"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-care3.ogg",
+    "bytes": 52887,
+    "sha256": "ecab10845c2924743dfbe62d297ed8a4def9772c9e14265a8d55c4e1dc05104b"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-clean.ogg",
+    "bytes": 54798,
+    "sha256": "694eee6aa75455515db1074adf880aa16bd5289889f59625eb750f85ab07739b"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-discovery1.ogg",
+    "bytes": 66402,
+    "sha256": "6bfc96047c41154d65202ae61120c4cd97d17bb2af3af78caa932d0802e773bb"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-discovery15.ogg",
+    "bytes": 56263,
+    "sha256": "533d4937515a81b81ddc34b1a6f1a028820e39179bec7d2b3c3257fc2091fcdd"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-discovery5.ogg",
+    "bytes": 67600,
+    "sha256": "0fbf6a62962466ad8d722ada794d895386e0bde520fd4a8be0a0bc7379481986"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-helper.ogg",
+    "bytes": 53420,
+    "sha256": "3ffeffead163125387a25081cd285e559ccd8c5a9ca87f926592443f0880fe60"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-meal.ogg",
+    "bytes": 67461,
+    "sha256": "ac195d1d3a7f29e2e7017aae30810311cd931f3cb7612aa630002c4a4819227b"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-neighbor.ogg",
+    "bytes": 50643,
+    "sha256": "d93b545929cbc35696c7b164825f2b2a1590c1a207313817711a71731dc8d942"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-night.ogg",
+    "bytes": 58821,
+    "sha256": "986ad35662f6d4cf7f1fd699bad301d579bef626376566ef7c595a3a5edd4204"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-play10.ogg",
+    "bytes": 72969,
+    "sha256": "a2046d9c3ac80cb1d6caade2f344053c1fd85c4788c2a4dac42be47c6a7d79d5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-play3.ogg",
+    "bytes": 62675,
+    "sha256": "1414ddade6aadb504a3bc291750eddd59570bd651883701855ed7d16b943f7d1"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-school.ogg",
+    "bytes": 59363,
+    "sha256": "02a0539ecf9752b603f54ffbc05a8416f50568f65e4730a3656f7011fd52a8dc"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-shelter.ogg",
+    "bytes": 57821,
+    "sha256": "3e2526c187a5999967d0d7f594f9a265b405f253b2c4232695874e8be1ee57ae"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-visit3.ogg",
+    "bytes": 59934,
+    "sha256": "34206e3a4dc5bafbe78486c4e5e28f058fe07edeaf8dd2c84e430643ea5cad6d"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/badge-visit9.ogg",
+    "bytes": 49558,
+    "sha256": "db5e8dc463c771b5c8026bf720f7f5c64f084e6dd27d2a45186253339904f9c8"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s0.ogg",
+    "bytes": 66452,
+    "sha256": "eab915be781d3da14083d5ed8386bd7af7446bf7fb96bb55a9de6b41355d2ad2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s1.ogg",
+    "bytes": 66918,
+    "sha256": "c8b4d3e35d4ef7bb877a72c03fb1e20fd57e06dd2f0d2242bbde95dc13d302d1"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s10.ogg",
+    "bytes": 76011,
+    "sha256": "371fc80db6b03c0221d25448c58c4ec057ff646937c64c4c0e0dbffc2efe9627"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s11.ogg",
+    "bytes": 67792,
+    "sha256": "4cf5ec21209946db09b0108052d18d129fa2419ebfb6d9688b8f64a8c4a1d07f"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s12.ogg",
+    "bytes": 71357,
+    "sha256": "0f6f3bef95c557840091640d4ea82b8c47f42fe3c0ecdcbf8b6f93e918e18784"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s13.ogg",
+    "bytes": 84842,
+    "sha256": "25a149c19bc7d10ef3a394bfffafa503750bc9efa047b93bf21f9fe21a18bdda"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s14.ogg",
+    "bytes": 63776,
+    "sha256": "7a350480a1a3c79603e79d95e4d8a6c340f199854cc6e6e21cdef7de9838ebc3"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s15.ogg",
+    "bytes": 65244,
+    "sha256": "4e16abdde255751eb2320cee5c0a6c39de2a1720a48d528c90ee788d030a63d8"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s16.ogg",
+    "bytes": 60981,
+    "sha256": "a5e0455f7d872fa2fc5eca2ccbf70f5574cb4317271fb68836b65c3940ce8e75"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s17.ogg",
+    "bytes": 74149,
+    "sha256": "95e1f9abf7bca9c5524f92386aadd4993b28251f47c13aa1ecc54f10f76632e7"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s18.ogg",
+    "bytes": 75700,
+    "sha256": "d515054baa0ffac6423326b093cd2c10f349e1531c612e609f364c56173a08d7"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s19.ogg",
+    "bytes": 78592,
+    "sha256": "5266a66f79b848c3e7fb2b47bdf0fbb3856af71cc3b0dcece89c8b7c8015fb3d"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s2.ogg",
+    "bytes": 60498,
+    "sha256": "52d129a8fdfef18d121bb0f9a80e15522d4503375b495aa5d9b36b0cb1686299"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s20.ogg",
+    "bytes": 78420,
+    "sha256": "3cb2aa682ab388b95d4696678b52df685f922d7317bdaa6e8491e29860941b33"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s21.ogg",
+    "bytes": 82228,
+    "sha256": "a1e027512680e31429d90b8116f8aa0515f0dd0604c2be9db09c16db4a9a8868"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s22.ogg",
+    "bytes": 72567,
+    "sha256": "2030384510a15757b0a46691ad1ff8ed7386b419d3e2e018e7c01d06bb626882"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s23.ogg",
+    "bytes": 61478,
+    "sha256": "cfe2b0f229ee81f8f50d5bda0b4fcffa48168eb7c9e7fd63a785012dda010d49"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s24.ogg",
+    "bytes": 68227,
+    "sha256": "148268e195c6117c7b5ba5f07c25b06f5a2ba9e2bba28beb1275631c92ad7586"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s25.ogg",
+    "bytes": 71644,
+    "sha256": "779eb128694d6ecd85f72b8d4a3a504efb59bad0362f97b4be0bc1605986a027"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s26.ogg",
+    "bytes": 75621,
+    "sha256": "a347de955ca9856880923c1b4b88b61bb29c01e6ec1068d172ba78a04739a1a2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s27.ogg",
+    "bytes": 83647,
+    "sha256": "c87362b4d20cab93f722f9b9969634b530dd825e753796240a6b25061a3d89a9"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s28.ogg",
+    "bytes": 72598,
+    "sha256": "fe27e6912d20180cd253d53f59e6e4af86ff0808581e181ad745e3a966355dd2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s29.ogg",
+    "bytes": 57447,
+    "sha256": "b7b2990f06a346c7c2bef685f2113722c8693d7f1b9e9300c879406d184643ef"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s3.ogg",
+    "bytes": 82078,
+    "sha256": "6a3d066d36b9951150deb80ba172fa84d35e799bf4ce17eba7c147aacb501a7c"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s30.ogg",
+    "bytes": 78043,
+    "sha256": "f4804fb41b92f3f7b960e4d4036e7612211135ef34e330f281be7a66daad5e49"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s31.ogg",
+    "bytes": 74148,
+    "sha256": "c77e80434311294d71f7f48172511a7ea7f0e10f1b5e194df6810c477c0055ee"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s32.ogg",
+    "bytes": 69985,
+    "sha256": "db1b68048c13384b1f1e93e8d02846862ffa582403c1b7e5737019025ce317de"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s33.ogg",
+    "bytes": 67703,
+    "sha256": "61cfed011453705699b563ae1aa3783a2a636b13d7112bb9357b34f21a440bc5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s34.ogg",
+    "bytes": 74585,
+    "sha256": "299bbc8dba9d6a900ebe25b5fe8ddb2009ed32319c647dee7360188fe1122f68"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s35.ogg",
+    "bytes": 72630,
+    "sha256": "27f8dd6220d6f7da017ce7b6ac926ec907e844900f0e0a3af3f61da14a39a72a"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s36.ogg",
+    "bytes": 66588,
+    "sha256": "b579bfcbc57f9b770ee7789be468ed13059a0ffd9982942b30094ebb6f2d1d1e"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s37.ogg",
+    "bytes": 63279,
+    "sha256": "954b5a9c9f8c680b81f3f275d6ae3dee2f45fe518f9e059d71adc4081c3404cd"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s38.ogg",
+    "bytes": 80758,
+    "sha256": "0e8fbe26267782d42c6a91008d9040aaa30748ae19bbab9a7522ec927256f215"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s39.ogg",
+    "bytes": 67271,
+    "sha256": "72beb3f8db81b11820a16a07afc90195a4a22a36a326a425b0e0fb5810a79ff2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s4.ogg",
+    "bytes": 66289,
+    "sha256": "7dd46a97edcbe3f71c29a17e281a14b55c2246470b22a381f0c49f9cfbfd34ff"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s40.ogg",
+    "bytes": 77384,
+    "sha256": "879afa3d4b8d531da41d18125a9685c7200e35f457d05f6707fc19afb86fd59d"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s41.ogg",
+    "bytes": 68423,
+    "sha256": "022da417cfb2da96eda979f57279177037fe1dd82d5f041fab1e001fbc4f42af"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s42.ogg",
+    "bytes": 73559,
+    "sha256": "e7aaac819bc3ca1c2a48f55797482c418dec07efc420b61fabbfe4ec82edd029"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s43.ogg",
+    "bytes": 73364,
+    "sha256": "915208f399fd9337235cf29548dab847fa21eccd2e5c342ce3607a08d9c39875"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s45.ogg",
+    "bytes": 70082,
+    "sha256": "ba082e30468858530c496547db7cbdf377d912b51703b7eeb4c40cc404b2c5c5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s48.ogg",
+    "bytes": 74350,
+    "sha256": "0c80a371845a852fa56ebc7050c560322f7c0719da1048ba7d26eeee47306366"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s49.ogg",
+    "bytes": 73829,
+    "sha256": "c4856fc4c06db7fa0522405d98dbb6f92e5969e2975ae2aa342418c22737f5f6"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s5.ogg",
+    "bytes": 74692,
+    "sha256": "e4bce2749b2c842c244329495f1cd33ff94bdce422b36b4d39fd0b8e2d80c3e0"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s50.ogg",
+    "bytes": 65002,
+    "sha256": "37222c0ac27b84d6c795b278710035c83098b737bfd8d0fdeb53ffe2ebec03d8"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s51.ogg",
+    "bytes": 76721,
+    "sha256": "d073fe899c99d323eeeea498b53939aee3113e7c07e8cbcae6fd57eedf11fc80"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s52.ogg",
+    "bytes": 85841,
+    "sha256": "ecf232f037c34afd2d8b0ab5f25f056bbc0e1bfb0735e64daf449957da47c6e5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s53.ogg",
+    "bytes": 70331,
+    "sha256": "72f2e26751c9199b61e6adae2b30079ddc6fb72b9d01620c8948818c6a52f83a"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s54.ogg",
+    "bytes": 78723,
+    "sha256": "f657fd30598924154695c5129040105f43a83359afda0591a96e7a9dbc228d71"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s55.ogg",
+    "bytes": 71208,
+    "sha256": "90251a6a95d780c9f22801df3ea8cc81f15fc0b7f3a4018b73577cd0399d826a"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s56.ogg",
+    "bytes": 86395,
+    "sha256": "4080740c60fc372e12f4b025e6a8a111f8be293b476ec0d68bbc251f92d8f43a"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s57.ogg",
+    "bytes": 78834,
+    "sha256": "055b29403276cb8d40cc9e955c9100d1af4cc214d66f3bc1e25eb24efedcb3ff"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s58.ogg",
+    "bytes": 71452,
+    "sha256": "40686121d446dfc9f92b0d70286f2456a729691ae4ae018bb2f5cf6bdc29e9dc"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s59.ogg",
+    "bytes": 72171,
+    "sha256": "b4311b4efa58d176918ab8e5726999c864bcf6c73a02a8d6a0773740c0ac33a5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s6.ogg",
+    "bytes": 77624,
+    "sha256": "878d58db90698d5b74a3d42acdb9e67273be2c45f7bb6fb1d167d92d05d99e37"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s7.ogg",
+    "bytes": 70090,
+    "sha256": "cfd873cb5f1357b45dc6cc2e9fc6122505dd71e3ce7ca45eae33cfeda6acb82f"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s8.ogg",
+    "bytes": 76553,
+    "sha256": "a15d9ac26a79a04df9eef6b0a2a55dc98cc0d4e98a79e114131c79ff9aa231f7"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/intro-s9.ogg",
+    "bytes": 68758,
+    "sha256": "fde1105f50ee545779e628ce0a0283d721d8fcf16173c27fdc678cab846548ce"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s0.ogg",
+    "bytes": 79127,
+    "sha256": "0923083fea6943ee48ff61d5792171bceac66fab1dbcc41a365f1c04d9160a45"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s1.ogg",
+    "bytes": 71607,
+    "sha256": "f0850ad6e0a10dda2f72dd07914fe1ea39200fad561aa7ec3c00f8abc8d01669"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s10.ogg",
+    "bytes": 72593,
+    "sha256": "d83522f219f35b57197301f28c5f03ea6cd3a2fbc36626126b9ccec0bdf35de2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s11.ogg",
+    "bytes": 69207,
+    "sha256": "8fd0df795bf3027b65aaea7a9a43c6609cb85a6a4a22f00152770b887e401e13"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s12.ogg",
+    "bytes": 75645,
+    "sha256": "6ca819dfe5f1d8ff8e4f4e2778adc690921f28b6e11b838978ef48a55e558d19"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s13.ogg",
+    "bytes": 72778,
+    "sha256": "33a277c7afa6412b33077d7331b102cc258c48d997f2558a808505cd3f56e4e5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s14.ogg",
+    "bytes": 61320,
+    "sha256": "4a1c2d29322a6edd4eb5f9a1ddd5e2d8de7dfeb97f3b372046a90bdcd560e3e3"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s15.ogg",
+    "bytes": 85443,
+    "sha256": "dc6a9a5a6e3a56dccbfbba1c5cf1b53ee5a95fd17a1b141f681ab99f857d33e5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s16.ogg",
+    "bytes": 67730,
+    "sha256": "6f763c64fcd1ca53bc3e315e434ae59c949a885d9c6b31b59828a7b9ae0b92ad"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s17.ogg",
+    "bytes": 81276,
+    "sha256": "a6f1d50a2a261e489a831f24e444e3fef8297be23b7d9f78c627cf501a9bf1fa"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s18.ogg",
+    "bytes": 66825,
+    "sha256": "a76a37ad4923d157eea0591eb7e68753cc739220091a7801377b51bc4005852b"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s19.ogg",
+    "bytes": 92281,
+    "sha256": "f57436df24c8fdec4b9ee2737d94e20680c3770d33a80d127023e7d4fb0ec6b2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s2.ogg",
+    "bytes": 52939,
+    "sha256": "df3dc356a53918e0caf9179819d13a7f9a26a146ec4c5644453140b1fa1d7bd5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s20.ogg",
+    "bytes": 73374,
+    "sha256": "601644f24c11704874ac6f833418cb6c26dd34884caea10f5bb3e5cb8911f14d"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s21.ogg",
+    "bytes": 76962,
+    "sha256": "8c3c542a16a5995295d19e64bec1f3b682e073ee205d21e3b78bd72042eca085"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s22.ogg",
+    "bytes": 68106,
+    "sha256": "c1a06ddb6421589d3aedf7bd17ae4c9aa39fba41a45a0866e51b6bfa03584987"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s23.ogg",
+    "bytes": 92532,
+    "sha256": "972dd16e2b6b23423fb82583f801d9b6e51e2b95afb7a7616aeb43ce985c1980"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s24.ogg",
+    "bytes": 71345,
+    "sha256": "a935a2f1f8e546809ad5353d592b762668f242dea0c52a62ba6bf2fa4c1d2dcd"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s25.ogg",
+    "bytes": 74595,
+    "sha256": "73153fa25e84875e9dcb44f7de78cb76bc63c5553ac99556f2bfd05d1e0ef71a"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s26.ogg",
+    "bytes": 61031,
+    "sha256": "c71c518f21aad336e78b86ebdaf5572815af8f797b7b5356bb62436411d8d16e"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s27.ogg",
+    "bytes": 65198,
+    "sha256": "923e3b9d7fa8c78c6c347f538c1c7721338fdfaef392cd0c9b86e285dfb0298a"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s28.ogg",
+    "bytes": 69972,
+    "sha256": "b015b9623d2663342decc24e2fb65aa82d93afada24479bd461838c490c547e0"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s29.ogg",
+    "bytes": 68674,
+    "sha256": "9783929c153d72b144943b0dd8e6a8489abdd519f87eaa52d15c46a539d6ea59"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s3.ogg",
+    "bytes": 65677,
+    "sha256": "17e50d463cbc7a1d2445a1ef69a1a23c2a48f21d8baaee904267e831c6b45290"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s30.ogg",
+    "bytes": 75418,
+    "sha256": "521f95b8789cf4f40f686714fdfa95330444b4ee88d5fb3db2d649ab1db992db"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s31.ogg",
+    "bytes": 69954,
+    "sha256": "3ad12aebcbe029a924953a1ae2fbd47983397febfc1e645d21dad1fa8ab73612"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s32.ogg",
+    "bytes": 70688,
+    "sha256": "cd9d20cbe9de8a4d3e28d2caefa6b54231804714ffa2c121155fc4e6cff2fddd"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s33.ogg",
+    "bytes": 77914,
+    "sha256": "45d481541bbaf75363b72ee81b0ab419713816706c03ef655e4fc0686d81a2ba"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s34.ogg",
+    "bytes": 82339,
+    "sha256": "e3c060a63be5efaeac7d00c14f3b4052baedff6e453c17ae85c0cf943fcbffe5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s35.ogg",
+    "bytes": 68005,
+    "sha256": "38840da16118e83e1fd53fa8d0718ead29164929afa2039d2a5222813b100626"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s36.ogg",
+    "bytes": 86971,
+    "sha256": "b6b675b1c6a4cf6f7720ed6fa262cac34a3e81a1c30100684fec0b1f87838089"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s37.ogg",
+    "bytes": 62168,
+    "sha256": "1075c5e8571856f2feb6512e1cdc576c9ee8df42d073d2356c5ea228ceb451eb"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s38.ogg",
+    "bytes": 84614,
+    "sha256": "1849c888ad6fa520798499b3da4f28fc01d57fc38ee13fc4a7726a913f0db2b9"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s39.ogg",
+    "bytes": 68733,
+    "sha256": "02d8e290fb04b6def2937f9e9db27001690eb6df5e0dd639fb9e10cf0e4afb26"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s4.ogg",
+    "bytes": 91300,
+    "sha256": "563927cba290698b6a9e73e703320d9cdd78324ea71349f3f7732a962ea3d198"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s40.ogg",
+    "bytes": 80662,
+    "sha256": "dd502a250b4467875d150bbfea4ee66d3990052a25df2e67093223d579bdc9a1"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s41.ogg",
+    "bytes": 109429,
+    "sha256": "686ca234c43be77ead1410ae0b828c6a8a82bf85e36ca8eca68531d86d00079f"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s42.ogg",
+    "bytes": 75316,
+    "sha256": "4d5fe1e54dc6076e6afe93aaed724903c9be497f5ec7b605a25e1fdcd2f6d42c"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s43.ogg",
+    "bytes": 82451,
+    "sha256": "fa6d9639a825b9741f48fbc983c7dd7678cd1d8848e3557e61a4f688cd26d15c"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s44.ogg",
+    "bytes": 82273,
+    "sha256": "02c21b0eb824ddcd0284407e97a7db781839b214034607a7d67ce3b47d8b85e9"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s45.ogg",
+    "bytes": 69948,
+    "sha256": "e4639deeb9afd3d0143d78875b1347e5aa9e1a4e32177b13185db2dee48f6414"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s46.ogg",
+    "bytes": 75275,
+    "sha256": "d523cdcafce219b5cc7ccda25dd8f094c9c700d009c671a31b27cc73492a5610"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s47.ogg",
+    "bytes": 66290,
+    "sha256": "71d1e403e6806acc531ae2495dc4b952a8e9fdd1e0e726d24b0e3178b2ae7987"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s48.ogg",
+    "bytes": 71691,
+    "sha256": "4d85a6bb197b4b5cda5f3ad69efd4009172d8e18665d72098c0b706f38f301f3"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s49.ogg",
+    "bytes": 67234,
+    "sha256": "c8e8c54dcc7a31f693fcf67691a1b38bd93dcfd9da3f04012f9e350cb7b4c4c1"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s5.ogg",
+    "bytes": 67624,
+    "sha256": "83fb694a8d8a74f64471f74e29dea2c9c6fabb974a412f9738b4331516681564"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s50.ogg",
+    "bytes": 75107,
+    "sha256": "b1ad12a49b837a8f00a0d4ea6e7ce0d1fb9dbd53e357cb49c79b15599ddf25c6"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s51.ogg",
+    "bytes": 69280,
+    "sha256": "459f2791919827994dd94c1703a6575a834d7e3ac2fdfaf3ddc578644c5243e0"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s52.ogg",
+    "bytes": 68248,
+    "sha256": "e47be24adbbb1d82902988391da6be2da8fb5067e8a047e6599e8dac4bf34d2f"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s53.ogg",
+    "bytes": 83780,
+    "sha256": "9984aff2053535992470cb4678d42ff584af4ee5aa9448435e6669af19065737"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s54.ogg",
+    "bytes": 72556,
+    "sha256": "f574ac6fe0aebe264753d8bd8e7f7bcb5474d009d4cabf772386b8b6bf1932cf"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s55.ogg",
+    "bytes": 74455,
+    "sha256": "8ee9ea48e588dfa942894f61774f50444ccb5fa6b693bae98659dd6a86ea865d"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s56.ogg",
+    "bytes": 65319,
+    "sha256": "70e9ebd6f810145686e700103b45122287f6787660171fb8083193f637689ec2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s57.ogg",
+    "bytes": 75075,
+    "sha256": "11cf385275efca07253ab4473d3861ac16bed3d360ec07a1efa134126aff52a4"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s58.ogg",
+    "bytes": 75418,
+    "sha256": "d71c946221b9babd49bd6766bb9c838ddafb31edbb07248ec5a2022ea8ac4410"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s59.ogg",
+    "bytes": 70134,
+    "sha256": "ca9316843747e82b2e2cdcbdfca5a12698ef1b0d12ea024f7d22a8d11b6e7cea"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s6.ogg",
+    "bytes": 75906,
+    "sha256": "b1f6bfc99cc68e94d4cce53a17548a720219eb58783db4bfa9068cbb3faa2422"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s60.ogg",
+    "bytes": 81749,
+    "sha256": "1c7fa348e4b08b39f13f22b5f4f7e32bdad88f2e15b4a0bba359c536a5eeacec"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s61.ogg",
+    "bytes": 76464,
+    "sha256": "376086f045e67078ce9425c256f89545b869e3a34228d0ed560ceb776c1fe0a7"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s62.ogg",
+    "bytes": 65032,
+    "sha256": "1ec309e25e9984d62842b7d8ef0ee286c9519c456688a273eceb23e1135dbbb1"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s63.ogg",
+    "bytes": 77353,
+    "sha256": "b902d768be2d77b5335d8cc1d9157c569e64a98bed535f8dccedc404290bd065"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s7.ogg",
+    "bytes": 81067,
+    "sha256": "1e3775ac5a17558cfe3590a55c50b8565e914d7e34625a236834d17d14326bdf"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s8.ogg",
+    "bytes": 74182,
+    "sha256": "dcc63417b2f0b9169e42f6628ef8aae249315a0e3f542fbd02210608a7b81bfd"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/journey-s9.ogg",
+    "bytes": 74915,
+    "sha256": "210291c77bba3aae1a331a1a7a4d5915356482aa38e178b673d5f7011d37220a"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/manifest.json",
+    "bytes": 118352,
+    "sha256": "e248f6185171aaf7efbb627922e032662d9504804de8fe4ffc63e53c8341c6fb"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/story-artist.ogg",
+    "bytes": 81636,
+    "sha256": "a70e5d3211e4c000360ffcffa0a765ca18cdfe813db2a7c746595b6ba119e6f2"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/story-clinic.ogg",
+    "bytes": 75887,
+    "sha256": "e8c12a6dda4b9f1f37fd66a9ca0cd2d57719b2828cc65ef5c0f787bdde814d17"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/story-detective.ogg",
+    "bytes": 77329,
+    "sha256": "15570293773a7b84e8df7a13a2c665bf526f6fdf3308267d8590c2897f214c6f"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/story-engineer.ogg",
+    "bytes": 80516,
+    "sha256": "2a350ed4dfc8f643e1ae040851dd24f4761d81464bc649b7ce1a89ff88e2631f"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/story-nursery.ogg",
+    "bytes": 81822,
+    "sha256": "1c6a841d8488b3159313623079e8e3b52e5fa3379e1d027924ff720e83188cfc"
+  },
+  {
+    "path": "assets/audio/narration/manifest.json",
+    "bytes": 50714,
+    "sha256": "f6bf117ee2d446f173582c228cbab01cc84d3004b4a125291c57016584d32882"
+  },
+  {
+    "path": "assets/audio/narration/s0.ogg",
+    "bytes": 292058,
+    "sha256": "efb022f0710a95376e5ebf8f719aa2e6656c005ce17db6ad8f23c994b03d9b01"
+  },
+  {
+    "path": "assets/audio/narration/s1.ogg",
+    "bytes": 261904,
+    "sha256": "5d98c3eff0045ea75bc7105bfd84728cb4ac722550be6206d8d94e01f0feb8ed"
+  },
+  {
+    "path": "assets/audio/narration/s10.ogg",
+    "bytes": 263174,
+    "sha256": "3c6a1e08b6dfaec9874bf5b4c7de7c437cf272f98d694c7a46a822e9ddd441b8"
+  },
+  {
+    "path": "assets/audio/narration/s11.ogg",
+    "bytes": 208407,
+    "sha256": "43c5d645cb1d96b2d9c71017c99ded9c93d47357a34b61bb39dc6e431874cc73"
+  },
+  {
+    "path": "assets/audio/narration/s12.ogg",
+    "bytes": 270212,
+    "sha256": "e26ec954ed50e662bcc8de6426f4f913e1de8786d930b46c3b00f15273a5f4a7"
+  },
+  {
+    "path": "assets/audio/narration/s13.ogg",
+    "bytes": 250382,
+    "sha256": "f442f495acd17143cccab23585be0badaee7f893ec16bb1e29694d4ec950ae39"
+  },
+  {
+    "path": "assets/audio/narration/s14.ogg",
+    "bytes": 236207,
+    "sha256": "fe862f3f4670ffe6398154bd0f23adf6896cc3baef08920650bce315a35f152d"
+  },
+  {
+    "path": "assets/audio/narration/s15.ogg",
+    "bytes": 282198,
+    "sha256": "a5bf038f8f8748f6242a52da86a8c97ac03a9bf0be1b728e59627052e6014982"
+  },
+  {
+    "path": "assets/audio/narration/s16.ogg",
+    "bytes": 234163,
+    "sha256": "47f80641a60d1d4e3e098e8a8f005d84126ce6970213f7a1366282eb3b571d01"
+  },
+  {
+    "path": "assets/audio/narration/s17.ogg",
+    "bytes": 267477,
+    "sha256": "71a4501ee42dd7b4330cd6be09ac31af69849e89df811c3cb8e9c6a0c6aa849e"
+  },
+  {
+    "path": "assets/audio/narration/s18.ogg",
+    "bytes": 265946,
+    "sha256": "3809c8dc4bb009a1873cf81c5b244431b52137c315a1c47852fa39d3194b3a97"
+  },
+  {
+    "path": "assets/audio/narration/s19.ogg",
+    "bytes": 235314,
+    "sha256": "aa257434c6a0e96b7dc754ef2d98f16b3d1e27480b76c69e95f263900dc3ff6e"
+  },
+  {
+    "path": "assets/audio/narration/s2.ogg",
+    "bytes": 260644,
+    "sha256": "1d56cbc11eff67f8d3bbf019aacbf113af73f2b0f389f4fc5fe15f5621ead9c5"
+  },
+  {
+    "path": "assets/audio/narration/s20.ogg",
+    "bytes": 232753,
+    "sha256": "2ce190d8961f92f67c03040333c6df5d7587976d727653c52e86e59d5f713276"
+  },
+  {
+    "path": "assets/audio/narration/s21.ogg",
+    "bytes": 312359,
+    "sha256": "1dcf27b7fc6bc68c294a11e8b666d57e7cd0daf9c5da368fb8a96559d68de2c9"
+  },
+  {
+    "path": "assets/audio/narration/s22.ogg",
+    "bytes": 218503,
+    "sha256": "e79c2ecb6dd29eb4c0c92cbb6924775a23072dd1dcb8ed62a752ebf9e3f7fc00"
+  },
+  {
+    "path": "assets/audio/narration/s23.ogg",
+    "bytes": 255617,
+    "sha256": "07374dc9a6ad65fff20957d923fc2ba502ecb7ac166d54b839b3e2606cf63c98"
+  },
+  {
+    "path": "assets/audio/narration/s24.ogg",
+    "bytes": 265904,
+    "sha256": "747a8b4e8b32a77ec4ac28ebddbecd1c0de97fcfd9e5304f0b551fceec7738a2"
+  },
+  {
+    "path": "assets/audio/narration/s25.ogg",
+    "bytes": 276472,
+    "sha256": "5a87ff0839c917f2be1d23eb19ace2d34c8f2ddaa121355557f95080eb078d61"
+  },
+  {
+    "path": "assets/audio/narration/s26.ogg",
+    "bytes": 217897,
+    "sha256": "1ca9137e41d81ea0cb195a6b4b9f70402a0f35de51301312f81a9303e396fc7b"
+  },
+  {
+    "path": "assets/audio/narration/s27.ogg",
+    "bytes": 239821,
+    "sha256": "49317fd983509799dc34bb97e162d9c9631b9900769dcc8c17e7f4bb90a22605"
+  },
+  {
+    "path": "assets/audio/narration/s28.ogg",
+    "bytes": 276527,
+    "sha256": "bc98fc30c6702bc93c70797496af6807d017528ea3126b3d4e825ae27f7d978d"
+  },
+  {
+    "path": "assets/audio/narration/s29.ogg",
+    "bytes": 249558,
+    "sha256": "fd0ec71587970deed4a653f2df4192c36c945f2b31352dce8a26c1da9d633176"
+  },
+  {
+    "path": "assets/audio/narration/s3.ogg",
+    "bytes": 285738,
+    "sha256": "bbc5295b09aeb41abdc8c60b6efcc7230eabe16b58b8afa03ca6aafcb7920c0a"
+  },
+  {
+    "path": "assets/audio/narration/s30.ogg",
+    "bytes": 278623,
+    "sha256": "fd5bc9cead1f8ccb9944fa67ca9db71bd3a1a7f6a8c0458edb00d62d1900ae82"
+  },
+  {
+    "path": "assets/audio/narration/s31.ogg",
+    "bytes": 175127,
+    "sha256": "34ee960a2e6ddfa73d4a96db3dd1cf7405e179fa74a79a912a4d50160e7f0a27"
+  },
+  {
+    "path": "assets/audio/narration/s32.ogg",
+    "bytes": 247242,
+    "sha256": "6b4304435004f4ac440411be1d9be379c2330891fc8f2d0daf41685dae4842d4"
+  },
+  {
+    "path": "assets/audio/narration/s33.ogg",
+    "bytes": 226805,
+    "sha256": "183cd201486720ebaf42032749f1e3aa69aa6831946cafa01797c91aed4f5dc2"
+  },
+  {
+    "path": "assets/audio/narration/s34.ogg",
+    "bytes": 299120,
+    "sha256": "51f5f7b6d5da80d3398e5f6effd04c2122f5b0402125d3b2e15e99a53bbe86b4"
+  },
+  {
+    "path": "assets/audio/narration/s35.ogg",
+    "bytes": 269667,
+    "sha256": "eecd6ccfe3acfae013f01943fa4fa716af6a502859c90a447a514111a48150fc"
+  },
+  {
+    "path": "assets/audio/narration/s36.ogg",
+    "bytes": 284040,
+    "sha256": "a6dd784214d1832cfd32524008323c88a399b48f70414c289cf5a91ff27f11fd"
+  },
+  {
+    "path": "assets/audio/narration/s37.ogg",
+    "bytes": 201211,
+    "sha256": "f2128a5723281cdd6e657dbfa7543c28862e600aa31ea2037695d2b287810183"
+  },
+  {
+    "path": "assets/audio/narration/s38.ogg",
+    "bytes": 250265,
+    "sha256": "88287043ee30219b8cda96298a1c405885b97217ab014415300077d41b290d2b"
+  },
+  {
+    "path": "assets/audio/narration/s39.ogg",
+    "bytes": 259173,
+    "sha256": "39a5f9888337a080470ae3a63c2b6d891efd1952603c03cbf9846afc6bf61621"
+  },
+  {
+    "path": "assets/audio/narration/s4.ogg",
+    "bytes": 264127,
+    "sha256": "1eec87b7a62c2ea8bb47f0cdba5cb1e544fa667475bddb15214e724a0cba2cf9"
+  },
+  {
+    "path": "assets/audio/narration/s40.ogg",
+    "bytes": 245058,
+    "sha256": "3da6ddd5706b1fc760becce9b83f3b58438c008e7a0b6c44546c778adf9b47a6"
+  },
+  {
+    "path": "assets/audio/narration/s41.ogg",
+    "bytes": 258975,
+    "sha256": "371d4ce1895b9272aaa2502501a56144ed8c029b7f4e2ce44c1ce30b01bd0b2a"
+  },
+  {
+    "path": "assets/audio/narration/s42.ogg",
+    "bytes": 250147,
+    "sha256": "868a75fe563c81c9916f628f9783273ca17a6f55742262e1baf18b123c40c7c5"
+  },
+  {
+    "path": "assets/audio/narration/s43.ogg",
+    "bytes": 239311,
+    "sha256": "c6641d4e771d44ed17a7890f1802e895775888ab2a0f2396dd224c753e4a214f"
+  },
+  {
+    "path": "assets/audio/narration/s44.ogg",
+    "bytes": 234676,
+    "sha256": "113294315b92bfee5653ffdfa03c4c0fd0e7617fb5811b573827b1481fd0c767"
+  },
+  {
+    "path": "assets/audio/narration/s45.ogg",
+    "bytes": 238900,
+    "sha256": "d962a3e14d2993af9976ebb7375aeace22ec64611019e9bdc2a0c4922483ed11"
+  },
+  {
+    "path": "assets/audio/narration/s46.ogg",
+    "bytes": 206629,
+    "sha256": "0526d66a6e121d8e95f9a734b75a8b7ec0712086eb30f8755bcc9f2aaa36b262"
+  },
+  {
+    "path": "assets/audio/narration/s47.ogg",
+    "bytes": 210777,
+    "sha256": "26fb4ee510154fe6043051b7df91d09be2e82806371965c2a73cedad3d6a936c"
+  },
+  {
+    "path": "assets/audio/narration/s48.ogg",
+    "bytes": 282786,
+    "sha256": "207515a01680a6b1d0871e78dd8763efb9bfda483fec80f29e3c80c0fcb4910b"
+  },
+  {
+    "path": "assets/audio/narration/s49.ogg",
+    "bytes": 265947,
+    "sha256": "2681c52cd213af406c8753feec3bb43e6a4283c35bbd62fd01d7e14c42a2f294"
+  },
+  {
+    "path": "assets/audio/narration/s5.ogg",
+    "bytes": 259860,
+    "sha256": "a530527a2535d62f15fc457bde8af2d7746ead6ca0c84c737b3809959d15b5bb"
+  },
+  {
+    "path": "assets/audio/narration/s50.ogg",
+    "bytes": 218237,
+    "sha256": "795b915fe49d2a9adbd2a46fd6063eff3945941a37939f86c96304561ca8f60b"
+  },
+  {
+    "path": "assets/audio/narration/s51.ogg",
+    "bytes": 272687,
+    "sha256": "081cfb6d7f6763e5b2d1d697d3aa807c64b4dc205800ff32570db90da95fdbad"
+  },
+  {
+    "path": "assets/audio/narration/s52.ogg",
+    "bytes": 302848,
+    "sha256": "c8c8f088f7bf5eef495587abf87227e80d07b4c10fba2e6dade7756881dbdd94"
+  },
+  {
+    "path": "assets/audio/narration/s53.ogg",
+    "bytes": 240820,
+    "sha256": "0ed1c5413e1c99a39b21e2190e90a82458ab7149e24febb5dde2623b9c0d908e"
+  },
+  {
+    "path": "assets/audio/narration/s54.ogg",
+    "bytes": 222272,
+    "sha256": "969ccc0244ad87967879f2c95a9edb6c333497c6e4c027c6b1c8d4cb21bf9369"
+  },
+  {
+    "path": "assets/audio/narration/s55.ogg",
+    "bytes": 280965,
+    "sha256": "626c290443967bf88ab4eda9b6e057554862e57b7b7c391b24f140bafe9be9b5"
+  },
+  {
+    "path": "assets/audio/narration/s56.ogg",
+    "bytes": 227905,
+    "sha256": "d0104bd58e7ea3d390436d3869827336af986a5b9dc0d566ec80c7b96972a98c"
+  },
+  {
+    "path": "assets/audio/narration/s57.ogg",
+    "bytes": 252643,
+    "sha256": "0d2398ad126573c1e49b90265a8e39a6e142928bdf1495fc70eec2e26bde16de"
+  },
+  {
+    "path": "assets/audio/narration/s58.ogg",
+    "bytes": 229893,
+    "sha256": "ac28fd881aed627122eb4e83074e0a3d49a01488393b2d101d3cf59d10b30314"
+  },
+  {
+    "path": "assets/audio/narration/s59.ogg",
+    "bytes": 251790,
+    "sha256": "2bd141f3069a99dbf4218ce4d179c10f394e260c970d5cba6a292365dbfe3e1a"
+  },
+  {
+    "path": "assets/audio/narration/s6.ogg",
+    "bytes": 221586,
+    "sha256": "81d2026c2c5a7587e7eebb2a09c291cda96311263fbc2e8fe62ce7b7b1827fd0"
+  },
+  {
+    "path": "assets/audio/narration/s60.ogg",
+    "bytes": 226873,
+    "sha256": "29c3f39292bca6aac9dcf60828512d387637bf9cd597bb2ba26fa81f2ffd8ac8"
+  },
+  {
+    "path": "assets/audio/narration/s61.ogg",
+    "bytes": 266009,
+    "sha256": "73931b6f10f568bcd90fbfdca684d5cf58b095f281b61481dc55be0d4394f16a"
+  },
+  {
+    "path": "assets/audio/narration/s62.ogg",
+    "bytes": 251926,
+    "sha256": "ebb97c1fbc27e3ebd505e136d58cd479297d92af16936170118f7c8496c8a5a7"
+  },
+  {
+    "path": "assets/audio/narration/s63.ogg",
+    "bytes": 287227,
+    "sha256": "0a82f52712416533a8e4141d963a4b6c69513adf261101e5e62878e4893f590b"
+  },
+  {
+    "path": "assets/audio/narration/s7.ogg",
+    "bytes": 218790,
+    "sha256": "d6eb66f7ef8f9a9c9a6a9694f8c128915017051b129863afd1ea5d70bbbbc152"
+  },
+  {
+    "path": "assets/audio/narration/s8.ogg",
+    "bytes": 213142,
+    "sha256": "4cd96902e6fbb96c7e49e4926d37f1fc31048fb6be71f7a18a1173822c7456e9"
+  },
+  {
+    "path": "assets/audio/narration/s9.ogg",
+    "bytes": 286469,
+    "sha256": "cdef8a0274debaa242b7d270cb282f977fef16d6fe08a597155e17fa2f9bd464"
+  },
+  {
     "path": "assets/audio/poison.ogg",
     "bytes": 11858,
     "sha256": "93db7e0a711bd8572ca63161f9d5c0bc7ad872ed634bfd466f8b82965d0a33e3"
@@ -308,6 +1678,158 @@
     "sha256": "a3005e00921dfab92ed62ae7f054edb8b43cfe0840c1e1463bb8deb770169c98",
     "width": 1536,
     "height": 1024,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/body-rounded.png",
+    "bytes": 445855,
+    "sha256": "4daac0eac7ffbec4974d2934740b23c7baf44a5b567bebc7e035209057d777ec",
+    "width": 773,
+    "height": 374,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/body-slender.png",
+    "bytes": 388393,
+    "sha256": "1e889fe073a0091c2b559aa419c020c38d832a082a6e773ccb2ca58c216a0fa8",
+    "width": 1125,
+    "height": 216,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/body-sturdy.png",
+    "bytes": 597306,
+    "sha256": "30f65ae8d818aa52a2af1de9ab782d2d66a826a07364ece2a73712fc66308d0c",
+    "width": 1031,
+    "height": 366,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/dorsal-low.png",
+    "bytes": 82933,
+    "sha256": "afd81d5eb06dccdf62896677b1be38ed12464d2cfe0a1df50b9f1658caaee976",
+    "width": 382,
+    "height": 149,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/dorsal-ribbon.png",
+    "bytes": 96450,
+    "sha256": "8cc098aec4aada11550b58ab228b70813734ab4f1e1f3dcc09f67df9393b3087",
+    "width": 382,
+    "height": 214,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/dorsal-sail.png",
+    "bytes": 118046,
+    "sha256": "00e21026af370f4c6ef167d4385bb9cfa089ca1445e8482570cf36937c1f020b",
+    "width": 330,
+    "height": 238,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/dorsal-spiny.png",
+    "bytes": 88026,
+    "sha256": "d8ddfdaf03b65d92b3d06bf47b76e30bce5734bed68ad5a830e2741ccf8d5d68",
+    "width": 342,
+    "height": 213,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/head-beak.png",
+    "bytes": 484742,
+    "sha256": "d7b9fcfe3a657c604ff15ee7fcf15eb58fcc62c139b16dd3537ae907ed2bd290",
+    "width": 563,
+    "height": 465,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/head-small.png",
+    "bytes": 382783,
+    "sha256": "8edf756296aaac0d393af5f47f6d0ff63ddd9779c9652c3265dbb0c2b7a9cbb8",
+    "width": 507,
+    "height": 425,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/head-tube.png",
+    "bytes": 362385,
+    "sha256": "2a626f2e9bb8a032b42008edcdc801752f0f7e16f1c3778f31509d0f3eed1b18",
+    "width": 599,
+    "height": 468,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/head-wide.png",
+    "bytes": 552817,
+    "sha256": "d9d2c2de18a70541a7b347478b2c9f5764b431498242be01b03cd8f8dc0fe962",
+    "width": 662,
+    "height": 465,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/pectoral-paddle.png",
+    "bytes": 126547,
+    "sha256": "44c44c8eb43cedb37f17e02fc15d95722fcd5e5d4aecbb9b5bfbd001771ba148",
+    "width": 299,
+    "height": 295,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/pectoral-point.png",
+    "bytes": 81667,
+    "sha256": "cab60d02e4b0d1108ca3d89b22ee257ab32fdf384011dc1798f7b0c7a948807c",
+    "width": 313,
+    "height": 294,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/pectoral-wing.png",
+    "bytes": 173879,
+    "sha256": "66c0fe6cdda1f49eb1516bcc9c3b3a2abffe14d325cadc8b5fc0c01cc3a44d98",
+    "width": 386,
+    "height": 316,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/pelvic.png",
+    "bytes": 76666,
+    "sha256": "25a34654c2e8cade937ab1628e05b5a1b7f86910fdaffa0994c6730bec39b56f",
+    "width": 211,
+    "height": 233,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/tail-fan.png",
+    "bytes": 145559,
+    "sha256": "54055af772ad35259e99970c73dad2fb9dc5a314b3b82ed76af5440db2326f32",
+    "width": 309,
+    "height": 325,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/tail-fork.png",
+    "bytes": 86442,
+    "sha256": "a2108fd3d2f3a4398a6217cc59634f7dbf584abc2053ee8e77cdba2a386acc14",
+    "width": 315,
+    "height": 280,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/tail-lyre.png",
+    "bytes": 81736,
+    "sha256": "463a2058c3476142ee78cde915dbd9b471a14115e0db012a5fe6f373c19b8025",
+    "width": 350,
+    "height": 336,
+    "alpha": true
+  },
+  {
+    "path": "assets/creatures/creation-v1/tail-point.png",
+    "bytes": 90661,
+    "sha256": "34788042cbc999ac8d62e1ee311558c954257966f0602a42d4c2de4c04a337f5",
+    "width": 341,
+    "height": 288,
     "alpha": true
   },
   {
@@ -512,6 +2034,19 @@
     "width": 1672,
     "height": 941,
     "alpha": false
+  },
+  {
+    "path": "assets/story-nursery/banggai-juvenile-v1.png",
+    "bytes": 1710118,
+    "sha256": "57fef23f4dfdb69face53b3f1333a3443fcbd312fcf9fbf1f07ed6800f5a94a6",
+    "width": 1536,
+    "height": 1024,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-nursery/provenance.json",
+    "bytes": 2144,
+    "sha256": "9efbb6d1a9fafca247ed9a11faf218c96f37c6cdfeae9d3ed3b26132b0388c91"
   },
   {
     "path": "assets/title/splash.png",

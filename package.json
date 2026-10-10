@@ -10,9 +10,11 @@
     "dev": "node scripts/serve.mjs",
     "test": "node --test tests/*.test.mjs",
     "package:win": "node scripts/package.mjs win32",
-    "package:mac": "node scripts/package.mjs darwin",
     "test:e2e": "playwright test",
-    "test:desktop": "node scripts/qa-desktop.mjs"
+    "test:desktop": "node scripts/qa-desktop.mjs",
+    "check": "node scripts/check-setup.mjs",
+    "build:win": "node scripts/build-windows.mjs",
+    "assets:manifest": "node scripts/asset-manifest.mjs"
   },
   "devDependencies": {
     "@electron/packager": "^20.3.0",
@@ -22,5 +24,13 @@
     "electron": "^44.2.0",
     "png-to-ico": "^3.0.2",
     "sharp": "^0.35.4"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddevillier/atoll-down-under.git"
   }
 }

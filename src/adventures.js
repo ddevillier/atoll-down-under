@@ -1,3 +1,6 @@
+import {STORY_IDS} from './reef-story-data.js';
+import {enterReefLife} from './risk-cues.js';
+import {rememberHomecoming} from './reef-memories.js';
 import {RESIDENT_JOURNEYS} from './resident-journeys.js';
 import {ESCORT_JOURNEYS,escortJourney,validEscortJourney,escortSites,useEscortContext,escortMeal,escortInstruction,tickEscortJourney} from './escort-journeys.js';
 import {WATCH_JOURNEYS,watchJourney,validWatchJourney,watchSites,useWatchContext,watchMeal,watchInstruction,tickWatchJourney} from './watch-journeys.js';
@@ -40,7 +43,7 @@ export const ADVENTURES={
  s19:{id:'changing-colors',name:'Colors of the reef',description:'Become still and blend with sand, then try a mottled reef surface.',steps:['Use E to blend into sand','Blend into mottled reef too'],action:'Blend in'}
 };
 export const JOURNEYS={...ADVENTURES,...RESIDENT_JOURNEYS};
-export const DISCOVERIES=Object.values(JOURNEYS).map(a=>a.id);
+export const DISCOVERIES=[...Object.values(JOURNEYS).map(a=>a.id),...STORY_IDS];
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export const freshAdventure=()=>({visible:false,stage:0,joined:0,meals:[],patterns:[],home:null,departed:false,complete:false});
 export function adventureInstruction(sim){
@@ -51,7 +54,8 @@ export function adventureInstruction(sim){
  if(homeJourney(sim.player))return homeJourneyInstruction(sim);
  if(foragingJourney(sim.player))return foragingInstruction(sim);
  if(sim.player.species.ability==='clean'&&!a.complete)return 'Click a fish to help · '+Math.min(3,a.clients?.length||0)+'/3 kinds of client';
- if(['s40','s56'].includes(sim.player.species.id))return a.buddy?.rejoined>=3?'Discovered · E releases this companion; invite another to repeat':companionInstruction(sim);
+ if(pairedBrowser(sim.player))return companionInstruction(sim);
+ if(sim.player.species.id==='s2'&&a.home){if(a.home.reef!==sim.current)return 'Your coral home is in '+REEFS[a.home.reef].name+' · Return to your familiar place';if(a.homecomingLogged)return 'Home again · Press E here for another feeding trip';}
  if(a.complete)return 'Discovered · This way of living is in your journal.';
  if(feedingSchool(sim.player)&&sim.player.species.id!=='s42')return schoolInstruction(sim);
  if(ambushHunter(sim.player))return !sim.player.ambush?'Choose a marked ambush spot · Move close and press E':sim.player.ambush.strike>0?'A short strike · E or click open water to stop':sim.player.ambush.settled<2?'Become still for two seconds · E or click open water to leave':'Aim at a small nearby fish and click · E or click open water to leave';
@@ -63,7 +67,7 @@ export function adventureInstruction(sim){
  if(sim.player.species.id==='s23')return `Uncover with E, then click the meal · ${Math.min(2,a.meals.length)}/2 sand sites`;
  return d.steps[Math.min(a.stage,d.steps.length-1)];
 }
-export function validAdventure(a){return !!a&&validEscortJourney(a.escortJourney)&&validWatchJourney(a.watchJourney)&&validPatrolJourney(a.patrolJourney)&&validHomeJourney(a.homeJourney)&&validForagingJourney(a.foragingJourney)&&validSchoolTrip(a.school)&&(a.ambushCatch===undefined||typeof a.ambushCatch==='boolean')&&validGrazing(a.grazing)&&validBuddy(a.buddy)&&(a.shared===undefined||typeof a.shared==='string'&&a.shared.length<100)&&(a.clients===undefined||Array.isArray(a.clients)&&a.clients.length<=64&&a.clients.every(id=>/^s(?:[0-9]|[1-5][0-9]|6[0-3])$/.test(id))&&new Set(a.clients).size===a.clients.length)&&typeof a.visible==='boolean'&&Number.isInteger(a.stage)&&a.stage>=0&&a.stage<=3&&Number.isFinite(a.joined)&&a.joined>=0&&typeof a.departed==='boolean'&&typeof a.complete==='boolean'&&Array.isArray(a.meals)&&a.meals.length<=100&&a.meals.every(x=>typeof x==='string')&&Array.isArray(a.patterns)&&a.patterns.every(x=>['sand','reef'].includes(x))&&(a.home===null||(Number.isInteger(a.home.reef)&&REEFS[a.home.reef]&&Number.isFinite(a.home.x)&&Number.isFinite(a.home.y)));}
+export function validAdventure(a){return !!a&&validEscortJourney(a.escortJourney)&&validWatchJourney(a.watchJourney)&&validPatrolJourney(a.patrolJourney)&&validHomeJourney(a.homeJourney)&&validForagingJourney(a.foragingJourney)&&validSchoolTrip(a.school)&&(a.ambushCatch===undefined||typeof a.ambushCatch==='boolean')&&validGrazing(a.grazing)&&validBuddy(a.buddy)&&(a.homecomingLogged===undefined||typeof a.homecomingLogged==='boolean')&&(a.homeFoods===undefined||Array.isArray(a.homeFoods)&&a.homeFoods.length<=1&&a.homeFoods.every(f=>['plankton'].includes(f)))&&(a.shared===undefined||typeof a.shared==='string'&&a.shared.length<100)&&(a.clients===undefined||Array.isArray(a.clients)&&a.clients.length<=64&&a.clients.every(id=>/^s(?:[0-9]|[1-5][0-9]|6[0-3])$/.test(id))&&new Set(a.clients).size===a.clients.length)&&typeof a.visible==='boolean'&&Number.isInteger(a.stage)&&a.stage>=0&&a.stage<=3&&Number.isFinite(a.joined)&&a.joined>=0&&typeof a.departed==='boolean'&&typeof a.complete==='boolean'&&Array.isArray(a.meals)&&a.meals.length<=100&&a.meals.every(x=>typeof x==='string')&&Array.isArray(a.patterns)&&a.patterns.every(x=>['sand','reef'].includes(x))&&(a.home===null||(Number.isInteger(a.home.reef)&&REEFS[a.home.reef]&&Number.isFinite(a.home.x)&&Number.isFinite(a.home.y)));}
 export function sitesFor(sim,fish=sim.player){
  const reef=REEFS[sim.current];
  if(fish===sim.player&&escortJourney(fish))return escortSites(sim);
@@ -79,7 +83,7 @@ export function sitesFor(sim,fish=sim.player){
  return [];
 }
 export function selectedSite(sim){const sites=sitesFor(sim),pointer=sim.pointer;return sites.sort((a,b)=>dist(a,pointer)-dist(b,pointer)).find(s=>dist(s,pointer)<90)||sites.sort((a,b)=>dist(a,sim.player)-dist(b,sim.player))[0]||null;}
-export function contextLabel(sim){const a=ADVENTURES[sim.player.species.id];if(!a?.action)return '';return sim.adventure.escortJourney?.following?'Leave follow':sim.adventure.watchJourney?.watching?'Leave watching place':sim.player.ambush?'Leave ambush':companion(sim)?'Leave companion':sim.player.foragingPrep?'Stop preparing meal':sim.player.sandProbe?'Stop inspecting':sim.player.blending?'Stop blending':a.action;}
+export function contextLabel(sim){const a=ADVENTURES[sim.player.species.id];if(!a?.action)return '';return sim.adventure.buddy?.rejoined>=3?'Another shared trip':sim.adventure.homeJourney?.finished||sim.adventure.homecomingLogged?'Another feeding trip':sim.adventure.escortJourney?.following?'Leave follow':sim.adventure.watchJourney?.watching?'Leave watching place':sim.player.ambush?'Leave ambush':companion(sim)?'Leave companion':sim.player.foragingPrep?'Stop preparing meal':sim.player.sandProbe?'Stop inspecting':sim.player.blending?'Stop blending':a.action;}
 export function stopBlend(p){p.blending=null;p.blendTime=0;p.hidden=false;}
 export function useContext(sim){
  const p=sim.player;if(sim.paused||sim.phase!=='playing')return false;
@@ -97,13 +101,13 @@ export function useContext(sim){
  p.target=null;p.cleanerTarget=null;p.cleanTime=0;sim.pointer={x:p.x,y:p.y};
  if(ambushHunter(p)){beginAmbush(sim,site);return true;}
  if(p.species.id==='s9'){
-  sim.protected=false;startSandProbe(sim,site.food);
+  enterReefLife(sim,'activity');startSandProbe(sim,site.food);
  }else if(p.species.id==='s23'){
-  sim.protected=false;uncoverSand(sim,site.food,p);p.activity='searching-sand';sim.event('sand','A meal beneath the sand. Click it to eat.',{x:site.x,y:site.y});
+  enterReefLife(sim,'activity');uncoverSand(sim,site.food,p);p.activity='searching-sand';sim.event('sand','A meal beneath the sand. Click it to eat.',{x:site.x,y:site.y});
  }else if(p.species.id==='s2'){
-  const same=sim.adventure.home?.reef===sim.current&&dist(sim.adventure.home,site)<1;sim.adventure.home={reef:sim.current,x:site.x,y:site.y};if(!same){sim.adventure.stage=0;sim.adventure.departed=false;}sim.pointer={x:site.x,y:site.y};sim.event('message','Your coral home. Settle here, then make a short feeding trip.');
+  const same=sim.adventure.home?.reef===sim.current&&dist(sim.adventure.home,site)<1;sim.adventure.home={reef:sim.current,x:site.x,y:site.y};if(!same||sim.adventure.homecomingLogged){sim.adventure.stage=0;sim.adventure.departed=false;sim.adventure.homecomingLogged=false;sim.adventure.homeFoods=[];}sim.pointer={x:site.x,y:site.y};sim.event('message','Your coral home. Settle here, then make a short feeding trip.');
  }else if(p.species.id==='s19'){
-  sim.protected=false;p.abilityTime=0;p.blending={kind:site.kind,x:p.x,y:p.y};p.blendTime=0;sim.event('message','Becoming still. Watch your pattern match the '+(site.kind==='sand'?'sand.':'reef.'));
+  enterReefLife(sim,'activity');p.abilityTime=0;p.blending={kind:site.kind,x:p.x,y:p.y};p.blendTime=0;sim.event('message','Becoming still. Watch your pattern match the '+(site.kind==='sand'?'sand.':'reef.'));
  }
  return true;
 }
@@ -119,8 +123,8 @@ export function mealAdventure(sim,food){
  companionMeal(sim,p,food);
  grazeMeal(sim,food);
  if(p.species.id==='s42'&&a.stage===1){a.stage=2;a.joined=0;}
- if(p.species.id==='s2'&&a.home&&a.departed)a.stage=2;
- if(sandSearcher(p)&&food.kind==='food'&&food.uncovered>0){const id=sim.current+':'+food.id;if(!a.meals.includes(id))a.meals.push(id);a.stage=1;}
+ if(p.species.id==='s2'&&a.home&&a.departed&&!a.homecomingLogged){a.stage=2;a.homeFoods=[food.kind==='food'?food.food:'fish'];}
+ if(sandSearcher(p)&&food.kind==='food'&&food.uncovered>0&&food.sandSource===p.id){const id=sim.current+':'+food.id;if(!a.meals.includes(id))a.meals.push(id);a.stage=1;}
 }
 export function tickAdventure(sim,dt){
  const p=sim.player,a=sim.adventure,definition=ADVENTURES[p.species.id];if(!definition||p.health<=0||p.energy<=0)return;
@@ -131,6 +135,7 @@ export function tickAdventure(sim,dt){
   if(a.stage===0&&a.joined>=10){a.stage=1;a.joined=0;sim.event('message','Part of the school. Find a meal, then return to your companions.');}
  }
  if(a.home){const near=a.home.reef===sim.current&&dist(p,a.home)<55;if(near&&p.still>SHELTER_SETTLE_SECONDS&&a.stage===0)a.stage=1;if(!near&&a.stage>=1)a.departed=true;}
+ if(p.species.id==='s2'&&a.stage===2&&a.home?.reef===sim.current&&dist(p,a.home)<55&&p.still>SHELTER_SETTLE_SECONDS&&!a.homecomingLogged){a.homecomingLogged=true;rememberHomecoming(sim,'your coral refuge',a.homeFoods||[]);sim.event('homecoming','Home again · Your coral refuge in '+REEFS[sim.current].name+'. Press E for another feeding trip.',{x:a.home.x,y:a.home.y});}
  const pairedDone=tickCompanion(sim,dt);
  const schoolDone=tickSchoolTrip(sim,dt);
  const done=escortJourney(p)?tickEscortJourney(sim,dt):watchJourney(p)?tickWatchJourney(sim,dt):patrolJourney(p)?tickPatrolJourney(sim,dt):foragingJourney(p)?tickForagingJourney(sim,dt):homeJourney(p)?tickHomeJourney(sim,dt):feedingSchool(p)&&p.species.id!=='s42'?schoolDone:ambushHunter(p)?a.ambushCatch===true:routeGrazer(p)?tickGrazing(sim):pairedBrowser(p)?pairedDone:p.species.id==='s9'?a.meals.length>0&&!!a.shared&&a.meals.some(id=>id!==a.shared):p.species.ability==='clean'?(a.clients?.length||0)>=3:p.species.id==='s42'?a.stage===2&&a.joined>=5:p.species.id==='s23'?a.meals.length>=2:p.species.id==='s19'?a.patterns.length>=2:a.stage===2&&a.home?.reef===sim.current&&dist(p,a.home)<55&&p.still>SHELTER_SETTLE_SECONDS;

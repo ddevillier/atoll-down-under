@@ -1,4 +1,11 @@
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+// Floating labels identify one thing. Species facts and activity instructions
+// belong in the inspection card or the activity details, not over the reef.
+export const creatureLabel=animal=>animal.species?.ability==='clean'?'Cleaner':animal.name||animal.species?.name||'';
+export function activitySiteLabel(site){
+ if(site.kind==='home')return site.host!=null?'Anemone':'Home';
+ return ({route:'Patrol',watch:'Lookout',garden:'First patch',sand:'Sand',reef:'Reef',meal:'Food',companion:'Companion',ambush:'Ambush',escort:'Companion'})[site.kind]||site.name?.split(' · ')[0]||'';
+}
 export function overlaps(a,b,gap=0){return a.x<b.x+b.width+gap&&a.x+a.width+gap>b.x&&a.y<b.y+b.height+gap&&a.y+a.height+gap>b.y;}
 export function projectedBounds(frame,padding=0){
  const cos=Math.abs(Math.cos(frame.rotation||0)),sin=Math.abs(Math.sin(frame.rotation||0));

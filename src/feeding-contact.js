@@ -1,14 +1,22 @@
 import {anatomy} from './creation-appearance.js';
-import {creatureWidth,creatureFrame} from './geometry.js';
+import {creatureWidth,creatureFrame,creaturePickFrame} from './geometry.js';
 import {rigFor} from './animal-rigs.js';
 import {turnTowards} from './steering.js';
+import {WORLD_WIDTH,WORLD_HEIGHT} from './world-dimensions.js';
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 
 // Feeding settles the side-view painting before contact. The authored mouth
 // landmark is shared with articulation; size-based diet rules stay separate.
 export function mouthPoint(e,{facing=e.facing||1,rotation=0}={}){
- const frame=creatureFrame({...e,facing},creatureWidth(e.species),rotation),rig=rigFor({id:e.species.id==='custom'?'s'+e.species.index:e.species.id});
- const direction=['s44','s46','s47','s62','s63'].includes(e.species.id)?1:facing;
+ const frame=creatureFrame({...e,facing},creatureWidth(e.species),rotation);
+ return displayedMouthPoint(e,frame,facing);
+}
+// Presentation uses the published turn transform; feeding decisions keep using
+// mouthPoint's simulation frame. Never feed display geometry back into physics.
+export function displayedMouthPoint(e,frame=creaturePickFrame(e),facing=frame.facing??e.facing??1){
+ const rig=rigFor({id:e.species.id==='custom'?'s'+e.species.index:e.species.id});
+ const rotation=frame.rotation||0;
+ const direction=['s44','s46','s47','s62','s63'].includes(e.species.id)?1:Math.sign(facing)||1;
  const custom=e.species.appearance?.appearanceVersion===1;
  const dx=(custom?anatomy(e.species).mouthX:rig.mouth[0]-.5)*frame.width*direction,dy=custom?0:(rig.mouth[1]-.5)*frame.height;
  return {x:frame.x+dx*Math.cos(rotation)-dy*Math.sin(rotation),y:frame.y+dx*Math.sin(rotation)+dy*Math.cos(rotation)};
@@ -32,8 +40,11 @@ export function feedingApproach(e,target){
  let result=plan(facing);
  // At an edge, approach from the water side instead of waiting beyond the map.
  if(!e.entering){
-  if((result.x<10||result.x>1590)&&e.species.id!=='s44')result=plan(-facing);
-  result.x=clamp(result.x,10,1590);result.y=clamp(result.y,25,720);
+  // Players can swim beyond the NPC cruising inset. Mouths above or below
+  // the body's center need that water to reach prey at the inset boundary.
+  const player=e.id==='player',left=player?1:10,right=WORLD_WIDTH-left,top=player?1:25,bottom=WORLD_HEIGHT-(player?1:20);
+  if((result.x<left||result.x>right)&&e.species.id!=='s44')result=plan(-facing);
+  result.x=clamp(result.x,left,right);result.y=clamp(result.y,top,bottom);
  }
  return result;
 }

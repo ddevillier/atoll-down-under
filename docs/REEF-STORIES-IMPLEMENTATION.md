@@ -1,0 +1,31 @@
+# Five optional reef adventures
+
+These adventures extend Practice exploration. All 57 playable creatures and nine habitats remain available, existing goals remain available, and no badge is required to begin. Open Activity, expand Another way to explore, and choose Begin. Hiding the controls leaves the activity running; Return to free exploration stops its guidance and encounters while retaining its saved state. Continue resumes it. E performs the active adventure context action.
+
+| Adventure | Creature and place | Play and consequence |
+|---|---|---|
+| The Reef Clinic | Cleaner wrasse in Coral Cathedral; cleaner shrimp in Quiet Grotto | Choose real visitors, read nervous or bold approaches, invite gently, complete actual parasite care, and welcome a remembered individual. Two cared-for individuals and a return greeting record the discovery. |
+| The Disappearing Artist | Cuttlefish; Pearl Sands, Sea Fan Garden, Old Wreck | Choose a real surface and one of three visible patterns. A real existing swimmer passes and notices or overlooks the disguise. Match sand, shadow and mottled terrain; movement reveals the animal. There is no failure penalty. |
+| The Sandcastle Engineer | Parrotfish; Sunlit Crest and Table Coral Terrace | Actual algae meals remove painted foliage and gradually deposit sand. Rest or change patches, leave and return to observe renewal, then invite an existing compatible browser to approach and take a real nibble. |
+| The Whisker Detective | Yellow goatfish; Pearl Sands or Seagrass Meadow | Explore unmarked existing food selected from actual painted sand, with locally strengthening barbel cues. Probe through actual contact, choose eating or sharing, and watch an available neighbor take a shared snack. Food remains reserved until that choice. |
+| Dad’s Big Mouth | Banggai cardinalfish; Seagrass Meadow | Compare shelter and live traffic, settle to brood, then observe four representative young finding cover. Disturbances retain progress. The young continue their local shelter routine during free exploration. |
+
+## Implementation contracts
+
+The dispatcher is src/reef-stories.js; immutable titles, IDs and reflection scripts are in src/reef-story-data.js. Each adventure owns its mechanics module and a pure renderer module. Shared simulation integration owns real consumption, danger priority, NPC dispatch and persistence. Existing journeys do not also advance while an expanded adventure is active. Actual health, contact, food, position and live observations determine progress; rendering never awards it.
+
+The version-one reefStories field stores bounded adventure state in existing version-one simulation saves and version-two portable .atoll files. Older files without it migrate to inactive empty state. Invalid active creature/story combinations are rejected. The journal adds five unique discovery IDs to its existing records and keeps prior earned badges and colors. Per-adventure relationships, patches and brood state travel with the saved dive; they are not a global offscreen ecosystem shared among unrelated fresh dives.
+
+No extra adult population is spawned for these activities. The Engineer’s explicit invitation reaches an available compatible algae browser in the visible habitat, including a digesting browser taking a small nibble. It preserves care, danger and already committed meals; it never resets hunger or teleports the neighbor. Twelve generated route checks each reach real contact within forty seconds after invitation. Yellow-goatfish dives specialize one existing generated sandy-habitat forager slot so sharing has a real compatible neighbor. A shared pure substrate helper selects existing authored worm/shrimp coordinates inside conservative sand regions and excludes food relocated to resident feeding positions. Leaving food invites an available compatible forager across the visible reef, including during digestion. Appetite and rest timers continue naturally, with no reset at invitation; a real snack preserves remaining satiation or starts a modest digestion interval. Care, danger and other committed meals retain priority. Eighteen generated routes across both sandy habitats verify real contact sharing without food relocation or added population. Four nursery juveniles are separate bounded simulation objects with dedicated generated artwork, rather than scaled adult sprites. Their activity remains local; paused and offscreen state freezes.
+
+Painted fin and jaw rigs drive clinic reactions and tactile barbels. The cuttlefish uses alpha-preserving patterned paintings through its existing articulated body. The cardinalfish mesh enlarges the lower mouth while protecting the eye. Sand and algae follow actual food state. Reduced motion retains important appearances while removing decorative travel and particles.
+
+## Learning and sound
+
+Biological processes are compressed into playable game time. Grazing renews algae, not coral; sand production is a modest illustration of parrotfish reef bioerosion. Banggai males mouthbrood and release developed young; four depicted fish represent a brood, not a natural clutch count. Existing field-guide sources remain the authority for species identity limits.
+
+Five brief discovery reflections are generated offline using the previously approved gpt-4o-mini-tts-2025-12-15 checkpoint and marin voice. The application contains OGG files and no API credential. Automatic narration retains its opt-out, volume, pause and interruption behavior. Technical decoding and independent transcription are verified; human listening approval remains unverified.
+
+## Acceptance evidence
+
+The current Windows package verification receipt is authoritative for shipping status. artifacts/reef-stories holds independent browser reviews, actual paint and encounter evidence, native acceptance and regression results. tests/reef-stories-integration.test.mjs covers all six featured creatures, real pending-habitat transition, portable saves, paused state, invalid imports, old-save migration, journal deduplication, and protected-eye brooding deformation. Each adventure also has mechanics and presentation tests. No original-game comparison or additional reverse engineering was performed for this expansion.

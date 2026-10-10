@@ -17,7 +17,7 @@ const directionBin=angle=>Math.round((((angle||0)%TAU+TAU)%TAU)/TAU*8)%8;
 export function deformPoint(p,u,v,time,effort=.5,state={}){
  if(SWIM_RIGS[p.id])return swimPoint(p,u,v,time,effort,state);
  if(RIGID_RIGS[p.id])return rigidPoint(p,u,v,time,effort,state);
- if(FIN_RIGS[p.id])return finPoint(p,u,v,time,effort,state);
+ if(FIN_RIGS[p.id]){const q=finPoint(p,u,v,time,effort,state);if(p.id==='s13'){const eye=rigFor(p).eye,keep=eye?clamp((Math.hypot((u-eye[0])/.075,(v-eye[1])/.10)-.65)/.65):1,brood=clamp(state.brood||0)*keep;q.y+=bell(u,.94,.10)*bell(v,.58,.11)*.085*brood;q.x+=bell(u,.94,.10)*bell(v,.55,.12)*.022*brood;}return q;}
  if(RESIDENT_RIGS[p.id])return residentPoint(p,u,v,time,effort,state);
  if(RADIAL_IDS.has(p.id))return radialPoint(p,u,v,time,effort,state);
  if(SPECIALIST_IDS.has(p.id))return specialistPoint(p,u,v,time,effort,state);
@@ -87,10 +87,10 @@ export class ArticulatedSprites{
   // spend it again. Updating a slot replaces its pose without losing its turn.
   for(const [slot,request]of this.pending){if(this.remaining<=0)break;this.pending.delete(slot);if(!this.cache.has(request.key))this.buildFrame(request);}
  }
- buildFrame({image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,turn,heading,feedAngle,group,key}){
+ buildFrame({image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,brood,turn,heading,feedAngle,group,key}){
   const started=performance.now();this.misses++;const canvas=document.createElement('canvas');canvas.width=w+pad*2;canvas.height=h+pad*2;const c=canvas.getContext('2d');
   const detailed=FIN_RIGS[p.id]||RESIDENT_RIGS[p.id]||RADIAL_IDS.has(p.id)||SPECIALIST_IDS.has(p.id)||RIGID_RIGS[p.id]||SWIM_RIGS[p.id],cols=detailed?20:width<150?10:16,rows=detailed?16:width<150?6:10,src=[],dst=[];
-  for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,turn,heading:heading/8*TAU,feedAngle:feedAngle/8*TAU,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
+  for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,q=deformPoint(p,u,v,tick/bins/p.frequency,a,{feed,retract,puff,brood,turn,heading:heading/8*TAU,feedAngle:feedAngle/8*TAU,aspect:image.height/image.width});src.push({x:u*image.width,y:v*image.height});dst.push({x:pad+q.x*w,y:pad+q.y*h});}
   this.rasterizer??=new MeshRasterizer();const raster=this.rasterizer.render(image,src,dst,cols,rows,canvas.width,canvas.height);
   if(raster)c.drawImage(raster,0,0);
   else for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const a=j*(cols+1)+i,b=a+1,c1=a+cols+1,d=c1+1;triangle(c,image,src[a],src[b],src[c1],dst[a],dst[b],dst[c1]);triangle(c,image,src[b],src[d],src[c1],dst[b],dst[d],dst[c1]);}
@@ -105,23 +105,24 @@ export class ArticulatedSprites{
   // their authored cycles. The resting motion clock runs at 0.55x.
   const bins=p.id==='s19'?48:Math.max(baseBins,Math.ceil(24/(p.frequency*.55)/baseBins)*baseBins);
   const cycle=((time*p.frequency)%1+1)%1,tick=Math.floor(cycle*bins),a=Math.round(clamp(effort)*2)/2,feed=Math.round(clamp(state.feed||0)*5)/5,retract=Math.round(clamp(state.retract||0)*5)/5,puff=Math.round(clamp(state.puff||0)*5)/5;
+  const brood=Math.round(clamp(state.brood||0)*5)/5;
   const turn=Math.round(Math.max(-1,Math.min(1,state.turn||0))*3)/3;
   const heading=p.id==='s47'?directionBin(state.heading):0,feedAngle=p.id==='s47'&&feed?directionBin(state.feedAngle??state.heading):0;
   if(!this.images.has(image))this.images.set(image,++this.nextImage);
   const w=Math.min(640,Math.max(64,Math.ceil(width*resolution/64)*64)),h=Math.max(8,Math.round(w*height/width)),pad=Math.ceil(Math.max(w,h)*(.09+puff*.16));
-  const group=[this.images.get(image),p.id,w,bins,a,feed,retract,puff,turn,heading,feedAngle].join(':'),key=group+':'+tick,slot=state.instance==null?group:[this.images.get(image),p.id,w,bins,state.instance].join(':');let frame=this.cache.get(key);
+  const group=[this.images.get(image),p.id,w,bins,a,feed,retract,puff,brood,turn,heading,feedAngle].join(':'),key=group+':'+tick,slot=state.instance==null?group:[this.images.get(image),p.id,w,bins,state.instance].join(':');let frame=this.cache.get(key);
   if(frame){this.cache.delete(key);this.cache.set(key,frame);this.pending.delete(slot);this.hits++;}
   else{
    // The focal cuttlefish and its camouflage overlay must show the requested
    // phase, even after background creatures spent this frame's mesh budget.
    if(this.remaining<=0&&!(p.id==='s19'&&state.instance==='player')){
-    this.pending.set(slot,{image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,turn,heading,feedAngle,group,key});
+    this.pending.set(slot,{image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,brood,turn,heading,feedAngle,group,key});
     while(this.pending.size>128)this.pending.delete(this.pending.keys().next().value);
     this.deferred++;let closest=Infinity;
     for(const candidate of this.cache.values())if(candidate.group===group){const d=Math.abs(candidate.tick-tick),wrapped=Math.min(d,bins-d);if(wrapped<closest){frame=candidate;closest=wrapped;}}
     if(!frame){ctx.drawImage(image,-width/2,-height/2,width,height);return;}
    }else{
-   this.pending.delete(slot);frame=this.buildFrame({image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,turn,heading,feedAngle,group,key});
+   this.pending.delete(slot);frame=this.buildFrame({image,p,width,w,h,pad,bins,tick,a,feed,retract,puff,brood,turn,heading,feedAngle,group,key});
    }
   }
   const scale=width/w;ctx.drawImage(frame.canvas,-width/2-pad*scale,-height/2-pad*scale,frame.canvas.width*scale,frame.canvas.height*scale);

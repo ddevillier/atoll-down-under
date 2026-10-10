@@ -17,6 +17,33 @@ test('a short strike reaches an actual prey mouth contact and awards one ambush 
 test('missed strikes stop within their window without food, credit or an endless chase',()=>{
  const s=scene();ticks(s,2.1);const e=prey(s,159);e.x=s.player.x+159;s.eatAt(e.x,e.y);e.x=1500;e.y=40;const before=s.player.energy;ticks(s,1);assert.equal(s.player.ambush,null);assert.equal(s.player.target,null);assert.equal(e.alive,true);assert.ok(s.player.energy<=before);assert.equal(s.adventure.complete,false);
 });
+test('repeated clicks cannot extend a missed strike, and settling again permits a fresh catch',()=>{
+ for(const repeat of [false,true]){
+  const s=scene();s.player.angle=Math.PI;s.player.facing=-1;ticks(s,2.1);
+  const e=prey(s,120);e.angle=0;e.facing=1;
+  const click=()=>{const f=creatureFrame(e);s.eatAt(f.x,f.y);};click();
+  for(let frame=0;frame<48;frame++){
+   if(repeat&&frame>0&&frame%12===0)click();
+   s.step(1/60);
+  }
+  assert.equal(s.player.ambush,null);assert.equal(s.player.target,null);
+  assert.equal(e.alive,true);assert.equal(s.adventure.complete,false);
+  assert.equal(s.events.filter(e=>e.type==='activity-step'&&e.text==='Short strike').length,1);
+  const site=sitesFor(s)[0];s.point(site.x,site.y);Object.assign(s.player,{x:site.x,y:site.y,angle:0,facing:1});
+  s.section.entities=[];s.useContext();ticks(s,2.1);const next=prey(s,65);
+  aimAmbush(s,next.x,next.y);s.eatAt(next.x,next.y);ticks(s,1);
+  assert.equal(next.alive,false);assert.equal(s.adventure.complete,true);
+ }
+});
+test('changing prey during a strike preserves its deadline and releases the current target on timeout',()=>{
+ const s=scene();ticks(s,2.1);const first=prey(s,120);s.eatAt(first.x,first.y);
+ s.step(1/60);const remaining=s.player.ambush.strike;
+ const second={...structuredClone(first),id:901,x:s.player.x-120};s.section.entities.push(second);
+ const f=creatureFrame(second);s.eatAt(f.x,f.y);
+ assert.equal(s.player.ambush.strike,remaining);assert.equal(s.player.ambush.target,second.id);
+ second.x=1500;second.y=40;ticks(s,1);
+ assert.equal(s.player.ambush,null);assert.equal(s.player.target,null);assert.equal(second.alive,true);
+});
 test('ambush replay is deterministic and travel, corrupt saves and early attacks are handled',()=>{
  const s=scene();ticks(s,1);const copy=Simulation.restore(s.serialize()),paused=copy.serialize();copy.step(10);assert.equal(copy.serialize(),paused);copy.paused=false;ticks(s,2);ticks(copy,2);assert.equal(copy.serialize(),s.serialize());
  const bad=JSON.parse(s.serialize());bad.player.ambush.strike=4;assert.throws(()=>Simulation.restore(bad));s.transition(1,0);assert.equal(s.player.ambush,null);

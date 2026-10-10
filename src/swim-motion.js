@@ -2,6 +2,7 @@ import {rigFor} from './animal-rigs.js';
 import {finWeight,rotateFin} from './fin-motion.js';
 import {inflationOffset} from './rigid-motion.js';
 import {individualSeed} from './individual-motion.js';
+import {animalProfile} from './animal-profiles.js';
 const TAU=Math.PI*2,clamp=x=>Math.max(0,Math.min(1,x));
 const smooth=(a,b,x)=>{const t=clamp((x-a)/(b-a));return t*t*(3-2*t);};
 const fin=(root,tip,radius,angle=0)=>({root,tip,radius,angle});
@@ -30,9 +31,49 @@ export function swimmingDrive(e){
  return phase<end?1:1-smooth(end,end+fade,phase)*(1-smooth(1-fade,1,phase));
 }
 
+const swimmers=new Set(['cruiser','reef','hover','wrasse','ribbon','heavy','shark','carpet','needle','percher','rigid','fan','frogfish']);
+// Presentation effort follows displacement, rather than desired mouse speed.
+// A short push starts a swim, the tail relaxes during a glide, and stabilizing
+// fins open during a stop. None of these signals move or feed the animal.
+export function swimmingPropulsion(pose,e,dt){
+ const activity=clamp(pose.activity||0),family=animalProfile(e.species).family;
+ if(!swimmers.has(family)||e.groundRoute||e.holdfast){
+  // Keep the existing displacement-based braking for disc fins, crawlers and
+  // other specialist rigs. Their motion clock and effort remain unchanged.
+  pose.brake??=0;
+  if(dt>0){
+   const speed=Math.hypot(e.x-(pose.previousX??e.x),e.y-(pose.previousY??e.y))/dt/Math.max(1,e.species.speed),deceleration=Math.max(0,(pose.previousSpeed??speed)-speed);
+   pose.brake=Math.max(pose.brake*Math.exp(-dt*5),Math.min(1,deceleration*5));pose.previousX=e.x;pose.previousY=e.y;pose.previousSpeed=speed;
+  }
+  return {effort:activity,brake:pose.brake||0,rate:.55+activity*.8};
+ }
+ const heavy=['shark','carpet','heavy'].includes(family),drive=swimmingDrive(e);
+ pose.propulsion??=activity;pose.brake??=0;pose.swimSpeed??=activity;pose.swimAcceleration??=0;
+ if(dt>0){
+  const acceleration=(activity-pose.swimSpeed)/dt;
+  pose.swimAcceleration+=(clamp(acceleration*(heavy?.16:.10))-pose.swimAcceleration)*(1-Math.exp(-dt*9));
+  const braking=clamp(-acceleration*(heavy?.30:.17));
+  pose.brake=Math.max(pose.brake*Math.exp(-dt*(heavy?4:7)),braking);
+  const target=clamp(activity*drive+pose.swimAcceleration*(heavy?.32:.24));
+  const rate=target>pose.propulsion?(heavy?6:13):(drive<.15?12:heavy?6:10);
+  pose.propulsion+=(target-pose.propulsion)*(1-Math.exp(-dt*rate));
+  pose.swimSpeed=activity;
+ }
+ return {effort:pose.propulsion,brake:pose.brake,rate:.55+pose.propulsion*(heavy?.70:.90)+pose.swimAcceleration*.12};
+}
+
+// A complete side-to-side beat has two projections away from the image plane.
+// Power and recovery are asymmetric, while both endpoints and the cycle join
+// remain smooth. This is shared by the mesh fallback and painted caudal parts.
+export function swimmingStroke(phase,heavy=false){
+ const sweep=Math.sin(phase)+(heavy?.12:.20)*Math.sin(phase*2);
+ const maximum=heavy?1.027:1.069;
+ return Math.min(1,(sweep/maximum)**2);
+}
+
 export function swimPoint(p,u,v,time,effort,state={}){
  const f=SWIM_RIGS[p.id],rig=rigFor(p),a=clamp(effort),feed=clamp(state.feed||0),turn=Math.max(-1,Math.min(1,state.turn||0)),aspect=Math.max(.15,state.aspect||.45),phase=time*p.frequency*TAU;
- const drive=(f.idle+(1-f.idle)*a)*(1-feed*.7),root=f.tail.root;
+ const brake=clamp(state.brake||0),drive=(f.idle+(1-f.idle)*a)*(1-feed*.7)*(1-brake*.45),root=f.tail.root;
  const spine=q=>{const rear=clamp((f.front-Math.max(root[0],q))/(f.front-root[0]));return (Math.sin(phase+rear*f.lag)*f.bend*drive+turn*.022)*rear**2/aspect;};
  const rear=spine(u);let dx=0,dy=rear;
  // The caudal lobes share a peduncle and rotate together, retaining unequal
@@ -44,7 +85,7 @@ export function swimPoint(p,u,v,time,effort,state={}){
   const weight=finWeight(u,v,part),carried=spine(part.root[0]);dy+=(carried-rear)*weight;
   const d=rotateFin(u,v,part,(Math.sin(phase+.7)*(.2+a*.3)+turn*.8)*part.angle);dx+=d.x;dy+=d.y;
  }
- if(f.pc){const d=rotateFin(u,v,f.pc,Math.sin(phase+.9)*f.pc.angle*(1-a*.65)+turn*.015);dx+=d.x;dy+=d.y;}
+ if(f.pc){const d=rotateFin(u,v,f.pc,(Math.sin(phase+.9)*(1-a*.65)+brake*.65)*f.pc.angle+turn*.015);dx+=d.x;dy+=d.y;}
  const mouth=Math.exp(-2*((u-rig.mouth[0])/.045)**2-2*((v-rig.mouth[1]+.025)/.065)**2);
  dx+=mouth*feed*.007;dy+=mouth*(.001*(1+Math.sin(phase))+.012*feed);
  if(state.puff){const d=inflationOffset(p.id,u,v,clamp(state.puff));dx+=d.x;dy+=d.y;}

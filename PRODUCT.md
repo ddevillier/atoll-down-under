@@ -1,6 +1,14 @@
-# Active whole-roster uplift
+# Optional reef adventures — current implementation
 
-The user resumed work September 7 and explicitly requested a much broader animation and local ecology uplift across all 64 animals. Follow docs/ROSTER-UPLIFT.md. Earlier parked/completion notes below apply only to the prior Species Adventures milestone and do not stop this work. The new goal is active; do not close it after a limited shared-motion pass.
+Five new optional Practice adventures add player-managed cleaning, camouflage puzzles, grazing effects, tactile sand discovery and mouthbrooding care. Existing species and habitats stay available. Saved dives preserve their state; the family journal records five additional discoveries with brief offline narration. See [implementation and acceptance scope](docs/REEF-STORIES-IMPLEMENTATION.md). Shipping readiness is established by the new Windows verification receipt.
+
+# Current project progress — October 10, 2026
+
+Species journeys are optional goals within exploration. Discoveries and accomplishments persist in the family journal; ten earned color recipes reward play without gating existing species or habitats. Brief offline introductions and discovery commentary play automatically, with opt-out and volume controls. Manual guide and activity narration remain available. See docs/OPTIONAL-EXPLORATION-REFINEMENT.md for this refinement; package acceptance remains subject to the current verification receipts.
+
+Cleaner callouts use the role only. Unusable shelters are unmarked, including in created-fish test swims. Floating food and activity markers are short; species facts and instructions remain in inspection and activity details.
+
+The whole-roster animation and species journey milestones are implemented. Living Reef refines propulsion and continuous turns across 52 fish profiles, cleaner contact, small interaction cues, generated school excursions and gentle Practice danger. The splash, menus and gameplay disclose optional detail and keep routine commentary off the reef. See docs/LIVING-REEF-REFINEMENT.md for scope and verification. The earlier 30-specialist quality review is in docs/FULL-GAME-QUALITY-REVIEW-2026-10-02.md. Historical parked notes apply to their named milestones.
 
 # Atoll Down Under
 
@@ -26,7 +34,7 @@ Preserve ecological decisions, make each species feel different, retain full day
 
 ## Current user direction
 
-**PARKED — September 7, 2026. Species Adventures runtime `56dc983` is verified and its Windows testing ZIP preserved.** Four optional Practice adventures, visible local routines, activity animation, Ways of living discoveries and 64 narrated field-guide introductions extend the living title and Family Journal. Shared adult-and-child exploration is the focus. Narration plays only by explicit choice in the guide. No live day/night cycle or offscreen ecosystem this pass. See docs/SPECIES-ADVENTURES.md and the Windows delivery receipt. This complete work front is parked; resume at the user’s request. The broader project remains open.
+**October 9 direction:** a lively, peaceful reef with low danger for the user's daughters and visual feedback that avoids text clutter. Remembered fish, homecomings and varied species activities remain. Practice and shared adult-and-child exploration take priority. Coverage is 57 playable journeys plus seven resident observations and 64 optional narrated introductions and activity explanations. Manual guide narration remains available; brief discovery commentary now defaults on with an explicit opt-out. The current pass adds no live day/night cycle or offscreen ecosystem. Previous parked milestones remain historical evidence; the broader project is still being refined.
 Windows only. Treat this as life-science exploration, with time to observe organisms and discover ecological relationships. Predator avoidance must not dominate small-fish play. Completion remains unproven while educational depth, visual fidelity and playtesting are still in progress.
 
 The user has explicitly prioritized gameplay before further natural-history expansion. Work on swimming, feeding, cleaning, habitat exploration and playability first. All 64 catalog species now have sourced natural-history entries, with explicit identity limits where appropriate.

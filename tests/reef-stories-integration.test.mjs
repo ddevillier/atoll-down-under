@@ -1,0 +1,19 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {Simulation} from '../src/simulation.js';
+import {beginStory,stopStory,storyAction,tickStories,activeStory} from '../src/reef-stories.js';
+import {storyKeyFor,REEF_STORIES} from '../src/reef-story-data.js';
+import {exportDive,importDive} from '../src/save-files.js';
+import {freshJournal,recordProgress,validateJournal} from '../src/journal.js';
+import {PRACTICE_SPECIES,REEFS} from '../src/data.js';
+import {animalProfile} from '../src/animal-profiles.js';
+import {deformPoint} from '../src/articulated-motion.js';
+import {rigFor} from '../src/animal-rigs.js';
+const make=id=>{const s=new Simulation(42);s.start('practice',id);return s;};
+test('all six featured species enter optional stories, keep every habitat and resume their portable state',()=>{for(const id of ['s43','s45','s19','s15','s9','s13']){const s=make(id),ids=s.sections.flatMap(r=>r.entities.map(e=>e.id));assert.equal(s.reefStories.active,null);assert.equal(beginStory(s),true);const key=storyKeyFor(id);assert.equal(activeStory(s),key);assert.equal(s.sections.length,9);assert.deepEqual(s.sections.flatMap(r=>r.entities.map(e=>e.id)),ids);const loaded=importDive(exportDive(s,'Optional adventure')).simulation;assert.deepEqual(loaded.reefStories,s.reefStories);const saved=structuredClone(s.reefStories[key]);stopStory(s);beginStory(s);assert.deepEqual(s.reefStories[key],saved);}assert.equal(PRACTICE_SPECIES.length,57);assert.equal(REEFS.length,9);});
+test('a pending shrimp clinic follows real travel and initializes in the right reef',()=>{const s=make('s45');beginStory(s);assert.equal(s.current,4);assert.equal(s.reefStories.clinic,null);assert.equal(s.destination,8);assert.equal(s.transition(1,0),true);assert.equal(s.transition(0,1),true);tickStories(s,.05);assert.equal(s.current,8);assert.equal(s.reefStories.clinic.reef,8);});
+test('story checkpoints freeze on pause and invalid role/unknown state cannot import',()=>{for(const id of ['s43','s45','s19','s15','s9','s13']){const s=make(id);beginStory(s);s.paused=true;const before=s.serialize();tickStories(s,.05);assert.equal(s.serialize(),before);assert.equal(storyAction(s,'context'),false);const bad=JSON.parse(exportDive(s,'Bad'));bad.state.reefStories.active=storyKeyFor(id)==='engineer'?'nursery':'engineer';assert.throws(()=>importDive(JSON.stringify(bad)));const unknown=JSON.parse(s.serialize());unknown.reefStories.injected=true;assert.throws(()=>Simulation.restore(unknown));}});
+test('existing dive and journal formats migrate without losing progress or changing free exploration',()=>{const s=make('s2'),old=JSON.parse(s.serialize());delete old.reefStories;const restored=Simulation.restore(old);assert.equal(restored.reefStories.active,null);assert.equal(beginStory(restored),false);const journal=freshJournal();recordProgress(journal,'activity','meal');for(const story of Object.values(REEF_STORIES)){recordProgress(journal,'discovery',story.id);recordProgress(journal,'discovery',story.id);}const loaded=validateJournal(journal);assert.equal(loaded.discoveries.length,5);assert.ok(loaded.earned.meal);assert.ok(loaded.earned.discovery5);});
+test('Banggai brood deforms the lower mouth while protecting the painted eye',()=>{const p=animalProfile(PRACTICE_SPECIES.find(s=>s.id==='s13')),eye=rigFor(p).eye;assert.deepEqual(deformPoint(p,...eye,0,.2,{brood:1}),deformPoint(p,...eye,0,.2,{brood:0}));const jaw=[.94,.64],normal=deformPoint(p,...jaw,0,.2,{brood:0}),brood=deformPoint(p,...jaw,0,.2,{brood:1});assert.ok(brood.y-normal.y>.025);});
+
+test('a saved clinic cannot silently switch its cleaner species',()=>{const s=make('s43');beginStory(s);const raw=JSON.parse(s.serialize());raw.reefStories.clinic.species='s45';raw.reefStories.clinic.reef=8;assert.throws(()=>Simulation.restore(raw),/does not match/);});

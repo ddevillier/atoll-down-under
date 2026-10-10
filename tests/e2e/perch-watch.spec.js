@@ -8,8 +8,10 @@ test('mouse-driven passer turns a perched hawkfish, with visible hover context a
   await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.entities[0].ecology?.watch?.id)).toBe('player');
   await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.entities[0].facing)).toBe(1);
   await move(home.x-80,home.y-95);await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.section.entities[0].facing),{timeout:12000}).toBe(-1);
-  await expect.poll(()=>page.evaluate(()=>window.atoll.renderer.poses.get('watcher')?.frame?.width>10)).toBe(true);await page.waitForTimeout(600);await page.keyboard.press('Escape');await move(home.x,home.y);
-  await expect.poll(()=>page.evaluate(()=>window.atoll.renderer.labelLayout.some(l=>l.text.includes('Watching a passer')))).toBe(true);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.renderer.poses.get('watcher')?.frame?.width>10)).toBe(true);await page.waitForTimeout(600);
+  expect(await page.evaluate(()=>window.atoll.renderer.labelLayout.some(l=>l.text.includes('Watching a passer')))).toBe(false);
+  await page.keyboard.press('Escape');await move(home.x,home.y);
+  await expect.poll(()=>page.evaluate(()=>window.atoll.renderer.labelLayout.some(l=>l.text===window.atoll.simulation.section.entities[0].species.name))).toBe(true);
   const state=await page.evaluate(()=>{const e=window.atoll.simulation.section.entities[0];return {x:e.x,y:e.y,angle:e.angle,target:e.target};});expect(Math.hypot(state.x-home.x,state.y-home.y)).toBeLessThan(1);expect(state.target).toBeNull();await page.waitForTimeout(150);expect(await page.evaluate(()=>{const e=window.atoll.simulation.section.entities[0];return {x:e.x,y:e.y,angle:e.angle,target:e.target};})).toEqual(state);
  }
 });

@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Preserve exact asset bytes, including font notices and audio metadata.
+assets/** -text

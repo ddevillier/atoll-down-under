@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';import {clickButton} from '../../sc
 test('filefish invites a generated companion, both feed, and regroup through real controls',async({page})=>{
  test.setTimeout(100000);
  for(const [width,height] of [[1600,900],[1024,768]]){
-  await page.setViewportSize({width,height});await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Orange-spotted filefish');await page.getByRole('option').click();await clickButton(page,{name:'Try adventure',exact:true});await page.keyboard.press('Escape');
+  await page.setViewportSize({width,height});await page.goto('/');await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Orange-spotted filefish');await page.getByRole('option').click();await clickButton(page,{name:'Show goal',exact:true});await page.keyboard.press('Escape');
   // A reproducible generated reef; no NPC, food, hunger or position edits.
   await page.evaluate(async()=>{const {Simulation}=await import('/src/simulation.js'),s=new Simulation(42);s.start('practice','s48');s.paused=true;s.adventure.visible=true;Object.assign(window.atoll.simulation,s);});
   const box=await page.locator('#reef').boundingBox(),screen=p=>({x:box.x+p.x/1600*box.width,y:box.y+(p.y+55)/900*box.height});await page.keyboard.press('Escape');await page.keyboard.press('e');await page.waitForFunction(()=>!!window.atoll.simulation.adventure.buddy);

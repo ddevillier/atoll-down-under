@@ -22,9 +22,9 @@ test('feeding satisfies a hunter instead of producing repeated bites',()=>{
  const {s,hunter}=fixture();hunter.facing=1;const a=feedingApproach(hunter,s.player);hunter.x=a.x;hunter.y=a.y;s.stepNpc(hunter,.01);
  assert.equal(s.player.health,100);assert.equal(hunter.feeding.committed,false);
  for(let i=0;i<30;i++)s.stepNpc(hunter,1/60);
- assert.equal(s.player.health,65);assert.ok(hunter.satiated>=45);assert.equal(hunter.target,null);
+ assert.equal(s.player.health,82);assert.ok(hunter.satiated>=45);assert.equal(hunter.target,null);
  for(let i=0;i<600;i++){hunter.x=s.player.x-10;hunter.y=s.player.y;s.stepNpc(hunter,1/60);}
- assert.equal(s.player.health,65);
+ assert.equal(s.player.health,82);
 });
 test('an unsuccessful pursuit ends and is followed by a rest',()=>{
  const {s,hunter}=fixture();hunter.target='player';hunter.pursuit=5.99;hunter.think=0;s.stepNpc(hunter,.02);

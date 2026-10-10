@@ -1,12 +1,12 @@
 import {SPECIES,FOODS} from './data.js';
-import {edible} from './simulation.js';
+import {suitableMeal} from './diet.js';
 
 // The diagram describes the simulation. Natural-history text below has separate sources.
 export function foodWeb(species){
  return {
-  resources:Object.entries(FOODS).filter(([food])=>edible(species,{kind:'food',food})).map(([id,f])=>({id,...f})),
-  prey:SPECIES.filter(s=>s.id!==species.id&&edible(species,s)),
-  predators:SPECIES.filter(s=>s.id!==species.id&&edible(s,species)),
+  resources:Object.entries(FOODS).filter(([food])=>suitableMeal(species,{kind:'food',food})).map(([id,f])=>({id,...f})),
+  prey:SPECIES.filter(s=>s.id!==species.id&&suitableMeal(species,s)),
+  predators:SPECIES.filter(s=>s.id!==species.id&&suitableMeal(s,species)),
   special:species.diet.filter(food=>!FOODS[food]&&!SPECIES.some(s=>s.food===food))
  };
 }

@@ -1,114 +1,111 @@
 # Atoll Down Under
 
-An offline, widescreen 2D life-science exploration game with original painted artwork, creature sprites, relaxing music, and sound effects. Inspired by the ecological play of Odell Down Under; it does not include the original game's artwork, music, text, or executable.
+[![Windows build](https://github.com/ddevillier/atoll-down-under/actions/workflows/windows.yml/badge.svg)](https://github.com/ddevillier/atoll-down-under/actions/workflows/windows.yml)
 
-## Play
+An offline, widescreen reef exploration game inspired by Odell Down Under, with
+new artwork, music and gameplay. Swim as different species, discover their ways
+of living, care for other fish, and create your own creature.
 
-On Windows, open `dist/Atoll Down Under-win32-x64/Atoll Down Under.exe`. Keep the whole application folder together. A ZIP of the portable application is supplied in `dist`.
+![Atoll Down Under title screen](assets/title/splash.png)
 
-The latest verified testing build is `dist/Atoll-Down-Under-Windows-Creature-Workshop-2026-09-10.zip`. Create fish from painted bodies, tails, fins and heads, with separate body/fin/marking colors, patterns and adjustable proportions. Test, revise, keep and resume a familiar life; small grazers can choose a refuge and return after feeding. All species journeys and offline audio remain included. See [the Windows receipt](docs/WINDOWS-CREATURE-WORKSHOP-BUILD.md), [original creator comparison](docs/CREATION-VARIETY-COMPARISON.md), and [creation loop](docs/CREATION-LOOP.md). The preceding Create-a-Fish-Audited ZIP is retained.
+- Nine connected illustrated habitats and 57 playable species, plus seven resident creatures.
+- Optional species journeys, cleaning, camouflage, tactile sand searches, grazing and mouthbrooding care.
+- Practice, Challenge, Tournament and a modular creature creator.
+- Articulated swimming, schooling, feeding, predators and cleaner visits.
+- Local saved dives, a persistent family journal, discoveries and color rewards.
+- Original music, sound effects and complete offline spoken guidance.
 
-The preceding verified build, `dist/Atoll-Down-Under-Windows-Full-Animation-2026-09-09.zip`, remains available as rollback. See [its receipt](docs/WINDOWS-FULL-ANIMATION-BUILD.md) and [capacity investigation](docs/ANIMATION-CAPACITY.md). The earlier Motion Correction ZIP is also retained.
+This is a developing game with stylized biology and compressed ecological time.
+It is a new interpretation, with independently authored assets and balancing.
+Windows x64 is the supported desktop build target.
 
-The earlier all-species milestone was `Atoll-Down-Under-Windows-All-Species-Journeys-2026-09-08.zip` (its archive was removed during cleanup; use the latest build above). It includes a journey for each of the 57 playable species, seven resident observation journeys, persistent discoveries, and optional spoken guidance for all 64 activities. See [the verified Windows receipt](docs/WINDOWS-ALL-SPECIES-JOURNEYS-BUILD.md), [journey coverage and verification](docs/ALL-SPECIES-JOURNEYS.md) and [spoken activity guidance](docs/ACTIVITY-AUDIO.md). Extract the ZIP completely before opening the executable. Windows starts fullscreen; F11 switches to a window. Fullscreen controls also appear in File, Settings and the dive toolbar. Escape pauses for inspection. See [the testing guide](docs/TESTING.md).
+## Run from source
 
-The [original-design audit](docs/ORIGINAL-DESIGN-AUDIT.md) records the remaining gameplay gaps and measured predator pressure. This build includes all 64 sourced guide entries, varied habitat populations, consistent poison score penalties, the complete Tournament preview and named portable saves. Start a new dive for the new populations. Predator pursuit and damage remain gentle; the full audit is not yet resolved. See [the build receipt](docs/WINDOWS-SPECIES-LIFE-BUILD.md).
-
-See [named, portable dive files](docs/PORTABLE-SAVES.md) for backup and import instructions. Earlier verified rollback ZIPs remain available. Some older Windows ZIPs were removed on September 10; [the historical cleanup receipt](docs/BUILD-CLEANUP-2026-09-10.md) records that cleanup. The Creature Workshop checkpoint did not delete archives.
-
-From source (Node.js 22 or later):
+Install [Node.js](https://nodejs.org/) **22.18.0** (the version in .nvmrc) and Git.
+Then run these commands in PowerShell or a terminal:
 
 ```sh
+git clone https://github.com/ddevillier/atoll-down-under.git
+cd atoll-down-under
 npm ci
+npm run check
 npm start
 ```
 
-For a local browser development preview: `npm run dev`, then open http://127.0.0.1:4173. The production application is a desktop Electron app and needs no server or internet connection.
+**Every required asset is included in the checkout. No API key, paid service,
+Python, FFmpeg, original game installation or asset generation is needed to run
+or build the game.** npm ci downloads the pinned development dependencies and
+Electron. Once installed, the game runs offline.
 
-The living title now responds to your mouse and plays the peaceful Blue Passage arrangement. Open File → Family journal, or find it in the field guide, for shared badges, species care stamps and journal backup/restore. See [care and journal rules](docs/FAMILY-JOURNAL.md).
+For a browser preview, use `npm run dev` and open http://127.0.0.1:4173.
+Use the server rather than opening index.html directly.
 
-Every Practice species now has an optional journey, including cleaner care, grazing, shared feeding, ambushes, home returns, probing and shell feeding, hunting patrols, lookout posts, and companion excursions. Inspect one of the seven resident species to begin its observation journey. Completed activities record Ways of living discoveries in the Family Journal. All 64 guide entries have an optional narrated introduction with a transcript; press Play to listen. See [ways of living](docs/SPECIES-LIFE.md).
+## Build Windows
 
-## What's here
+```sh
+npm run build:win
+```
 
-- Nine distinct illustrated habitats: sunlit crest, high terrace, diagonal wreck cliff, vertical coral wall, dense coral cathedral, wreck interior, seagrass meadow, sandy shelf, and stacked grotto.
-- 64 illustrated marine creatures, with 57 Practice choices and the established 55-species Challenge/Tournament roster.
-- Practice, four-life Challenge, full-roster Tournament, and a configurable Create-a-Fish mode.
-- Species-specific diets, food rejection, poison, energy use, parasites, day/night cleaners, concealment, predator pursuit across reef boundaries, renewable food, abilities, scoring, and advancement.
-- Paused inspection, a searchable field guide and glossary, three manual save slots plus a last-dive save, and local Reef Rulers scores.
-- An illustrated nine-habitat map with visited places, suitable meals and optional directions for your next swim.
-- Three original stereo music loops and 26 effects. Editable synthesis source and uncompressed WAV masters are included.
+This creates a new dated folder under dist/, verifies packaged source/assets,
+and prints the exact executable path. Copy the **whole** Atoll Down Under-win32-x64
+folder to run it elsewhere; the EXE depends on its neighboring files.
+To choose a fresh output directory explicitly:
 
-See the [nine-scene contact sheet](docs/REEF-CONTACT-SHEET.jpg) for the revised habitat compositions. The [implementation specification](docs/GAME-DESIGN.md), [visual system](DESIGN.md), and [validation record](docs/VALIDATION.md) explain the shipped design.
+```sh
+npm run build:win -- --out dist/my-windows-build
+```
+
+The build refuses to replace an existing output directory. No signing certificate
+is configured, so the current Windows executable is unsigned.
+
+GitHub's [Windows workflow](https://github.com/ddevillier/atoll-down-under/actions/workflows/windows.yml)
+checks a clean checkout, runs unit/browser/native tests, builds the game, and
+uploads a verified portable ZIP with its receipts. Open a successful run and
+expand **Artifacts** to download **Atoll-Down-Under-Windows**. Artifact downloads
+require signing in to GitHub. Forks can run the same workflow without secrets.
+
+See [build and test details](docs/BUILDING.md) for ZIP creation, troubleshooting
+and optional asset-authoring tools.
 
 ## Controls
 
 | Input | Action |
 |---|---|
-| E / context button | Use the species activity: help a client, inspect sand, invite a companion, choose an ambush, choose a home or blend |
-| Mouse movement | Swim toward the pointer; while ambushing, aim without leaving the position |
-| Click an organism | Approach and attempt to eat; playable cleaners instead help suitable clients |
-| Stop inside shelter | Hide, if your body fits |
-| Stop beside a cleaner | Request parasite removal |
-| Space | Activate your special ability |
-| Escape | Pause and inspect; resume |
-| P | Pause / resume |
-| F | Field guide |
-| M | Reef map and optional swim directions |
-| Ctrl/Cmd + S | Save the last dive |
-| F11 | Leave or enter desktop fullscreen |
+| Mouse movement | Swim toward the pointer |
+| Click a creature or food | Approach; feed or help a compatible client |
+| E | Context activity: probe sand, invite a companion, choose a home and more |
+| Space | Species special ability |
+| Escape / P | Pause and inspect / resume |
+| H | Suitable food hints |
+| F / M | Field guide / reef map |
+| Ctrl+S | Save the dive |
+| F11 | Switch between fullscreen and windowed mode |
 
-Small fish can hide in the marked shelters. Use Inspect to find them. Daytime cleaners are bluestreak cleaner wrasses; nighttime cleaners are banded coral shrimp. Wait nearby without clicking. The night reef stays bright, as in the reference game's approach.
+Activities remain optional. Practice offers gentle, recoverable danger. Sound
+starts after interaction; music, effects and narration have separate controls.
 
-## Audio
-
-| Track | Use | Duration |
-|---|---|---|
-| Blue Passage | Title / menus | ~101 seconds |
-| Glasswater | Daytime reef | ~107 seconds |
-| Moon Through Water | Nighttime reef | 128 seconds |
-
-The soundtrack uses newly composed chord progressions and melodic patterns, soft synthesized mallets, pads, bass, and stereo delay. No recorded samples or original-game melodies are used. Audio starts after the first user interaction. Music and effects have independent volume controls.
-
-To rebuild all audio: install Python `numpy` and FFmpeg, then run `python scripts/compose_audio.py` from this folder. Game audio uses OGG Vorbis; the source project also includes WAV masters. The desktop package omits the WAV masters to reduce download size.
-
-## Project layout
-
-- `src/`: game data, deterministic simulation, Canvas renderer, UI, and audio control.
-- `assets/`: nine reef paintings, four creature atlases, food atlas, original icon, licensed fonts, and audio.
-- `desktop/`: isolated Electron launcher using a local `atoll://` protocol.
-- `scripts/`: local server, asset tools, audio composer, packaging and QA.
-- `tests/`: behavior tests, asset verification, and end-to-end UI tests.
-- `docs/`: design, source notes, asset prompts and validation evidence.
-
-## Build and verify
+## Develop and verify
 
 ```sh
 npm test
 npx playwright install chromium
 npm run test:e2e
 npm run test:desktop
-npm run package:win
 ```
 
-Browser tests start their own localhost server when one is not already running. The native desktop test uses isolated temporary storage and launches a hidden test window and verifies the real local protocol, game startup, sprite loading, and music readiness. Windows is the authorized delivery target.
+Browser tests start their own local server. Native tests use temporary profiles
+so they do not replace player saves. [Contributing](CONTRIBUTING.md) describes
+where gameplay, rendering and test code live.
 
-Run `python scripts/package-releases.py` after the Windows build to create the Windows portable ZIP, source ZIP, and SHA-256 checksums. Python 3 is required for this archive step.
+## License and assets
 
-## Exploration revision in progress
+The original **code is MIT licensed**; **game assets have reserved rights** with
+permission to clone/fork, build, modify and play this project for personal use,
+testing and contributions. The complete assets remain in the repository.
+They are not generally licensed for extraction or reuse in other games.
+See [the code license](LICENSE), [asset permission](assets/LICENSE.md), and
+[third-party provenance](docs/PROVENANCE.md). Fonts retain their own licenses.
 
-The current revision replaces player-first predator targeting with nearest suitable food selection, feeding/rest cycles and bounded pursuits. Communities include more small foragers and grazers; a shark is no longer forced into every scene. Your first habitat remains protected while you swim and observe, until you eat, use an ability, or leave that habitat.
+Original-game executables, decompiled materials, local credentials, test captures
+and packaged historical builds are not part of this repository.
 
-Press Escape and click an organism to inspect its current activity and relationship to your fish. Observations are recorded in **Field guide → Field notes** and saved with the dive. These notes describe the game's model; they are not a substitute for a scientific species reference.
-
-**Field guide → Food web** lets you follow feeding connections through the creature catalog. **Reef life** explains coral animals, plankton, sponges and grazing, with observation questions and NOAA source references. Each explanation distinguishes real biology from the processes simplified or omitted by the game. Inspection now freezes sprite animation as well as the simulation. Other fish visit cleaners too: watch a client arrive, wait, receive cleaning, and leave.
-
-## Fidelity and limits
-
-This is a playable work in progress. Ecological pacing, educational depth, animation, and visual fidelity are still being refined. Numeric balancing, creature roster, names of habitats, field-guide prose, and ability effects are independently authored. It is not a byte-for-byte emulation or a claim of exact historical parity. Species sizes and diets are game abstractions, not a scientific reference.
-
-The image-generation tool produced approximately 1.5K–1.7K source paintings; the renderer scales smoothly to 4K displays. These are new high-resolution illustrations relative to the original game's small screens, not native 4K painted masters. Original prompts are in `docs/ASSET-PROMPTS.json`.
-
-The chosen title has not been commercially cleared. See `docs/PROVENANCE.md` for asset sources and licenses. No account, multiplayer, telemetry, or online leaderboard is required.
-
-The renderer preserves complete sprites that cross atlas grid boundaries. Swimming uses separate stylized articulation for fish, sharks, eels, rays, cuttlefish and seahorses, with smoother turns. These animations illustrate different forms; they are not biomechanical reconstructions.

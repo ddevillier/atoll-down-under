@@ -12,11 +12,18 @@ export function creatureFrame(e,width=creatureWidth(e.species),rotation=groundPi
  const dx=(anchor[0]-.5)*width*facing,dy=(anchor[1]-.5)*height,cos=Math.cos(rotation),sin=Math.sin(rotation);
  return {x:e.x-dx*cos+dy*sin,y:e.y-dx*sin-dy*cos,width,height,anchor,rotation};
 }
+// Display geometry is transient presentation state, never part of a saved animal.
+const displayedFrames=new WeakMap();
+export function setCreatureDisplayFrame(e,frame){
+ displayedFrames.set(e,{frame:{...frame},x:e.x,y:e.y,species:e.species,incarnation:e.incarnation||0});
+}
+export function creaturePickFrame(e){
+ const displayed=displayedFrames.get(e);
+ if(!displayed||displayed.species!==e.species||displayed.incarnation!==(e.incarnation||0)||Math.hypot(e.x-displayed.x,e.y-displayed.y)>200)return creatureFrame(e);
+ return {...displayed.frame,x:displayed.frame.x+e.x-displayed.x,y:displayed.frame.y+e.y-displayed.y};
+}
 export function creatureHit(e,point){
- const frame=creatureFrame(e),dx=point.x-frame.x,dy=point.y-frame.y;
- if(e.groundRoute||e.holdfast){
-  const cos=Math.cos(frame.rotation),sin=Math.sin(frame.rotation),x=dx*cos+dy*sin,y=-dx*sin+dy*cos;
-  return (x/Math.max(17,frame.width*.5+6))**2+(y/Math.max(17,frame.height*.5+6))**2<1;
- }
- return Math.hypot(dx,dy)<Math.max(17,frame.width*.45);
+ const frame=creaturePickFrame(e),dx=point.x-frame.x,dy=point.y-frame.y;
+ const rotation=frame.rotation||0,cos=Math.cos(rotation),sin=Math.sin(rotation),x=dx*cos+dy*sin,y=-dx*sin+dy*cos;
+ return (x/Math.max(17,frame.width*.5+6))**2+(y/Math.max(17,frame.height*.5+6))**2<1;
 }

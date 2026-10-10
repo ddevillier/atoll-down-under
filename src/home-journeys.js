@@ -1,4 +1,5 @@
 import {REEFS} from './data.js';
+import {meetFish,rememberHomecoming} from './reef-memories.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 const rows=[
  ['s1','damsel-territory','A familiar coral patch','coral refuge',['algae','plankton'],'Graze near your chosen coral, then make a plankton excursion before coming home.'],
@@ -26,14 +27,15 @@ export function chooseJourneyHome(sim){
  const p=sim.player,d=homeJourney(p),sites=homeJourneySites(sim),site=sites.filter(s=>distance(s,p)<=110).sort((a,b)=>distance(a,sim.pointer)-distance(b,sim.pointer)||distance(a,p)-distance(b,p))[0];
  if(!site){sim.event('message',d.host?'Find a living anemone in this reef or use the map to explore another habitat.':'Move close to a marked '+d.home+', then press E.');return false;}
  const old=sim.adventure.homeJourney;
+ if(site.host!=null)meetFish(sim,sim.section.entities.find(e=>e.id===site.host));
  if(!old||old.finished||old.reef!==sim.current||old.site!==site.id||(old.incarnation||0)!==(site.incarnation||0))sim.adventure.homeJourney={reef:sim.current,site:site.id,x:site.x,y:site.y,host:site.host??null,incarnation:site.incarnation||0,stage:0,rest:0,departed:false,meals:[],finished:false};
- sim.point(site.x,site.y);sim.player.target=null;sim.event('message','Your '+d.home+' is marked. Become still here before your feeding trip.');return true;
+ sim.point(site.x,site.y);sim.player.target=null;sim.event('activity-step','Marked your '+d.home);return true;
 }
 export function homeJourneyInstruction(sim){
  const d=homeJourney(sim.player),j=sim.adventure.homeJourney;if(!j)return 'Move close to a marked '+d.home+' · Press E to choose it';
- if(j.finished)return 'Discovered · Press E near a home to begin another feeding trip';
  if(j.host!=null&&!hostFor(sim,j))return 'Your anemone is no longer here · Choose another living host with E';
  if(j.reef!==sim.current)return 'Your '+d.home+' is in '+REEFS[j.reef].name+' · Return there, or choose a new home';
+ if(j.finished)return 'Discovered · Home again in '+REEFS[j.reef].name+' · Press E here for another feeding trip';
  if(j.stage===0)return 'Settle close to your marked '+d.home+' before leaving';
  if(j.stage===2)return 'Return to your marked '+d.home+' and become still';
  const food=d.ordered?d.foods[j.meals.length]:d.foods.join(' or ');
@@ -44,7 +46,7 @@ export function homeJourneyMeal(sim,target){
  if(j.host!=null&&!hostFor(sim,j))return;
  const food=target.kind==='food'?target.food:target.species?.food||'fish';
  if(d.ordered?food!==d.foods[j.meals.length]:!d.foods.includes(food))return;
- j.meals.push(food);if(!d.ordered||j.meals.length===d.foods.length){j.stage=2;j.rest=0;sim.event('message','A feeding trip completed. Find your marked '+d.home+' again.');}
+ j.meals.push(food);if(!d.ordered||j.meals.length===d.foods.length){j.stage=2;j.rest=0;sim.event('activity-step','Feeding trip complete');}
 }
 export function tickHomeJourney(sim,dt){
  const p=sim.player,d=homeJourney(p),j=sim.adventure.homeJourney;if(!d||!j)return false;const site=chosenHome(sim);
@@ -54,7 +56,7 @@ export function tickHomeJourney(sim,dt){
  const settled=near&&p.still>.7&&!p.target&&!p.cleanerTarget&&p.actionTime<=0&&p.stun<=0;
  j.rest=settled?Math.min(3,j.rest+dt):0;
  if(settled)p.activity='at-home';
- if(j.stage===0&&j.rest>=d.rest){j.stage=1;j.rest=0;sim.event('message','Your '+d.home+' is familiar now. Head out for your feeding trip.');}
- if(j.stage===2&&j.rest>=d.rest)j.finished=true;
+ if(j.stage===0&&j.rest>=d.rest){j.stage=1;j.rest=0;sim.event('activity-step','Settled at your '+d.home);}
+ if(j.stage===2&&j.rest>=d.rest&&!j.finished){j.finished=true;rememberHomecoming(sim,d.home,j.meals);sim.event('homecoming','Home again · Your '+d.home+' in '+REEFS[j.reef].name+'. Rest, or press E for another trip.',{x:site.x,y:site.y});}
  return !!j.finished;
 }

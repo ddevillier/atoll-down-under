@@ -1,7 +1,10 @@
 import {clickButton} from './ui-actions.mjs';
 import {_electron as electron,expect} from '@playwright/test';
 import fs from 'node:fs';
-const executable=process.argv[2];
+import path from 'node:path';
+const executable=process.argv[2]&&process.argv[2]!=='source'?process.argv[2]:undefined;
+const output=process.argv[3]||'artifacts';fs.mkdirSync(output,{recursive:true});
+const capture=name=>path.join(output,name);
 const app=await electron.launch({...(executable?{executablePath:executable}:{args:['.']}),env:{...process.env,ATOLL_QA:'1'}});
 try{
 const isolatedProfile=await app.evaluate(({app})=>/[\\/]atoll-qa-/.test(app.getPath('userData')));
@@ -15,7 +18,7 @@ await expect(page.locator('[data-action="fullscreen"]')).toHaveText('Fullscreen'
 await clickButton(page,{name:'Fullscreen',exact:true});
 await expect.poll(()=>app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isFullScreen())).toBe(true);
 await expect(page.locator('[data-action="fullscreen"]')).toHaveText('Leave fullscreen');
-await page.waitForFunction(()=>window.atoll?.renderer.ready);await page.screenshot({path:'artifacts/desktop-splash.png'});await clickButton(page,{name:/Practice Choose/});await clickButton(page,{name:'Enter the reef'});await page.waitForFunction(()=>window.atoll.audio.music?.readyState>=3);
+await page.waitForFunction(()=>window.atoll?.renderer.ready);await page.screenshot({path:capture('desktop-splash.png')});await clickButton(page,{name:/^Practice\b/});await clickButton(page,{name:'Enter the reef'});await page.waitForFunction(()=>window.atoll.audio.music?.readyState>=3);
 const report=await page.evaluate(()=>({origin:location.origin,ready:window.atoll.renderer.ready,splashReady:window.atoll.renderer.splash?.naturalWidth>1000,mode:window.atoll.simulation.mode,musicReady:window.atoll.audio.music.readyState,nodeExposed:typeof window.require!=='undefined',species:window.atoll.renderer.sprites.length}));
 report.fullscreenStartup=fullscreenStartup;
 const revision=await page.evaluate(async()=>{
@@ -34,7 +37,7 @@ Object.assign(report,revision);
 await page.keyboard.press('Escape');
 report.fullscreenVerified=fullscreenStartup.active&&fullscreenStartup.coversDisplay&&await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].isFullScreen());
 await page.keyboard.press('Escape');
-await page.screenshot({path:'artifacts/desktop-native.png'});
+await page.screenshot({path:capture('desktop-native.png')});
 // Verify mouse steering through the packaged app, in the isolated QA dive.
 const target=await page.evaluate(()=>{
  const s=window.atoll.simulation,f=s.section.food.find(f=>f.food==='algae');
@@ -47,6 +50,10 @@ await page.mouse.click(box.x+300/1600*box.width,box.y+355/900*box.height);
 await page.waitForFunction(id=>window.atoll.simulation.player.target===id,target);
 await expect(page.locator('.diet-reminder')).toContainText('Plankton · Algae');
 await expect(page.locator('#state-badge')).toContainText('Approaching Algae');
+await expect(page.locator('#state-badge')).toHaveClass('sr-only');
+await expect(page.locator('#dive-state-cue')).toBeVisible();
+await expect(page.locator('#dive-state-cue')).toHaveAttribute('data-state','target');
+await expect(page.locator('#dive-state-cue')).toHaveAttribute('aria-label',/Approaching Algae/);
 report.feedingFeedbackVerified=true;
 await page.mouse.move(box.x+1100/1600*box.width,box.y+355/900*box.height);
 await page.waitForFunction(()=>window.atoll.simulation.player.target===null&&window.atoll.simulation.player.x>850);
@@ -72,9 +79,9 @@ await page.mouse.move(box.x+1586/1600*box.width,box.y+405/900*box.height);
 await page.waitForFunction(()=>window.atoll.simulation.current===5);
 await page.keyboard.press('Escape');
 report.edgeTravelVerified=await page.evaluate(()=>{const s=window.atoll.simulation,c=window.travelCrossing;return s.paused&&s.player.biteDamage===0&&c?.entering===true&&c.after>180&&Math.abs(c.after-c.before)<1e-8;});
-await page.screenshot({path:'artifacts/desktop-travel.png'});
+await page.screenshot({path:capture('desktop-travel.png')});
 // Check the new feeding choices through the native menus and ordinary click.
-await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/Practice Choose/});
+await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/^Practice\b/});
 await page.getByRole('searchbox').fill('Spotted pufferfish');await page.getByRole('option').click();await clickButton(page,{name:'Enter the reef'});
 const shell=await page.evaluate(async()=>{
  const s=window.atoll.simulation,crab=s.section.entities.find(e=>e.species.id==='s46');
@@ -88,25 +95,27 @@ await page.mouse.click(shellBox.x+shell.x/1600*shellBox.width,shellBox.y+(shell.
 await page.waitForFunction(id=>window.atoll.simulation.player.foragingPrep?.target===id,shell.id);
 await page.waitForFunction(id=>!window.atoll.simulation.section.entities.find(e=>e.id===id).alive,shell.id,{timeout:15000});
 report.shellfishFeedingVerified=await page.evaluate(()=>window.atoll.simulation.player.energy>48);
-await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/Practice Choose/});
+await clickButton(page,{name:'Atoll',exact:true});await clickButton(page,{name:/^Practice\b/});
 await page.getByRole('searchbox').fill('Clown triggerfish');await page.getByRole('option').click();await clickButton(page,{name:'Enter the reef'});
 await expect(page.locator('.passive-ability')).toContainText('Always active');await expect(page.locator('[data-action="ability"]')).toHaveCount(0);
 await page.keyboard.press('Space');await expect(page.locator('.toast')).toContainText('Crushing jaws are always available');
 report.passiveJawsVerified=await page.evaluate(()=>{const s=window.atoll.simulation;return s.protected&&s.player.energy===100&&s.player.cooldown===0;});
-await page.screenshot({path:'artifacts/desktop-feeding-adaptations.png'});
+await page.screenshot({path:capture('desktop-feeding-adaptations.png')});
 // The optional map plans a route without taking over the fish's movement.
 await page.getByRole('button',{name:/Open reef map/}).click();
 await expect(page.locator('.reef-map-tile')).toHaveCount(9);
 const mapBefore=await page.evaluate(()=>{const s=window.atoll.simulation;return {current:s.current,x:s.player.x,y:s.player.y};});
 const destination=(mapBefore.current+1)%9;
 await page.locator(`.reef-map-tile[data-reef="${destination}"]`).click();
-await page.screenshot({path:'artifacts/desktop-reef-map.png'});
+await page.screenshot({path:capture('desktop-reef-map.png')});
 await clickButton(page,{name:'Guide my swim'});
 report.reefMapVerified=await page.evaluate(({mapBefore,destination})=>{const s=window.atoll.simulation;return s.destination===destination&&s.current===mapBefore.current&&s.player.x===mapBefore.x&&s.player.y===mapBefore.y;},{mapBefore,destination});
 await expect(page.locator('#state-badge')).toContainText('Swim');
+await expect(page.locator('#dive-state-cue')).toBeVisible();
+await expect(page.locator('#dive-state-cue')).toHaveAttribute('data-state','route');
 await page.keyboard.press('m');await clickButton(page,{name:'Clear route'});
 report.reefMapVerified&&=await page.evaluate(()=>window.atoll.simulation.destination===null);
 await page.keyboard.press('Escape');await expect(page.locator('#reef')).toBeFocused();
-console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync('artifacts/desktop-report.json',JSON.stringify({report,isolatedProfile,errors},null,2));if(errors.length||!report.fullscreenVerified||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified||!report.reefMapVerified||!report.factsVerified||!report.populationsVerified||!report.scoringVerified)process.exitCode=1;
+console.log(JSON.stringify({report,isolatedProfile,errors}));fs.writeFileSync(capture('desktop-report.json'),JSON.stringify({report,isolatedProfile,errors},null,2));if(errors.length||!report.fullscreenVerified||!report.ready||!report.splashReady||report.musicReady<3||report.nodeExposed||!report.mouseSteeringVerified||!report.feedingFeedbackVerified||!report.edgeTravelVerified||!report.shellfishFeedingVerified||!report.passiveJawsVerified||!report.reefMapVerified||!report.factsVerified||!report.populationsVerified||!report.scoringVerified)process.exitCode=1;
 
 }finally{await app.close();}

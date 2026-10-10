@@ -1,5 +1,8 @@
-import {cleanerInspection} from './cleaner-motion.js';
+import {enterReefLife} from './risk-cues.js';
+import {meetFish,rememberExperience} from './reef-memories.js';
+import {cleanerInspection,cleaningClientBerth} from './cleaner-motion.js';
 import {approachCleaning} from './cleaning-stations.js';
+import {REEFS} from './data.js';
 const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export const parasiteDamage=e=>Math.max(0,100-e.health-(e.biteDamage||0)-(e.poisonDamage||0));
 export function validPlayerService(s){return s==null||typeof s==='object'&&(typeof s.client==='string'&&s.client.length>0&&s.client.length<100||typeof s.client==='number'&&Number.isFinite(s.client))&&Number.isInteger(s.reef)&&s.reef>=0&&s.reef<9&&['total','removed','elapsed'].every(k=>Number.isFinite(s[k])&&s[k]>=0)&&s.total>0&&s.total<=100&&s.removed<=s.total&&s.elapsed<=3.01;}
@@ -15,19 +18,26 @@ export function requestPlayerService(sim,client){
  const p=sim.player;if(!p||p.health<=0||p.species.ability!=='clean'||sim.paused||sim.phase!=='playing')return false;
  cancelPlayerService(sim);
  client=client||sim.section.entities.filter(canHelp).sort((a,b)=>distance(p,a)-distance(p,b))[0];
- if(!canHelp(client)){sim.event('message','Choose a fish with parasites to remove. Cleaning leaves bites and poison to recover naturally.');return false;}
+ if(!canHelp(client)){sim.event('message','Choose a fish with parasites.');return false;}
  p.target=null;p.feeding=null;p.cleanerTarget=null;p.hidden=false;
  // A requested visit replaces an unstarted station trip. Active treatment
  // and feeding are excluded by canHelp, so neither can be stolen.
  client.target=null;client.pursuit=0;
- p.service={client:client.id,reef:sim.current,total:parasiteDamage(client),removed:0,elapsed:0};sim.protected=false;
- sim.pointer={x:p.x,y:p.y};sim.event('message','Helping '+client.species.name+' · Swim away to stop.');return true;
+ p.service={client:client.id,reef:sim.current,total:parasiteDamage(client),removed:0,elapsed:0};enterReefLife(sim,'care');
+ sim.pointer={x:p.x,y:p.y};sim.event('activity-step','Helping '+client.species.name+'.');return true;
 }
 export function treatingClient(sim,e){const c=serviceClient(sim);return c===e&&sim.player.service.elapsed>0&&distance(sim.player,c)<220;}
 export function respondToPlayerService(sim,e,dt){
  if(serviceClient(sim)!==e)return false;
  e.target=null;e.pursuit=0;
- if(distance(sim.player,e)>=220){
+ const berth=cleaningClientBerth(sim.player,e),gap=distance(e,berth);
+ if(gap>.01){
+  // Small sideways fin corrections preserve the inspection side and have the
+  // same speed limit as the client's ordinary approach to a cleaner.
+  const advance=Math.min(gap,e.species.speed*.45*dt);
+  e.x+=(berth.x-e.x)/gap*advance;e.y+=(berth.y-e.y)/gap*advance;
+  e.activity='approaching-cleaner';e.behavior='Making room for cleaning';
+ }else if(distance(sim.player,e)>=220){
   approachCleaning(e,sim.player,dt,e.species.speed*.45);
   e.activity='approaching-cleaner';e.behavior='Coming to you for cleaning';
  }else{e.activity='cleaning';e.behavior='Being helped by you';}
@@ -50,7 +60,8 @@ export function tickPlayerService(sim,dt){
   const helped=s.removed;cancelPlayerService(sim);c.rest=Math.max(c.rest||0,8);c.behavior='Resting after your help';
   const a=sim.adventure;a.clients??=[];if(helped>=1&&!a.clients.includes(c.species.id))a.clients.push(c.species.id);
   if(helped>=10)sim.event('progress','',{kind:'activity',value:'helper'});
-  sim.event('clean','Helped '+c.species.name+' · '+Math.round(helped)+' parasite damage removed.');
+  if(helped>=1){meetFish(sim,c,{record:false});rememberExperience(sim,'care','Helped a '+c.species.name.toLowerCase()+' in '+REEFS[sim.current].name+'; removed '+Math.round(helped)+' parasite damage.',{neighbor:c.species.id});}
+  sim.event('clean','Helped '+c.species.name+'.',{x:c.x,y:c.y,animalId:c.id});
  }
  return true;
 }
