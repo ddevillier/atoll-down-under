@@ -62,8 +62,9 @@ node scripts/qa-reef-stories-native.mjs "dist/my-build/Atoll Down Under-win32-x6
 
 ## GitHub Actions
 
-.github/workflows/windows.yml uses a clean Windows runner, pinned Node, npm ci,
-setup checks, the full unit and browser suites, source Electron checks, packaging,
+.github/workflows/windows.yml uses clean Windows runners, pinned Node, npm ci,
+setup checks, the full unit suite, four browser shards and source Electron checks.
+All four shards must succeed before the separate packaging job can run its
 packaged adventure/audio/save checks and verified ZIP creation. Successful runs
 upload the portable ZIP, build/source/archive receipts and QA evidence. Failure
 logs and captures are uploaded separately where available. The job has read-only

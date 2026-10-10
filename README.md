@@ -59,10 +59,13 @@ The build refuses to replace an existing output directory. No signing certificat
 is configured, so the current Windows executable is unsigned.
 
 GitHub's [Windows workflow](https://github.com/ddevillier/atoll-down-under/actions/workflows/windows.yml)
-checks a clean checkout, runs unit/browser/native tests, builds the game, and
+checks clean checkouts, runs the full browser suite in four Windows shards plus
+unit/native tests, builds the game only after every check succeeds, and
 uploads a verified portable ZIP with its receipts. Open a successful run and
 expand **Artifacts** to download **Atoll-Down-Under-Windows**. Artifact downloads
-require signing in to GitHub. Forks can run the same workflow without secrets.
+require signing in to GitHub. Forks can run the same workflow for testing without
+secrets; sharing asset-containing fork builds remains subject to the
+[asset permission](assets/LICENSE.md).
 
 See [build and test details](docs/BUILDING.md) for ZIP creation, troubleshooting
 and optional asset-authoring tools.
