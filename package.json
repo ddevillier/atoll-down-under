@@ -14,7 +14,9 @@
     "test:desktop": "node scripts/qa-desktop.mjs",
     "check": "node scripts/check-setup.mjs",
     "build:win": "node scripts/build-windows.mjs",
-    "assets:manifest": "node scripts/asset-manifest.mjs"
+    "assets:manifest": "node scripts/asset-manifest.mjs",
+    "postinstall": "node node_modules/electron/install.js",
+    "setup:electron": "node node_modules/electron/install.js"
   },
   "devDependencies": {
     "@electron/packager": "^20.3.0",

@@ -6,9 +6,11 @@ const root=fileURLToPath(new URL('../',import.meta.url));
 const fail=message=>{console.error('Setup check failed: '+message);process.exit(1);};
 const [major,minor]=process.versions.node.split('.').map(Number);
 if(major<22||major===22&&minor<18)fail('Use Node.js 22.18.0 or later; .nvmrc pins the verified version.');
-for(const file of ['node_modules/electron/path.txt','node_modules/@electron/packager/package.json','node_modules/@playwright/test/package.json','node_modules/sharp/package.json'])if(!fs.existsSync(path.join(root,file)))fail('Dependency installation is incomplete. Run npm ci.');
-const electronDir=path.join(root,'node_modules/electron'),binary=fs.readFileSync(path.join(electronDir,'path.txt'),'utf8').trim();
-if(!fs.existsSync(path.join(electronDir,'dist',binary)))fail('Electron binary is missing. Rerun npm ci with Electron downloads enabled.');
+for(const file of ['node_modules/electron/package.json','node_modules/@electron/packager/package.json','node_modules/@playwright/test/package.json','node_modules/sharp/package.json'])if(!fs.existsSync(path.join(root,file)))fail('Dependency installation is incomplete. Run npm ci.');
+const electronDir=path.join(root,'node_modules/electron');
+if(!fs.existsSync(path.join(electronDir,'path.txt')))fail('Electron runtime is missing. Run npm run setup:electron, or npm ci without --ignore-scripts.');
+const binary=fs.readFileSync(path.join(electronDir,'path.txt'),'utf8').trim();
+if(!fs.existsSync(path.join(electronDir,'dist',binary)))fail('Electron binary is missing. Run npm run setup:electron with Electron downloads enabled.');
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'docs/ASSET-MANIFEST.json'),'utf8'));
 let bytes=0;
 for(const item of manifest){

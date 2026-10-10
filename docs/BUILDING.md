@@ -14,7 +14,8 @@ OGG files and omit WAV masters. All 270 spoken clips are included as OGG files.
 
 | Command | Purpose |
 |---|---|
-| npm ci | Install exact locked dependencies and Electron |
+| npm ci | Install exact locked dependencies and the Electron runtime through postinstall |
+| npm run setup:electron | Install/repair the pinned Electron runtime explicitly |
 | npm run check | Check Node, dependency installation and required offline assets |
 | npm start | Open the fullscreen Electron game |
 | npm run dev | Start a localhost browser preview on port 4173 |
@@ -88,7 +89,9 @@ It is not part of the normal build and is not exercised by CI.
 
 ## Troubleshooting
 
-- Missing Electron or assets: rerun npm ci and npm run check from the repository root.
+- Missing assets: obtain the complete checkout and rerun npm run check.
+- Missing Electron: run npm run setup:electron. npm ci normally does this through
+  postinstall; --ignore-scripts intentionally skips that step.
 - Download/proxy errors: npm ci needs access to npm and Electron's download hosts.
   Install behind your normal approved proxy; do not disable TLS verification.
 - Blank file:// browser page: use npm run dev, or npm start for the desktop application.
