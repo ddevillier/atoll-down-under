@@ -771,6 +771,91 @@
       "species": "s13",
       "kind": "recorded gameplay",
       "reference": "src/reef-story-data.js#cardinalfish-nursery"
+    },
+    "coral-housekeeper": {
+      "id": "discoveries/coral-housekeeper-reflection",
+      "text": "You uncovered branches in a dusty coral home. Banded humbugs can help remove sediment from the corals they shelter in.",
+      "kind": "recorded gameplay and sourced natural history",
+      "species": [
+        "s30"
+      ],
+      "reference": "src/reef-story-data.js#coral-housekeeper",
+      "audioHash": "148504d95bdf57b34bc02ba6bbf649b8d53c67baf0e8680710e36efdd56a693f",
+      "duration": 7.5,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "rabbitfish-lookout": {
+      "id": "discoveries/rabbitfish-lookout-reflection",
+      "text": "One rabbitfish watched while the other grazed, then you exchanged roles. Researchers observed this coordination in both studied rabbitfish species.",
+      "kind": "recorded gameplay and sourced natural history",
+      "species": [
+        "s8",
+        "s52"
+      ],
+      "reference": "src/reef-story-data.js#rabbitfish-lookout",
+      "audioHash": "0e7cb1ee6fb354dc2f1e1e7fe739e3e8a9456a08cd21583b364310d787ee3fa5",
+      "duration": 9.5,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "frogfish-walk": {
+      "id": "discoveries/frogfish-walk-reflection",
+      "text": "Your fins found footholds along the reef. Frogfishes can use their paired fins to walk over the bottom.",
+      "kind": "recorded gameplay and sourced natural history",
+      "species": [
+        "s54"
+      ],
+      "reference": "src/reef-story-data.js#frogfish-walk",
+      "audioHash": "13ff58d45ee3395534a098d8c9b2b4c29e8a7e9466345b33b2519d5cb556aedd",
+      "duration": 6.6,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "gramma-nest": {
+      "id": "discoveries/gramma-nest-reflection",
+      "text": "As a nesting male, you lined a sheltered corner and cleared its entrance. Royal gramma males prepare and tend nests.",
+      "kind": "recorded gameplay and sourced natural history",
+      "species": [
+        "s3"
+      ],
+      "reference": "src/reef-story-data.js#gramma-nest",
+      "audioHash": "886f7d99f43f1b49ada6cace1f3e4571c23889a49a1ecc5cf3ab0a5fea60873e",
+      "duration": 9,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "triggerfish-crevice": {
+      "id": "discoveries/triggerfish-crevice-reflection",
+      "text": "A fitting crevice held your raised dorsal spine. Clown triggerfish can lock that spine to brace themselves, then release it to leave.",
+      "kind": "recorded gameplay and sourced natural history",
+      "species": [
+        "s24"
+      ],
+      "reference": "src/reef-story-data.js#triggerfish-crevice",
+      "audioHash": "5dad50e9a6db4a5f8d84f7d2c0fd6af6b42911941cd64a128a57748c91bab97a",
+      "duration": 9.2,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "squirrelfish-shade": {
+      "id": "discoveries/squirrelfish-shade-reflection",
+      "text": "Sound, posture, and spacing helped you notice a neighbor. Squirrelfish sounds need context; they are not words to translate.",
+      "kind": "recorded gameplay and sourced natural history",
+      "species": [
+        "s12"
+      ],
+      "reference": "src/reef-story-data.js#squirrelfish-shade",
+      "audioHash": "f75163d1d7b54ef1e1874b20cb9ab67d09fa6c6faa7de3f7a9ce18a1e9bcb479",
+      "duration": 7.8,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "lantern-company": {
+      "id": "discoveries/lantern-company-reflection",
+      "text": "In this Anomalops katoptron case study, visible light helped schoolmates keep contact and turn. Light signals work together with spacing and surroundings.",
+      "kind": "recorded gameplay and sourced natural history",
+      "species": [
+        "s53"
+      ],
+      "reference": "src/reef-story-data.js#lantern-company",
+      "audioHash": "55535d02e4d9858995d9f2aa2dd09474503cf1cb8a046d23b5ac67d4429acaf1",
+      "duration": 9.8,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
     }
   },
   "achievements": {
@@ -853,6 +938,93 @@
       "id": "discoveries/badge-school",
       "text": "A guest in the school. Your fish spent time swimming beside its companions.",
       "kind": "recorded accomplishment"
+    }
+  },
+  "help": {
+    "housekeeper": {
+      "id": "discoveries/coral-housekeeper-help",
+      "text": "Inspect the branching colony. Choose a dusty pocket and a direction that carries the sediment toward open water. Approach and clear it, then try the other pocket. Inspect the uncovered branches below the colony. Moving the pointer lets you swim away.",
+      "kind": "optional game instructions",
+      "species": [
+        "s30"
+      ],
+      "reference": "src/reef-story-data.js#coral-housekeeper",
+      "audioHash": "70929ebef314ba853ec35ad82abbc6365a54eaf2163182dc830c3584e7469e23",
+      "duration": 16,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "lookout": {
+      "id": "discoveries/rabbitfish-lookout-help",
+      "text": "Meet a free rabbitfish on Sunlit Crest and choose Watch together. Choose a grazing ledge and swim to its lookout circle. Press E to watch. Notice passing movement, then hold here or move over. Let your companion graze, wait for it to take the lookout, then click real algae for your turn.",
+      "kind": "optional game instructions",
+      "species": [
+        "s8",
+        "s52"
+      ],
+      "reference": "src/reef-story-data.js#rabbitfish-lookout",
+      "audioHash": "3c91fa776c98c3920e0eb15950e50f6b1b5122a1cf4bb43542c2c3eeb653d971",
+      "duration": 19,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "walker": {
+      "id": "discoveries/frogfish-walk-help",
+      "text": "Choose the high or low shelves around the sponge. Plant your fins at the first foothold. Choose a connected shelf, or press E for your next step. Settle at the lookout to inspect the view. Moving the pointer releases your fins so you can swim freely.",
+      "kind": "optional game instructions",
+      "species": [
+        "s54"
+      ],
+      "reference": "src/reef-story-data.js#frogfish-walk",
+      "audioHash": "1ac519d4565608215b413f3e0e56fa0f00f4ad545c409db3e20c89db26c80335",
+      "duration": 15.6,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "nest": {
+      "id": "discoveries/gramma-nest-help",
+      "text": "Take the optional role of a nesting male royal gramma. Inspect either ledge from below. Pick up the loose algae tuft with your mouth and carry it back. Choose the left or right entrance edge for the lining. Clear the entrance silt, then inspect your finished nest. Moving the pointer lets you steer freely.",
+      "kind": "optional game instructions",
+      "species": [
+        "s3"
+      ],
+      "reference": "src/reef-story-data.js#gramma-nest",
+      "audioHash": "7484572fa3d57ef9c29a7b1b730c30c11d4936d2dac3b7a46b1f08c75b3d9201",
+      "duration": 19.1,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "crevice": {
+      "id": "discoveries/triggerfish-crevice-help",
+      "text": "Compare the three openings. Choose one with room for your body and an upper edge close enough to brace your spine. Ease inside, then lock the dorsal spine. Release it before backing out. Point elsewhere at any time to release and swim freely.",
+      "kind": "optional game instructions",
+      "species": [
+        "s24"
+      ],
+      "reference": "src/reef-story-data.js#triggerfish-crevice",
+      "audioHash": "a98055c3480db190d6a5bcf258af8f8e08efadcc56a4a9d40070bed1bfd4fabc",
+      "duration": 17.2,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "shade": {
+      "id": "discoveries/squirrelfish-shade-help",
+      "text": "Follow the quiet pulse or its visible ripple toward the shaded opening. Inspect the neighbor and watch how it turns and gives space. Choose the neighboring alcove or a wider gap. Swim to your chosen place, let the neighbor settle, then inspect both resting places. The sound has no translated words.",
+      "kind": "optional game instructions",
+      "species": [
+        "s12"
+      ],
+      "reference": "src/reef-story-data.js#squirrelfish-shade",
+      "audioHash": "0c9ec4fabfa9ed9ea8261a18f8948ce8eb0bd4153a577dda75b1b1761ca42b8c",
+      "duration": 19.1,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
+    },
+    "lantern": {
+      "id": "discoveries/lantern-company-help",
+      "text": "Swim near two free flashlightfish at night in Quiet Grotto. Choose a route above or below the outcrop. Swim through the left marker, then lead the bend at the school’s pace. Press E to show or hide your light organ. The rock blocks sight, so circle back if you lose contact.",
+      "kind": "optional game instructions",
+      "species": [
+        "s53"
+      ],
+      "reference": "src/reef-story-data.js#lantern-company",
+      "audioHash": "639d38dce4db24e2889850d6a21905ac21c51b6acb1602aec8bbe93f88f1c731",
+      "duration": 17.9,
+      "provenance": "assets/audio/narration/species-adventures-provenance.json"
     }
   }
 }

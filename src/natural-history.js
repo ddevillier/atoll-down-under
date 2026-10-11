@@ -11,9 +11,10 @@ export const NATURAL_HISTORY={
  s12:{scientific:'Neoniphon sammara',family:'Holocentridae · squirrelfishes',
   paragraphs:[
    'The bloodspot squirrelfish, also called the slender squirrelfish, has a silvery-gold body with narrow dark red stripes. A conspicuous black patch marks the front of its spiny dorsal fin. Its large eyes and pale-tipped fin spines are useful identification clues.',
-   'This Indo-Pacific fish shelters near caves, coral overhangs and branching corals by day. At night it hunts crabs, shrimp, small fish and larger zooplankton. Squirrelfishes can communicate by vibrating the swim bladder with specialized muscles.'
+   'This Indo-Pacific fish shelters near caves, coral overhangs and branching corals by day. At night it hunts crabs, shrimp, small fish and larger zooplankton. Squirrelfishes can produce sounds using the swim bladder and specialized muscles. A field study of this species found mostly solitary fish and some shared shelters; sounds did not map neatly onto single behaviors.'
   ],question:'Compare a sheltered daytime resting place with an open nighttime feeding area. What changes besides the light?',
-  limit:'The identity follows the original Windows bloodspot squirrelfish. Its game menu remains crab and shrimp, as in the original guide. The sonic pulse is an authored defensive ability, not a reconstruction of natural communication.',
+  limit:'The identity follows the original Windows bloodspot squirrelfish. Someone in the Shade combines a designed sound/ripple cue with posture and actual spacing. It does not translate fish speech or reproduce a recorded greeting. The crab-and-shrimp menu and defensive sonic pulse remain game rules.',
+  storySources:[{source:'PLOS ONE 2024 · Squirrelfish acoustic and behavioral field study',url:'https://doi.org/10.1371/journal.pone.0312191'}],
   source:'Dianne J. Bray · Fishes of Australia: Slender Squirrelfish',url:'https://fishesofaustralia.net.au/home/species/4445'},
  s16:{scientific:'Cephalopholis miniata',family:'Groupers and rockcods',
   paragraphs:[
@@ -48,7 +49,7 @@ export const NATURAL_HISTORY={
    'Goatfishes have two sensory barbels beneath the lower jaw. These whisker-like structures help them search sand and reef crevices by touch and taste. When not being used, the barbels can be tucked away.',
    'Their meals include bottom-living worms, crustaceans and small molluscs; some species also eat fish. A goatfish can take sand into its mouth while searching and expel it through the gill openings. Different species feed by day, at night, or during both periods.'
   ],question:'Watch where a goatfish points its head. How might searching with barbels differ from spotting a meal in open water?',
-  limit:'Yellow goatfish is used for more than one species. This entry gives family-level facts rather than assigning the sprite an unverified scientific name; barbel motion accompanies an authored food inspection cue, while digging and sensory detection are not simulated.',
+  limit:'Yellow goatfish is used for more than one species. Whisker Detective uses close-contact barbel probing to reveal existing buried food and lets a real neighbor take a meal you leave. These are simplified search and sharing rules, not a model of sensory chemistry or evidence for deliberate generosity.',
   source:'Waikīkī Aquarium · Goatfishes',url:'https://www.waikikiaquarium.org/experience/animal-guide/fishes/goatfishes/goatfishes/'},
  s41:{scientific:'Aulostomus chinensis',family:'Aulostomidae · trumpetfishes',length:'Up to 90 cm total length',
   paragraphs:[
@@ -104,7 +105,7 @@ export const NATURAL_HISTORY={
    'Many parrotfishes bite reef surfaces with teeth joined into a beak-like structure. Feeding can remove algae and other living material along with pieces of the hard coral skeleton. Parrotfish is a group name, so one feeding description does not identify every species.',
    'After food is digested, swallowed coral material can pass out as sand. A fish’s meals can therefore help change the reef around it. Grazing also removes algae that compete with corals for space.'
   ],question:'Look at a grazing fish’s mouth and the surface beneath it. What traces might a meal leave behind?',
-  limit:'No exact parrotfish species has been verified for this sprite. The game does not grind reef surfaces into sand or model changes in algae and coral cover.',
+  limit:'No exact parrotfish species has been verified for this sprite. Sandcastle Engineer represents sand left after grazing, depletion and renewal of existing algae patches, and a neighbor taking a real meal. Sand amounts and renewal times are authored; coral growth and the grinding anatomy are not simulated.',
   source:'Smithsonian Ocean · Tough Teeth and Parrotfish Poop',url:'https://ocean.si.edu/ocean-life/fish/tough-teeth-and-parrotfish-poop'},
  s21:{scientific:'Scorpaenopsis diabolus',family:'Scorpaenidae · scorpionfishes',length:'Up to 30 cm',
   paragraphs:[
@@ -129,17 +130,19 @@ export const NATURAL_HISTORY={
   source:'Dianne J. Bray · Fishes of Australia: Coffin Ray',url:'https://fishesofaustralia.net.au/home/species/1843'},
  s53:{scientific:'Anomalopidae (flashlight fishes; family)',family:'Flashlight fishes · species not identified',
   paragraphs:[
-   'Flashlight fishes carry light-producing bacteria in organs beneath their eyes. In the splitfin flashlight fish, Anomalops katoptron, those organs can rotate so their light is hidden or revealed. The fish controls a living light source rather than making sparks.',
-   'Splitfin flashlight fish shelter in caves and dark overhangs by day and form schools at night. They eat animal plankton and use light to help find it. This species occurs in the Pacific, including the Great Barrier Reef.'
+   'The catalog label names the flashlight-fish family. Lantern Company is explicitly a case study of the splitfin flashlight fish, Anomalops katoptron. It carries light-producing bacteria in organs beneath the eyes and can rotate those organs to hide or reveal their light.',
+   'Anomalops katoptron shelters in caves and dark overhangs by day and forms schools at night. It eats animal plankton and uses light to help find it. Studies of this named species link visible light with school contact, neighbor spacing and turns. The findings do not establish a language shared by every flashlight fish.'
   ],question:'Imagine watching only the lights in a dark school. What could you learn from their spacing and changes in visibility?',
-  limit:'Splitfin flashlight fish is a named example; the sprite’s exact species remains unresolved. Automatic dimming and the defensive flash use authored game timing. Bacterial partners and coordinated school flashing are not simulated.',
+  limit:'The roster remains Anomalopidae; Lantern Company uses a named Anomalops katoptron case study and dedicated presentation. The route, sight range, organ controls and neighbor responses are bounded game interpretations. The separate defensive flash is authored; bacterial physiology and a universal fish language are not simulated.',
+  storySources:[{source:'Gruber et al. · PLOS ONE 2019: bioluminescent schooling in Anomalops katoptron',url:'https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0219852'},{source:'Hellinger et al. · 2021: light signals and nearest-neighbor distance',url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC7979757/'}],
   source:'Aquarium of the Pacific · Splitfin Flashlight Fish (named example)',url:'https://www.aquariumofpacific.org/onlinelearningcenter/species/splitfin_flashlight_fish'},
  s3:{scientific:'Gramma loreto',family:'Royal grammas and their relatives',length:'About 8 cm',
   paragraphs:[
    'Royal grammas live around Caribbean and western Atlantic reefs, often close to caves and overhangs. They can swim belly-up beneath a ledge, orienting themselves to the nearby reef surface.',
    'Their food includes tiny crustaceans drifting in the water or living near the bottom. They sometimes pick parasites from other fishes. A male prepares a sheltered nest with algae and other material, then tends the eggs.'
   ],question:'Watch a fish beside a ledge. Is its belly always facing the seabed, or could it face the nearest shelter?',
-  limit:'This is an Atlantic species in a mixed game catalog, not evidence that it belongs on an Australian reef. Upside-down swimming, nesting and occasional cleaning are not simulated.',
+  limit:'This Atlantic species appears in a fictional mixed catalog. A Little Room Under the Roof explicitly offers a nesting-male role, an underside pose, algae carrying and entrance clearing. Placement and timing are authored; construction does not produce eggs, a mate or mouthbrooding. Occasional natural cleaning is not simulated.',
+  storySources:[{source:'Asoh and Yoshikawa · Copeia 1996: nesting and male care in Gramma loreto',url:'https://doi.org/10.2307/1446936'}],
   source:'Aquarium La Rochelle · Royal Gramma',url:'https://www.aquarium-larochelle.com/en/species-encyclopedia/royal-gramma/'},
  s1:{scientific:'Pomacentrus coelestis',family:'Pomacentridae · damselfishes',length:'Up to 8 cm total length',
   paragraphs:[
@@ -174,7 +177,7 @@ export const NATURAL_HISTORY={
    'A bright yellow blotch below the rear dorsal fin stands out on this striped fish. Also called the goldspot seabream, it has rows of pale spots on the upper body and brownish-orange stripes below.',
    'It lives around coastal reefs, lagoons and outer slopes, sometimes gathering in large daytime schools. Feeding takes place at night, when it takes bottom-dwelling animals such as crabs and snails, with small fishes sometimes included.'
   ],question:'Would a fish seen in a daytime school necessarily be feeding? What behavior would provide better evidence?',
-  limit:'The game currently puts this fish in daytime scenes. Its documented nighttime feeding is stated here separately; a future activity correction needs gameplay checks.',
+  limit:'The current game puts this fish and its feeding trip in daytime scenes. Documented daytime grouping and nighttime feeding are different behaviors; the current trip should not be read as a reconstruction of that natural schedule.',
   source:'Dianne J. Bray · Fishes of Australia: Goldspot Seabream',url:'https://fishesofaustralia.net.au/home/species/2222'},
  s56:{scientific:'Heniochus acuminatus',family:'Chaetodontidae · butterflyfishes',length:'Up to 25 cm',
   paragraphs:[
@@ -188,7 +191,7 @@ export const NATURAL_HISTORY={
    'This slender fish is blue-green above and silver below. Its lateral line divides, with one branch curving down behind the pectoral fin before following the lower side. That feature gives the doublelined mackerel its name.',
    'Also called the scad mackerel, it forms dense schools near reefs, especially outer walls and deep, clear slopes. It eats small fishes and crustaceans. A school of hunters can be part of a reef community as well as schools of smaller prey.'
   ],question:'Compare a compact school with scattered individuals. How does grouping change the amount of open water between fish?',
-  limit:'The game does not give this species a dedicated schooling routine or its full crustacean diet. Its chase speed is a balance setting.',
+  limit:'The game includes ordinary schooling and a burst-and-return feeding trip, rather than a dedicated plankton-school activity. Its fish-only menu omits natural crustacean meals, and its chase speed is a balance setting.',
   source:'Dianne J. Bray and S. Schultz · Fishes of Australia: Scad Mackerel',url:'https://fishesofaustralia.net.au/home/species/722'},
  s51:{scientific:'Lutjanus johnii',family:'Lutjanidae · snappers',
   paragraphs:[
@@ -200,9 +203,10 @@ export const NATURAL_HISTORY={
  s52:{scientific:'Siganus doliatus',family:'Siganidae · rabbitfishes',
   paragraphs:[
    'Also called the bluelined or pencil-streaked rabbitfish, this fish has fine blue lines and two slanting dark bands near the head. Its dorsal and tail fins are yellow, and its stout fin spines are venomous.',
-   'Pairs and schools graze turf algae, larger seaweeds and seagrass in shallow, sheltered reef habitats. A pair is not always isolated: tracking studies have found coordinated movements involving many pairs.'
+   'Pairs and schools graze turf algae, larger seaweeds and seagrass in shallow, sheltered reef habitats. In a Lizard Island study that included this species and foxfaces, one member of a pair often watched while the other fed, and the fish alternated roles. This observational coordination is not proof of deliberate repayment or moral fairness.'
   ],question:'Compare a rabbitfish pair with a whole school. What observations would help tell whether the same two fish stay together?',
-  limit:'The catalog name is matched to the pencil-streaked rabbitfish; the sprite still needs identification review. Pair bonds and coordinated migrations are not simulated.',
+  limit:'The catalog name is matched to the pencil-streaked rabbitfish, with fine blue-line markings. Existing companions retain individual identity. Your Turn to Look offers authored lookout/grazing choices based on observed role alternation; it does not model lifelong bonds, prove moral fairness or decode fin flicks. Coordinated migrations are not simulated.',
+  storySources:[{source:'Brandl and Bellwood · Scientific Reports 2015: coordinated vigilance in rabbitfish pairs',url:'https://www.nature.com/articles/srep14556'}],
   source:'Dianne J. Bray · Fishes of Australia: Bluelined Rabbitfish',url:'https://fishesofaustralia.net.au/home/species/1049'},
  s17:{scientific:'Sphyraena qenie',family:'Sphyraenidae · barracudas',length:'Up to 1.7 m total length',
   paragraphs:[
@@ -284,16 +288,17 @@ export const NATURAL_HISTORY={
  s54:{scientific:'Antennarius pictus',family:'Antennariidae · frogfishes',length:'Up to 16 cm',
   paragraphs:[
    'Also called the painted anglerfish, this fish can be red, yellow, orange, green, brown or black. The pectoral fins often have pale tips, and three spots commonly mark the tail. Color alone is not enough to identify it.',
-   'It often lives alongside sponges in bays and estuaries. Its range includes tropical and temperate parts of the Indo-Pacific, with Australian records extending around the north and down both western and eastern coasts.'
+   'It often lives alongside sponges in bays and estuaries. Its range includes tropical and temperate parts of the Indo-Pacific, with Australian records extending around the north and down both western and eastern coasts. It can move over the bottom using pectoral and pelvic fins like limbs.'
   ],question:'Compare the outlines of a frogfish and a sponge. What details would you look for to decide which one is a fish?',
-  limit:'The illustration shows one stylized appearance. The lure ability and its effect on nearby prey are game rules; this source verifies identity and habitat rather than lure timing.',
+  limit:'A Walk Along the Reef represents planted fin contacts and short body movements over authored footholds. Route choices, reach limits and step times are game rules, not a measured walking gait. The ordinary lure and strike remain separate simplified play.',
+  storySources:[{source:'Okinawa Churaumi Aquarium · Painted frogfish: paired-fin walking',url:'https://churaumi.okinawa/tc/fishbook/1459836633/'}],
   source:'Australian Museum · Painted Anglerfish',url:'https://australian.museum/learn/animals/fishes/painted-anglerfish-antennarius-pictus/'},
  s19:{scientific:'Sepiidae (cuttlefishes; family)',family:'Cephalopod molluscs · species not identified',
   paragraphs:[
    'Cuttlefishes are molluscs with remarkable camouflage. One Australian example, the giant cuttlefish, can change its color and raise parts of its skin to resemble the texture of sand, rocks or seaweed.',
    'Giant cuttlefish eat fishes, crabs and other crustaceans. Their changing patterns also help them communicate, especially when breeding. They are mainly active by day: the behavior of a real species can differ from a game’s general label.'
   ],question:'Compare changes in color with changes in texture. Would matching only one of those always hide an animal?',
-  limit:'The game does not identify its cuttlefish as a giant cuttlefish. That species is a named example here, not an identification of the sprite. The game uses night-only activity, a simplified ink defense, and two authored background patterns. Press E near sand or reef and stay still to blend; movement reveals you.',
+  limit:'Giant cuttlefish is a named example, not an identification of the catalog sprite. The game uses night-only activity and a simplified ink defense. Disappearing Artist adds three authored disguises and passing-observer responses to the older sand/reef blending activity; movement reveals you. Skin chemistry and actual texture change are not simulated.',
   source:'Australian Museum · Giant Cuttlefish (named example)',url:'https://australian.museum/learn/animals/fishes/giant-cuttlefish-sepia-apama-gray-1849/'},
  s20:{scientific:'Pterois (lionfishes; genus)',family:'Scorpaenidae · exact species not identified',
   paragraphs:[
@@ -307,49 +312,49 @@ export const NATURAL_HISTORY={
    'A seahorse is a fish with a very unusual outline: an upright body, a long snout and a gripping tail. This species can be pale yellow or dark, so color by itself is not a reliable identification. It uses shallow coastal habitats such as seagrass beds, bays and estuaries.',
    'Its tail holds onto a support while its snout draws in tiny moving prey, including small crustaceans. The female transfers eggs into the male’s brood pouch. He carries the developing young and releases them when they are ready to live independently.'
   ],question:'Compare a seahorse’s gripping tail with a shark’s swimming tail. How does each shape help its owner?',
-  limit:'This entry describes the yellow or common seahorse associated with the catalog name; the stylized sprite still needs identification review. Brood care and suction feeding are not animated.',
+  limit:'This entry describes the yellow or common seahorse associated with the catalog name; the stylized sprite still needs identification review. Its resident observation shows a meal and rest at a holdfast with a simplified snout/contact motion. Fluid suction, paired courtship and brood care are not simulated.',
   source:'Micheleen Hashikawa · University of Michigan Animal Diversity Web',url:'https://animaldiversity.org/accounts/Hippocampus_kuda/'},
  s45:{scientific:'Stenopus hispidus',family:'Stenopodidae · banded coral shrimps',length:'Body length up to about 5 cm',
   paragraphs:[
    'Red-and-white bands, prominent claws and long white antennae distinguish this shrimp. It shelters beneath reef ledges and in crevices. Pairs are often seen together, with the male smaller than the female.',
    'A cleaner shrimp finds food on larger fishes by removing external parasites and other material. Its long antennae help attract visiting fish. Females carry eggs beneath the abdomen; after hatching, the larvae drift in open water before settling near a reef.'
   ],question:'Watch a fish waiting beside the shrimp. What is food for one animal and an unwanted passenger for the other?',
-  limit:'The game provides one nighttime cleaner per habitat. Pairing, eggs and drifting larvae are not simulated, and cleaning only repairs the parasite part of the health meter.',
+  limit:'The game provides one nighttime cleaner per habitat. Reef Clinic remembers individual clients and offers a return encounter through actual care. Pairing, eggs and drifting larvae are not simulated; cleaning only repairs parasite damage, and clinic reactions are authored.',
   source:'Oregon Coast Aquarium · Banded Coral Shrimp',url:'https://aquarium.org/animals/banded-coral-shrimp/'},
  s46:{scientific:'Brachyura (true crabs; group)',family:'Crustaceans · species not identified',
   paragraphs:[
    'A crab wears its supporting skeleton on the outside. Jointed legs allow it to move despite this hard covering. Crabs belong to the crustaceans, a group that also includes shrimps, lobsters and tiny plankton animals.',
    'Look for paired antennae and compare the crab’s jointed limbs with a snail’s soft body. A hard outer covering and a shell may look similar, but they belong to animals with very different body plans.'
   ],question:'Count the visible joints as a crab walks. Where does its body bend, and where does it stay stiff?',
-  limit:'Reef crab is a broad game label, not a verified species name. Its scavenging diet, size and shell-breaking rules describe the game creature; they do not describe every crab. Its brief pause near a large neighbor is an authored game response.',
+  limit:'Reef crab is a broad game label, not a verified species name. This resident walks a bounded bottom route and handles actual detritus meals. Its scavenging diet, size, shell-breaking rules and brief pause near a large neighbor are game choices, not facts about every crab.',
   source:'Australian Museum · Crustaceans',url:'https://australian.museum/learn/animals/crustaceans/'},
  s47:{scientific:'Asteroidea (sea stars; group)',family:'Echinoderms · species not identified',
   paragraphs:[
    'Sea stars are animals, but they are not fish. They have no fins or scales and live in salt water. Their relatives include sea urchins and sea cucumbers.',
    'Small tube feet on the underside help a sea star move and hold food. Not every species has five arms: some have many more. Sea stars can regrow lost arms, although a game-sized moment is far too short to show that process.'
   ],question:'Compare a sea star with an urchin. What similarities might be hidden underneath their very different outlines?',
-  limit:'Red sea star does not identify one species. This entry describes the group; the game’s stationary pose and detritus diet are simplified choices, not universal sea-star behavior.',
+  limit:'Red sea star does not identify one species. This resident already crawls along a bounded bottom route despite having no free-swimming speed. Its detritus menu and pace are game choices, not universal sea-star behavior; regeneration is not simulated.',
   source:'NOAA Ocean Service · Are starfish really fish?',url:'https://oceanservice.noaa.gov/facts/starfish.html'},
  s60:{scientific:'Nudibranchia (nudibranchs; group)',family:'Gastropod molluscs · species not identified',
   paragraphs:[
    'Nudibranchs are sea slugs whose adult bodies have no protective shell. Many carry an exposed ring of gills on the back. Their name means naked gills, but the shapes and positions of these structures vary.',
    'They eat other animals, often specializing in a particular prey. Some eat sponges; others use different foods. Defenses vary too: some make unpleasant chemicals, some conceal themselves, and some can store stinging cells taken from their prey.'
   ],question:'A sponge looks still, but it is an animal. Does eating a sponge make a nudibranch a plant-eater or an animal-eater?',
-  limit:'The catalog has a representative nudibranch, not a verified species. Its sponge-only menu and poisonous-food flag model one combination of traits rather than every nudibranch. Its brief withdrawal near a large neighbor is an authored game response.',
+  limit:'The catalog has a representative nudibranch, not a verified species. This resident crawls a bounded bottom route and browses sponges. Its sponge-only menu and poisonous-food flag model one combination of traits rather than every nudibranch; brief withdrawal near a large neighbor is authored. No stolen-stinger mechanism is assigned to this sponge eater.',
   source:'Western Australia DBCA · Nudibranches (sea slugs)',url:'https://www.dbca.wa.gov.au/wildlife-and-ecosystems/marine/marine-parks/fun-facts/nudibranches-sea-slugs'},
  s61:{scientific:'Gastropoda (snails and slugs; group)',family:'Molluscs · species not identified',
   paragraphs:[
    'A snail is soft-bodied underneath its shell. Snails and slugs belong to the gastropods, one of the major groups of molluscs. Molluscs also include very different-looking animals such as clams, octopuses and cuttlefish.',
    'A layer of tissue called the mantle can produce the shell. A muscular foot helps many molluscs move, and many have a tooth-bearing feeding structure called a radula. Shells, feet and feeding structures offer clues to how these animals live.'
   ],question:'Compare the shell-carrying snail with the nudibranch. What does the shell reveal, and what parts of the animal does it hide?',
-  limit:'Spiral snail is an invented descriptive label, not an identified species. Algae grazing is this creature’s game diet; the entry does not assign that diet to every marine snail. Its brief withdrawal near a large neighbor is an authored game response.',
+  limit:'Spiral snail is an invented descriptive label, not an identified species. This resident crawls along a bounded bottom route and browses existing algae. That menu is not assigned to every marine snail; movement timing and brief withdrawal near a large neighbor are authored game responses.',
   source:'Australian Museum · Molluscs',url:'https://australian.museum/learn/animals/molluscs/'},
  s62:{scientific:'Echinoidea (sea urchins; group)',family:'Echinoderms · species not identified',
   paragraphs:[
    'Sea urchins come in many forms: some have long, fine spines, while others have thick spines like pencils. Different species live in rock pools, on reefs and among kelp. Long spines alone do not identify a species.',
    'Grazing urchins can change the vegetation around them. On some Australian rocky reefs, their feeding helps maintain patches with little kelp. These patches still support other life; a place without tall plants is not necessarily empty.'
   ],question:'Compare a grazed patch with a patch of tall vegetation. Which animals might find shelter or food in each?',
-  limit:'Needle-spined urchin is a visual game label. These examples describe sea-urchin diversity, not an identification of the sprite. Its night-only appearance and fixed position are game rules.',
+  limit:'Needle-spined urchin is a visual game label. These examples describe sea-urchin diversity, not an identification of the sprite. This resident already crawls on a bounded bottom route and browses algae; pace and night-only appearance are game rules. A measured kelp-clearing effect is not simulated.',
   source:'Emily McLaren · Australian Museum: The sea urchins of Sydney',url:'https://australian.museum/blog/amri-news/the-sea-urchins-of-sydney/'},
  s63:{scientific:'Actiniaria (sea anemones; group)',family:'Cnidarians · species not identified',
   paragraphs:[
@@ -396,9 +401,10 @@ export const NATURAL_HISTORY={
  s8:{scientific:'Siganus vulpinus',family:'Siganidae · rabbitfishes',length:'Up to 30 cm',
   paragraphs:[
    'The foxface has a pointed snout, a dark band through the eye and a yellow rear body. Its snout helps explain the family name rabbitfish. It lives in the western Pacific, including tropical northern Australia.',
-   'Young foxfaces gather in schools and shelter among coral. Fish form pairs by about ten centimetres long. Spines on the back, belly and anal fin have grooves connected to venom glands: the colorful fish has a defense that is easy to overlook.'
+   'Young foxfaces gather in schools and shelter among coral. Fish form pairs by about ten centimetres long. A field study including foxfaces and pencil-streaked rabbitfish observed coordinated feeding and lookout postures with frequent role alternation. Spines on the back, belly and anal fin have grooves connected to venom glands.'
   ],question:'Find the fins that carry spines. How is a pointed spine different from a soft fin ray?',
-  limit:'Raise spines is a timed game ability. Real venomous spines do not switch off when an ability timer runs out; pair formation is not simulated.',
+  limit:'Raise spines is a timed game ability; real venomous spines do not switch off when its timer ends. Existing companions retain individual identity. Your Turn to Look interprets observed vigilance and feeding coordination through explicit role choices, without claiming deliberate fairness, decoded fin language or simulated lifelong pair formation.',
+  storySources:[{source:'Brandl and Bellwood · Scientific Reports 2015: coordinated vigilance in rabbitfish pairs',url:'https://www.nature.com/articles/srep14556'}],
   source:'Australian Museum · Foxface',url:'https://australian.museum/learn/animals/fishes/foxface-siganus-vulpinus/'},
  s23:{scientific:'Lactoria cornuta',family:'Ostraciidae · boxfishes',
   paragraphs:[
@@ -410,9 +416,10 @@ export const NATURAL_HISTORY={
  s30:{scientific:'Dascyllus aruanus',family:'Pomacentridae · damselfishes',length:'Up to 10 cm total length',
   paragraphs:[
    'Three dark bars contrast with this small fish’s pale body and white tail. Banded humbugs gather around branching coral in shallow lagoons and reef flats, slipping between branches for protection.',
-   'They collect tiny animal plankton from the water. Their coral home provides shelter, and the fish also remove unwanted algae from it. Males guard eggs attached to the bottom until the larvae hatch.'
+   'They collect tiny animal plankton from the water. Their coral home provides shelter. In an experiment with Pocillopora damicornis, corals occupied by banded humbugs retained less sediment than fish-free corals; picking, blowing and water movement helped clear particles. Males also guard eggs attached to the bottom until the larvae hatch.'
   ],question:'Watch the space above a coral head and the gaps between its branches. Which offers feeding room, and which offers shelter?',
-  limit:'This entry describes the banded humbug represented by the catalog name. The game does not simulate egg guarding or a defended coral home.',
+  limit:'Coral Housekeeper uses a named Pocillopora damicornis colony and close-contact sediment clearing. Pocket choices, particle direction and clearing time are authored; revealed branches show removed sediment, not instant coral healing or growth. Egg guarding and nighttime oxygen exchange are not simulated.',
+  storySources:[{source:'Chase et al. · Royal Society Open Science 2020: fish moderate coral sediment impacts',url:'https://researchonline.jcu.edu.au/63854/'}],
   source:'Dianne J. Bray · Fishes of Australia: Banded Humbug',url:'https://fishesofaustralia.net.au/home/species/347'},
  s48:{scientific:'Oxymonacanthus longirostris',family:'Monacanthidae · filefishes',length:'Up to 12 cm total length',
   paragraphs:[
@@ -433,20 +440,21 @@ export const NATURAL_HISTORY={
    'This small fish is native to Indonesia’s Banggai Archipelago, where it occupies shallow, sheltered reef and seagrass habitats. Populations elsewhere can result from introductions; the collection of animals in this game is not a map of their natural ranges.',
    'Its food includes copepods, tiny crustaceans in the plankton. Males shelter eggs in their mouths and release developed young. The pale spots on each fish form an individual pattern, so careful observation can help researchers recognize individuals.'
   ],question:'A small mouth can collect tiny prey and also shelter young. How might caring for eggs change a parent’s activities?',
-  limit:'Egg care and individual spot patterns are not simulated. The game’s night-only appearance is a scenario rule, not a claim that all cardinalfishes share one activity pattern.',
+  limit:'Dad’s Big Mouth represents a male mouthbrooding, releasing four representative young and watching them seek cover. Brooding duration and brood size are authored; courtship, spawning and individual spot recognition are not simulated. Night-only appearance is a scenario rule.',
   source:'NOAA Fisheries · Banggai Cardinalfish',url:'https://www.fisheries.noaa.gov/species/banggai-cardinalfish'},
  s24:{scientific:'Balistoides conspicillum',family:'Balistidae · triggerfishes',length:'Up to 50 cm',
   paragraphs:[
    'Large pale spots across the lower body and yellow around the mouth help identify the clown triggerfish. It occurs on Indo-West Pacific coral reefs. Australian records extend from offshore reefs in the northwest to the Great Barrier Reef and northern New South Wales.',
-   'Identification starts with looking closely: where are the spots, which part of the body is dark, and what shape are the fins? Combining these observations is more useful than remembering only that a fish is colorful.'
+   'It can wedge into reef crevices for shelter and rest. A smaller dorsal spine locks the larger first spine upright; releasing the lock lets the fish withdraw. Strong teeth also help it eat hard-shelled prey.'
   ],question:'Compare this fish’s markings with the spotted pufferfish. Which features would help you tell them apart?',
-  limit:'The reported length describes a real fish, not its on-screen dimensions. Crushing ability and food acceptance use game rules.',
+  limit:'The Just-Right Crevice uses authored openings, body clearance and a separately articulated dorsal spine to represent bracing and release. Fit thresholds and resting time are game rules. The reported length describes a real fish, not its on-screen dimensions; crushing and food acceptance remain simplified.',
+  storySources:[{source:'Waikīkī Aquarium · Clown Triggerfish: crevice shelter and dorsal-spine lock',url:'https://www.waikikiaquarium.org/experience/animal-guide/fishes/triggerfishes/clown-triggerfish/'}],
   source:'Australian Museum · Clown Triggerfish',url:'https://australian.museum/learn/animals/fishes/clown-triggerfish-balistoides-conspicillum-bloch-schneider-1801/'},
  s43:{scientific:'Labroides dimidiatus',family:'Labridae · wrasses',
   paragraphs:[
    'A small cleaner wrasse can approach a much larger fish without becoming its meal. It obtains food by removing parasites from clients. The interaction connects two different needs: the cleaner feeds, while the client loses parasites.',
    'Researchers at Lizard Island study these relationships through observations and experiments. Work on damselfish has linked external parasites with poorer performance in a visual learning task, showing that a cleaning relationship can matter beyond the moment of feeding.'
   ],question:'Watch a client stop at the cleaning station. What does each partner do? Compare this encounter with an ordinary feeding trip.',
-  limit:'Cleaning restores only the parasite-related part of health. Recovery from poison and injuries follows separate game rules. Real cleaners are not a general treatment for either. The learning experiment is not simulated.',
+  limit:'Reef Clinic uses actual contact care and remembers individual clients for a return encounter; reactions and compressed timing are authored. Cleaning restores only parasite damage. Recovery from poison and injuries follows separate game rules; real cleaners are not a general treatment for either. The learning experiment is not simulated.',
   source:'Australian Museum · Learning from the cleaners and their clients',url:'https://australian.museum/blog/amri-news/news-from-lirs-learning-from-the-cleaners-and-their-clients/'}
 };

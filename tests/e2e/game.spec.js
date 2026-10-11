@@ -455,7 +455,12 @@ test('a meadow visit supports mouse feeding, resident inspection and a saved ret
  await page.keyboard.press('Control+s');await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);
  await clickButton(page,{name:'Saved dives'});await clickButton(page,{name:'Load dive'});
  const restored=await page.evaluate(id=>{const s=window.atoll.simulation,f=s.section.food.find(f=>f.id===id);return {habitat:s.current,visited:s.visited,amount:f.amount,x:f.x,y:f.y,holdfast:s.section.entities[0].holdfast,paused:s.paused};},site.id);
- expect(restored).toEqual({habitat:6,visited:[4,3,6],amount:65,x:site.x,y:site.y,holdfast:resident.holdfast,paused:false});
+ expect(restored).toEqual({habitat:6,visited:[4,3,6],amount:65,x:site.x,y:site.y,holdfast:resident.holdfast,paused:true});
+ const frozen=await page.evaluate(()=>{const s=window.atoll.simulation;return {time:s.time,x:s.player.x,y:s.player.y,entities:structuredClone(s.section.entities),food:structuredClone(s.section.food)};});
+ await page.waitForTimeout(300);expect(await page.evaluate(()=>{const s=window.atoll.simulation;return {time:s.time,x:s.player.x,y:s.player.y,entities:structuredClone(s.section.entities),food:structuredClone(s.section.food)};})).toEqual(frozen);
+ await clickButton(page,{name:'Resume',exact:true});
+ const resumed=await page.evaluate(id=>{const s=window.atoll.simulation,f=s.section.food.find(f=>f.id===id);return {habitat:s.current,visited:s.visited,amount:f.amount,x:f.x,y:f.y,holdfast:s.section.entities[0].holdfast,paused:s.paused};},site.id);
+ expect(resumed).toEqual({habitat:6,visited:[4,3,6],amount:65,x:site.x,y:site.y,holdfast:resident.holdfast,paused:false});
 });
 
 test('a night cleaning visit works while a hungry neighbor forages beside the station',async({page})=>{

@@ -585,6 +585,36 @@
     "sha256": "db5e8dc463c771b5c8026bf720f7f5c64f084e6dd27d2a45186253339904f9c8"
   },
   {
+    "path": "assets/audio/narration/discoveries/coral-housekeeper-help.ogg",
+    "bytes": 178161,
+    "sha256": "70929ebef314ba853ec35ad82abbc6365a54eaf2163182dc830c3584e7469e23"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/coral-housekeeper-reflection.ogg",
+    "bytes": 85268,
+    "sha256": "148504d95bdf57b34bc02ba6bbf649b8d53c67baf0e8680710e36efdd56a693f"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/frogfish-walk-help.ogg",
+    "bytes": 173268,
+    "sha256": "1ac519d4565608215b413f3e0e56fa0f00f4ad545c409db3e20c89db26c80335"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/frogfish-walk-reflection.ogg",
+    "bytes": 75395,
+    "sha256": "13ff58d45ee3395534a098d8c9b2b4c29e8a7e9466345b33b2519d5cb556aedd"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/gramma-nest-help.ogg",
+    "bytes": 204435,
+    "sha256": "7484572fa3d57ef9c29a7b1b730c30c11d4936d2dac3b7a46b1f08c75b3d9201"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/gramma-nest-reflection.ogg",
+    "bytes": 102186,
+    "sha256": "886f7d99f43f1b49ada6cace1f3e4571c23889a49a1ecc5cf3ab0a5fea60873e"
+  },
+  {
     "path": "assets/audio/narration/discoveries/intro-s0.ogg",
     "bytes": 66452,
     "sha256": "eab915be781d3da14083d5ed8386bd7af7446bf7fb96bb55a9de6b41355d2ad2"
@@ -1190,9 +1220,39 @@
     "sha256": "210291c77bba3aae1a331a1a7a4d5915356482aa38e178b673d5f7011d37220a"
   },
   {
+    "path": "assets/audio/narration/discoveries/lantern-company-help.ogg",
+    "bytes": 199991,
+    "sha256": "639d38dce4db24e2889850d6a21905ac21c51b6acb1602aec8bbe93f88f1c731"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/lantern-company-reflection.ogg",
+    "bytes": 111823,
+    "sha256": "55535d02e4d9858995d9f2aa2dd09474503cf1cb8a046d23b5ac67d4429acaf1"
+  },
+  {
     "path": "assets/audio/narration/discoveries/manifest.json",
     "bytes": 118352,
     "sha256": "e248f6185171aaf7efbb627922e032662d9504804de8fe4ffc63e53c8341c6fb"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/rabbitfish-lookout-help.ogg",
+    "bytes": 209891,
+    "sha256": "3c91fa776c98c3920e0eb15950e50f6b1b5122a1cf4bb43542c2c3eeb653d971"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/rabbitfish-lookout-reflection.ogg",
+    "bytes": 108706,
+    "sha256": "0e7cb1ee6fb354dc2f1e1e7fe739e3e8a9456a08cd21583b364310d787ee3fa5"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/squirrelfish-shade-help.ogg",
+    "bytes": 205059,
+    "sha256": "0c9ec4fabfa9ed9ea8261a18f8948ce8eb0bd4153a577dda75b1b1761ca42b8c"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/squirrelfish-shade-reflection.ogg",
+    "bytes": 88960,
+    "sha256": "f75163d1d7b54ef1e1874b20cb9ab67d09fa6c6faa7de3f7a9ce18a1e9bcb479"
   },
   {
     "path": "assets/audio/narration/discoveries/story-artist.ogg",
@@ -1218,6 +1278,16 @@
     "path": "assets/audio/narration/discoveries/story-nursery.ogg",
     "bytes": 81822,
     "sha256": "1c6a841d8488b3159313623079e8e3b52e5fa3379e1d027924ff720e83188cfc"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/triggerfish-crevice-help.ogg",
+    "bytes": 184458,
+    "sha256": "a98055c3480db190d6a5bcf258af8f8e08efadcc56a4a9d40070bed1bfd4fabc"
+  },
+  {
+    "path": "assets/audio/narration/discoveries/triggerfish-crevice-reflection.ogg",
+    "bytes": 104546,
+    "sha256": "5dad50e9a6db4a5f8d84f7d2c0fd6af6b42911941cd64a128a57748c91bab97a"
   },
   {
     "path": "assets/audio/narration/manifest.json",
@@ -1543,6 +1613,11 @@
     "path": "assets/audio/narration/s9.ogg",
     "bytes": 286469,
     "sha256": "cdef8a0274debaa242b7d270cb282f977fef16d6fe08a597155e17fa2f9bd464"
+  },
+  {
+    "path": "assets/audio/narration/species-adventures-provenance.json",
+    "bytes": 26234,
+    "sha256": "6ae49d10ae6c03075d08fa4e9ba16067d22fe4664f70f7b25a9c70b0f74f906c"
   },
   {
     "path": "assets/audio/poison.ogg",
@@ -2036,6 +2111,94 @@
     "alpha": false
   },
   {
+    "path": "assets/story-crevice/README.md",
+    "bytes": 2221,
+    "sha256": "243af733fee2d78c7ef90084bebcf293fea94dc156a4a83560d5bb389b5d884a"
+  },
+  {
+    "path": "assets/story-crevice/clown-triggerfish-v1.png",
+    "bytes": 129713,
+    "sha256": "2ee11f9df2165c14f6988e835d0152423e2f229ab9ae8b3fd0fd8899485d7330",
+    "width": 355,
+    "height": 219,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-crevice/provenance.json",
+    "bytes": 3029,
+    "sha256": "dec1b0844029473cebc46941a2d8cd7c176899791a7d175aa3cf427deaa23446"
+  },
+  {
+    "path": "assets/story-housekeeper/README.md",
+    "bytes": 982,
+    "sha256": "cae9f09e3f4d54e9b73f8c65e49cf58060555743013839fb3f1d90b51fd77b2e"
+  },
+  {
+    "path": "assets/story-housekeeper/pocillopora-damicornis-v1.png",
+    "bytes": 2663728,
+    "sha256": "6bbe43b4cba5f98db30a3dc1e9cc9011cdb3464d514312e4e011aeeddec64679",
+    "width": 1448,
+    "height": 1086,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-housekeeper/provenance.json",
+    "bytes": 3233,
+    "sha256": "3b0f61b293f0be844b9f3518ecf107ac770b4f6a6e3a9ec0771ad24663075f8a"
+  },
+  {
+    "path": "assets/story-lantern/PROVENANCE.md",
+    "bytes": 5340,
+    "sha256": "a0921822e33b2edc67ac2a5366ee25f3ee7f9362be953e8a0e46482936e077bf"
+  },
+  {
+    "path": "assets/story-lantern/anomalops-katoptron-v1.png",
+    "bytes": 1717279,
+    "sha256": "85d3c58eadb9ed0b6fdbafc04ee123867d6f124b91a7c822e1ecf146aaddff15",
+    "width": 1774,
+    "height": 887,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-lantern/grotto-outcrop-v1.png",
+    "bytes": 2839536,
+    "sha256": "fed27edd52103f5dbc8919f59d8232f7dad84139cb5ffec8932324da9127fafb",
+    "width": 1312,
+    "height": 1199,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-lookout/PROVENANCE.md",
+    "bytes": 3191,
+    "sha256": "61c8bab99f7b21d6962ec7c96d8bd29c7d622c2553c156ef999877cfb6091ba7"
+  },
+  {
+    "path": "assets/story-lookout/pencilled-rabbitfish-v1.png",
+    "bytes": 2279514,
+    "sha256": "5902eb7e57e69e11d5fc7cebc804929e86ac437bad26204d12cfdf46c370c070",
+    "width": 1774,
+    "height": 887,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-nest/README.md",
+    "bytes": 1234,
+    "sha256": "40de3292e3fce00573f0d6a8c0ddfe76dbb28a1f72ca974d1c8568022a850713"
+  },
+  {
+    "path": "assets/story-nest/limestone-roof-v1.png",
+    "bytes": 2158554,
+    "sha256": "a96ac4c5af73b5a6dff691e097c1dbfef8cc77d47d0981f1bb9f89e6b8e4c5b4",
+    "width": 1774,
+    "height": 887,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-nest/provenance.json",
+    "bytes": 2375,
+    "sha256": "6fc3ca766c4c983b62c5bcbbb99bf9695101bbd3f9f8c3f751887f2b0238e36d"
+  },
+  {
     "path": "assets/story-nursery/banggai-juvenile-v1.png",
     "bytes": 1710118,
     "sha256": "57fef23f4dfdb69face53b3f1333a3443fcbd312fcf9fbf1f07ed6800f5a94a6",
@@ -2047,6 +2210,37 @@
     "path": "assets/story-nursery/provenance.json",
     "bytes": 2144,
     "sha256": "9efbb6d1a9fafca247ed9a11faf218c96f37c6cdfeae9d3ed3b26132b0388c91"
+  },
+  {
+    "path": "assets/story-shade/README.md",
+    "bytes": 579,
+    "sha256": "a5a82d7ecf7daa4b9501f40b2e70fc4b165bc2497751b495ceeede74ac1e8c78"
+  },
+  {
+    "path": "assets/story-shade/provenance.json",
+    "bytes": 1091,
+    "sha256": "d4bf66acee63c95b63a3f305d3db4186b681f5184da8803394e834b8a19d6193"
+  },
+  {
+    "path": "assets/story-walker/limestone-ledge-v1.png",
+    "bytes": 2027489,
+    "sha256": "f3260995a4d326375d2a5e690524cab8941a7f7b8a0dc428b1c13285945908a4",
+    "width": 2172,
+    "height": 724,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-walker/orange-sponge-v1.png",
+    "bytes": 2398987,
+    "sha256": "1551685493490dea121122af5000bdf52a7eb7f1a1bb619773840e898d9645f5",
+    "width": 1293,
+    "height": 1216,
+    "alpha": true
+  },
+  {
+    "path": "assets/story-walker/provenance.json",
+    "bytes": 2531,
+    "sha256": "4fc5e2a63ade1cb3999db1a2e8d8a3c70308ecc3abef76761054bd28aa365925"
   },
   {
     "path": "assets/title/splash.png",

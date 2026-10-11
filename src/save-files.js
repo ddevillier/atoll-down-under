@@ -12,7 +12,7 @@ export const MAX_SAVE_BYTES=8*1024*1024;
 const own=(o,k)=>Object.hasOwn(o,k);
 const object=o=>o!==null&&typeof o==='object'&&!Array.isArray(o);
 const finite=n=>typeof n==='number'&&Number.isFinite(n);
-const stateKeys=['version','seed','time','uid','mode','phase','score','stage','stageScore','sequence','sections','player','protected','riskCue','reefMemory','period','current','pointer','custom','creation','visited','destination','difficulty','observations','residentJourneys','residentFocus','careProgress','adventure','reefStories','recorded','deathReason'];
+const stateKeys=['version','seed','time','uid','mode','phase','paused','score','stage','stageScore','sequence','sections','player','protected','riskCue','reefMemory','period','current','pointer','custom','creation','visited','destination','difficulty','observations','residentJourneys','residentFocus','careProgress','adventure','reefStories','recorded','deathReason'];
 const fail=()=>{throw new Error('This dive file is damaged or incompatible. Choose another file.');};
 export const diveName=value=>String(value??'').trim().slice(0,60)||'My reef dive';
 export function diveFilename(name){
@@ -71,6 +71,7 @@ export function importDive(text){
  numbers(d,['seed','time','uid','score','stage','stageScore','current']);
  if(d.difficulty!==undefined&&(!finite(d.difficulty)||d.difficulty<0))fail();
  if(d.recorded!==undefined&&typeof d.recorded!=='boolean')fail();
+ if(d.paused!==undefined&&typeof d.paused!=='boolean')fail();
  if(d.deathReason!==undefined&&d.deathReason!==null&&(typeof d.deathReason!=='string'||d.deathReason.length>500))fail();
  if(!['practice','challenge','tournament','create'].includes(d.mode)||!['playing','advance','dead','won'].includes(d.phase)||!['day','night'].includes(d.period)||typeof d.protected!=='boolean')fail();
  if(!Number.isInteger(d.current)||d.current<0||d.current>8||!Number.isInteger(d.stage)||d.stage<0)fail();

@@ -67,7 +67,7 @@ test('four distinct young seek their own cover and repeat visits cannot inflate 
 });
 
 for(const [width,height]of [[1600,900],[1024,768]])test(`Dad's Big Mouth is reachable, visible and rewarding through real controls at ${width}`,async({page})=>{
- test.setTimeout(70000);await page.setViewportSize({width,height});const errors=[];page.on('pageerror',e=>errors.push(e.message));await ready(page);
+ test.setTimeout(70000);await page.setViewportSize({width,height});const savedPaused=width===1024,errors=[];page.on('pageerror',e=>errors.push(e.message));await ready(page);
  await clickButton(page,{name:/Practice Choose/});await page.getByRole('searchbox').fill('Banggai cardinalfish');await page.locator('[role="option"][data-species="s13"]').click();await page.locator('[data-action="begin-practice"]').click();
  // Existing exploration begins with its optional goal folded away. The story
  // entry must be reachable through the same Activity disclosure.
@@ -94,12 +94,19 @@ for(const [width,height]of [[1600,900],[1024,768]])test(`Dad's Big Mouth is reac
  console.log('Nursery mouth proof',JSON.stringify({width,jawPixels:visual.jaw,otherPixels:visual.other,eyeShift:visual.eyeShift}));
  expect(visual.jaw,'brood-only lower mouth pixel changes at native size').toBeGreaterThan(2);expect(visual.eyeShift,'mouthbrooding preserves the eye landmark').toBeLessThan(1e-9);
  await (await import('node:fs/promises')).writeFile((await import('node:path')).join((await import('node:os')).tmpdir(),`atoll-nursery-mouth-proof-${width}.png`),Buffer.from(visual.gallery.split(',')[1],'base64'));
+ // Cover both saved intentions: the wider dive keeps swimming, while the
+ // narrower dive explicitly pauses and later resumes through the visible UI.
+ if(savedPaused)await clickButton(page,{name:'Pause',exact:true});expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(savedPaused);
  await page.keyboard.press('Control+s');await expect.poll(()=>page.evaluate(()=>JSON.parse(localStorage.getItem('atoll-save-0')).state.includes('nursery'))).toBe(true);
+ expect(await page.evaluate(()=>JSON.parse(JSON.parse(localStorage.getItem('atoll-save-0')).state).paused)).toBe(savedPaused);
  await page.reload();await page.waitForFunction(()=>window.atoll?.renderer.ready);await clickButton(page,{name:'Saved dives',exact:true});await page.locator('[data-action="load-0"]').click();
  await expect(page.locator('#story-step')).toContainText('Mouthbrooding');expect(await page.evaluate(()=>window.atoll.simulation.reefStories.nursery.progress)).toBeGreaterThanOrEqual(brood.progress);
+ expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(savedPaused);
+ if(savedPaused){const frozen=await page.evaluate(()=>{const s=window.atoll.simulation,before=s.serialize();for(let i=0;i<60;i++)s.step(1/60);return {before,after:s.serialize()};});expect(frozen.after).toBe(frozen.before);}
  await page.locator('#reef-story .activity-details > summary').click();await expect(page.locator('#story-detail')).toContainText('Biological time is compressed');
  const bounds=await page.locator('#reef-story').evaluate(e=>({overflow:e.scrollWidth>e.clientWidth+1,rect:{left:e.getBoundingClientRect().left,right:e.getBoundingClientRect().right,bottom:e.getBoundingClientRect().bottom}}));expect(bounds.overflow).toBe(false);expect(bounds.rect.right).toBeLessThanOrEqual(width);expect(bounds.rect.bottom).toBeLessThanOrEqual(height);
  await page.screenshot({path:(await import('node:path')).join((await import('node:os')).tmpdir(),`atoll-nursery-brooding-${width}.png`)});
+ if(savedPaused)await clickButton(page,{name:'Resume',exact:true});expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(false);
  await page.evaluate(()=>{const s=window.atoll.simulation;for(let i=0;i<2100&&s.reefStories.nursery.stage==='brooding';i++)s.step(1/60);});await expect(page.locator('#story-step')).toContainText('Young seeking shelter');
  await page.evaluate(()=>{const s=window.atoll.simulation;for(let i=0;i<650;i++)s.step(1/60);});await page.locator('[data-story-action="nursery-check"]').click();await expect(page.locator('#story-record')).toHaveText('Discovered');
  await expect.poll(()=>page.evaluate(()=>window.atoll.journal.discoveries.includes('cardinalfish-nursery'))).toBe(true);await expect(page.locator('#story-detail')).toContainText('independently');

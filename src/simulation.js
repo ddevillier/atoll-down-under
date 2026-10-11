@@ -1,6 +1,8 @@
-import {storyKeyFor} from './reef-story-data.js';
+import {storyCompatible} from './reef-story-data.js';
+import {initialAdventureSite,reserveAdventureParticipants,adventureParticipantReserved,tickAdventureReservation,claimAdventureParticipant,validAdventureReservation} from './adventure-admission.js';
+import {isProtectedActor,canPredate,storyNeedsHeld,syncAdventureSafety,steerAroundAdventure} from './adventure-safety.js';
 import {detectiveBuriedCandidates} from './detective-substrate.js';
-import {freshStories,validStories,activeStory,storyAction,tickStories,storyMeal,storyNPC,storyFoodHidden,storyFoodReserved} from './reef-stories.js';
+import {freshStories,validStories,activeStory,storyAction,tickStories,storyMeal,storyNPC,storyFoodHidden,storyFoodReserved,storyClick,storyPointer,storyPlayer,storySafety,validStoryPlayer} from './reef-stories.js';
 import {chooseCustomRefuge,customMeal,tickCustomLife} from './custom-life.js';
 import {triggerAbility,defended as hasDefense,mimicTrusted,approachMimic,mimicBite,validMimicMemory,driftTowardLight,validLightOrigin,DEFENSIVE_ABILITIES} from './ability-rules.js';
 import {newCreation,validateCreation,legacyCreation,blueprint} from './creations.js';
@@ -54,22 +56,27 @@ export class Simulation {
  constructor(seed=123456){this.seed=seed>>>0;this.time=0;this.uid=0;this.events=[];this.deathReason=null;this.recorded=false;this.mode='practice';this.phase='idle';this.score=0;this.stage=0;this.stageScore=0;this.sequence=[];this.sections=[];this.player=null;this.protected=true;this.paused=false;this.period='day';this.current=4;this.pointer={x:800,y:330};this.difficulty=1;this.visited=[];this.observations=[];this.residentJourneys={};this.residentFocus=null;}
  random(){this.seed=(Math.imul(1664525,this.seed)+1013904223)>>>0;return this.seed/4294967296;}
  event(type,text,extra={}){this.events.push({type,text,...extra});}
- start(mode='practice',speciesId='s1',custom=null){
+ start(mode='practice',speciesId='s1',custom=null,options=null){
   this.mode=mode;this.deathReason=null;this.recorded=false;this.phase='playing';this.time=0;this.score=0;this.stage=0;this.stageScore=0;this.events=[];this.custom=structuredClone(custom);this.creation=mode==='create'?newCreation(custom||{}):null;this.visited=[];this.observations=[];this.residentJourneys={};this.residentFocus=null;
   if(mode==='tournament')this.sequence=[...PLAYABLE.filter(s=>s.id!=='s34').map(s=>s.id),'s34'];
   else if(mode==='challenge'){const bands=[PLAYABLE.slice(0,14),PLAYABLE.slice(14,28),PLAYABLE.slice(28,42),PLAYABLE.slice(42)];this.sequence=bands.map(a=>a[Math.floor(this.random()*a.length)].id);}
   else this.sequence=[speciesId];
   if(this.creation)this.custom=structuredClone(this.creation.blueprint);
-  this.spawnPlayer(mode==='create'?createSpecies(this.custom):BY_ID[this.sequence[0]]);
+  const site=mode==='practice'&&storyCompatible(speciesId,options?.adventureKey)?initialAdventureSite(options.adventureKey):null;
+  const entry=site?{...site,key:options.adventureKey}:null;
+  this.spawnPlayer(mode==='create'?createSpecies(this.custom):BY_ID[this.sequence[0]],entry);
   this.event('start','Welcome to '+REEFS[this.current].name+'. Swim and look around; press Esc to observe.');
  }
- spawnPlayer(species){
+ spawnPlayer(species,entry=null){
+  delete this.resumePaused;
   this.residentFocus=null;
   this.careProgress=freshCare();this.adventure=freshAdventure();this.reefStories=freshStories();
   this.destination=null;
   this.player=entity(species,'player',800,300);this.period=species.active==='night'?'night':'day';this.current=species.habitat==='sand'?7:species.habitat==='open'||species.habitat==='school'?1:4;
   this.reefMemory=freshReefMemory();this.riskCue=null;this.player.hurtGrace=0;
-  this.pointer={x:800,y:300};this.protected=true;this.paused=false;this.sections=REEFS.map(r=>this.populate(r));if(!this.visited.includes(this.current))this.visited.push(this.current);this.phase='playing';
+  if(entry){this.current=entry.reef;this.player.x=entry.x;this.player.y=entry.y;}
+  this.initialAdventureKey=entry?.key??null;
+  this.pointer={x:this.player.x,y:this.player.y};this.protected=true;this.paused=false;this.sections=REEFS.map(r=>this.populate(r));delete this.initialAdventureKey;if(!this.visited.includes(this.current))this.visited.push(this.current);this.phase='playing';
  }
  populate(reef){
   const available=SPECIES.filter(s=>s.active===this.period||s.active==='both');
@@ -92,7 +99,7 @@ export class Simulation {
   // Make the selected paired browser observable in its authored community,
   // using two already-created foragers and their already-consumed RNG draws.
   const pairSpecies=available.find(s=>s.id===this.player.species.id&&animalProfile(s).social==='pair'&&!s.diet.includes('fish')&&COMMUNITIES[reef.id]?.[this.period]?.includes(s.index));
-  if(pairSpecies&&population.foragers>=2){
+  if(pairSpecies&&population.foragers>=2&&!(reef.id===0&&['s8','s52'].includes(pairSpecies.id))){
    const [a,b]=entities;a.species=pairSpecies;b.species=pairSpecies;
    b.x=a.x+(a.x<W/2?1:-1)*creatureWidth(pairSpecies)*1.05;b.y=clamp(a.y+25,60,H-60);b.angle=a.angle;b.facing=a.facing;
    a.ecology={reef:reef.id,clock:0,point:0,wait:0,partner:b.id,host:null};b.ecology={reef:reef.id,clock:0,point:0,wait:0,partner:a.id,host:null};
@@ -105,7 +112,7 @@ export class Simulation {
   const school=sampledSchool?(available.find(s=>s.id===this.player.species.id&&animalProfile(s).social==='school'&&!s.diet.includes('fish'))||sampledSchool):null;
   const schoolX=500+this.random()*450,schoolY=170+this.random()*140,schoolAngle=this.random()*Math.PI*2;
   for(let i=0;i<population.companions;i++){
-   const companion=school?null:entities.find(e=>animalProfile(e.species).social==='pair'&&entities.filter(b=>b.species.id===e.species.id).length===1);
+   const companion=school?null:entities.find(e=>animalProfile(e.species).social==='pair'&&!(reef.id===0&&['s8','s52'].includes(e.species.id))&&entities.filter(b=>b.species.id===e.species.id).length===1);
    const s=school||(small[Math.floor(this.random()*small.length)]),chosen=companion?.species||s;
    const fish=entity(chosen,++this.uid,school?schoolX+i*Math.max(55,creatureWidth(chosen)*.9):100+this.random()*(W-200),school?schoolY+(i%2)*35:100+this.random()*(H-220));
    if(companion){fish.x=clamp(companion.x+creatureWidth(chosen),60,W-60);fish.y=clamp(companion.y+25,60,H-60);fish.angle=companion.angle;fish.satiated=companion.satiated;}
@@ -136,10 +143,13 @@ export class Simulation {
    seahorse.holdfast={x:seahorse.x,y:seahorse.y};seahorse.behavior='Among the seagrass';entities.push(seahorse);
   }
   prepareResidentFood(entities,food,reef);
+  reserveAdventureParticipants(this,reef,entities,population,available);
   return {entities,food,residentFoodVersion:2,schoolWave:null};
  }
  useContext(){if(this.paused||this.phase!=='playing'||this.player?.stun>0)return false;if(activeStory(this))return storyAction(this,'context');if(this.creation&&this.player.species.size<125)return chooseCustomRefuge(this);return this.player?.species.ability==='clean'?requestPlayerService(this):useContext(this);}
  get section(){return this.sections[this.current];}
+ get storySafety(){return storySafety(this);}
+ storyProtected(actor){return isProtectedActor(this,actor);}
  get mealTarget(){
   const id=this.player?.target;
   return id?(this.section?.entities.find(e=>e.id===id&&e.alive&&e.species.ability!=='clean')||this.section?.food.find(f=>f.id===id&&f.regrow<=0&&!storyFoodHidden(this,f))||null):null;
@@ -190,6 +200,7 @@ export class Simulation {
  point(x,y){
   if(this.player?.blending&&Math.hypot(x-this.player.x,y-this.player.y)>7){this.player.blending=null;this.player.blendTime=0;this.player.hidden=false;}
   if(!this.player||this.paused||this.phase!=='playing')return;
+  if(storyPointer(this,x,y))return;
   releaseEscortFollow(this);cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;this.pointer={x:edgeDestination(x,W),y:edgeDestination(y,H)};
   // A meal click assists the approach until the player steers again. Cursor
   // movement must always give control back, including during a pursuit.
@@ -211,7 +222,9 @@ export class Simulation {
  }
  eatAt(x,y){
   if(!this.player||this.paused||this.phase!=='playing'||this.player.stun>0)return false;
+  if(storyClick(this,x,y))return true;
   const t=this.findAt(x,y);if(!t){this.point(x,y);return false;}
+  if(t.species&&!canPredate(this,this.player,t))return false;
   startWatchApproach(this,t);
   if(edible(this.player,t)&&preparationKind(this.player,t)&&!(t.kind==='food'&&t.uncovered>0&&t.sandSource===this.player.id))return startForagingPrep(this,t,true);
   if(this.player.species.id==='s9'&&sitesFor(this).some(s=>s.id===t.id)&&!(t.uncovered>0)){this.player.cleanerTarget=null;this.player.cleanTime=0;enterReefLife(this,'activity');startSandProbe(this,t,true);return true;}
@@ -237,6 +250,7 @@ export class Simulation {
  }
  consume(target){
   const p=this.player;if(p.biteCooldown>0||p.stun>0||storyFoodHidden(this,target))return;
+  if(target.species&&!canPredate(this,p,target)){p.target=null;cancelPreparation(p);return;}
   if(target.species&&hasDefense(target)){p.target=null;cancelPreparation(p);this.event('message',target.species.name+' is defending itself. Wait or choose another meal.');return;}
   p.blending=null;p.blendTime=0;p.actionTime=.65;p.activity='feeding';p.biteCooldown=.45;
   const b=target.species;const good=edible(p,target);const poison=target.kind==='food'?target.food==='sponge'&&!p.species.diet.includes('sponge'):b?.poison&&!['crush','poison'].includes(p.species.ability);
@@ -303,6 +317,7 @@ export class Simulation {
  }
  step(dt){
   if(this.paused||this.phase!=='playing'||!this.player)return;
+  delete this.resumePaused;
   dt=Math.min(dt,.05);this.time+=dt;const p=this.player;p.cooldown=Math.max(0,p.cooldown-dt);p.abilityTime=Math.max(0,p.abilityTime-dt);p.biteCooldown=Math.max(0,p.biteCooldown-dt);
   tickNpcSchoolWave(this,dt);
   p.stun=Math.max(0,p.stun-dt);
@@ -315,13 +330,15 @@ export class Simulation {
    if(c){const station=c.station||c;this.pointer=cleaningPlan?.destinations.get(p.id)||{x:station.x+35,y:station.y};}
    else{p.cleanerTarget=null;p.cleanTime=0;p.cleaningAmount=0;this.pointer={x:p.x,y:p.y};this.event('message','Your cleaner is no longer available. You can keep swimming.');}
   }
-  tickAmbush(this,dt);const target=this.mealTarget;
-  if(p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
-  const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);const old={x:p.x,y:p.y,alive:p.alive};
+  const old={x:p.x,y:p.y,alive:p.alive};
+  const storyOwns=storyPlayer(this,dt);
+  if(!storyOwns)tickAmbush(this,dt);const target=storyOwns?null:this.mealTarget;
+  if(!storyOwns&&p.target&&!target){p.target=null;this.pointer={x:p.x,y:p.y};this.event('message','That meal is no longer available. Choose another meal or keep swimming.');}
+  const dest=target||this.pointer;const dx=dest.x-p.x,dy=dest.y-p.y,dist=Math.hypot(dx,dy);
   const speed=p.stun>0?0:p.species.speed*(p.ambush?.strike>0?3:1)*(p.species.ability==='dash'&&p.abilityTime>0?1.9:1);
-  const serving=p.stun<=0&&tickPlayerService(this,dt),probing=p.stun<=0&&tickSandProbe(this,dt),foraging=p.stun<=0&&tickForagingPrep(this,dt),escorting=p.stun<=0&&tickEscortFollow(this,dt);
+  const serving=!storyOwns&&p.stun<=0&&tickPlayerService(this,dt),probing=!storyOwns&&p.stun<=0&&tickSandProbe(this,dt),foraging=!storyOwns&&p.stun<=0&&tickForagingPrep(this,dt),escorting=!storyOwns&&p.stun<=0&&tickEscortFollow(this,dt);
   const contact=target?approachMeal(p,target,dt,speed,p.species.agility*(p.ambush?.strike>0?3:1)):null;
-  if(!serving&&!probing&&!foraging&&!escorting&&!target&&dist>7){
+  if(!storyOwns&&!serving&&!probing&&!foraging&&!escorting&&!target&&dist>7){
    if(p.cleanerTarget)approachCleaning(p,dest,dt,speed);
    else{
    p.angle=turnTowards(p.angle,Math.atan2(dy,dx),p.species.agility*dt);
@@ -341,9 +358,9 @@ export class Simulation {
   if(p.hidden&&!wasHidden)this.event('hide','Hidden. Remain still to stay concealed.');
   if(!p.hidden&&wasHidden)this.event('reveal','Back in open water.');
   if(target&&contact.ready&&p.biteCooldown<=0){if(mealContact(p,target,dt,contact.contact))this.consume(target);}
-  else cancelPreparation(p);
+  else if(!storyOwns)cancelPreparation(p);
   if(this.phase!=='playing')return;
-  if(!this.protected){p.energy-=dt*p.species.metabolism*(moving?1.55:.7)*this.difficulty;if(p.species.parasites)p.health-=dt*.105*this.difficulty;if(!p.hidden&&this.mode!=='practice'){this.score+=dt*8;this.stageScore+=dt*8;}}
+  if(!this.protected&&!storyNeedsHeld(this,p)){p.energy-=dt*p.species.metabolism*(moving?1.55:.7)*this.difficulty;if(p.species.parasites)p.health-=dt*.105*this.difficulty;if(!p.hidden&&this.mode!=='practice'){this.score+=dt*8;this.stageScore+=dt*8;}}
   // Recovery is a gentle game abstraction, separate from parasite removal.
   // Feeding supports recovery; a cleaner cannot undo an injury or toxic meal.
   p.recoveryDelay=Math.max(0,(p.recoveryDelay||0)-dt);
@@ -355,7 +372,7 @@ export class Simulation {
   }
   const cleaner=this.section.entities.find(e=>e.alive&&(e.stun||0)<=0&&e.species.ability==='clean'&&distance(e,p)<105);
   const busy=cleaner&&this.section.entities.some(e=>e!==cleaner&&e.alive&&e.cleanTime>0&&e.target===cleaner.id);
-  if(cleaner&&!busy&&p.still>.6&&!p.target&&(healthState(p).parasites>1||p.cleanTime>0)){
+  if(!storyOwns&&cleaner&&!busy&&p.still>.6&&!p.target&&(healthState(p).parasites>1||p.cleanTime>0)){
    if(!p.cleaningAmount)p.cleaningAmount=healthState(p).parasites;
    p.cleanTime+=dt;cleaner.behavior='Cleaning';
    p.health+=Math.min(healthState(p).parasites,p.cleaningAmount*dt/2);
@@ -370,10 +387,11 @@ export class Simulation {
   if(p.x>W-8&&this.pointer.x>W-10)this.transition(1,0);else if(p.x<8&&this.pointer.x<10)this.transition(-1,0);else if(p.y>H-8&&this.pointer.y>H-10){if(!this.transition(0,1))p.y=H-8;}else if(p.y<8&&this.pointer.y<10){if(!this.transition(0,-1))p.y=8;}
   p.x=clamp(p.x,1,W-1);p.y=clamp(p.y,1,H-1);
   for(const f of this.section.food){f.regrow=Math.max(0,f.regrow-dt);recoverPatch(f,dt);if(f.uncovered>0)f.uncovered=Math.max(0,f.uncovered-dt);}
-  p.actionTime=Math.max(0,(p.actionTime||0)-dt);p.activity=escortCover(this)?'shadowing':p.foragingPrep?(p.foragingPrep.kind==='shell'?'feeding':'probing'):p.sandProbe?'probing':p.service?.elapsed>0?'cleaning':p.cleanTime>0?'cleaning':p.feeding||p.actionTime>0?'feeding':p.hidden?'at-home':'cruising';
+  p.actionTime=Math.max(0,(p.actionTime||0)-dt);if(!storyOwns)p.activity=escortCover(this)?'shadowing':p.foragingPrep?(p.foragingPrep.kind==='shell'?'feeding':'probing'):p.sandProbe?'probing':p.service?.elapsed>0?'cleaning':p.cleanTime>0?'cleaning':p.feeding||p.actionTime>0?'feeding':p.hidden?'at-home':'cruising';
   if(inspectingWithBarbels(p,this.mealTarget))p.activity='probing';
   if(!activeStory(this))tickAdventure(this,dt);tickResidentObservation(this,dt);
   recordVelocity(p,old,dt);
+  syncAdventureSafety(this);
   const npcCleaningPlan=this.section.entities.includes(cleaningPlan?.cleaner)?cleaningPlan:this.cleaningPlan();
   for(const e of [...this.section.entities])this.stepNpc(e,dt,npcCleaningPlan);
   tickNpcSchoolWave(this,0);
@@ -388,7 +406,8 @@ export class Simulation {
   tickNpcSchoolWave(this,0);
   const previous={x:e.x,y:e.y,alive:e.alive};
   e.cooldown=Math.max(0,(e.cooldown||0)-dt);e.abilityTime=Math.max(0,(e.abilityTime||0)-dt);
-  if(e.alive)e.energy=Math.min(100,e.energy+dt*.7);
+  e.hurtGrace=Math.max(0,(e.hurtGrace||0)-dt);tickAdventureReservation(this,e,dt);
+  if(e.alive&&!storyNeedsHeld(this,e))e.energy=Math.min(100,e.energy+dt*.7);
   tickFeeding(e,dt);
   e.activity='cruising';if(e.target){e.blending=null;e.blendTime=0;}e.actionTime=Math.max(0,(e.actionTime||0)-dt);this.stepNpcBody(e,dt,cleaningPlan);
   if(e.feeding&&!e.feeding.committed&&e.target!==e.feeding.target)cancelPreparation(e);
@@ -400,7 +419,7 @@ export class Simulation {
  stepNpcBody(e,dt,cleaningPlan=this.cleaningPlan()){
   if(!e.alive){e.respawn-=dt;if(e.respawn<=0){
    e.alive=true;e.life=100;e.x=60+this.random()*(W-120);e.y=80+this.random()*(H-180);e.target=null;e.satiated=30;e.pursuit=0;
-   e.residentMeal=null;e.feeding=null;e.ecology=null;e.actionTime=0;e.retract=0;delete e.passerExposure;delete e.mimicMemory;e.incarnation=(e.incarnation||0)+1;
+   e.residentMeal=null;e.feeding=null;e.ecology=null;e.actionTime=0;e.retract=0;e.hurtGrace=0;delete e.adventureReservation;delete e.passerExposure;delete e.mimicMemory;e.incarnation=(e.incarnation||0)+1;
    // A returning cleaner belongs to the established station, where players
    // and clients know to wait, rather than an arbitrary point in open water.
    if(e.species.ability==='clean'&&e.station){e.x=e.station.x;e.y=e.station.y;}
@@ -409,7 +428,7 @@ export class Simulation {
   }return;}
   e.stun=Math.max(0,e.stun-dt);e.biteCooldown=Math.max(0,e.biteCooldown-dt);if(e.stun>0)return;
   if(DEFENSIVE_ABILITIES.includes(e.species.ability)&&e.cooldown<=0&&!e.cleanTime){
-   const threat=[this.player,...this.section.entities].find(b=>b!==e&&b.alive&&!b.hidden&&b.target===e.id&&edible(b,e)&&(distance(b,e)<100||contactGap(b,e)<30));
+   const threat=[this.player,...this.section.entities].find(b=>b!==e&&b.alive&&!b.hidden&&b.target===e.id&&canPredate(this,b,e)&&edible(b,e)&&(distance(b,e)<100||contactGap(b,e)<30));
    if(threat)triggerAbility(this,e);
   }
   // A nearby eligible hunter interrupts an approach before service, feeding or
@@ -417,22 +436,21 @@ export class Simulation {
   // Grounded and attached animals retain their own withdrawal/alert routine;
   // swimming avoidance must never pull a crab off its substrate.
   const swimmingNpc=!BOTTOM_RESIDENTS.has(e.species.id)&&!e.holdfast;
-  const danger=swimmingNpc?this.section.entities.filter(b=>b!==e&&b.alive&&!b.hidden&&(b.satiated<=0||b.target===e.id)&&edible(b,e)&&!mimicTrusted(this,e,b)&&distance(e,b)<100):[];
+  const danger=swimmingNpc?this.section.entities.filter(b=>b!==e&&b.alive&&!b.hidden&&(b.satiated<=0||b.target===e.id)&&canPredate(this,b,e)&&edible(b,e)&&!mimicTrusted(this,e,b)&&distance(e,b)<100):[];
   const playerDistance=distance(e,this.player),playerDefended=hasDefense(this.player);
-  if(swimmingNpc&&((edible(this.player,e)&&playerDistance<100&&!this.player.hidden&&!mimicTrusted(this,e,this.player))||playerDefended&&edible(e,this.player)&&playerDistance<150))danger.push(this.player);
+  if(swimmingNpc&&((canPredate(this,this.player,e)&&edible(this.player,e)&&playerDistance<100&&!this.player.hidden&&!mimicTrusted(this,e,this.player))||canPredate(this,e,this.player)&&playerDefended&&edible(e,this.player)&&playerDistance<150))danger.push(this.player);
   const dangerTarget=danger.sort((a,b)=>distance(e,a)-distance(e,b))[0];
   if(dangerTarget&&(!settledCleaningClient(e,cleaningPlan)&&!treatingClient(this,e)||dangerTarget.target===e.id)){
    if(e.target==='player')this.event('pursuit-release',e.species.name+' turned away.',{animalId:e.id,reason:'threat',x:e.x,y:e.y});
    if(serviceClient(this)===e)cancelPlayerService(this);
    e.target=null;e.pursuit=0;e.cleanTime=0;cancelPreparation(e);
-   e.satiated=Math.max(0,(e.satiated??0)-dt);e.rest=Math.max(0,(e.rest??0)-dt);
-   if(e.species.parasites)e.health=Math.max(0,e.health-dt*.045);
+   if(!storyNeedsHeld(this,e)){e.satiated=Math.max(0,(e.satiated??0)-dt);e.rest=Math.max(0,(e.rest??0)-dt);if(e.species.parasites)e.health=Math.max(0,e.health-dt*.045);}
    e.angle=turnTowards(e.angle,Math.atan2(e.y-dangerTarget.y,e.x-dangerTarget.x),e.species.agility*dt);
    e.behavior='Moving away from '+dangerTarget.species.name;e.activity='avoiding';e.think=.5;
    const advance=e.species.speed*.65*dt;e.x=clamp(e.x+Math.cos(e.angle)*advance,10,W-10);e.y=clamp(e.y+Math.sin(e.angle)*advance,25,H-20);e.facing=Math.cos(e.angle)>=0?1:-1;
    return;
   }
-  if(approachMimic(this,e,dt))return;
+  if(canPredate(this,e,this.player)&&approachMimic(this,e,dt))return;
   clearRelationships(this,e);
   if(respondToPlayerService(this,e,dt))return;
   if(e.entering&&e.x>=10&&e.x<=W-10&&e.y>=25&&e.y<=H-20)delete e.entering;
@@ -450,10 +468,15 @@ export class Simulation {
    moveCleaner(e,active||arriving,dt);return;
   }
   if(e.species.speed===0)return;
-  if(storyNPC(this,e,dt))return;
+  const storyMoved=storyNPC(this,e,dt);
+  if(storyMoved)claimAdventureParticipant(this,e);
+  // The original three modules own their visitor's need ticking. New local
+  // adventures share this simulation policy and never replenish held needs.
+  if(storyMoved&&['clinic','engineer','detective'].includes(activeStory(this)))return;
+  if(!storyNeedsHeld(this,e)){e.satiated=Math.max(0,(e.satiated??0)-dt);e.rest=Math.max(0,(e.rest??0)-dt);if(e.species.parasites)e.health=Math.max(0,e.health-dt*.045);}
+  if(storyMoved)return;
   if(e.target&&this.section.food.some(f=>f.id===e.target&&(storyFoodHidden(this,f)||storyFoodReserved(this,f,e)))){e.target=null;cancelPreparation(e);}
-  e.satiated=Math.max(0,(e.satiated??0)-dt);e.rest=Math.max(0,(e.rest??0)-dt);e.pursuit=e.pursuit??0;
-  if(e.species.parasites)e.health=Math.max(0,e.health-dt*.045);
+  e.pursuit=e.pursuit??0;
   const cleaner=e.species.parasites&&parasiteDamage(e)>35?this.section.entities.find(b=>b.alive&&b.species.ability==='clean'):null;
   if(cleaner){
    e.target=cleaner.id;e.pursuit=0;
@@ -469,6 +492,7 @@ export class Simulation {
   }
   // A finished or unavailable visit must not retain treatment progress.
   e.cleanTime=0;
+  if(steerAroundAdventure(this,e,dt))return;
   // Old saves can contain a meal target aimed at a cleaner. A healthy client
   // releases that target; parasite-driven visits are handled above.
   if(e.target&&this.section.entities.some(b=>b.id===e.target&&b.species.ability==='clean')){e.target=null;e.pursuit=0;e.think=0;}
@@ -476,30 +500,30 @@ export class Simulation {
   // Older saves represented lure curiosity as a meal target on the player.
   // Release that alias before normal diet checks or the new observation step.
   if(e.target==='player'&&e.behavior==='Following lure'){e.target=null;e.pursuit=0;e.behavior='Exploring';}
-  const canEatPlayer=!p.hidden&&!this.protected&&!defended&&!p.species.poison&&!mimicTrusted(this,e,p)&&!settledCleaningClient(p,cleaningPlan)&&edible(e,p);
+  const canEatPlayer=canPredate(this,e,p)&&!p.hidden&&!this.protected&&!defended&&!p.species.poison&&!mimicTrusted(this,e,p)&&!settledCleaningClient(p,cleaningPlan)&&edible(e,p);
   if(e.target==='player'&&!canEatPlayer){const reason=p.hidden?'concealment':this.protected?'protection':defended?'defense':'eligibility';this.event('pursuit-release',reason==='concealment'?e.species.name+' lost sight of you.':e.species.name+' stopped pursuing.',{animalId:e.id,reason,x:e.x,y:e.y});e.target=null;e.pursuit=0;e.think=.8;e.angle=Math.atan2(e.y-p.y,e.x-p.x);e.behavior='Leaving pursuit';}
   if(e.target&&e.target!=='player'){
    const victim=this.section.entities.find(b=>b.id===e.target);
-   if(victim&&(victim.hidden||hasDefense(victim)||victim.species.poison||mimicTrusted(this,e,victim)||settledCleaningClient(victim,cleaningPlan)||treatingClient(this,victim))){e.target=null;e.pursuit=0;e.think=0;cancelPreparation(e);}
+   if(victim&&(!canPredate(this,e,victim)||victim.hidden||hasDefense(victim)||victim.species.poison||mimicTrusted(this,e,victim)||settledCleaningClient(victim,cleaningPlan)||treatingClient(this,victim))){e.target=null;e.pursuit=0;e.think=0;cancelPreparation(e);}
   }
   if(e.target){e.pursuit+=dt;if(e.pursuit>6){if(e.target==='player')this.event('pursuit-release',e.species.name+' ended its chase.',{animalId:e.id,reason:'timeout',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.rest=15;e.think=0;}}
   let speed=e.species.speed*.35;
   if(e.think<=0){
    e.think=.65+this.random()*.55;
    const pd=distance(e,p);
-   const threats=this.section.entities.filter(b=>b!==e&&b.alive&&b.satiated<=0&&edible(b,e)&&!mimicTrusted(this,e,b)&&distance(e,b)<100);
-   if((edible(p,e)&&pd<100&&!p.hidden&&!mimicTrusted(this,e,p))||defended&&edible(e,p)&&pd<150)threats.push(p);
+   const threats=this.section.entities.filter(b=>b!==e&&b.alive&&b.satiated<=0&&canPredate(this,b,e)&&edible(b,e)&&!mimicTrusted(this,e,b)&&distance(e,b)<100);
+   if((canPredate(this,p,e)&&edible(p,e)&&pd<100&&!p.hidden&&!mimicTrusted(this,e,p))||canPredate(this,e,p)&&defended&&edible(e,p)&&pd<150)threats.push(p);
    const threat=threats.sort((a,b)=>distance(e,a)-distance(e,b))[0];
    if(threat){if(e.target==='player')this.event('pursuit-release',e.species.name+' turned away from a threat.',{animalId:e.id,reason:'threat',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.angle=Math.atan2(e.y-threat.y,e.x-threat.x);e.behavior='Moving away from '+threat.species.name;e.activity='avoiding';}
    else if(!e.target){
-    const candidates=e.satiated<=0&&e.rest<=0?[
+    const candidates=!adventureParticipantReserved(this,e)&&e.satiated<=0&&e.rest<=0?[
      // Helpers and clients settled at service positions are left alone.
      // Ordinary prey and food remain available outside that interaction.
-     ...this.section.entities.filter(b=>b!==e&&b.alive&&!b.hidden&&!hasDefense(b)&&!mimicTrusted(this,e,b)&&b.species.ability!=='clean'&&!settledCleaningClient(b,cleaningPlan)&&!treatingClient(this,b)&&edible(e,b)&&!b.species.poison),
+     ...this.section.entities.filter(b=>b!==e&&b.alive&&!b.hidden&&canPredate(this,e,b)&&!hasDefense(b)&&!mimicTrusted(this,e,b)&&b.species.ability!=='clean'&&!settledCleaningClient(b,cleaningPlan)&&!treatingClient(this,b)&&edible(e,b)&&!b.species.poison),
      ...this.section.food.filter(f=>f.regrow<=0&&!storyFoodHidden(this,f)&&!storyFoodReserved(this,f,e)&&edible(e,f)),
      ...(canEatPlayer?[p]:[])
     ].filter(b=>distance(e,b)<165&&sharedMealAvailable(e,b,this.section.entities)&&schoolFoodAvailable(this,e,b)).sort((a,b)=>distance(e,a)+patchCrowdingCost(a)-distance(e,b)-patchCrowdingCost(b)):[];
-    const shared=[sharedSchoolFood(this,e),sharedSandFood(this,e)].find(f=>f&&!storyFoodHidden(this,f)&&!storyFoodReserved(this,f,e));const near=shared||candidates[0];e.target=near?.id||null;e.pursuit=0;if(e.target==='player')this.event('pursuit-start',e.species.name+' noticed you.',{animalId:e.id,x:e.x,y:e.y});
+    const shared=!adventureParticipantReserved(this,e)&&[sharedSchoolFood(this,e),sharedSandFood(this,e)].find(f=>f&&!storyFoodHidden(this,f)&&!storyFoodReserved(this,f,e));const near=shared||candidates[0];e.target=near?.id||null;e.pursuit=0;if(e.target==='player')this.event('pursuit-start',e.species.name+' noticed you.',{animalId:e.id,x:e.x,y:e.y});
     e.behavior=near?(near.kind==='food'?'Foraging for ':'Hunting ')+(near.name||near.species.name):e.satiated>0?'Digesting a meal':e.rest>0?'Resting between feeding trips':'Exploring';
     if(!near&&this.random()<.45)e.angle+=(this.random()-.5)*1.1;
    }
@@ -511,12 +535,12 @@ export class Simulation {
     const contact=approachMeal(e,dest,dt,e.species.speed*.55);speed=0;
     if(e.species.id==='s23'&&dest.kind==='food'&&['worm','shrimp'].includes(dest.food)&&distance(e,dest)<100&&!(dest.uncovered>0)){uncoverSand(this,dest,e);e.activity='searching-sand';}
     const inReach=contact.ready;
-    if(inReach&&e.biteCooldown<=0&&(dest!==p||canEatPlayer&&!(p.hurtGrace>0))){
+    if(inReach&&e.biteCooldown<=0&&(!dest.species||canPredate(this,e,dest))&&(dest!==p||canEatPlayer&&!(p.hurtGrace>0))){
      speed=0;
      if(mealContact(e,dest,dt,contact.contact)){
      e.biteCooldown=2;e.actionTime=.65;
      if(dest===p&&canEatPlayer){const risk=predatorPolicy(this);if(e.species.ability==='mimic')mimicBite(this,e,p);else{p.health-=risk.damage;p.biteDamage=(p.biteDamage||0)+risk.damage;p.recoveryDelay=risk.recoveryDelay;}p.hurtGrace=risk.grace;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
-     else if(dest!==p&&dest.kind==='food'){schoolMeal(this,e,dest);witnessSandMeal(this,e,dest);companionMeal(this,e,dest);disturbPatch(dest);dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}startNpcSchoolWave(this,e,dest);}
+     else if(dest!==p&&dest.kind==='food'){storyMeal(this,dest,e);schoolMeal(this,e,dest);witnessSandMeal(this,e,dest);companionMeal(this,e,dest);disturbPatch(dest);dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}startNpcSchoolWave(this,e,dest);}
      else if(dest!==p&&e.species.ability==='mimic'&&(dest.species.food||'fish')==='fish'){mimicBite(this,e,dest);}
      else if(dest!==p){dest.alive=false;dest.respawn=24;}
      if(e.target==='player')this.event('pursuit-release',e.species.name+' is digesting its meal.',{animalId:e.id,reason:'fed',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
@@ -559,9 +583,10 @@ export class Simulation {
  next(){if(this.phase==='advance'){this.stage++;this.stageScore=0;this.spawnPlayer(BY_ID[this.sequence[this.stage]]);}}
  die(reason){if(this.phase!=='playing')return;cancelNpcSchoolWave(this);releaseEscortFollow(this);cancelWatch(this);cancelPlayerService(this);cancelAmbush(this);if(this.player?.sandProbe)this.player.sandProbe=null;if(this.player?.foragingPrep)this.player.foragingPrep=null;releaseCompanion(this);this.phase='dead';this.deathReason=reason;this.event('death',reason);}
  continueRun(){this.deathReason=null;this.recorded=false;if(this.creation){this.creation.life++;this.creation.home=null;this.creation.departed=false;this.creation.meal=false;}this.score=0;this.stageScore=0;this.spawnPlayer(this.player.species);}
- serialize(){return JSON.stringify({version:1,deathReason:this.deathReason,recorded:this.recorded===true,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,riskCue:this.riskCue,reefMemory:this.reefMemory,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,creation:this.creation,visited:this.visited,destination:this.destination,difficulty:this.difficulty,observations:this.observations,residentJourneys:this.residentJourneys,residentFocus:this.residentFocus,careProgress:this.careProgress,adventure:this.adventure,reefStories:this.reefStories});}
+ serialize(){return JSON.stringify({version:1,deathReason:this.deathReason,recorded:this.recorded===true,seed:this.seed,time:this.time,uid:this.uid,mode:this.mode,phase:this.phase,paused:this.resumePaused??this.paused,score:this.score,stage:this.stage,stageScore:this.stageScore,sequence:this.sequence,sections:this.sections,player:this.player,protected:this.protected,riskCue:this.riskCue,reefMemory:this.reefMemory,period:this.period,current:this.current,pointer:this.pointer,custom:this.custom,creation:this.creation,visited:this.visited,destination:this.destination,difficulty:this.difficulty,observations:this.observations,residentJourneys:this.residentJourneys,residentFocus:this.residentFocus,careProgress:this.careProgress,adventure:this.adventure,reefStories:this.reefStories});}
  static restore(raw){
   const d=typeof raw==='string'?JSON.parse(raw):structuredClone(raw);
+  if(d.paused!==undefined&&typeof d.paused!=='boolean')throw new Error('The saved pause state is damaged.');
   if(d.recorded!==undefined&&typeof d.recorded!=='boolean')throw new Error('The saved score record is damaged.');
   if(d.deathReason!==undefined&&d.deathReason!==null&&(typeof d.deathReason!=='string'||d.deathReason.length>500))throw new Error('The saved death explanation is damaged.');
   d.recorded=d.recorded??false;d.deathReason=d.deathReason??null;
@@ -580,6 +605,8 @@ export class Simulation {
   // Restore verified original-game food omissions without repopulating saves.
   // Custom fish keep their chosen diets, regardless of their illustrations.
   for(const fish of [d.player,...d.sections.flatMap(section=>section.entities||[])]){
+   if(!validAdventureReservation(fish.adventureReservation))throw new Error('The saved adventure invitation is damaged.');
+   if(fish.hurtGrace!==undefined&&(!Number.isFinite(fish.hurtGrace)||fish.hurtGrace<0||fish.hurtGrace>predatorPolicy(d).grace))throw new Error('The saved bite recovery is damaged.');
    if(fish.pursuitOrigin!=null&&(!Number.isInteger(fish.pursuitOrigin.reef)||fish.pursuitOrigin.reef<0||fish.pursuitOrigin.reef>8||!Number.isFinite(fish.pursuitOrigin.x)||!Number.isFinite(fish.pursuitOrigin.y)))throw new Error('The saved pursuit is damaged.');
    if(!validHome(fish.ecology?.home)||!validPerchWatch(fish.ecology?.watch))throw new Error('The saved refuge is damaged.');
    if(!validMimicMemory(fish.mimicMemory))throw new Error('The saved mimic encounter is damaged.');
@@ -629,8 +656,8 @@ export class Simulation {
    const moved=migrateGroundRoutes(section.entities,LEGACY_BOTTOM_ROUTES[index],REEFS[index].bottomRoutes);
    if(moved||(section.residentFoodVersion||0)<2){prepareResidentFood(section.entities,section.food,REEFS[index]);section.residentFoodVersion=2;}
   }
-  if(!validStories(d.reefStories))throw new Error('The saved reef adventures are damaged.');d.reefStories=d.reefStories??freshStories();if(d.reefStories.active&&!(d.mode==='practice'&&storyKeyFor(d.player.species.id)===d.reefStories.active&&(!d.reefStories.clinic||d.reefStories.active!=='clinic'||d.reefStories.clinic.species===d.player.species.id)))throw new Error('The saved adventure does not match this fish.');
-  const sim=new Simulation();Object.assign(sim,d);sim.events=[];sim.paused=true;return sim;
+  if(!validStories(d.reefStories))throw new Error('The saved reef adventures are damaged.');d.reefStories=d.reefStories??freshStories();if(d.reefStories.active&&!(d.mode==='practice'&&storyCompatible(d.player.species.id,d.reefStories.active)&&(!d.reefStories.clinic||d.reefStories.active!=='clinic'||d.reefStories.clinic.species===d.player.species.id)))throw new Error('The saved adventure does not match this fish.');
+  const sim=new Simulation();Object.assign(sim,d);sim.events=[];if(!validStoryPlayer(sim))throw new Error('The saved adventure pose is damaged.');sim.resumePaused=d.paused===true;sim.paused=true;return sim;
  }
 }
 

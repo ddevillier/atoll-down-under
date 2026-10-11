@@ -4,6 +4,25 @@ import {Simulation} from '../src/simulation.js';
 import {PLAYABLE} from '../src/data.js';
 import {exportDive,importDive,diveFilename,MAX_SAVE_BYTES} from '../src/save-files.js';
 
+test('saved pause intent survives safe construction while legacy imports resume and malformed intent rejects',()=>{
+ const sim=new Simulation(41);sim.start('practice','s8',null,{adventureKey:'lookout'});
+ for(const paused of [false,true]){
+  sim.paused=paused;const raw=sim.serialize(),restored=Simulation.restore(raw),portable=importDive(exportDive(sim,'Pause intent')).simulation;
+  for(const loaded of [restored,portable]){
+   assert.equal(loaded.paused,true);assert.equal(loaded.resumePaused,paused);assert.equal(loaded.serialize(),raw);
+   assert.ok(!Object.hasOwn(JSON.parse(loaded.serialize()),'resumePaused'));
+  }
+ }
+ const legacy=JSON.parse(sim.serialize());delete legacy.paused;const loaded=Simulation.restore(legacy);assert.equal(loaded.paused,true);assert.equal(loaded.resumePaused,false);
+ for(const paused of [null,0,1,'true',{},[]]){
+  const bad={...legacy,paused};assert.throws(()=>Simulation.restore(bad),/pause/);
+  const file=JSON.parse(exportDive(sim,'Bad pause'));file.state.paused=paused;assert.throws(()=>importDive(JSON.stringify(file)),/damaged/);
+ }
+ // Direct simulation consumers can resume safely without the UI entry helper.
+ const active=Simulation.restore(sim.serialize());active.paused=false;active.step(.05);assert.equal(active.resumePaused,undefined);assert.equal(JSON.parse(active.serialize()).paused,false);
+ const next=Simulation.restore(sim.serialize());next.continueRun();assert.equal(next.resumePaused,undefined);assert.equal(next.paused,false);assert.equal(JSON.parse(next.serialize()).paused,false);
+});
+
 test('portable dives retain every species, world, RNG and progression state',()=>{
  for(const species of PLAYABLE){
   const s=new Simulation(71);s.start('practice',species.id);s.protected=false;

@@ -16,7 +16,7 @@ test('return recognizes the original individual, once per visit, without moving 
  s.transition(1,0);assert.ok(s.sections[reef].entities.includes(e));assert.ok(!s.section.entities.includes(e));s.transition(-1,0);
  Object.assign(s.player,{x:700,y:320});tickFamiliarFish(s);tickFamiliarFish(s);
  assert.equal(s.reefMemory.entries.filter(m=>m.kind==='reunion').length,1);assert.ok(familiarFish(s,e).greetUntil>s.time);
- const before=s.serialize();s.paused=true;tickFamiliarFish(s);assert.equal(s.serialize(),before);
+ s.paused=true;const before=s.serialize();tickFamiliarFish(s);assert.equal(s.serialize(),before);
 });
 test('death, respawn, distant neighbors and busy animals never fake a greeting',()=>{
  for(const alter of [e=>{e.alive=false;},e=>{e.incarnation=1;},e=>{e.x=1400;},e=>{e.target='meal';},e=>{e.stun=1;},e=>{e.feeding={target:'meal'};},e=>{e.cleanTime=1;}]){

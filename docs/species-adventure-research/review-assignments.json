@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-10",
+  "scope": "User-requested twenty-agent species research refresh; implementation drafts preserved.",
+  "assignments": [
+    {
+      "agent": "/root/housekeeper_mechanics",
+      "report": "01-coral-homes.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/housekeeper_presentation",
+      "report": "02-anemone-partners.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/shade_mechanics",
+      "report": "03-night-ledges.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/lookout_presentation",
+      "report": "04-reef-browsers.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/nest_mechanics",
+      "report": "05-specialist-mouths.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/lookout_mechanics",
+      "report": "06-paired-browsers.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/crevice_mechanics",
+      "report": "07-sand-detectives.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/nest_presentation",
+      "report": "08-parenting.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/crevice_presentation",
+      "report": "09-parrot-armored.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/walker_mechanics",
+      "report": "10-cooperative-hunters.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/lookout_quality",
+      "report": "11-pelagic-hunters.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/walker_presentation",
+      "report": "12-camouflage.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/walker_quality",
+      "report": "13-perches-signals.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/crevice_quality",
+      "report": "14-reef-sharks.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/lantern_mechanics",
+      "report": "15-rays-large-sharks.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/lantern_presentation",
+      "report": "16-schools-light.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/shade_presentation",
+      "report": "17-anthias.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/adventure_audio",
+      "report": "18-cleaners.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/adventure_lifecycle",
+      "report": "19-bottom-residents.md",
+      "status": "research review complete"
+    },
+    {
+      "agent": "/root/adventure_metadata",
+      "report": "20-nudibranch.md",
+      "status": "research review complete"
+    }
+  ]
+}

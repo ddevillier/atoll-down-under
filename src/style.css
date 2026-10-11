@@ -104,6 +104,15 @@
 .story-actions button{pointer-events:auto;padding:7px 9px;font-size:12px}
 .reef-story .activity-details button,.story-invitation button{pointer-events:auto}
 .story-invitation{margin-top:12px}
+.story-choice+.story-choice{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+.story-choice>strong,.story-preview>strong{font-family:AtollDisplay,Georgia,serif;font-size:18px;line-height:1.3}
+.story-preview{margin:16px 0;padding-top:14px;border-top:1px solid var(--line)}
+.story-preview p{font-size:13px;margin:7px 0 10px}
+.story-secondary{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;pointer-events:none}
+.story-secondary button{pointer-events:auto;text-align:left;font-size:11px;line-height:1.4;padding:5px 0}
+.reef-story{max-height:calc(100% - 210px);overflow:auto;overscroll-behavior:contain}
+.reef-story[data-story-key="lookout"]{left:auto;right:18px}
+.story-admission{color:var(--muted)}
 #story-step{margin:8px 0 5px;font-size:13px;line-height:1.45}
 #story-record{color:var(--muted);font-size:11px}
 @media(max-width:1100px){.reef-story{max-width:280px}.story-actions button{font-size:11px;padding:6px 8px}}

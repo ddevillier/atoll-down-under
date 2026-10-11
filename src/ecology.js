@@ -1,4 +1,5 @@
 import {animalProfile} from './animal-profiles.js';
+import {adventureParticipantReserved} from './adventure-admission.js';
 import {followPlayerCompanion} from './companion-activity.js';
 import {greetingRoutine} from './reef-memories.js';
 import {REEFS} from './data.js';
@@ -37,6 +38,10 @@ export function localRoutine(sim,e,dt,speed){
  state.clock+=dt;clearRelationships(sim,e);
  if(e.target){if(['shadowing','approaching-cover'].includes(e.activity))e.activity=e.feeding?'feeding':'foraging';return speed;}
  if(e.activity==='avoiding'||e.behavior?.startsWith('Moving away')||e.entering)return speed;
+ if(adventureParticipantReserved(sim,e)){
+  e.activity='inspecting';e.behavior='Inspecting a nearby grazing ledge';
+  return steer(e,e.adventureReservation,dt,speed,22);
+ }
  if(e.rest>0){e.activity='resting';e.behavior='Resting between feeding trips';return speed*.7;}
  if(e.actionTime>0){e.activity='feeding';return speed*.15;}
  const greeting=greetingRoutine(sim,e,dt,speed);if(greeting!==null)return greeting;
@@ -48,7 +53,7 @@ export function localRoutine(sim,e,dt,speed){
  if(profile.social==='pair'&&e.species.ability!=='clean'){
   let partner=others.find(b=>b.id===state.partner&&b.species.id===e.species.id);
   if(!partner){
-   partner=others.filter(b=>b.species.id===e.species.id&&(!b.ecology?.partner||b.ecology.partner===e.id)&&distance(e,b)<420).sort((a,b)=>distance(e,a)-distance(e,b))[0];
+   partner=others.filter(b=>b.species.id===e.species.id&&!adventureParticipantReserved(sim,b)&&(!b.ecology?.partner||b.ecology.partner===e.id)&&distance(e,b)<420).sort((a,b)=>distance(e,a)-distance(e,b))[0];
    if(partner){state.partner=partner.id;ecologyState(sim,partner).partner=e.id;}
   }
   if(partner&&distance(e,partner)<650){

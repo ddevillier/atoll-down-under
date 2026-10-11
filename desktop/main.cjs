@@ -28,6 +28,10 @@ app.whenReady().then(() => {
   // The event itself supplies the state; querying in its handler sends stale UI.
   const publishFullscreen=value=>window.webContents.send('atoll:fullscreen-changed',value);
   window.on('enter-full-screen',()=>publishFullscreen(true));window.on('leave-full-screen',()=>publishFullscreen(false));
+  // Native focus loss also reaches the game when Chromium's debugger keeps the
+  // renderer visible/focused. This notification can only request a pause.
+  const publishBackground=()=>{if(!window.webContents.isDestroyed())window.webContents.send('atoll:background');};
+  window.on('blur',publishBackground);window.on('minimize',publishBackground);
   Menu.setApplicationMenu(null);
   window.webContents.setWindowOpenHandler(()=>({action:'deny'}));
   window.webContents.on('will-navigate', (event,url)=>{if(!url.startsWith('atoll://game/'))event.preventDefault();});

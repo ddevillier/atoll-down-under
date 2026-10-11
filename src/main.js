@@ -1,5 +1,6 @@
-import {REEF_STORIES,storyKeyFor} from './reef-story-data.js';
-import {beginStory,stopStory,storyAction,storyView} from './reef-stories.js';
+import {REEF_STORIES,storyKeysFor,storyCompatible} from './reef-story-data.js';
+import {beginStory,stopStory,storyAction,storyView,activeStory} from './reef-stories.js';
+import {admissionFor} from './adventure-admission.js';
 import {DEFAULT_BLUEPRINT,blueprint,newCreation,abilityIssue,refugeRole,listCreations,getCreation,storeCreation,resolveImportedCreation} from './creations.js';
 import {creationEditor,creationShelf,customGuide,creationProportionNote,creationShelterNote,creationBudgetText} from './creation-ui.js';
 import {creationTrial} from './creation-trial.js';
@@ -36,7 +37,7 @@ const discoveryNarration=new DiscoveryNarration({audio,catalog:discoveryCatalog}
 let sim=null,home=true,modal=null,selection='s1',pending=null,guideTab='species',search='',toast='',toastUntil=0,inspected=null,last=performance.now(),acc=0,hudClock=0,focusBefore=null;
 let mapSelection=4;
 let modalReturn=null,finishingDive=null;
-let activeDiveName='',importedDive=null;
+let activeDiveName='',importedDive=null,storyHelpKey=null,pendingFreshStory=null;
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let config={...DEFAULT_BLUEPRINT},draftParent=null,creationRecords=[],creationError='',trialReturn=null,renameId=null,portraitPointer=.5;
 const creationHelpers={panel,button,escape,dietText};
@@ -136,9 +137,11 @@ function updateToast(){
  if(sim?.paused&&!home){old?.remove();return;}
  inline?.remove();if(old)old.textContent=toast;else{const e=document.createElement('div');e.className='toast';e.textContent=toast;ui.append(e);}
 }
+function currentSpeechId(){return modal==='story-help'?discoveryCatalog.help?.[storyHelpKey]?.id:modal==='activity'?'activities/'+selection:selection;}
 function drawUI(){
- const speechId=modal==='activity'?'activities/'+selection:selection;
- if(audio.narrationSource!=='automatic'&&(!((modal==='guide'&&guideTab==='species')||modal==='activity')||audio.narrationId!==speechId))audio.stopNarration();
+ const speechId=currentSpeechId();
+ audio.setPaused(home||!!modal||!!sim?.paused||sim?.phase!=='playing');
+ if(audio.narrationSource!=='automatic'&&(!((modal==='guide'&&guideTab==='species')||modal==='activity'||modal==='story-help')||audio.narrationId!==speechId))audio.stopNarration();
  updateDiscoveryNarration();
  ui.innerHTML=home?homeHTML():gameHTML();
  if(modal&&!home)for(const node of ui.children){node.inert=true;node.setAttribute('aria-hidden','true');}
@@ -169,9 +172,12 @@ function residentJourneyHTML(){const id=sim.residentFocus,d=RESIDENT_JOURNEYS[id
 function goalStatus(goal){return goal.complete?'Discovered this dive':goal.recorded?'Recorded in your journal':'Optional goal';}
 function goalSummary(goal){return goal?`<p id="optional-goal-step">${escape(goal.step)}</p><small id="optional-goal-counter" ${goal.counter?'':'hidden'}>${goal.counter?`${goal.counter.current} / ${goal.counter.target} ${escape(goal.counter.unit)}`:''}</small><small id="optional-goal-record">${goalStatus(goal)}</small>`:'';}
 function updateOptionalGoal(){const goal=sim?.residentFocus?optionalObservation(sim,journal):optionalJourney(sim,journal);if(!goal)return;const step=$('#optional-goal-step'),record=$('#optional-goal-record'),counter=$('#optional-goal-counter');if(step)step.textContent=goal.step;if(record)record.textContent=goalStatus(goal);if(counter){counter.hidden=!goal.counter;counter.textContent=goal.counter?`${goal.counter.current} / ${goal.counter.target} ${goal.counter.unit}`:'';}}
-function storyActionsHTML(view){return (view.actions||[]).map(a=>`<button class="secondary-button" data-action="story-action" data-story-action="${escape(a.id)}" ${a.value!==undefined?`data-value="${escape(String(a.value))}"`:''}>${escape(a.label)}</button>`).join('');}
-function storyHTML(){const v=storyView(sim);if(!v)return '';return `<aside class="adventure-note reef-story" id="reef-story" aria-label="Optional reef adventure"><div class="adventure-heading"><strong>${escape(v.name)}</strong><button data-action="adventure-toggle" aria-label="Hide adventure controls">×</button></div><p id="story-step">${escape(v.step||'Explore')}</p><small id="story-record">${v.complete?'Discovered':journal.discoveries.includes(v.id)?'Recorded in our journal':'Optional adventure'}</small><div id="story-actions" class="story-actions">${storyActionsHTML(v)}</div><details class="activity-details"><summary>Adventure details</summary><p id="story-detail">${escape(v.detail||v.description)}</p><button class="text-button" data-action="story-stop">Return to free exploration</button></details></aside>`;}
-function storyInvitation(){const key=sim?.mode==='practice'&&!sim.trial?storyKeyFor(sim.player?.species.id):null;if(!key)return '';const d=REEF_STORIES[key];return `<details class="activity-details story-invitation"><summary>Another way to explore</summary><p>${escape(d.description)}</p><button class="secondary-button" data-action="story-begin">${sim.reefStories?.[key]?'Continue':'Begin'} ${escape(d.name)}</button></details>`;}
+function storyActionsHTML(view){return (view.actions||[]).map(a=>`<button class="secondary-button" data-action="story-action" data-story-action="${escape(a.id)}" ${a.value!==undefined?`data-value="${escape(String(a.value))}"`:''} ${a.disabled?'disabled':''}>${escape(a.label)}</button>`).join('')+(view.needsFreshDive?`<button class="secondary-button" data-action="fresh-story" data-story-key="${escape(view.key)}">Fresh adventure dive</button>`:'');}
+function storyHTML(){const v=storyView(sim);if(!v)return '';return `<aside class="adventure-note reef-story" id="reef-story" data-story-key="${escape(v.key)}" aria-label="Optional reef adventure"><div class="adventure-heading"><strong>${escape(v.name)}</strong><button data-action="adventure-toggle" aria-label="Hide adventure controls">×</button></div><p id="story-step">${escape(v.step||'Explore')}</p><small id="story-record">${v.complete?'Discovered':journal.discoveries.includes(v.id)?'Recorded in our journal':'Optional adventure'}</small><div id="story-actions" class="story-actions">${storyActionsHTML(v)}</div><div class="story-secondary">${discoveryCatalog.help?.[v.key]?'<button class="text-button" data-action="story-help">Hear the adventure</button>':''}<button class="text-button" data-action="story-stop">Return to free exploration</button></div><details class="activity-details"><summary>Adventure details</summary><p id="story-detail">${escape(v.detail||v.description)}</p></details></aside>`;}
+function storyInvitation(){
+ const keys=sim?.mode==='practice'&&!sim.trial?storyKeysFor(sim.player?.species.id):[];if(!keys.length)return '';
+ return `<details class="activity-details story-invitation"><summary>Another way to explore</summary>${keys.map(key=>{const d=REEF_STORIES[key],saved=!!sim.reefStories?.[key],admission=saved?{available:true}:admissionFor(sim,key);return `<div class="story-choice"><strong>${escape(d.name)}</strong><p>${escape(d.description)}</p>${admission.available?`<button class="secondary-button" data-action="story-begin" data-story-key="${key}">${saved?'Continue':'Begin'} ${escape(d.name)}</button>`:`<p class="story-admission">${escape(admission.reason)}</p>${admission.needsFreshDive?`<button class="secondary-button" data-action="fresh-story" data-story-key="${key}">Fresh adventure dive</button>`:''}`}</div>`;}).join('')}</details>`;
+}
 function updateStory(){const v=storyView(sim);if(!v)return;const step=$('#story-step'),detail=$('#story-detail'),record=$('#story-record'),actions=$('#story-actions');if(step)step.textContent=v.step||'Explore';if(detail)detail.textContent=v.detail||v.description;if(record)record.textContent=v.complete?'Discovered':journal.discoveries.includes(v.id)?'Recorded in our journal':'Optional adventure';if(actions){const html=storyActionsHTML(v);if(actions.dataset.signature!==html){const focused=document.activeElement?.dataset,wasFocused=document.activeElement?.closest('#story-actions');actions.innerHTML=html;actions.dataset.signature=html;if(wasFocused){const replacement=[...actions.querySelectorAll('button')].find(b=>b.dataset.storyAction===focused.storyAction&&b.dataset.value===focused.value);replacement?.focus({preventScroll:true});}}}}
 function adventureHTML(){
  if(sim.residentFocus)return residentJourneyHTML();
@@ -182,9 +188,10 @@ function adventureHTML(){
  const goal=optionalJourney(sim,journal);
  return `<aside class="adventure-note" ${goal?'data-optional-goal':''} aria-label="${goal?'Optional species goal':'Species activity'}"><div class="adventure-heading"><strong>${escape(a.name)}</strong><button data-action="adventure-toggle" aria-label="Hide goal">×</button></div>${goalSummary(goal)}${a.action?`<button class="secondary-button" data-action="context"><span id="context-label">${contextLabel(sim)}</span> <kbd>E</kbd></button>`:''}<details class="activity-details"><summary>Activity details</summary><p id="adventure-step">${escape(adventureInstruction(sim))}</p>${['s41','s53'].includes(sim.player.species.id)?'<button class="text-button" data-action="escort-new" hidden>Choose another neighbor</button>':''}${activityNarration[sim.player.species.id]?'<button class="text-button activity-listen" data-action="activity-help">Hear this activity</button>':''}</details>${storyInvitation()}</aside>`;
 }
-function adventurePreview(s){const a=ADVENTURES[s.id];return a?`<details class="adventure-preview"><summary>${escape(a.name)}</summary><p>${escape(a.description)}</p></details>`:'';}
+function adventurePreview(s){const a=ADVENTURES[s.id];return `${a?`<details class="adventure-preview"><summary>${escape(a.name)}</summary><p>${escape(a.description)}</p></details>`:''}${storyKeysFor(s.id).map(key=>{const d=REEF_STORIES[key];return `<div class="story-preview"><strong>${escape(d.name)}</strong><p>${escape(d.description)}</p><button class="secondary-button" data-action="guided-story" data-story-key="${key}">Begin ${escape(d.name)}</button></div>`;}).join('')}`;}
 function narrationHTML(s){const n=narrationCatalog[s.id];return n?`<section class="guide-narration"><button class="secondary-button" data-action="narration">${icon('sound')}<span id="narration-label">Play introduction</span></button><small id="narration-status" role="status" hidden></small><details><summary>Read introduction</summary><p>${escape(n.text)}</p></details></section>`:'';}
 function activityHelpHTML(){return panel(JOURNEYS[selection]?.name||'Your species activity',`<section class="guide-narration"><button class="secondary-button" data-action="narration">${icon('sound')}<span id="narration-label">Play activity</span></button><small id="narration-status" role="status" hidden></small><p>${escape(activityNarration[selection]||'Use the activity card for the next step.')}</p></section>`,button('close','Return to the reef',null,'primary-button'),true);}
+function storyHelpHTML(){const d=REEF_STORIES[storyHelpKey],n=discoveryCatalog.help?.[storyHelpKey];return panel(escape(d?.name||'Your reef adventure'),`<section class="guide-narration"><button class="secondary-button" data-action="narration">${icon('sound')}<span id="narration-label">Play instructions</span></button><small id="narration-status" role="status" hidden></small><p>${escape(n?.text||d?.description||'Follow the adventure controls at your own pace.')}</p></section>`,button('close','Return to the reef',null,'primary-button'),true);}
 function gameHTML(){
  const p=sim.player;
  const diet=dietText(p.species);
@@ -194,12 +201,13 @@ function meter(label,value){const v=Math.max(0,Math.min(100,value));return `<div
 function panel(title,body,footer='',small=false,subtitle=''){return `<div class="overlay"><section class="panel ${small?'small':''}" role="dialog" aria-modal="true" aria-labelledby="dialog-title"><header class="panel-header"><div><h2 id="dialog-title">${title}</h2>${subtitle?`<p>${subtitle}</p>`:''}</div><button class="close" data-action="close" aria-label="Close dialog">×</button></header><div class="panel-body">${body}</div>${footer?`<footer class="panel-footer">${footer}</footer>`:''}</section></div>`;}
 function naturalHistoryHTML(s){
  const n=NATURAL_HISTORY[s.id];if(!n)return '';
- return `<details class="natural-history"><summary>Natural history · <i>${escape(n.scientific)}</i></summary><div class="natural-history-body"><p class="subtle">${escape(n.family)}${n.length?' · '+escape(lengthSummary(n.length,settings.metric)):''}</p>${n.paragraphs.map(p=>`<p>${escape(p)}</p>`).join('')}<h4>Look and compare</h4><p>${escape(n.question)}</p><h4>In this game</h4><p>${escape(n.limit)}</p><details class="history-source"><summary>Source: ${escape(n.source)}</summary><p class="source-url">${escape(n.url)}</p></details></div></details>`;
+ return `<details class="natural-history"><summary>Natural history · <i>${escape(n.scientific)}</i></summary><div class="natural-history-body"><p class="subtle">${escape(n.family)}${n.length?' · '+escape(lengthSummary(n.length,settings.metric)):''}</p>${n.paragraphs.map(p=>`<p>${escape(p)}</p>`).join('')}<h4>Look and compare</h4><p>${escape(n.question)}</p><h4>In this game</h4><p>${escape(n.limit)}</p><details class="history-source"><summary>Source: ${escape(n.source)}</summary><p class="source-url">${escape(n.url)}</p>${(n.storySources||[]).map(source=>`<p>${escape(source.source)}<br><span class="source-url">${escape(source.url)}</span></p>`).join('')}</details></div></details>`;
 }
 function speciesInfo(s){return `<div class="portrait-stage"><canvas class="species-portrait" data-species="${s.id}" width="640" height="270"></canvas></div><h3>${escape(s.name)}</h3>${modal==='guide'?narrationHTML(s)+naturalHistoryHTML(s):modal==='practice'?adventurePreview(s):''}<p>${escape(s.description)}</p><dl class="facts"><dt>Diet</dt><dd>${s.diet.map(f=>escape(FOODS[f]?.name||f)).join(', ')}</dd><dt>Active</dt><dd>${s.active==='both'?'Day & night':s.active==='night'?'Nighttime':'Daytime'}</dd><dt>Home</dt><dd>${({open:'Open water',school:'Water above the reef',reef:'Coral and ledges',sand:'Sandy bottom'})[s.habitat]}</dd><dt>Ability</dt><dd>${escape(ABILITIES[s.ability]?.name||'None')}${ABILITIES[s.ability]?.passive?' · Always active':''}</dd></dl>${modal==='guide'?`<details><summary>Observation ideas</summary><p>${s.ability==='clean'?'Watch a cleaning interaction. How does each animal benefit?':s.diet.includes('fish')?'Watch a feeding trip, then the quieter period after a meal.':s.diet.includes('algae')||s.diet.includes('grass')?'Watch where this animal grazes. Compare its food with a hunter’s diet.':'Look for small food sources. Compare this animal’s activity by day and night.'}</p></details>`:''}`;}
 function speciesBrowser(list,selectId=selection){const filtered=list.filter(s=>(s.name+' '+(NATURAL_HISTORY[s.id]?.scientific||'')).toLowerCase().includes(search.toLowerCase()));const s=BY_ID[selectId]||list[0];return `<div class="species-layout"><div class="species-browser"><input id="species-search" class="search" type="search" aria-label="Search creatures" placeholder="Find a creature…" value="${escape(search)}"><div class="species-list" role="listbox" aria-label="Reef creatures">${filtered.length?filtered.map(s=>`<button class="species-item ${s.id===selectId?'selected':''}" role="option" aria-selected="${s.id===selectId}" data-species="${s.id}">${escape(s.name)}<small>${s.active==='both'?'Day & night':s.active==='night'?'Night':'Day'} · ${escape(ABILITIES[s.ability]?.name||'None')}${s.ability==='clean'?' · Cleaner':!s.playable?' · Reef resident':''}</small></button>`).join(''):'<p class="subtle">No matching creatures.</p>'}</div></div><div class="species-detail">${speciesInfo(s)}</div></div>`;}
 function modalHTML(){
  if(modal==='activity')return activityHelpHTML();
+ if(modal==='story-help')return storyHelpHTML();
  if(modal==='journal')return journalHTML();
  if(modal==='reef-map')return reefMapHTML();
  if(modal==='practice')return panel('Choose your next life',speciesBrowser(PRACTICE_SPECIES),`<span class="subtle">${PRACTICE_SPECIES.length} creatures · Goals are optional</span><div class="two-buttons">${ADVENTURES[selection]?button('begin-adventure','Show goal',null,'secondary-button'):''}${button('begin-practice',ADVENTURES[selection]?'Explore freely':'Enter the reef','arrow','primary-button')}</div>`);
@@ -223,7 +231,9 @@ function savesHTML(){
  const current=sim?`<div class="save-current"><label class="field">Dive name<input id="dive-name" maxlength="60" value="${escape(activeDiveName)}" placeholder="My reef dive"></label>${button('export-dive','Export dive file','save','secondary-button')}</div>`:'';
  const files=`<div class="save-files">${button('choose-dive-file','Import dive file',null,'secondary-button')}<input id="dive-file" type="file" accept=".atoll,application/json" hidden><details><summary>Moving a dive</summary><p>Export an .atoll file, then import it on another computer. Saved slots stay on this device.</p></details></div>`;
  const slots=[0,1,2,3].map(i=>{const s=read('atoll-save-'+i,null);return `<div class="save-row"><div><strong>${s?.name?escape(s.name):i===0?'Last dive':'Dive slot '+i}</strong><small>${s?`${i===0?'Last dive':'Slot '+i} · ${escape(s.species)} · ${escape(s.mode)} · ${new Date(s.date).toLocaleString()}`:'Empty slot'}</small></div><div class="two-buttons">${sim&&i>0?button('save-'+i,'Save here',null,'secondary-button'):''}${s?button('load-'+i,'Load dive',null,'primary-button'):''}</div></div>`;}).join('');
- return panel('Your saved dives',`${current}${files}<div class="save-list">${slots}</div>`,`<span class="subtle">Ctrl+S saves your last dive</span>${button('close','Done',null,'secondary-button')}`);
+ const fresh=pendingFreshStory?.source===sim?pendingFreshStory:null;
+ const kept=fresh&&fresh.preserved===JSON.stringify(sim.serialize());
+ return panel('Your saved dives',`${fresh?`<p class="notice">Keep this dive in a slot or export it before starting ${escape(REEF_STORIES[fresh.key].name)}. Your other saved dives stay available.</p>`:''}${current}${files}<div class="save-list">${slots}</div>`,`<span class="subtle">Ctrl+S saves your last dive</span><div class="two-buttons">${fresh?`<button class="primary-button" data-action="start-fresh-story" ${kept?'':'disabled'}>Begin fresh adventure</button>`:''}${button('close','Done',null,'secondary-button')}</div>`);
 }
 function journeyHTML(){
  const tournament=modal==='tournament',seq=pending.sequence.map(id=>BY_ID[id]);
@@ -249,9 +259,25 @@ function paintPortraits(){if(!renderer.ready)return;document.querySelectorAll('.
 function focusModal(){requestAnimationFrame(()=>{if(modal){const target=$('.panel input:not([hidden])')||$('.panel button');target?.focus();}});}
 function openModal(name){if(!modal)modalReturn={sim,paused:!!sim?.paused,inspect:renderer.inspect,inspected};focusBefore=document.activeElement;if(name!=='message'){toast='';toastUntil=0;}if(sim)sim.paused=true;modal=name;renderer.inspect=false;renderer.hover=null;inspected=null;drawUI();focusModal();}
 function closeModal(resume=false){modal=null;if(sim&&!home){if(['advance','dead','won'].includes(sim.phase)){modal=sim.phase;sim.paused=true;}else{const back=modalReturn?.sim===sim?modalReturn:null;sim.paused=!resume&&!!back?.paused;renderer.inspect=sim.paused&&!!back?.inspect;inspected=sim.paused?back?.inspected||null:null;}}if(!modal)modalReturn=null;drawUI();if(modal)focusModal();else canvas.focus({preventScroll:true});}
-function enter(s,name,{resume=false}={}){sim=s;modalReturn=null;careKind='';wellUntil=0;checkpointClock=0;lastDiscoveryCue=-Infinity;discoveryNarration.enterSpecies(s.player.species.id,{resume:resume||s.mode!=='practice'||!!s.trial});progress('habitat',s.current);activeDiveName=diveName(name||s.player.species.name+' dive');home=false;modal=null;sim.paused=false;inspected=null;renderer.inspect=false;renderer.syncScene(sim,home);audio.setTrack(sim.period==='night'?'moon-through-water':'glasswater');drawUI();canvas.focus();saveSlot(0,false);}
+function enter(s,name,{resume=false}={}){sim=s;pendingFreshStory=null;modalReturn=null;careKind='';wellUntil=0;checkpointClock=0;lastDiscoveryCue=-Infinity;discoveryNarration.enterSpecies(s.player.species.id,{resume:resume||s.mode!=='practice'||!!s.trial});progress('habitat',s.current);activeDiveName=diveName(name||s.player.species.name+' dive');home=false;modal=null;sim.paused=resume?s.resumePaused===true:false;delete sim.resumePaused;inspected=null;renderer.inspect=sim.paused;renderer.syncScene(sim,home);audio.setTrack(sim.period==='night'?'moon-through-water':'glasswater');drawUI();canvas.focus();saveSlot(0,false);}
 function resumeDive(restored,name){enter(restored,name,{resume:true});if(['advance','dead','won'].includes(restored.phase))openModal(restored.phase);announce('Dive resumed.');}
-function saveSlot(slot,announce=true){if(!sim||sim.trial)return false;if(sim.creation)persistCreation(sim);const success=write('atoll-save-'+slot,{name:diveName(activeDiveName),date:Date.now(),species:sim.player.species.name,mode:sim.mode,state:sim.serialize()});if(success&&announce){audio.effect('save');notify('Dive saved.');}return success;}
+function saveSlot(slot,announce=true){if(!sim||sim.trial)return false;if(sim.creation)persistCreation(sim);const state=sim.serialize();const success=write('atoll-save-'+slot,{name:diveName(activeDiveName),date:Date.now(),species:sim.player.species.name,mode:sim.mode,state});if(success&&slot>0&&pendingFreshStory?.source===sim)pendingFreshStory.preserved=JSON.stringify(state);if(success&&announce){audio.effect('save');notify('Dive saved.');}return success;}
+function startAdventureDive(speciesId,key,{preserve=true}={}){
+ if(!storyCompatible(speciesId,key))return false;
+ let preservedSlot=null;
+ if(preserve&&sim&&!sim.trial){
+  const state=JSON.stringify(sim.serialize()),kept=[1,2,3].some(slot=>JSON.stringify(read('atoll-save-'+slot,null)?.state)===state);
+  if(!kept){
+   const empty=[1,2,3].find(slot=>!read('atoll-save-'+slot,null));
+   if(empty!==undefined&&saveSlot(empty,false))preservedSlot=empty;
+   else{pendingFreshStory={speciesId,key,source:sim,preserved:null};openModal('saves');notify('Save or export this dive, then begin the fresh adventure.');return false;}
+  }
+ }
+ const next=new Simulation(Date.now());next.start('practice',speciesId,null,{adventureKey:key});
+ if(!beginStory(next,key)){notify('This adventure could not begin. Your current dive is still open.');return false;}
+ enter(next,REEF_STORIES[key].name);if(preservedSlot!==null)notify('Previous dive kept in slot '+preservedSlot+'.');
+ return true;
+}
 function recordScore(){if(!sim||sim.trial||sim.mode==='practice'||sim.recorded)return;const name=$('#ruler-name')?.value.trim()||'Reef explorer';const scores=read('atoll-scores',[]);scores.push({name,score:sim.score,mode:sim.mode,species:sim.player.species.name,date:Date.now()});scores.sort((a,b)=>b.score-a.score);if(write('atoll-scores',scores.slice(0,30)))sim.recorded=true;}
 function closeSplashMenus(){for(const menu of document.querySelectorAll('.splash-menu[open]'))menu.open=false;}
 ui.addEventListener('toggle',e=>{if(e.target.matches('.splash-menu')&&e.target.open)for(const other of document.querySelectorAll('.splash-menu[open]'))if(other!==e.target)other.open=false;},true);
@@ -278,6 +304,9 @@ ui.addEventListener('click',async event=>{
  if(action.startsWith('mode-')){search='';const mode=action.slice(5);if(mode==='challenge'||mode==='tournament'){pending=new Simulation(Date.now());pending.start(mode);}openModal(mode);}
  else if(action.startsWith('web-')){selection=action.slice(4);drawUI();$('#web-species')?.focus();}
  else if(action==='begin-practice'||action==='begin-adventure'){const s=new Simulation(Date.now());s.start('practice',selection);s.adventure.visible=action==='begin-adventure';enter(s);}
+ else if(action==='guided-story'){startAdventureDive(selection,el.dataset.storyKey);}
+ else if(action==='fresh-story'){startAdventureDive(sim.player.species.id,el.dataset.storyKey);}
+ else if(action==='start-fresh-story'){const fresh=pendingFreshStory;if(fresh?.source===sim&&fresh.preserved===JSON.stringify(sim.serialize()))startAdventureDive(fresh.speciesId,fresh.key,{preserve:false});}
  else if(action==='begin-sequence'){enter(pending);pending=null;}
  else if(action==='begin-create'){if(createSpecies(config).cost>1600||abilityIssue(config))return;const next=new Simulation(Date.now());next.start('create','custom',blueprint(config));next.creation.parentId=draftParent;next.adventure.visible=true;enter(next);}
  else if(action==='reef-map'){mapSelection=sim.destination??sim.current;openModal('reef-map');}
@@ -293,9 +322,10 @@ ui.addEventListener('click',async event=>{
  else if(action==='guide-current'){selection=inspected?.species?.id||selection;guideTab='species';search='';openModal('guide');}
  else if(action==='pause'||action==='inspect'){sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}
  else if(action==='adventure-toggle'){sim.adventure.visible=!sim.adventure.visible;drawUI();}
- else if(action==='story-begin'){sim.paused=false;renderer.inspect=false;beginStory(sim);drawUI();canvas.focus();}
+ else if(action==='story-begin'){sim.paused=false;renderer.inspect=false;beginStory(sim,el.dataset.storyKey);drawUI();canvas.focus();}
  else if(action==='story-action'){storyAction(sim,el.dataset.storyAction,el.dataset.value);if(el.dataset.storyAction==='story-route'){mapSelection=sim.destination??sim.current;openModal('reef-map');}else updateStory();}
  else if(action==='story-stop'){stopStory(sim);drawUI();canvas.focus();}
+ else if(action==='story-help'){storyHelpKey=activeStory(sim);if(discoveryCatalog.help?.[storyHelpKey]){openModal('story-help');audio.playNarration(discoveryCatalog.help[storyHelpKey].id);}}
  else if(action==='context'){sim.useContext();canvas.focus();}
  else if(action==='resident-close'){sim.residentFocus=null;drawUI();}
  else if(action==='resident-resume'){sim.paused=false;renderer.inspect=false;inspected=null;drawUI();canvas.focus();}
@@ -303,7 +333,7 @@ ui.addEventListener('click',async event=>{
  else if(action==='resident-help'){selection=sim.residentFocus;openModal('activity');audio.playNarration('activities/'+selection);}
  else if(action==='escort-new'){forgetEscort(sim);canvas.focus();}
  else if(action==='activity-help'){selection=sim.player.species.id;openModal('activity');audio.playNarration('activities/'+selection);}
- else if(action==='narration'){const id=modal==='activity'?'activities/'+selection:selection;if(audio.narrationId===id)audio.stopNarration();else audio.playNarration(id);}
+ else if(action==='narration'){const id=currentSpeechId();if(audio.narrationId===id)audio.stopNarration();else if(id)audio.playNarration(id);}
  else if(action==='food-hints'){toggleFoodHints();}
  else if(action==='ability'){sim.useAbility();}
  else if(action==='cleaner'){if(sim.paused){sim.paused=false;renderer.inspect=false;inspected=null;drawUI();}sim.requestCleaning();canvas.focus();}
@@ -311,7 +341,7 @@ ui.addEventListener('click',async event=>{
  else if(action.startsWith('load-')){try{const data=read('atoll-save-'+action.slice(5),null);resumeDive(Simulation.restore(data?.state),data?.name);}catch(err){notify('Unable to load this dive. '+err.message+' Choose a different saved dive.');}}
  else if(action==='export-dive'&&sim){
   const url=URL.createObjectURL(new Blob([exportDive(sim,activeDiveName)],{type:'application/json'}));
-  const link=document.createElement('a');link.href=url;link.download=diveFilename(activeDiveName);document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);notify('Dive export started.');
+  const link=document.createElement('a');link.href=url;link.download=diveFilename(activeDiveName);document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);if(pendingFreshStory?.source===sim){pendingFreshStory.preserved=JSON.stringify(sim.serialize());drawUI();}notify('Dive export started.');
  }
  else if(action==='enable-sound')audio.unlock();
  else if(action==='journal-backup')downloadJournal();
@@ -358,7 +388,7 @@ ui.addEventListener('change',async e=>{
 });
 function pointer(e){const r=canvas.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*1600,y:(e.clientY-r.top)/r.height*900-55};}
 canvas.addEventListener('pointerleave',()=>renderer.titleReef.leave());
-canvas.addEventListener('pointermove',e=>{if(home&&!modal){const p=pointer(e);renderer.titleReef.move(p.x,p.y+55);return;}if(home||modal||!sim)return;const p=pointer(e);if(!sim.paused){if(sim.adventure.watchJourney?.watching){aimWatch(sim,p.x,p.y);renderer.hover=sim.findAt(p.x,p.y);}else if(sim.player.ambush){aimAmbush(sim,p.x,p.y);renderer.hover=sim.findAt(p.x,p.y);}else{sim.point(p.x,p.y);renderer.hover=null;}}else renderer.hover=sim.findAt(p.x,p.y);});
+canvas.addEventListener('pointermove',e=>{if(home&&!modal){const p=pointer(e);renderer.titleReef.move(p.x,p.y+55);return;}if(home||modal||!sim)return;const p=pointer(e);if(!sim.paused){if(!activeStory(sim)&&sim.adventure.watchJourney?.watching){aimWatch(sim,p.x,p.y);renderer.hover=sim.findAt(p.x,p.y);}else if(!activeStory(sim)&&sim.player.ambush){aimAmbush(sim,p.x,p.y);renderer.hover=sim.findAt(p.x,p.y);}else{sim.point(p.x,p.y);renderer.hover=null;}}else renderer.hover=sim.findAt(p.x,p.y);});
 canvas.addEventListener('pointerdown',e=>{audio.unlock();if(home&&!modal){const p=pointer(e);renderer.titleReef.click(p.x,p.y+55);return;}if(home||modal||!sim)return;const p=pointer(e);if(sim.paused){inspected=sim.findAt(p.x,p.y);sim.observe(inspected);events();drawUI();}else sim.eatAt(p.x,p.y);canvas.focus();});
 document.addEventListener('keydown',e=>{
  if(e.key==='F11'&&window.atollDesktop){e.preventDefault();if(!e.repeat)toggleFullscreen().catch(()=>notify('Fullscreen could not change. Use the display control in Settings.'));return;}
@@ -374,9 +404,11 @@ document.addEventListener('keydown',e=>{
  if(e.key.toLowerCase()==='f'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!modal){if(sim?.creation&&!home){openModal('custom-guide');return;}selection=sim?.player.species.id||selection;openModal('guide');}
  if(e.key.toLowerCase()==='p'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&sim&&!home&&!modal){sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}
 });
-window.addEventListener('blur',()=>{if(sim&&!home&&!modal&&sim.phase==='playing'){sim.paused=true;renderer.inspect=true;toast='';toastUntil=0;drawUI();}});
+function pauseForBackground(){if(sim&&!home&&!modal&&sim.phase==='playing'){sim.paused=true;renderer.inspect=true;toast='';toastUntil=0;drawUI();}}
+window.addEventListener('blur',pauseForBackground);
+window.atollDesktop?.onBackground(pauseForBackground);
 window.addEventListener('storage',e=>{if(e.key!=='atoll-journal'||!e.newValue)return;try{journal=mergeJournals(journal,validateJournal(JSON.parse(e.newValue)));discoveryNarration.syncJournal(journal);titleRewards();if(modal==='journal'){drawUI();focusModal();}}catch{}});
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&sim&&!sim.trial)saveSlot(0,false);});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){pauseForBackground();if(sim&&!sim.trial)saveSlot(0,false);}});
 window.addEventListener('beforeunload',()=>{if(sim)saveSlot(0,false);});
 function updateHUD(){updateOptionalGoal();updateStory();const step=$('#custom-step');if(step&&sim)step.textContent=customInstruction(sim);
  if(home||!sim)return;const residentStep=$('#resident-step');if(residentStep)residentStep.textContent=residentInstruction(sim);const again=$('[data-action="resident-again"]');if(again)again.hidden=!sim.residentJourneys?.[sim.residentFocus]?.complete;const newNeighbor=$('[data-action="escort-new"]');if(newNeighbor)newNeighbor.hidden=!sim.adventure.escortJourney;const p=sim.player;$('.adventure-note')?.classList.toggle('avoid-player',p.x<520&&p.y<330);const adventure=ADVENTURES[p.species.id];if(adventure){const el=$('#adventure-step');if(el)el.textContent=adventureInstruction(sim);const label=$('#context-label');if(label)label.textContent=contextLabel(sim);}
@@ -390,7 +422,7 @@ function updateHUD(){updateOptionalGoal();updateStory();const step=$('#custom-st
  const meal=sim.mealTarget;
  const leg=routeBetween(sim.current,sim.destination)[0];
  const care=careHint(p,careKind);if(care.kind==='well'&&careKind&&careKind!=='well')wellUntil=performance.now()+4000;careKind=care.kind;
- const risk=riskStatus(sim),urgent=p.hurtGrace>0||sim.section.entities.some(e=>e.alive&&e.target==='player');
+ const risk=riskStatus(sim),exitGrace=sim.riskCue?.reason==='adventure'&&sim.riskCue.until>sim.time,urgent=p.hurtGrace>0&&!exitGrace||sim.section.entities.some(e=>e.alive&&e.target==='player');
  const message=sim.paused?'Inspection paused · Click a creature or press Esc to continue':urgent?risk:sim.cleaningStatus?sim.cleaningStatus:p.hidden?'Hidden · Stay still to avoid being seen':meal?(p.feeding&&!p.feeding.committed?'Taking a bite of ':'Approaching ')+(meal.name||meal.species.name)+' · Move to steer away':leg?REEFS[sim.destination].name+' · Swim '+leg.direction+' to '+REEFS[leg.to].name:sim.protected?PROTECTION_HINT:risk||shelterHint(REEFS[sim.current],p)||(settings.hints&&(care.kind!=='well'||performance.now()<wellUntil)?care.text:'');
  const hint=$('.controls-hint');if(hint)hint.hidden=!!message;
  const badge=$('#state-badge');if(badge&&badge.textContent!==message)badge.textContent=message;
@@ -407,6 +439,7 @@ function events(){renderer.syncScene(sim,home);for(const e of sim?.events.splice
  if(['pursuit-start','pursuit-release','homecoming','reunion'].includes(e.type)){renderer.addEffect(({'pursuit-start':'notice','pursuit-release':'release',homecoming:'homecoming',reunion:'reunion'})[e.type],e.x,e.y);audio.effect('bubble');announce(e.text);continue;}
  if(e.type==='discovery'){const fresh=!journal.discoveries.includes(e.value);discoveryNarration.discover(e.value,{fresh});progress('discovery',e.value);discoveryCue();audio.effect('ui',.45);announce(e.text);continue;}
  if(e.type==='sand'){renderer.addEffect('sand',e.x,e.y);audio.effect('bubble');announce(e.text);continue;}
+ if(e.type==='shade-pulse'){if(!home&&!modal&&!sim.paused)audio.playShadePulse({pan:e.pan,gain:(e.gain??.07)/.07});continue;}
  if(e.type==='progress'){progress(e.kind,e.value);continue;}
  if(e.type==='ability'){audio.effect(e.ability==='mimic'?'clean':e.ability==='poison'?'ink':e.ability,e.actor&&e.actor!=='player'?.35:1);renderer.addEffect(e.ability,e.x,e.y);if(!e.actor||e.actor==='player')announce(ABILITIES[e.ability].name);}
  else{if(['eat','hurt','clean'].includes(e.type))renderer.addEffect(e.type,e.x??sim.player.x,e.y??sim.player.y);audio.effect(e.type);if(['message','reject','poison'].includes(e.type))notify(e.text);else announce(e.text);}
@@ -415,11 +448,11 @@ function events(){renderer.syncScene(sim,home);for(const e of sim?.events.splice
  if(e.type==='transition'){renderer.effects=[];progress('habitat',sim.current);inspected=null;drawUI();}
  if(settings.verbose&&['eat','poison','reject'].includes(e.type)){toast=e.text;openModal('message');}
 }}
-function updateDiscoveryNarration(){discoveryNarration.update({home,modal,paused:sim?.paused,alive:sim?.player?.alive!==false&&sim?.phase!=='dead',trial:!!sim?.trial,settings});}
+function updateDiscoveryNarration(){audio.setPaused(home||!!modal||!!sim?.paused||sim?.phase!=='playing');discoveryNarration.update({home,modal,paused:sim?.paused,alive:sim?.player?.alive!==false&&sim?.phase!=='dead',trial:!!sim?.trial,settings});}
 function frame(now){const dt=Math.min((now-last)/1000,.1);last=now;if(!home&&sim&&!modal){acc+=dt;while(acc>=1/60){sim.step(1/60);acc-=1/60;}events();}else acc=0;if(sim&&!home&&!sim.paused&&!modal){checkpointClock+=dt;if(checkpointClock>=10){checkpointClock=0;saveSlot(0,false);}}
  updateDiscoveryNarration();
  if(badgeQueue.length&&!modal&&!inspected&&now>toastUntil){const badge=badgeQueue.shift();discoveryCue();audio.effect('ui',.45);announce('Journal badge earned: '+badge.name);}
- const speechId=modal==='activity'?'activities/'+selection:selection;const spoken=$('#narration-label');if(spoken)spoken.textContent=audio.narrationId===speechId?'Stop':modal==='activity'?'Play activity':'Play introduction';const speechStatus=$('#narration-status');if(speechStatus){const status=audio.narrationState==='unavailable'?'Audio unavailable. Read the text instead.':audio.narrationState==='muted'?(audio.enabled&&audio.narrationVolume<=0?'Turn up narration in Settings to listen.':'Enable audio in Settings to listen.'):'';speechStatus.hidden=!status;speechStatus.textContent=status;}
+ const speechId=currentSpeechId();const spoken=$('#narration-label');if(spoken)spoken.textContent=audio.narrationId===speechId?'Stop':modal==='story-help'?'Play instructions':modal==='activity'?'Play activity':'Play introduction';const speechStatus=$('#narration-status');if(speechStatus){const status=audio.narrationState==='unavailable'?'Audio unavailable. Read the text instead.':audio.narrationState==='muted'?(audio.enabled&&audio.narrationVolume<=0?'Turn up narration in Settings to listen.':'Enable audio in Settings to listen.'):'';speechStatus.hidden=!status;speechStatus.textContent=status;}
  const sound=$('.sound-enable');if(sound)sound.hidden=!(audio.blocked&&settings.sound&&!modal);
  let unsaved=$('.journal-unsaved');if(journalUnsaved&&!modal){if(!unsaved){unsaved=document.createElement('button');unsaved.className='journal-unsaved secondary-button';unsaved.dataset.action='journal';unsaved.textContent='Journal unsaved · Back up';ui.append(unsaved);}}else unsaved?.remove();
  let creationWarning=$('.creation-unsaved');if(creationError&&!modal&&sim?.creation&&!sim.trial){if(!creationWarning){creationWarning=document.createElement('button');creationWarning.className='creation-unsaved journal-unsaved secondary-button';creationWarning.dataset.action='saves';creationWarning.textContent='Creation unsaved · Export backup';ui.append(creationWarning);}}else creationWarning?.remove();

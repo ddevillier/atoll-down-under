@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {clickButton} from '../../scripts/ui-actions.mjs';
 
-const artifacts='artifacts/reef-stories';
+const artifacts=process.env.ATOLL_ARTIST_ARTIFACTS||'artifacts/reef-stories';
 const evidence={story:'The Disappearing Artist',tests:[],renders:[]};
 test.describe.configure({mode:'serial'});
 test.beforeAll(async()=>mkdir(artifacts,{recursive:true}));
@@ -53,7 +53,10 @@ test('three skins render distinctly and real observer departures complete the st
   await page.waitForTimeout(700);const advanced=await snapshot(page);expect(Math.hypot(initial.observer.x-advanced.observer.x,initial.observer.y-advanced.observer.y)).toBeGreaterThan(8);expect(advanced.artist.successes.length).toBe(passes.length);expect(advanced.motionTime).toBeGreaterThan(initial.motionTime);await capture(page,`${kind}-passing`);
   if(kind==='shadow'){
    await page.keyboard.press('Escape');const held=await snapshot(page);await page.waitForTimeout(300);expect(await snapshot(page)).toEqual(held);await page.keyboard.press('Control+s');const saved=await page.evaluate(()=>JSON.parse(JSON.parse(localStorage.getItem('atoll-save-0')).state));expect(saved.reefStories.artist.phase).toBe('passing');expect(saved.reefStories.artist.successes).toEqual(['sand']);
-   await page.locator('[data-action="home"]').click();await clickButton(page,{name:'Saved dives',exact:true});await page.locator('[data-action="load-0"]').click();const resumed=await snapshot(page);expect(resumed.artist.pattern).toBe('shadow');expect(resumed.artist.observer.id).toBe(held.artist.observer.id);expect(resumed.artist.successes).toEqual(['sand']);expect(resumed.paused).toBe(false);expect(Math.hypot(resumed.player.x-held.player.x,resumed.player.y-held.player.y)).toBeLessThan(1);passes.push({kind,initial,advanced,pauseSaveResume:{held,resumed}});
+   expect(saved.paused).toBe(true);
+   await page.locator('[data-action="home"]').click();await clickButton(page,{name:'Saved dives',exact:true});await page.locator('[data-action="load-0"]').click();const restored=await snapshot(page);expect(restored.artist.pattern).toBe('shadow');expect(restored.artist.observer.id).toBe(held.artist.observer.id);expect(restored.artist.successes).toEqual(['sand']);expect(restored.paused).toBe(true);expect(Math.hypot(restored.player.x-held.player.x,restored.player.y-held.player.y)).toBeLessThan(1);
+   await page.waitForTimeout(300);const frozen=await snapshot(page);expect(frozen.artist).toEqual(restored.artist);expect(frozen.player).toEqual(restored.player);expect(frozen.observer).toEqual(restored.observer);expect(frozen.time).toBe(restored.time);
+   await clickButton(page,{name:'Resume',exact:true});const resumed=await snapshot(page);expect(resumed.paused).toBe(false);expect(resumed.artist.observer.id).toBe(held.artist.observer.id);expect(resumed.artist.successes).toEqual(['sand']);passes.push({kind,initial,advanced,pauseSaveResume:{held,restored,frozen,resumed}});
   }else passes.push({kind,initial,advanced});
   await finish(page,kind);expect((await snapshot(page)).artist.successes).toContain(kind);passes.at(-1).finished=await snapshot(page);if(kind==='sand'){await clickButton(page,{name:'Return to free exploration',exact:true});expect(await page.evaluate(()=>window.atoll.simulation.reefStories.active)).toBeNull();await clickButton(page,{name:'Continue The Disappearing Artist',exact:true});expect((await snapshot(page)).artist.successes).toEqual(['sand']);}
  }

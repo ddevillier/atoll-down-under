@@ -8,7 +8,7 @@ then run npm ci, npm run check and npm start. npm ci uses package-lock.json; do 
 substitute npm install when reproducing a build. The assets are ordinary Git files,
 so no Git LFS, external asset archive, API account or original game is needed.
 The source includes WAV music/effect masters; desktop packages include compressed
-OGG files and omit WAV masters. All 270 spoken clips are included as OGG files.
+OGG files and omit WAV masters. All 284 spoken clips are included as OGG files.
 
 ## Commands
 

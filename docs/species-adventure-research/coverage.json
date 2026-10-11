@@ -1,0 +1,522 @@
+{
+  "date": "2026-10-10",
+  "researchAssignments": 20,
+  "rosterCount": 64,
+  "playableCount": 57,
+  "residentCount": 7,
+  "coverage": [
+    {
+      "id": "s0",
+      "name": "Silver sprat",
+      "scientific": "Spratelloides gracilis",
+      "role": "playable",
+      "report": "16-schools-light.md",
+      "verdict": "Conditional: substrate spawning and attached eggs; explicit reproductive role and substrate."
+    },
+    {
+      "id": "s1",
+      "name": "Neon damselfish",
+      "scientific": "Pomacentrus coelestis",
+      "role": "playable",
+      "report": "01-coral-homes.md",
+      "verdict": "Queue: explicit adult-male under-boulder nest preparation."
+    },
+    {
+      "id": "s2",
+      "name": "Orange coral goby",
+      "scientific": "Gobiodon okinawae",
+      "role": "playable",
+      "report": "01-coral-homes.md",
+      "verdict": "Enrich: outer Acropora perch and voluntary host transfer; no transplanted coral rescue."
+    },
+    {
+      "id": "s3",
+      "name": "Royal gramma",
+      "scientific": "Gramma loreto",
+      "role": "playable",
+      "report": "03-night-ledges.md",
+      "verdict": "Core: opt into nesting-male role, choose nest-lining placement and clear a ledge entrance."
+    },
+    {
+      "id": "s4",
+      "name": "Moorish idol",
+      "scientific": "Zanclus cornutus",
+      "role": "playable",
+      "report": "04-reef-browsers.md",
+      "verdict": "Queue: lateral-jaw/approach-angle crevice puzzle."
+    },
+    {
+      "id": "s5",
+      "name": "Palette surgeonfish",
+      "scientific": "Paracanthurus hepatus",
+      "role": "playable",
+      "report": "04-reef-browsers.md",
+      "verdict": "Enrich: current-reading and real plankton interception; avoid algae-only identity."
+    },
+    {
+      "id": "s6",
+      "name": "Longnose butterflyfish",
+      "scientific": "Forcipiger flavissimus",
+      "role": "playable",
+      "report": "05-specialist-mouths.md",
+      "verdict": "Queue: aperture and reach choice using actual longnose mouth geometry."
+    },
+    {
+      "id": "s7",
+      "name": "Anemonefish",
+      "scientific": "Amphiprion (anemonefishes; genus)",
+      "role": "playable",
+      "report": "02-anemone-partners.md",
+      "verdict": "Conditional: named fish/host food-provisioning case study; nighttime host care separately gated."
+    },
+    {
+      "id": "s8",
+      "name": "Foxface rabbitfish",
+      "scientific": "Siganus vulpinus",
+      "role": "playable",
+      "report": "06-paired-browsers.md",
+      "verdict": "Core: lookout/foraging role exchange."
+    },
+    {
+      "id": "s9",
+      "name": "Yellow goatfish",
+      "scientific": "Mullidae (goatfishes; family)",
+      "role": "playable",
+      "report": "07-sand-detectives.md",
+      "verdict": "Retain Whisker Detective; identify species before adding specific goatfish behavior."
+    },
+    {
+      "id": "s10",
+      "name": "Sixbar wrasse",
+      "scientific": "Thalassoma hardwicke",
+      "role": "playable",
+      "report": "05-specialist-mouths.md",
+      "verdict": "Queue: substrate choice and real moving cryptofauna; captive rock handling remains qualified."
+    },
+    {
+      "id": "s11",
+      "name": "Peach fairy basslet",
+      "scientific": "Nemanthias dispar",
+      "role": "playable",
+      "report": "17-anthias.md",
+      "verdict": "Conditional reserve: mixed-school association with source-specific companions."
+    },
+    {
+      "id": "s12",
+      "name": "Squirrelfish",
+      "scientific": "Neoniphon sammara",
+      "role": "playable",
+      "report": "03-night-ledges.md",
+      "verdict": "Core: sound plus posture and personal-space encounter."
+    },
+    {
+      "id": "s13",
+      "name": "Banggai cardinalfish",
+      "scientific": "Pterapogon kauderni",
+      "role": "playable",
+      "report": "08-parenting.md",
+      "verdict": "Queue: courtship/egg-handoff prelude to existing nursery."
+    },
+    {
+      "id": "s14",
+      "name": "Oriental sweetlip",
+      "scientific": "Plectorhinchus vittatus",
+      "role": "playable",
+      "report": "03-night-ledges.md",
+      "verdict": "Enrich: resting association and correctly drawn juvenile/adult comparison."
+    },
+    {
+      "id": "s15",
+      "name": "Parrotfish",
+      "scientific": "Scarinae (parrotfishes; group)",
+      "role": "playable",
+      "report": "09-parrot-armored.md",
+      "verdict": "Retain Sandcastle Engineer; correct stale guide. Cocoon needs species identity."
+    },
+    {
+      "id": "s16",
+      "name": "Coral grouper",
+      "scientific": "Cephalopholis miniata",
+      "role": "playable",
+      "report": "10-cooperative-hunters.md",
+      "verdict": "Enrich: directional ledge/ambush approach; no unsupported moray partnership."
+    },
+    {
+      "id": "s17",
+      "name": "Blackfin barracuda",
+      "scientific": "Sphyraena qenie",
+      "role": "playable",
+      "report": "11-pelagic-hunters.md",
+      "verdict": "Enrich: school station-holding in current; no new patrol reskin."
+    },
+    {
+      "id": "s18",
+      "name": "Crocodile needlefish",
+      "scientific": "Tylosurus crocodilus",
+      "role": "playable",
+      "report": "11-pelagic-hunters.md",
+      "verdict": "Conditional: filamented egg attachment among seaweed."
+    },
+    {
+      "id": "s19",
+      "name": "Cuttlefish",
+      "scientific": "Sepiidae (cuttlefishes; family)",
+      "role": "playable",
+      "report": "12-camouflage.md",
+      "verdict": "Conditional: named cuttlefish egg-site story; existing disguise story retained."
+    },
+    {
+      "id": "s20",
+      "name": "Lionfish",
+      "scientific": "Pterois (lionfishes; genus)",
+      "role": "playable",
+      "report": "13-perches-signals.md",
+      "verdict": "Conditional: named Pterois water-jet prey orientation; no genus-wide cooperation."
+    },
+    {
+      "id": "s21",
+      "name": "Devil scorpionfish",
+      "scientific": "Scorpaenopsis diabolus",
+      "role": "playable",
+      "report": "12-camouflage.md",
+      "verdict": "Queue: pectoral warning display; contact-free response, not a sonic attack."
+    },
+    {
+      "id": "s22",
+      "name": "Spotted pufferfish",
+      "scientific": "Arothron nigropunctatus",
+      "role": "playable",
+      "report": "09-parrot-armored.md",
+      "verdict": "Queue: aimed sand jet if it meaningfully differs from cowfish."
+    },
+    {
+      "id": "s23",
+      "name": "Longhorn cowfish",
+      "scientific": "Lactoria cornuta",
+      "role": "playable",
+      "report": "07-sand-detectives.md",
+      "verdict": "Queue: rigid-body, horn-clearance and independent fin maneuvering beyond existing sand jets."
+    },
+    {
+      "id": "s24",
+      "name": "Clown triggerfish",
+      "scientific": "Balistoides conspicillum",
+      "role": "playable",
+      "report": "09-parrot-armored.md",
+      "verdict": "Core: body-fit crevice and dorsal-spine lock/release."
+    },
+    {
+      "id": "s25",
+      "name": "Regal angelfish",
+      "scientific": "Pygoplites diacanthus",
+      "role": "playable",
+      "report": "04-reef-browsers.md",
+      "verdict": "Conditional: reviewed juvenile cave-roof observation; eyespot function not asserted."
+    },
+    {
+      "id": "s26",
+      "name": "Whitemouth moray",
+      "scientific": "Gymnothorax meleagris",
+      "role": "playable",
+      "report": "10-cooperative-hunters.md",
+      "verdict": "Queue: physically reversible crevice passage; no unsupported hunt partnership."
+    },
+    {
+      "id": "s27",
+      "name": "Blue-spotted stingray",
+      "scientific": "Dasyatidae (stingrays; family)",
+      "role": "playable",
+      "report": "15-rays-large-sharks.md",
+      "verdict": "Hold species-specific new story: resolve ray identity before tidal ecology."
+    },
+    {
+      "id": "s28",
+      "name": "Rainbow runner",
+      "scientific": "Elagatis bipinnulata",
+      "role": "playable",
+      "report": "11-pelagic-hunters.md",
+      "verdict": "Queue: conspecific scraping and give-space response; health benefit remains hypothesis."
+    },
+    {
+      "id": "s29",
+      "name": "Humphead wrasse",
+      "scientific": "Cheilinus undulatus",
+      "role": "playable",
+      "report": "05-specialist-mouths.md",
+      "verdict": "Conditional: sleeping-cave return/association, explicit dusk support."
+    },
+    {
+      "id": "s30",
+      "name": "Humbug damselfish",
+      "scientific": "Dascyllus aruanus",
+      "role": "playable",
+      "report": "01-coral-homes.md",
+      "verdict": "Draft: integrate coral sediment housekeeping; Red Sea sleep-swimming identity gate."
+    },
+    {
+      "id": "s31",
+      "name": "Whitespot hawkfish",
+      "scientific": "Paracirrhites hemistictus",
+      "role": "playable",
+      "report": "13-perches-signals.md",
+      "verdict": "Enrich: physical perch and sightline choice."
+    },
+    {
+      "id": "s32",
+      "name": "Blacktip reef shark",
+      "scientific": "Carcharhinus melanopterus",
+      "role": "playable",
+      "report": "14-reef-sharks.md",
+      "verdict": "Queue: familiar-shark association; tidal routes need real habitat infrastructure."
+    },
+    {
+      "id": "s33",
+      "name": "Whitetip reef shark",
+      "scientific": "Triaenodon obesus",
+      "role": "playable",
+      "report": "14-reef-sharks.md",
+      "verdict": "Queue: shared resting-shelter space, passage and stationary breathing."
+    },
+    {
+      "id": "s34",
+      "name": "Great white shark",
+      "scientific": "Carcharodon carcharias",
+      "role": "playable",
+      "report": "15-rays-large-sharks.md",
+      "verdict": "Conditional: depth/reconnaissance choice only if visibility meaningfully differs."
+    },
+    {
+      "id": "s35",
+      "name": "Tiger shark",
+      "scientific": "Galeocerdo cuvier",
+      "role": "playable",
+      "report": "15-rays-large-sharks.md",
+      "verdict": "Retain; salinity habitats costly, seagrass cascade requires absent turtles/dugongs."
+    },
+    {
+      "id": "s36",
+      "name": "Wobbegong",
+      "scientific": "Orectolobidae (wobbegongs; family)",
+      "role": "playable",
+      "report": "14-reef-sharks.md",
+      "verdict": "Enrich: choose fixed-pattern cover; no cuttlefish-like skin switching."
+    },
+    {
+      "id": "s37",
+      "name": "Electric ray",
+      "scientific": "Hypnos monopterygius",
+      "role": "playable",
+      "report": "15-rays-large-sharks.md",
+      "verdict": "Queue: substrate placement and head-first contact; pulse observation fallback."
+    },
+    {
+      "id": "s38",
+      "name": "Giant grouper",
+      "scientific": "Epinephelus lanceolatus",
+      "role": "playable",
+      "report": "10-cooperative-hunters.md",
+      "verdict": "Enrich: bottom-rest versus hover sightline choice."
+    },
+    {
+      "id": "s39",
+      "name": "Coral trout",
+      "scientific": "Variola louti",
+      "role": "playable",
+      "report": "10-cooperative-hunters.md",
+      "verdict": "Queue: movement-linked colors; documented cooperative partners are not s26."
+    },
+    {
+      "id": "s40",
+      "name": "Longfin batfish",
+      "scientific": "Platax teira",
+      "role": "playable",
+      "report": "04-reef-browsers.md",
+      "verdict": "Queue: discover a leaflike juvenile among floating debris."
+    },
+    {
+      "id": "s41",
+      "name": "Trumpetfish",
+      "scientific": "Aulostomus chinensis",
+      "role": "playable",
+      "report": "13-perches-signals.md",
+      "verdict": "Queue: moving cover versus head-down coral concealment."
+    },
+    {
+      "id": "s42",
+      "name": "Yellowtail fusilier",
+      "scientific": "Caesio cuning",
+      "role": "playable",
+      "report": "16-schools-light.md",
+      "verdict": "Conditional: mixed fusilier school; real partner taxa currently absent."
+    },
+    {
+      "id": "s43",
+      "name": "Bluestreak cleaner wrasse",
+      "scientific": "Labroides dimidiatus",
+      "role": "playable",
+      "report": "18-cleaners.md",
+      "verdict": "Queue: positive witnessed-care observer choice with real line of sight."
+    },
+    {
+      "id": "s44",
+      "name": "Yellow seahorse",
+      "scientific": "Hippocampus kuda",
+      "role": "resident",
+      "report": "08-parenting.md",
+      "verdict": "Conditional resident: paired courtship rise; second resident and holdfast release needed."
+    },
+    {
+      "id": "s45",
+      "name": "Banded coral shrimp",
+      "scientific": "Stenopus hispidus",
+      "role": "playable",
+      "report": "18-cleaners.md",
+      "verdict": "Conditional: recognised established mate; substrate-stage foraging deferred until actual ecology."
+    },
+    {
+      "id": "s46",
+      "name": "Reef crab",
+      "scientific": "Brachyura (true crabs; group)",
+      "role": "resident",
+      "report": "19-bottom-residents.md",
+      "verdict": "Conditional resident: coral-associated Trapezia housekeeping requires explicit reidentification."
+    },
+    {
+      "id": "s47",
+      "name": "Red sea star",
+      "scientific": "Asteroidea (sea stars; group)",
+      "role": "resident",
+      "report": "19-bottom-residents.md",
+      "verdict": "Enrich resident tube-foot observation; do not invent regeneration/coral-predation quest."
+    },
+    {
+      "id": "s48",
+      "name": "Orange-spotted filefish",
+      "scientific": "Oxymonacanthus longirostris",
+      "role": "playable",
+      "report": "06-paired-browsers.md",
+      "verdict": "Queue, gated: diet-dependent scent mystery; coral and observer identities matter."
+    },
+    {
+      "id": "s49",
+      "name": "Doublelined mackerel",
+      "scientific": "Grammatorcynus bilineatus",
+      "role": "playable",
+      "report": "11-pelagic-hunters.md",
+      "verdict": "Enrich school/cleaner ecology; retain current journey rather than another burst patrol."
+    },
+    {
+      "id": "s50",
+      "name": "Yellowspot emperor",
+      "scientific": "Gnathodentex aureolineatus",
+      "role": "playable",
+      "report": "07-sand-detectives.md",
+      "verdict": "Correction: new-start night feeding; separately scoped daytime resting-shoal spacing."
+    },
+    {
+      "id": "s51",
+      "name": "Golden snapper",
+      "scientific": "Lutjanus johnii",
+      "role": "playable",
+      "report": "03-night-ledges.md",
+      "verdict": "Hold major new story until a real coastal/turbid juvenile habitat exists."
+    },
+    {
+      "id": "s52",
+      "name": "Pencilled rabbitfish",
+      "scientific": "Siganus doliatus",
+      "role": "playable",
+      "report": "06-paired-browsers.md",
+      "verdict": "Core: lookout exchange; optional source-qualified paired route later."
+    },
+    {
+      "id": "s53",
+      "name": "Flashlight fish",
+      "scientific": "Anomalopidae (flashlight fishes; family)",
+      "role": "playable",
+      "report": "16-schools-light.md",
+      "verdict": "Draft: explicit Anomalops light-mediated schooling; newer turn/attraction findings refine same loop."
+    },
+    {
+      "id": "s54",
+      "name": "Painted frogfish",
+      "scientific": "Antennarius pictus",
+      "role": "playable",
+      "report": "12-camouflage.md",
+      "verdict": "Core: fin-walking over real footholds; retain separate lure/strike."
+    },
+    {
+      "id": "s55",
+      "name": "Silver trevally",
+      "scientific": "Pseudocaranx georgianus",
+      "role": "playable",
+      "report": "07-sand-detectives.md",
+      "verdict": "Enrich: flexible local food/site choice; no P. dentex filtering transfer."
+    },
+    {
+      "id": "s56",
+      "name": "Longfin bannerfish",
+      "scientific": "Heniochus acuminatus",
+      "role": "playable",
+      "report": "05-specialist-mouths.md",
+      "verdict": "Enrich: NPC-led route choice; preserve H. acuminatus identity."
+    },
+    {
+      "id": "s57",
+      "name": "Checkerboard hawkfish",
+      "scientific": "Cirrhitidae (hawkfishes; family)",
+      "role": "playable",
+      "report": "13-perches-signals.md",
+      "verdict": "Shared perch improvement; defer species-specific story while only family known."
+    },
+    {
+      "id": "s58",
+      "name": "Purple anthias",
+      "scientific": "Pseudanthias tuka",
+      "role": "playable",
+      "report": "17-anthias.md",
+      "verdict": "Conditional: mixed-school association with documented companion, no hierarchy quest."
+    },
+    {
+      "id": "s59",
+      "name": "Longsnout flathead",
+      "scientific": "Thysanophrys chiltonae",
+      "role": "playable",
+      "report": "12-camouflage.md",
+      "verdict": "Enrich tactile burial; existing ambush already covers the main lifestyle."
+    },
+    {
+      "id": "s60",
+      "name": "Nudibranch",
+      "scientific": "Nudibranchia (nudibranchs; group)",
+      "role": "resident",
+      "report": "20-nudibranch.md",
+      "verdict": "Conditional resident: sensory/prey response with named identity; player predictions never steer it."
+    },
+    {
+      "id": "s61",
+      "name": "Spiral snail",
+      "scientific": "Gastropoda (snails and slugs; group)",
+      "role": "resident",
+      "report": "19-bottom-residents.md",
+      "verdict": "Conditional resident: finite grazing surface and spatial sharing, named representative."
+    },
+    {
+      "id": "s62",
+      "name": "Needle-spined urchin",
+      "scientific": "Echinoidea (sea urchins; group)",
+      "role": "resident",
+      "report": "19-bottom-residents.md",
+      "verdict": "Conditional resident: visible cropped algae edge; crawling already implemented."
+    },
+    {
+      "id": "s63",
+      "name": "Sea anemone",
+      "scientific": "Actiniaria (sea anemones; group)",
+      "role": "resident",
+      "report": "02-anemone-partners.md",
+      "verdict": "Enrich resident viewing-space response; host-specific night care needs explicit identity."
+    }
+  ],
+  "review": "Twenty-agent research refresh, 10 October 2026; integrated runtime distinguished from drafts."
+}

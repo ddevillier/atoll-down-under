@@ -1,0 +1,13 @@
+{
+  "asset": "limestone-roof-v1.png",
+  "role": "Royal gramma nest roof; transparent central opening, supports beyond usable mouth-contact opening",
+  "generatedOn": "2026-10-10",
+  "generator": "Built-in image_gen.imagegen",
+  "generatedSource": "C:/Users/Daniel/.codex/generated_images/01a12928-1301-76a0-b6c8-f0d35e83b769/exec-d7198aff-9916-41ca-a7b7-81d917d8623f.png",
+  "processing": "Pixels copied unchanged with generated alpha. Exact generation prompt embedded in PNG text metadata. Scaled in world coordinates to authored underside geometry.",
+  "inspection": "../../artifacts/species-adventures/nest-painted-frame-inspection.png",
+  "inspectionReceipt": "../../artifacts/species-adventures/nest-painted-frame-inspection.json",
+  "promptFile": "../../artifacts/species-adventures/nest-limestone-roof-v1.prompt.txt",
+  "prompt": "Create one isolated tropical reef limestone OVERHANG LEDGE for a richly painted natural-history exploration game. Transparent background PNG, no scene background. Horizontal composition, side-on cross-section, wide flat-ish roof rock slab across upper third, rough irregular porous limestone with jewel-tone tiny coral encrustations and deep teal shade. From its left and right ends a low rocky support slopes downward, leaving a LARGE OPEN CENTRAL CAVE beneath the roof. Opening is genuinely transparent empty water, not black-filled: wide enough for a small side-profile fish to swim across. Bottom rim lies about 70% down the artwork, roof underside about 34% down. Roof ledge must read as a physical overhang with a clear gently uneven UNDERSIDE edge nearly horizontal. Natural painterly limestone textures, luminous ochre and cream highlights, dark olive/teal shaded undersides, small violet sponge patches and warm rust coralline edges, sparse coral sprouts above the roof. Camera perfectly side-on, no text no animals no eggs no nest material no bubbles no rings no markers no geometric vector look. Full silhouette uncropped with transparent margins. Detailed brush-painted style matching a dense naturalist reef illustration, enough fine texture to blend over reef paintings. One rock overhang only.",
+  "otherPaintings": "Algae foliage reused from existing assets/creatures/food-atlas.png, cropped above its substrate at runtime. Fish jaw uses original s3 painted mandible while retaining existing separate fin/tail motion."
+}

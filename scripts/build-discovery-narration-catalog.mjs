@@ -2,6 +2,7 @@ import {REEF_STORIES,STORY_REFLECTIONS} from '../src/reef-story-data.js';
 // Editorial source for short, offline commentary. Existing guide sources remain
 // the authority for natural-history introductions; discoveries describe play.
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import {SPECIES,PRACTICE_SPECIES} from '../src/data.js';
 import {JOURNEYS} from '../src/adventures.js';
 import {BADGES} from '../src/journal.js';
@@ -153,10 +154,28 @@ const achievements={
 };
 if(reflections.length!==SPECIES.length)throw Error('Missing discovery reflection');
 if(Object.keys(achievements).sort().join()!==BADGES.map(b=>b.id).sort().join())throw Error('Missing accomplishment');
-const catalog={version:1,style:'Brief, warm offline commentary; discoveries describe recorded play, introductions use the existing sourced field guide.',introductions:{},discoveries:{},achievements:{}};
+const catalogPath='src/discovery-narration-catalog.json',existing=fs.existsSync(catalogPath)?JSON.parse(fs.readFileSync(catalogPath,'utf8')):{};
+// Preserve optional/manual entries and their metadata when regenerating the
+// editorial tables; production speech provenance is never rewritten here.
+const catalog={...existing,version:1,style:'Brief, warm offline commentary; discoveries describe recorded play, introductions use the existing sourced field guide.',introductions:{...existing.introductions},discoveries:{...existing.discoveries},achievements:{...existing.achievements},help:{...existing.help}};
 for(const s of PRACTICE_SPECIES){const text=intros[Number(s.id.slice(1))];if(!text)throw Error('Missing introduction '+s.id);catalog.introductions[s.id]={id:'discoveries/intro-'+s.id,text,source:guides[s.id].source};}
 for(const s of SPECIES)catalog.discoveries[JOURNEYS[s.id].id]={id:'discoveries/journey-'+s.id,text:reflections[Number(s.id.slice(1))],species:s.id,kind:'recorded gameplay',reference:'src/adventures.js#'+JOURNEYS[s.id].id};
 for(const [key,story]of Object.entries(REEF_STORIES))catalog.discoveries[story.id]={id:'discoveries/story-'+key,text:STORY_REFLECTIONS[key],species:story.species[0],kind:'recorded gameplay',reference:'src/reef-story-data.js#'+story.id};
 for(const [id,text]of Object.entries(achievements))catalog.achievements[id]={id:'discoveries/badge-'+id,text,kind:'recorded accomplishment'};
-fs.writeFileSync('src/discovery-narration-catalog.json',JSON.stringify(catalog,null,2)+'\n');
-console.log(JSON.stringify({introductions:Object.keys(catalog.introductions).length,discoveries:Object.keys(catalog.discoveries).length,achievements:Object.keys(catalog.achievements).length}));
+const provenancePath='assets/audio/narration/species-adventures-provenance.json',production=JSON.parse(fs.readFileSync(provenancePath,'utf8'));
+const snippetPath='artifacts/species-adventures/audio-catalog-snippet.json',snippet=fs.existsSync(snippetPath)?JSON.parse(fs.readFileSync(snippetPath,'utf8')):null;
+for(const key of ['housekeeper','lookout','walker','nest','crevice','shade','lantern']){
+ const story=REEF_STORIES[key];
+ for(const kind of ['reflection','help']){
+  const name=story.id+'-'+kind,clip=production.clips[name],id='discoveries/'+name,file='assets/audio/narration/'+id+'.ogg';
+  if(!clip||clip.id!==id||!clip.decodeVerified||!clip.transcriptMatches||crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')!==clip.audioHash)throw Error('Unverified production narration: '+name);
+  if(kind==='reflection'&&clip.text!==STORY_REFLECTIONS[key])throw Error('Reflection text differs from production audio: '+name);
+  const generated={id,text:clip.text,kind:kind==='reflection'?'recorded gameplay and sourced natural history':'optional game instructions',species:story.species,reference:'src/reef-story-data.js#'+story.id};
+  const source=kind==='reflection'?snippet?.discoveries?.[story.id]:snippet?.help?.[key];
+  if(source&&(source.id!==id||source.text!==clip.text))throw Error('Narration snippet differs from production audio: '+name);
+  const table=kind==='reflection'?catalog.discoveries:catalog.help,entry=kind==='reflection'?story.id:key;
+  table[entry]={...existing[kind==='reflection'?'discoveries':'help']?.[entry],...generated,...source,audioHash:clip.audioHash,duration:clip.duration,provenance:provenancePath};
+ }
+}
+fs.writeFileSync(catalogPath,JSON.stringify(catalog,null,2)+'\n');
+console.log(JSON.stringify({introductions:Object.keys(catalog.introductions).length,discoveries:Object.keys(catalog.discoveries).length,achievements:Object.keys(catalog.achievements).length,manualInstructions:Object.keys(catalog.help).length}));

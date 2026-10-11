@@ -1,0 +1,14 @@
+{
+  "researchAssignments": 20,
+  "distinctReviewers": 20,
+  "reports": 20,
+  "rosterCovered": 64,
+  "practicePlayable": 57,
+  "residents": 7,
+  "uniqueExternalReferences": 233,
+  "localMarkdownLinksChecked": 126,
+  "failures": [],
+  "runtimeTestsRun": false,
+  "runtimeImplementationPerformedByResearchRefresh": false,
+  "notes": "Coverage and local link checks only. Biology verification and access limits are documented in each report; game ideas and pending drafts are not claimed shipped or playtested."
+}

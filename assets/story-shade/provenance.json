@@ -1,0 +1,10 @@
+{
+  "presentation": "Someone in the Shade",
+  "species": "Neoniphon sammara",
+  "foregroundSource": "assets/reefs/reef-8.png and the active habitat's existing reef painting",
+  "creatureSource": "assets/creatures/bloodspot-squirrelfish-v2.png",
+  "derivative": "At runtime a small, cached, same-coordinate lower-ledge crop retains original RGB and derives foreground alpha from the painting's warm rock and coral pixels; dark turquoise cavity pixels remain open. The eye and dorsal silhouette stay visible above the crop.",
+  "authorship": "Reuses the project's original illustrated reef and squirrelfish. No new third-party illustration or animal recording is introduced.",
+  "soundMeaning": "Directional pulses locate an encounter. The presentation does not translate calls, identify a friendly greeting, or present distress recordings as peaceful communication.",
+  "accessibility": "Local source caption and directional crescents remain visible during quiet pulse intervals and with audio muted. Reduced motion holds ripple expansion still. Progress comes only from simulation state."
+}

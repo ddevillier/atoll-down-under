@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-10",
+  "tool": "built-in image_gen.imagegen",
+  "useCase": "illustration-story",
+  "limestone": {
+    "file": "limestone-ledge-v1.png",
+    "source": "C:/Users/Daniel/.codex/generated_images/01a12927-f2d8-7643-a141-1c5db7bba26f/exec-30510c57-0bc3-45ef-a042-9d784e4cce0a.png",
+    "prompt": "Use case: illustration-story. Asset type: transparent reef terrain sprite for an illustrated natural-history Canvas game. Primary request: one low broad limestone coral-rubble stepping ledge, isolated on genuinely transparent background, close naturalistic hand-painted gouache with richly detailed cream/beige limestone pores, tiny amber and olive encrusting growth, organic irregular perimeter. Side view, essentially flat wide horizontal upper landing surface with only very shallow irregularities, top edge at 30 percent of canvas height, low rocky face below, width three times height. Gently lit from upper left, sober natural marine palette matching a richly painted tropical reef. NO sponge, NO fish, NO plants protruding above the landing surface, no sand background, no cast shadow baked outside silhouette, no text, diagram, geometric blocks, labels or watermark. The ledge will be placed under planted walking fins so retain a distinctly readable continuous upper edge. Canvas 3:1 landscape with modest transparent padding around complete sprite."
+  },
+  "sponge": {
+    "file": "orange-sponge-v1.png",
+    "source": "C:/Users/Daniel/.codex/generated_images/01a12927-f2d8-7643-a141-1c5db7bba26f/exec-e7b2ed94-8dfa-413c-af62-5f938227a570.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated transparent sponge sprite for a richly painted tropical reef natural-history game. Primary request: One small stout orange encrusting/tube marine sponge, round irregular mound with a single low dark opening, complete naturalistic porous orange ochre and rusty amber surface, subtle pores and cream speckles. Side view, width approximately equal height, natural rough contour, intricate gouache and colored pencil marine illustration matching a traditional richly painted reef. No fish, no rock pedestal, no surrounding environment, no cast shadow outside silhouette, no lettering. Single complete sponge with transparent background and padding. Avoid tall branching towers, geometric icon appearance or cartoon face."
+  },
+  "notes": "Original generated transparent pixels preserved. Limb and body painting reuse original s54 atlas with PaintedParts authored cuts, cached once per source image."
+}

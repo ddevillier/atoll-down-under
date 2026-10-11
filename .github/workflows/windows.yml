@@ -36,6 +36,8 @@ jobs:
         run: npm test
       - name: Source Electron checks
         run: npm run test:desktop
+      - name: Seven species adventure controls and offline speech
+        run: node scripts/qa-species-adventures-desktop.mjs source artifacts/species-adventures-source
       - name: Upload source test evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -110,6 +112,8 @@ jobs:
         run: npm run build:win -- --out dist/github-windows
       - name: Packaged activity, speech and restart checks
         run: node scripts/qa-reef-stories-native.mjs "dist/github-windows/Atoll Down Under-win32-x64/Atoll Down Under.exe" artifacts/packaged-native
+      - name: Packaged species adventure controls and offline speech
+        run: node scripts/qa-species-adventures-desktop.mjs "dist/github-windows/Atoll Down Under-win32-x64/Atoll Down Under.exe" artifacts/species-adventures-packaged
       - name: Create and verify complete portable archive
         run: python scripts/archive-living-reef.py --built-folder "dist/github-windows/Atoll Down Under-win32-x64" --zip dist/Atoll-Down-Under-Windows.zip
       - name: Upload verified Windows download

@@ -40,12 +40,16 @@ test('a school breaks away from a nearby predator and reforms after it swims awa
  assert.ok(s.section.entities.filter(e=>e.activity==='schooling').length>=4);assert.equal(s.section.entities.filter(e=>e.alive).length,5);
 });
 
-test('paired browsers occur together in their selected communities using existing forager slots',()=>{
+test('paired browsers retain their community bonds while reef 0 reserves an existing unpaired lookout slot',()=>{
  for(const id of ['s8','s48','s52'])for(let seed=1;seed<=20;seed++){
   const base=new Simulation(seed);base.start('practice','s1');const s=new Simulation(seed);s.start('practice',id);
   for(const [i,section] of s.sections.entries()){
    assert.equal(section.entities.length,base.sections[i].entities.length);assert.ok(section.entities.filter(e=>e.species.diet.includes('fish')).length<=2);
-   if(COMMUNITIES[i].day.includes(s.player.species.index)){const [a,b]=section.entities;assert.equal(a.species.id,id);assert.equal(b.species.id,id);assert.equal(a.ecology.partner,b.id);assert.equal(b.ecology.partner,a.id);assert.ok(distance(a,b)<150);}
+   if(i===0&&['s8','s52'].includes(id)){
+    const reserved=section.entities.filter(e=>e.adventureReservation?.key==='lookout');assert.equal(reserved.length,1);
+    const [neighbor]=reserved;assert.equal(neighbor.species.id,id);assert.equal(neighbor.ecology?.partner,undefined);assert.ok(!section.entities.some(e=>e!==neighbor&&e.ecology?.partner===neighbor.id));
+    assert.equal(neighbor.adventureReservation.species,id);assert.equal(neighbor.adventureReservation.incarnation,neighbor.incarnation||0);assert.equal(neighbor.adventureReservation.remaining,60);
+   }else if(COMMUNITIES[i].day.includes(s.player.species.index)){const [a,b]=section.entities;assert.equal(a.species.id,id);assert.equal(b.species.id,id);assert.equal(a.ecology.partner,b.id);assert.equal(b.ecology.partner,a.id);assert.ok(distance(a,b)<150);}
   }
  }
 });

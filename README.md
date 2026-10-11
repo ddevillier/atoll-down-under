@@ -87,6 +87,20 @@ and optional asset-authoring tools.
 Activities remain optional. Practice offers gentle, recoverable danger. Sound
 starts after interaction; music, effects and narration have separate controls.
 
+Practice includes twelve expanded reef adventures. In the creature picker,
+choose **Begin [adventure name]** for its starting habitat, or explore freely
+and open **Activity → Another way to explore** during a dive. The newer stories
+include coral housekeeping, rabbitfish lookout exchanges, frogfish fin walking,
+gramma nest construction, triggerfish crevice locking, squirrelfish spacing,
+and a named flashlight-fish schooling case study. Spoken instructions are
+optional; the same instructions remain readable with sound off.
+
+A fresh adventure preserves your current dive in an available manual slot.
+If all slots are occupied, save or export the current dive before continuing.
+Your discoveries stay in the family journal. See the
+[researched expansion shortlist](docs/SPECIES-ADVENTURE-RESEARCH-SYNTHESIS.md)
+for the next proposed species behaviors and their evidence limits.
+
 ## Develop and verify
 
 ```sh

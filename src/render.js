@@ -4,6 +4,13 @@ import {artistSprite,appearanceFor,drawStory as drawArtist} from './disappearing
 import {drawStory as drawEngineer} from './sandcastle-engineer-render.js';
 import {barbelPoseFor,drawStory as drawDetective} from './whisker-detective-render.js';
 import {loadNurseryArt,nurseryAppearanceFor,drawStory as drawNursery} from './cardinalfish-nursery-render.js';
+import {loadHousekeeperArt,appearanceFor as housekeeperAppearance,drawStory as drawHousekeeper} from './coral-housekeeper-render.js';
+import {loadLookoutArt,appearanceFor as lookoutAppearance,drawStory as drawLookout} from './rabbitfish-lookout-render.js';
+import {loadWalkerArt,drawCreature as drawWalkerCreature,drawStory as drawWalker} from './frogfish-walk-render.js';
+import {loadCreviceArt,appearanceFor as creviceAppearance,drawCreviceCreature,drawStory as drawCrevice} from './triggerfish-crevice-render.js';
+import {loadNestArt,appearanceFor as nestAppearance,drawStory as drawNest} from './gramma-nest-render.js';
+import {appearanceFor as shadeAppearance,drawStory as drawShade} from './squirrelfish-shade-render.js';
+import {loadLanternArt,appearanceFor as lanternAppearance,drawStory as drawLantern} from './lantern-company-render.js';
 import {CreationPainter,CREATION_ART} from './creation-render.js';
 import {displayPose,abilityWater} from './ability-visuals.js';
 import {anatomy} from './creation-appearance.js';
@@ -54,7 +61,7 @@ export class ReefRenderer {
    this.foodSprites.push(this.extractCell(food,i,4,2,i<6,{x,y,w:right-x,h:bottom-y}));
   }
   this.creationArt=Object.fromEntries(await Promise.all(CREATION_ART.map(async key=>[key,await img('assets/creatures/creation-v1/'+key+'.png')])));
-  await loadNurseryArt(this);this.ready=true;
+  await Promise.all([loadNurseryArt(this),loadHousekeeperArt(this),loadLookoutArt(this),loadCreviceArt(this),loadWalkerArt(this),loadNestArt(this),loadLanternArt(this)]);this.ready=true;
  }
  extractCell(image,cell,cols,rows,mainOnly,region=null){
   const w=region?.w||Math.floor(image.width/cols),h=region?.h||Math.floor(image.height/rows),c=document.createElement('canvas');c.width=w;c.height=h;const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(image,region?.x??cell%cols*w,region?.y??Math.floor(cell/cols)*h,w,h,0,0,w,h);const d=cx.getImageData(0,0,w,h),pixels=d.data;
@@ -94,45 +101,63 @@ export class ReefRenderer {
   });
  }
  drawSprite(ctx,species,x,y,width,facing=1,time=0,alpha=1,activity=1,pattern=null,state={}){
-  const b=this.bounds[species.index];let im=this.sprites[species.index];if(!b||!im)return;
+  let im=state.sprite||this.sprites[species.index];const b=state.spriteBounds||(state.sprite?{x:0,y:0,w:im?.width,h:im?.height}:this.bounds[species.index]);if(!b||!im)return;
   if(species.id==='custom'&&species.appearance?.appearanceVersion===1){this.creationPainter??=new CreationPainter(this.creationArt);ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;this.creationPainter.draw(ctx,species,im,width,this.reducedMotion?0:time,activity,state);ctx.restore();return;}
   if(pattern&&species.id==='s19')im=artistSprite(this,im,pattern);
   if(species.id==='custom'&&species.color){const key=species.index+species.color;if(!this.customCache.has(key)){const tint=document.createElement('canvas');tint.width=im.width;tint.height=im.height;const tc=tint.getContext('2d');tc.drawImage(im,0,0);tc.globalCompositeOperation='source-atop';tc.globalAlpha=.6;tc.fillStyle=species.color;tc.fillRect(0,0,tint.width,tint.height);if(this.customCache.size>=64)this.customCache.delete(this.customCache.keys().next().value);this.customCache.set(key,tint);}im=this.customCache.get(key);}
-  const h=width*b.h/b.w;ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
+  const h=width*(state.heightRatio??b.h/b.w);ctx.save();ctx.translate(x,y);ctx.scale(facing,1);ctx.globalAlpha=alpha;
   const animate=!this.reducedMotion&&time>0;
   const partId=species.id==='custom'?'s'+species.index:species.id;
   const heldPose=this.reducedMotion&&(state.brood>0||species.ability==='flash'||state.spines||state.sting||state.feed>0);
-  if((animate||heldPose)&&PART_RIGS[partId]&&!state.puff){this.parts??=new PaintedParts();this.parts.draw(ctx,im,partId,width,h,this.reducedMotion?2.25:time,this.reducedMotion?0:activity,state);}
+  if(state.articulated||state.lantern)ctx.drawImage(im,b.x||0,b.y||0,b.w,b.h,-width/2,-h/2,width,h);
+  else if((animate||heldPose)&&PART_RIGS[partId]&&!state.puff){this.parts??=new PaintedParts();this.parts.draw(ctx,im,partId,width,h,this.reducedMotion?2.25:time,this.reducedMotion?0:activity,state);}
   else if(animate||heldPose||state.puff>0){this.articulation??=new ArticulatedSprites();this.articulation.draw(ctx,im,species,width,h,this.reducedMotion?0:time,this.reducedMotion?0:activity,state,Math.max(1,this.canvas.width/1600));}
   else ctx.drawImage(im,0,0,b.w,b.h,-width/2,-h/2,width,h);ctx.restore();
  }
  drawCreature(ctx,e,time,dt,alpha=1,width=creatureWidth(e.species)){
-  this.poses??=new Map();let pose=this.poses.get(e.id);
+  this.poses??=new Map();
+  // Custom walking owns world-space limb contacts and publishes its physical frame.
+  const previousContext=this.ctx;this.ctx=ctx;let walked;
+  try{walked=drawWalkerCreature(this,this.currentSimulation,e,time);}finally{this.ctx=previousContext;}
+  if(walked)return;
+  let pose=this.poses.get(e.id);
+  if(pose?.walking){this.poses.delete(e.id);pose=null;}
+  const crevice=creviceAppearance(this,this.currentSimulation,e,time);
+  if(crevice&&drawCreviceCreature(ctx,this,this.currentSimulation,e,crevice,width,alpha)){
+   const p=crevice.pose,frame={x:p.x,y:p.y,width:p.width,height:p.height,rotation:p.rotation,facing:p.facing,anchor:[.5,.5]};
+   this.poses.set(e.id,{x:e.x,y:e.y,facing:p.facing,incarnation:e.incarnation||0,physical:true,frame});return;
+  }
+  if(pose?.physical){this.poses.delete(e.id);pose=null;}
   if(!pose||pose.incarnation!==(e.incarnation||0)||Math.hypot(e.x-pose.x,e.y-pose.y)>200){pose={x:e.x,y:e.y,facing:e.facing,activity:.35,motionTime:time+animationPhase(e.id),incarnation:e.incarnation||0};this.poses.set(e.id,pose);}
   pose.yaw??=pose.facing;
   if(dt>0){const normalSpeed=e.groundRoute?groundSpeed(e):e.species.speed,moving=Math.min(1,Math.hypot(e.x-pose.x,e.y-pose.y)/dt/Math.max(.1,normalSpeed)),blend=1-Math.exp(-dt*12);pose.activity+=(moving-pose.activity)*blend;pose.x=e.x;pose.y=e.y;}
   const propulsion=swimmingPropulsion(pose,e,dt);
   if(dt>0)pose.motionTime+=dt*propulsion.rate;
   const cleaning=this.cleaningPresentations?.get(e),stance=cleaning?.mode==='inspect'?{...e,activity:'cleaning'}:e;
-  const turn=turningPose(pose,stance,dt,this.reducedMotion),facing=turn.facing;
-  const clock=pose.motionTime,clinic=clinicPose(this.currentSimulation,e,clock,this.reducedMotion),barbel=barbelPoseFor(this.currentSimulation,e),nursery=nurseryAppearanceFor(this.currentSimulation,e),artist=appearanceFor(this.currentSimulation,e),posture=poseFor(stance,clock,this.reducedMotion),targetPitch=e.groundRoute?groundPitch(e):e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:posture.pitch+(clinic?.pitch||0);
+  const look=housekeeperAppearance(this,this.currentSimulation,e,time)||lookoutAppearance(this,this.currentSimulation,e,time)||nestAppearance(this,this.currentSimulation,e,time)||shadeAppearance(this,this.currentSimulation,e,time)||lanternAppearance(this,this.currentSimulation,e,time);
+  const physical=!!(look?.physical||look?.pose?.anchored),storyPose=look?.pose||{};
+  const turn=physical?{facing:look.facing??storyPose.facing??e.facing??1,pivot:0,bank:0,bend:0}:turningPose(pose,stance,dt,this.reducedMotion),facing=turn.facing;
+  const clock=pose.motionTime,clinic=clinicPose(this.currentSimulation,e,clock,this.reducedMotion),barbel=barbelPoseFor(this.currentSimulation,e),nursery=nurseryAppearanceFor(this.currentSimulation,e),artist=appearanceFor(this.currentSimulation,e),posture=poseFor(stance,clock,this.reducedMotion),targetPitch=e.groundRoute?groundPitch(e):e.species.id==='s41'&&e.activity==='at-home'?1.1*facing:(look?.rotation??posture.pitch)+(clinic?.pitch||0);
   pose.pitch??=targetPitch;if(cleaning?.mode==='inspect')pose.pitch=0;else if(dt>0)pose.pitch+=(targetPitch-pose.pitch)*(1-Math.exp(-dt*5));
-  const rotation=this.reducedMotion?groundPitch(e):pose.pitch,frame=creatureFrame(e,width,rotation);
+  const rotation=physical?(look.rotation??storyPose.rotation??0):this.reducedMotion?groundPitch(e):pose.pitch,frame=creatureFrame(e,width,rotation);
+  if(physical){frame.x=look.x??storyPose.x??e.x;frame.y=look.y??storyPose.y??e.y;frame.anchor=[.5,.5];}
+  if(look?.heightRatio)frame.height=width*look.heightRatio;
+  else if(look?.sprite){const b=look.spriteBounds;frame.height=width*(b?b.h/b.w:look.sprite.height/look.sprite.width);}
   const underside=['s47','s62'].includes(e.species.id);
   if(e.groundRoute){ctx.save();ctx.globalAlpha=alpha*.18;ctx.translate(e.x,e.y);ctx.scale(width*.42,Math.max(2,width*.065));const shadow=ctx.createRadialGradient(0,0,.05,0,0,1);shadow.addColorStop(0,'#102d27');shadow.addColorStop(1,'#102d2700');ctx.fillStyle=shadow;ctx.beginPath();ctx.arc(0,0,1,0,Math.PI*2);ctx.fill();ctx.restore();}
-  const display=displayPose(e,clock,this.reducedMotion);
+  const display=physical?{x:0,y:0,pitch:0}:displayPose(e,clock,this.reducedMotion);
   pose.frame={...frame,x:frame.x+turn.pivot*width+display.x,y:frame.y+display.y,rotation:rotation+turn.bank+display.pitch,width:width*Math.abs(facing),facing};
   setCreatureDisplayFrame(e,pose.frame);
   if(underside)this.drawResidentMorsel(ctx,e,rotation,alpha,pose.frame);
   ctx.save();ctx.translate(frame.x+turn.pivot*width+display.x,frame.y+display.y);ctx.rotate(rotation+turn.bank+display.pitch);
-  const feed=Math.max(cleaning?.mode==='inspect'?cleaning.feed:feedingEnvelope(e),clinic?.feed||0);
+  const feed=storyPose.feed??Math.max(cleaning?.mode==='inspect'?cleaning.feed:feedingEnvelope(e),clinic?.feed||0);
   pose.lure??=0;if(dt>0)pose.lure+=(lureDisplay(e)-pose.lure)*(1-Math.exp(-dt*7));
   const desiredProbe=e.species.id==='s9'&&['searching','probing'].includes(e.activity)?1:0;pose.probe??=0;if(dt>0)pose.probe+=(desiredProbe-pose.probe)*(1-Math.exp(-dt*6));
   const desiredPuff=e.species.ability==='puff'&&e.abilityTime>0?1:0;pose.puff??=desiredPuff;
   if(this.reducedMotion)pose.puff=desiredPuff;else if(dt>0)pose.puff+=(desiredPuff-pose.puff)*(1-Math.exp(-dt*(desiredPuff?4:2.5)));
   const feedAngle=e.residentMeal?Math.atan2(e.residentMeal.y-e.y,e.residentMeal.x-e.x):e.angle||0;
-  const effort=cleaning?.effort??clinic?.effort??propulsion.effort,brake=this.reducedMotion?0:Math.max(propulsion.brake,cleaning?.brake||0,clinic?.brake||0);
-  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{instance:e.id,feed,lure:pose.lure,probe:Math.max(pose.probe,barbel?.probe||0),tactile:barbel?.tactile||0,barbelContact:barbel?.barbelContact||0,...nursery,sting:e.species.ability==='sting'&&e.abilityTime>0?1:0,spines:e.species.ability==='spines'&&e.abilityTime>0?1:0,mimic:e.species.ability==='mimic'&&e.abilityTime>0?1:0,flash:e.species.ability==='flash'&&e.abilityTime>0?1:0,brake,retract:e.retract||0,puff:pose.puff,turn:turn.bend,heading:e.angle||0,feedAngle});if((artist?.strength||blend)>0&&(artist||e.blending))this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*(artist?.strength??blend),effort,artist?.pattern??e.blending.kind,{instance:e.id,feed,turn:turn.bend});ctx.restore();
+  const effort=storyPose.effort??cleaning?.effort??clinic?.effort??propulsion.effort,brake=storyPose.brake??(this.reducedMotion?0:Math.max(propulsion.brake,cleaning?.brake||0,clinic?.brake||0));
+  const blend=Math.min(1,(e.blendTime||0)/2);this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha,effort,null,{instance:e.id,feed,lure:pose.lure,probe:Math.max(pose.probe,barbel?.probe||0),tactile:barbel?.tactile||0,barbelContact:barbel?.barbelContact||0,...nursery,sting:e.species.ability==='sting'&&e.abilityTime>0?1:0,spines:e.species.ability==='spines'&&e.abilityTime>0?1:0,mimic:e.species.ability==='mimic'&&e.abilityTime>0?1:0,flash:e.species.ability==='flash'&&e.abilityTime>0?1:0,brake,retract:e.retract||0,puff:pose.puff,turn:physical?0:turn.bend,heading:e.angle||0,feedAngle,...storyPose,sprite:look?.sprite,spriteBounds:look?.spriteBounds,heightRatio:look?.heightRatio,articulated:look?.articulated});if((artist?.strength||blend)>0&&(artist||e.blending))this.drawSprite(ctx,e.species,0,0,width,facing,clock,alpha*(artist?.strength??blend),effort,artist?.pattern??e.blending.kind,{instance:e.id,feed,turn:turn.bend});ctx.restore();
   if(!underside)this.drawResidentMorsel(ctx,e,rotation,alpha,pose.frame);
   pose.cleaning=cleaning||null;
  }
@@ -171,6 +196,7 @@ export class ReefRenderer {
   if(this.poses){const live=new Set([sim.player.id,...sim.section.entities.filter(e=>e.alive).map(e=>e.id)]);for(const id of this.poses.keys())if(!live.has(id))this.poses.delete(id);}
   const motionDt=sim.paused||sim.phase!=='playing'?0:dt;
   c.save();c.translate(0,TOP);
+  drawHousekeeper(this,sim,t,{layer:'habitat'});drawWalker(this,sim,t);drawCrevice(this,sim,t,'back');
   const buried=['s9','s23'].includes(sim.player.species.id)?new Set(sitesFor(sim).filter(s=>!(s.food.uncovered>0)).map(s=>s.id)):new Set();
   for(const f of sim.section.food){if(f.regrow>0||storyFoodHidden(sim,f)||(f.food==='algae'&&((activeStory(sim)==='engineer'&&[0,1].includes(sim.current))||sim.reefStories?.engineer?.patches.some(p=>p.reef===sim.current&&p.id===f.id))))continue;if(buried.has(f.id)){c.fillStyle='#b8a47e';c.globalAlpha=.6;c.beginPath();c.ellipse(f.x,f.y,22,5,0,0,Math.PI*2);c.fill();c.globalAlpha=1;continue;}this.drawFood(c,f,t);}
   const living=sim.section.entities.filter(e=>e.alive),workingCleaners=living.filter(foregroundCleaner),p=sim.player,playerWidth=creatureWidth(p.species),cover=escortCover(sim),namedPlaces=[];let playerDrawn=false;
@@ -182,8 +208,9 @@ export class ReefRenderer {
    if(this.inspect&&e.species.ability==='clean'&&!sim.player.cleanTime&&this.hover!==e)this.tag(c,e.x,e.y-30,'Cleaner');
   }
   const buddy=companion(sim);
-  if(!playerDrawn)this.drawCreature(c,p,t,motionDt,['artist','nursery'].includes(activeStory(sim))?1:p.hidden?(p.blending||p.ambush?.65:.25):1,playerWidth);
+  if(!playerDrawn)this.drawCreature(c,p,t,motionDt,['artist','nursery','housekeeper','lookout','walker','nest','crevice','shade','lantern'].includes(activeStory(sim))?1:p.hidden?(p.blending||p.ambush?.65:.25):1,playerWidth);
   for(const e of workingCleaners){this.drawCreature(c,e,t,motionDt,.98);if(this.inspect&&!p.cleanTime&&this.hover!==e)this.tag(c,e.x,e.y-30,'Cleaner');}
+  drawCrevice(this,sim,t,'front');drawNest(this,sim,t);drawShade(this,sim,t);drawLantern(this,sim,t);
   if((sim.adventure?.visible||sim.adventure?.homeJourney)&&ADVENTURES[p.species.id]&&(!this.inspect||sim.adventure?.grazing||sim.adventure?.homeJourney||sim.adventure?.patrolJourney||sim.adventure?.watchJourney)){const chosen=selectedSite(sim);for(const site of (activeStory(sim)?[]:sitesFor(sim))){const remembered=sim.adventure?.homeJourney?.reef===sim.current&&site.id===sim.adventure.homeJourney.site||site.kind==='route'&&site.id.startsWith('patrol-')||site.kind==='watch';if(!remembered&&Math.hypot(site.x-p.x,site.y-p.y)>240&&site.id!==chosen?.id)continue;if(!remembered&&Math.hypot(site.x-p.x,site.y-p.y)>420)continue;c.save();c.strokeStyle='#e5d6a4';c.globalAlpha=.65;c.lineWidth=1.5;c.setLineDash([4,7]);c.beginPath();c.ellipse(site.x,site.y,30,15,0,0,Math.PI*2);c.stroke();c.restore();if(site.id===chosen?.id||site.kind==='home'&&sim.adventure.homeJourney?.reef===sim.current&&site.id===sim.adventure.homeJourney.site){this.tag(c,site.x,site.y-28,activitySiteLabel(site));namedPlaces.push(site);}}}
   if(sim.trial||sim.creation&&(sim.adventure?.visible||sim.creation.home?.reef===sim.current)){const saved=sim.creation?.home;for(const [i,site]of REEFS[sim.current].shelters.entries()){if(canUseShelter(p.species)){const own=saved?.reef===sim.current&&saved.index===i;if(!own&&!sim.trial&&!sim.adventure?.visible)continue;c.save();c.strokeStyle=own?'#f4c76e':'#d6ecd2';c.lineWidth=own?2:1;c.beginPath();c.ellipse(site.x,site.y,site.r*.65,site.r*.3,0,0,Math.PI*2);c.stroke();c.restore();this.tag(c,site.x,site.y-35,own?'Home':sim.trial?'Shelter':'Refuge');namedPlaces.push(site);}}}
   if(sim.adventure?.home?.reef===sim.current){const h=sim.adventure.home;c.save();c.strokeStyle='#c5e8c6';c.lineWidth=2;c.beginPath();c.arc(h.x,h.y,35,0,Math.PI*2);c.stroke();c.restore();}
@@ -221,7 +248,7 @@ export class ReefRenderer {
   if(focus){interacting.add(focus);for(const e of living)if(e.id===focus.ecology?.partner||focus.activity==='schooling'&&e.species.id===focus.species.id&&Math.hypot(e.x-focus.x,e.y-focus.y)<260)interacting.add(e);}
   for(const e of [...interacting]){const host=living.find(h=>h.id===(e.ecology?.watch?.id??e.ecology?.host));if(host)interacting.add(host);}
   const clearFrames=[...interacting].map(e=>({...projectedBounds(this.poses.get(e.id)?.frame||creatureFrame(e),4*this.uiUnit),id:e.id}));
-  drawEngineer(this,sim,t);drawClinic(this,sim,t);drawArtist(this,sim,t);drawDetective(this,sim,t);drawNursery(this,sim,t);this.drawPlayerMarker(c,p.hidden);this.drawTags(c,clearFrames);c.restore();
+  drawEngineer(this,sim,t);drawClinic(this,sim,t);drawArtist(this,sim,t);drawDetective(this,sim,t);drawNursery(this,sim,t);drawHousekeeper(this,sim,t,{layer:'effects'});drawLookout(this,sim,t);this.drawPlayerMarker(c,p.hidden);this.drawTags(c,clearFrames);c.restore();
  }
  tag(c,x,y,text,alpha=1,priority=0){
   if(alpha<=0||!text)return;const unit=this.uiUnit||1;c.save();c.font=`${15*unit}px AtollSans, sans-serif`;

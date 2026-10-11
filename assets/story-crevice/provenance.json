@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-10",
+  "species": "Balistoides conspicillum",
+  "method": "Built-in ImageGen; genuine alpha preserved; no background removal",
+  "prompt": "Use case: scientific-educational. Asset type: a transparent raster fish sprite for a richly painted natural-history reef game. Generate ONE adult clown triggerfish, Balistoides conspicillum, strictly side-on, entire animal including every fin visible, tail left and mouth right, gently swimming horizontally. Correct identity: deep black body, LARGE irregular white oval polka dots restricted mainly to lower flank and belly, upper back patch rich golden yellow with small black speckles, bright golden-orange lips outlined pale white, yellow accents at fin edges and caudal peduncle, pale tail with dark edging. Do not produce a grey fish covered in black spots. Shape: laterally compressed oval triggerfish, small high-set eye, compact beak mouth, separate tall first anterior dorsal spine just behind the eye and BEFORE the rounded soft dorsal fin. The first dorsal spine should be black and narrow and stand as one clearly separate painted blade with its hinge about two-thirds from tail to mouth, with a small second locking spine behind it. Soft dorsal and anal fins are rounded fan fins near the back, not duplicate spikes. Broad fan tail. Pose/framing: fish full silhouette has width-to-height ratio about 1.65 including fins; comfortable transparent margin around it. Match a detailed hand-painted aquarium field-guide illustration with crisp anatomy, delicate fin rays, subtle painterly texture and natural highlights, not flat vector art, not cartoon eyes, no scene, no coral, no ground or shadow, no text or labels. TRUE TRANSPARENT background. This is a game art correction; the first dorsal spine needs clean separation so it can be isolated and articulated later. No tools, extra fish, mouths or limbs.",
+  "originalSource": "C:/Users/Daniel/.codex/generated_images/01a12928-316a-7de0-85e5-935088287d20/exec-e2fdaa8b-86eb-4450-a20e-e0ceac2362e4.png",
+  "originalSha256": "97442947a4e8f0427717f8c56e273d849fb86a6a961ed7a8769501492287adef",
+  "runtimeAsset": "assets/story-crevice/clown-triggerfish-v1.png",
+  "runtimeSha256": "2ee11f9df2165c14f6988e835d0152423e2f229ab9ae8b3fd0fd8899485d7330",
+  "crop": {
+    "left": 27,
+    "top": 31,
+    "width": 1557,
+    "height": 886
+  },
+  "resize": {
+    "width": 355,
+    "height": 202
+  },
+  "transparentPadding": {
+    "top": 8,
+    "bottom": 9
+  },
+  "frame": {
+    "width": 355,
+    "height": 219
+  },
+  "physicalBody": {
+    "width": 100,
+    "height": 61.690140845070424
+  },
+  "spine": {
+    "sourceRoot": [
+      0.697,
+      0.256
+    ],
+    "sourceTip": [
+      0.637,
+      0.037
+    ],
+    "raisedContactLocal": [
+      14,
+      -34
+    ],
+    "foldedTipLocal": [
+      -5,
+      -14.5
+    ]
+  },
+  "review": "Black body, large white lower-flank spots, golden upper patch with black speckles, orange lips, distinct anterior first dorsal spine and smaller second locking spine; stylized anatomy."
+}
