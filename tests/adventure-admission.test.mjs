@@ -109,6 +109,27 @@ test('generated night starts admit existing flashlight cohorts and squirrelfish 
  }
 });
 
+test('lantern admission finds the real compact cohort despite an interleaved distant fish',()=>{
+ for(const seed of [536,815]){
+  const sim=new Simulation(seed);sim.start('practice','s53',null,{adventureKey:'lantern'});
+  const before=JSON.stringify(sim.sections),result=admissionFor(sim,'lantern');
+  const reserved=sim.section.entities.filter(e=>e.adventureReservation?.key==='lantern');
+  assert.equal(reserved.length,3);assert.equal(result.available,true,`seed ${seed}: ${result.reason}`);
+  assert.ok(result.participants.length>=2&&result.participants.length<=3);
+  assert.ok(result.participants.every(ref=>reserved.some(e=>e.id===ref.id&&(e.incarnation||0)===ref.incarnation)));
+  assert.equal(JSON.stringify(sim.sections),before,'admission must not move, spawn, or modify an actor');
+  assert.equal(beginStory(sim,'lantern'),true);assert.equal(sim.reefStories.active,'lantern');
+ }
+});
+
+test('lantern admission still refuses a dispersed population with no pair within sight-group distance',()=>{
+ const sim=new Simulation(536);sim.start('practice','s53',null,{adventureKey:'lantern'});
+ const fish=sim.section.entities.filter(e=>e.species.id==='s53');
+ fish.forEach((e,i)=>{e.x=[50,1550,50,1550][i];e.y=i<2?50:700;});
+ const before=JSON.stringify(sim.sections),result=admissionFor(sim,'lantern');
+ assert.equal(result.available,false);assert.equal(JSON.stringify(sim.sections),before);
+});
+
 test('admission rejects digestive waiting and depleted/committed food rather than manufacturing meals',()=>{
  const s=new Simulation(11);s.start('practice','s8');
  for(const e of s.sections[0].entities)if(e.species.id==='s8')e.satiated=65;

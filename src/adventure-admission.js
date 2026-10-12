@@ -123,8 +123,20 @@ export function admissionFor(sim,key){
     return {available:true,reef,reason:'',needsFreshDive:false,participants:[reference(e)],food:food.id};
    }
   }else if(candidates.length>=(key==='lantern'?2:1)){
-   const participants=candidates.slice(0,key==='lantern'?3:1);
-   if(key==='lantern'&&!participants.every(e=>participants.every(b=>distance(e,b)<=600)))continue;
+   let participants=candidates.slice(0,1);
+   if(key==='lantern'){
+    // An unrelated flashlightfish can occur before the nearby cohort in the
+    // population array. Find an existing compact group, rather than rejecting
+    // every neighbor because the first three happen to include that outlier.
+    const nearest=[...candidates].sort((a,b)=>distance(a,sim.player)-distance(b,sim.player)||String(a.id).localeCompare(String(b.id)));
+    participants=[];
+    for(const anchor of nearest){
+     const group=[anchor];
+     for(const e of nearest)if(e!==anchor&&group.length<3&&group.every(b=>distance(e,b)<=600))group.push(e);
+     if(group.length>=2){participants=group;break;}
+    }
+    if(participants.length<2)continue;
+   }
    return {available:true,reef,reason:'',needsFreshDive:false,participants:participants.map(reference)};
   }
  }

@@ -102,7 +102,15 @@ for(const [width,height,choice,muted] of [[1600,900,'alcove',true],[1024,768,'sp
  await move(page,(await facts(page)).site[choice]);await page.waitForFunction(()=>window.atoll.simulation.reefStories.shade.settled>=1);await page.keyboard.press('e');
  await expect.poll(async()=>(await facts(page)).journal.includes('squirrelfish-shade')).toBe(true);expect((await facts(page)).story.complete).toBe(true);
  await frozen(page);await blurred(page,context);await saveLoad(page,'complete',width);await page.keyboard.press('e');await page.keyboard.press('e');expect((await facts(page)).journal.filter(id=>id==='squirrelfish-shade')).toHaveLength(1);await stopped(page);expect((await facts(page)).journal.filter(id=>id==='squirrelfish-shade')).toHaveLength(1);
- const final=await facts(page);expect(final.roster).toEqual(roster);const bounds=await page.locator('#reef-story').evaluate(e=>({overflow:e.scrollWidth>e.clientWidth+1,left:e.getBoundingClientRect().left,right:e.getBoundingClientRect().right,bottom:e.getBoundingClientRect().bottom}));expect(bounds.overflow).toBe(false);expect(bounds.left).toBeGreaterThanOrEqual(0);expect(bounds.right).toBeLessThanOrEqual(width);expect(bounds.bottom).toBeLessThanOrEqual(height);
+ const final=await facts(page);
+ // Ordinary ecology continues during this entire dive: unrelated animals can
+ // die and return in their original population slots. Actual paused save/load
+ // checks above require exact incarnations; this journey checks the same slots.
+ const slots=reefs=>reefs.map(reef=>reef.map(({id,species})=>({id,species})));
+ expect(slots(final.roster)).toEqual(slots(roster));
+ for(const [reefIndex,reef] of final.roster.entries())for(const [slot,e] of reef.entries())expect(e.incarnation).toBeGreaterThanOrEqual(roster[reefIndex][slot].incarnation);
+ expect(final.story.neighbor).toEqual(settled.story.neighbor);expect(final.neighbor).toMatchObject(settled.story.neighbor);
+ const bounds=await page.locator('#reef-story').evaluate(e=>({overflow:e.scrollWidth>e.clientWidth+1,left:e.getBoundingClientRect().left,right:e.getBoundingClientRect().right,bottom:e.getBoundingClientRect().bottom}));expect(bounds.overflow).toBe(false);expect(bounds.left).toBeGreaterThanOrEqual(0);expect(bounds.right).toBeLessThanOrEqual(width);expect(bounds.bottom).toBeLessThanOrEqual(height);
  await page.screenshot({path:`${out}/shade-${width}-complete.png`});await writeFile(`${out}/shade-${width}-evidence.json`,JSON.stringify({type:'automated-real-ui',seed:42,viewport:{width,height},choice,muted,reducedMotion:true,blurVerification:'Native DOM blur dispatched to application listener; headless tabs do not emit OS blur',admission,frames,sound,occlusion,observed,settled,final,video:resolve(out,`shade-${width}-motion.webm`)},null,2));expect(errors).toEqual([]);
 });
 

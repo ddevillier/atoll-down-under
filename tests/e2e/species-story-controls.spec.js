@@ -6,6 +6,9 @@ async function ready(page){await page.goto('/');await page.waitForFunction(()=>w
 async function choose(page,[key,name,id]){await clickButton(page,{name:/^Practice\b/});await page.getByRole('searchbox').fill(name);await page.locator(`[role="option"][data-species="${id}"]`).click();await page.locator(`[data-action="guided-story"][data-story-key="${key}"]`).click();}
 
 for(const story of stories)test(`${story[0]} spoken instructions respect pause and return control`,async({page})=>{
+ // This layout includes a distant ordinary flashlightfish interleaved with
+ // the nearby reserved cohort, which previously blocked the guided entry.
+ if(story[0]==='lantern')await page.addInitScript(()=>{Date.now=()=>536;});
  await ready(page);await choose(page,story);await expect(page.locator('#reef-story')).toBeVisible();
  await page.locator('[data-action="story-help"]').click();await expect.poll(()=>page.evaluate(()=>window.atoll.state.modal)).toBe('story-help');
  await expect.poll(()=>page.evaluate(()=>window.atoll.audio.narrationState)).toBe('playing');
