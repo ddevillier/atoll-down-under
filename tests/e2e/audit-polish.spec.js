@@ -16,12 +16,14 @@ for(const [width,height] of [[1600,900],[1024,768]])test(`journal access, earned
  await entry.focus();await page.waitForTimeout(4100);await expect(entry).toBeFocused();await page.keyboard.press('Enter');
  const discovered=page.locator('[data-journal-entry="disappearing-artist"]');await expect(discovered).toBeFocused();await expect(page.locator('.journal-ways')).toHaveAttribute('open','');await expect(discovered).toContainText('Discovered');
  await page.screenshot({path:`artifacts/polish-journal-${width}.png`});await page.keyboard.press('Escape');
+ // Activate the earned notice before artifact encoding spends its timeout.
+ const badgeLink=page.locator('.toast [data-action="journal-entry"][data-kind="badge"]');await expect(badgeLink).toBeVisible();const badgeId=await badgeLink.getAttribute('data-id');await badgeLink.focus();await badgeLink.click();
+ await expect(page.locator(`[data-journal-entry="${badgeId}"]`)).toBeFocused();await expect(page.locator(`[data-journal-entry="${badgeId}"]`)).toContainText('Earned');await page.keyboard.press('Escape');expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(false);
  // The expanded discovery must not turn the ordinary goal into completion.
  await page.getByRole('button',{name:'Activity',exact:true}).click();await expect(page.locator('.goal-context')).toContainText('separate goal explores two backgrounds');expect(await page.evaluate(()=>window.atoll.simulation.adventure.complete)).toBe(false);
  await expect(page.locator('#optional-goal-counter')).toContainText('0 / 2');
  await page.screenshot({path:`artifacts/polish-activity-${width}.png`});
- const badgeLink=page.locator('.toast [data-action="journal-entry"][data-kind="badge"]');await expect(badgeLink).toBeVisible();const badgeId=await badgeLink.getAttribute('data-id');await badgeLink.click();
- await expect(page.locator(`[data-journal-entry="${badgeId}"]`)).toBeFocused();await expect(page.locator(`[data-journal-entry="${badgeId}"]`)).toContainText('Earned');await page.keyboard.press('Escape');expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(false);
+
  const layout=await page.evaluate(()=>{const app=document.querySelector('#app').getBoundingClientRect();return {overflow:document.documentElement.scrollWidth>innerWidth,buttons:[...document.querySelectorAll('.topbar button')].map(b=>{const r=b.getBoundingClientRect();return r.left>=app.left-1&&r.right<=app.right+1;})};});
  expect(layout.overflow).toBe(false);expect(layout.buttons.every(Boolean)).toBe(true);expect(errors).toEqual([]);
  await testInfo.attach('polish-layout',{body:JSON.stringify(layout),contentType:'application/json'});
