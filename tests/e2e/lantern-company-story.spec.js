@@ -21,7 +21,7 @@ async function begin(page,quiet=false){
  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.current)).toBe(8);
 }
 async function point(page,p){const b=await page.locator('#reef').boundingBox(),x=Math.max(1,Math.min(1599,p.x));await page.mouse.move(b.x+x/1600*b.width,b.y+(p.y+55)/900*b.height);}
-async function snapshot(page){return page.evaluate(()=>{const s=window.atoll.simulation,q=s.reefStories.lantern;return {story:structuredClone(q),current:s.current,paused:s.paused,player:{x:s.player.x,y:s.player.y,angle:s.player.angle,energy:s.player.energy,health:s.player.health,abilityTime:s.player.abilityTime},actors:s.sections.flatMap((r,reef)=>r.entities.map(e=>({reef,id:e.id,incarnation:e.incarnation||0,species:e.species.id,x:e.x,y:e.y,angle:e.angle,energy:e.energy,health:e.health,satiated:e.satiated,alive:e.alive,target:e.target,feeding:e.feeding,activity:e.activity,behavior:e.behavior,hidden:e.hidden,stun:e.stun,actionTime:e.actionTime}))),discoveries:window.atoll.journal.discoveries};});}
+async function snapshot(page){return page.evaluate(()=>{const s=window.atoll.simulation,q=s.reefStories.lantern;return {story:structuredClone(q),current:s.current,seed:s.seed,time:s.time,phase:s.phase,paused:s.paused,player:{x:s.player.x,y:s.player.y,angle:s.player.angle,energy:s.player.energy,health:s.player.health,abilityTime:s.player.abilityTime},actors:s.sections.flatMap((r,reef)=>r.entities.map(e=>({reef,id:e.id,incarnation:e.incarnation||0,species:e.species.id,x:e.x,y:e.y,angle:e.angle,energy:e.energy,health:e.health,satiated:e.satiated,alive:e.alive,target:e.target,feeding:e.feeding,activity:e.activity,behavior:e.behavior,hidden:e.hidden,stun:e.stun,actionTime:e.actionTime}))),discoveries:window.atoll.journal.discoveries};});}
 async function freeze(page){if(!await page.evaluate(()=>window.atoll.simulation.paused))await page.keyboard.press('Escape');await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.paused)).toBe(true);}
 async function resume(page){if(await page.evaluate(()=>window.atoll.simulation.paused))await page.keyboard.press('Escape');}
 async function screenshot(page,name){await mkdir(evidence,{recursive:true});await page.screenshot({path:path.join(evidence,name)});}
@@ -46,7 +46,8 @@ async function rejoinVisibleSchool(page){
 async function lead(page,route,callback){const points=[{x:610,y:360},{x:720,y:route==='upper'?190:530},{x:910,y:route==='upper'?190:530},{x:1010,y:360}];
  for(let i=0;i<points.length;i++){
   await point(page,points[i]);
-  await page.waitForFunction(({p,gate})=>{const s=window.atoll.simulation,q=s.reefStories.lantern;return q.complete||q.stage==='route'&&Math.hypot(s.player.x-p.x,s.player.y-p.y)<15&&q.participants.some(m=>m.gate>=gate);},{p:points[i],gate:i+1},{timeout:40000});
+  try{await page.waitForFunction(({p,gate})=>{const s=window.atoll.simulation,q=s.reefStories.lantern;return q.complete||q.stage==='route'&&Math.hypot(s.player.x-p.x,s.player.y-p.y)<15&&q.participants.some(m=>m.gate>=gate);},{p:points[i],gate:i+1},{timeout:40000});}
+  catch(error){const prefix=`lantern-${route}-${page.viewportSize().width}-gate-${i+1}-failure`;await mkdir(evidence,{recursive:true});await writeFile(path.join(evidence,`${prefix}.json`),JSON.stringify({waypoint:points[i],gate:i+1,state:await snapshot(page)},null,2));await screenshot(page,`${prefix}.png`);if(await page.evaluate(()=>!!window.__lanternVideo))await endRecording(page,`${prefix}.webm`);throw error;}
   if(callback)await callback(i);
  }
  await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.reefStories.lantern.complete),{timeout:35000}).toBe(true);
@@ -57,6 +58,7 @@ for(const {width,height,route,quiet} of [{width:1600,height:900,route:'upper',qu
  await begin(page,quiet);await point(page,{x:610,y:360});await page.waitForFunction(()=>{const p=window.atoll.simulation.player;return Math.hypot(p.x-610,p.y-360)<25;},null,{timeout:30000});
  if(width===1600)await page.waitForTimeout(10000);const before=await snapshot(page);await choose(page,route);await point(page,before.player);await page.keyboard.press('e');await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.reefStories.lantern.organShown)).toBe(true);await page.keyboard.press('e');await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.reefStories.lantern.organShown)).toBe(false);await page.locator('[data-story-action="lantern-light"]').click();await expect.poll(()=>page.evaluate(()=>window.atoll.simulation.reefStories.lantern.organShown)).toBe(true);
  const chosen=await snapshot(page);expect(chosen.story.participants.length).toBeGreaterThanOrEqual(2);expect(chosen.story.participants.length).toBeLessThanOrEqual(3);
+ await mkdir(evidence,{recursive:true});await writeFile(path.join(evidence,`lantern-start-${width}.json`),JSON.stringify({before,chosen},null,2));
  const identities=a=>a.map(e=>`${e.reef}:${e.id}:${e.incarnation}:${e.species}`).sort();expect(identities(chosen.actors)).toEqual(identities(before.actors));
  await screenshot(page,`lantern-route-${width}.png`);await beginRecording(page);
  await lead(page,route,async i=>{if(i===1){await screenshot(page,`lantern-turn-${width}.png`);await endRecording(page,`lantern-formation-${width}.webm`);}});

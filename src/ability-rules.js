@@ -2,6 +2,7 @@ import {edible} from './diet.js';
 import {approachRefuge} from './refuge-motion.js';
 import {creatureWidth} from './geometry.js';
 import {ABILITIES} from './data.js';
+import {isProtectedActor} from './adventure-safety.js';
 
 const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export const DEFENSIVE_ABILITIES=['spines','puff','poison','ink','shock','sting','sonic','flash'];
@@ -17,7 +18,7 @@ export function triggerAbility(sim,actor){
  actor.energy-=8;actor.cooldown=12;actor.abilityTime=['lure','camouflage','mimic'].includes(ability)?6:4;
  actor.cleanerTarget=null;actor.cleanTime=0;actor.cleaningAmount=0;
  for(const e of [sim.player,...sim.section.entities]){
-  if(e===actor||!e.alive||e.hidden||e.species.ability==='clean')continue;
+  if(e===actor||!e.alive||e.hidden||e.species.ability==='clean'||isProtectedActor(sim,e))continue;
   const range=ability==='sting'?115:230;if(dist(actor,e)>range)continue;
   const predator=edible(e,actor),pursuing=e.target===actor.id;
   const pulse=ability==='shock'||['sting','sonic','flash'].includes(ability)&&(predator||pursuing);
