@@ -14,7 +14,7 @@ test.afterEach(async({page},testInfo)=>{
  if(testInfo.status===testInfo.expectedStatus)return;
  try{await testInfo.attach('lookout-failure-state',{body:JSON.stringify(await read(page),null,2),contentType:'application/json'});}catch(error){await testInfo.attach('lookout-failure-read',{body:String(error),contentType:'text/plain'});}
 });
-async function phase(page,wanted,timeout=16000){await expect.poll(async()=>(await read(page)).story?.phase,{timeout,message:'Actual lookout phase '+wanted}).toBe(wanted);}
+async function phase(page,wanted,timeout=16000){await expect.poll(async()=>page.evaluate(()=>window.atoll.simulation.reefStories.lookout?.phase),{timeout,message:'Actual lookout phase '+wanted}).toBe(wanted);}
 async function swim(page,p,timeout=18000){await world(page,p);await expect.poll(async()=>{const q=(await read(page)).player;return Math.hypot(q.x-p.x,q.y-p.y);},{timeout,message:'Physical pointer-steered arrival'}).toBeLessThan(18);}
 async function capture(page,name){await mkdir(evidenceDir,{recursive:true});await page.screenshot({path:path.join(evidenceDir,'lookout-'+name+'.png')});}
 async function safetyProof(page){return page.evaluate(async()=>{const {canPredate,isProtectedActor}=await import('/src/adventure-safety.js'),s=window.atoll.simulation,z=s.storySafety,h=s.section.entities.filter(e=>e.alive&&e.species.diet.includes('fish')&&e.species.ability!=='clean'),distance=e=>Math.hypot(e.x-z.x,e.y-z.y),nearest=h.toSorted((a,b)=>distance(a)-distance(b))[0],outside=h.find(e=>distance(e)>z.radius&&!isProtectedActor(s,e)),prey=outside&&s.section.entities.find(e=>e!==outside&&e.alive&&distance(e)>z.radius&&!isProtectedActor(s,e));return {zone:structuredClone(z),nearest:nearest&&{id:nearest.id,name:nearest.species.name,x:nearest.x,y:nearest.y,distance:distance(nearest),behavior:nearest.behavior},playerProtected:nearest&&!canPredate(s,nearest,s.player),outsideAllowed:!!(outside&&prey&&canPredate(s,outside,prey)),hunters:h.map(e=>({id:e.id,name:e.species.name,x:e.x,y:e.y,behavior:e.behavior,activity:e.activity,health:e.health,satiated:e.satiated}))};});}
@@ -45,7 +45,7 @@ async function observeBites(page){
  });
 }
 async function checkpoint(page){
- await page.keyboard.press('p');expect((await read(page)).paused).toBe(true);const before=await read(page);await page.waitForTimeout(450);const frozen=await read(page);expect(frozen.story).toEqual(before.story);expect(frozen.time).toBe(before.time);expect(frozen.buddy).toEqual(before.buddy);
+ if(!await page.evaluate(()=>window.atoll.simulation.paused))await page.keyboard.press('p');expect((await read(page)).paused).toBe(true);const before=await read(page);await page.waitForTimeout(450);const frozen=await read(page);expect(frozen.story).toEqual(before.story);expect(frozen.time).toBe(before.time);expect(frozen.buddy).toEqual(before.buddy);
  const lifecycle=await page.evaluate(async()=>{
   const {Simulation}=await import('/src/simulation.js'),{exportDive,importDive}=await import('/src/save-files.js'),{tickStories,stopStory,storyAction}=await import('/src/reef-stories.js');const s=window.atoll.simulation,portable=exportDive(s,'Lookout checkpoint'),saved=s.serialize(),restored=importDive(portable).simulation;
   const equal=JSON.stringify(restored.reefStories.lookout)===JSON.stringify(s.reefStories.lookout),paused=restored.paused,before=restored.serialize();restored.step(.05);const pauseFrozen=restored.serialize()===before;
@@ -80,8 +80,8 @@ async function takeWatch(page,site='crest-open'){
  await page.keyboard.press('e');
  await expect.poll(async()=>(await read(page)).story.phase,{timeout:8000}).toMatch(/^(watch|signal)$/);return p;
 }
-async function notice(page){
- await phase(page,'signal');expect((await read(page)).story.responded).toBe(false);await expect(page.locator('[data-story-action="hold"]')).toHaveCount(0);
+async function notice(page,{pauseAfter=false}={}){
+ await phase(page,'signal');expect(await page.evaluate(()=>window.atoll.simulation.reefStories.lookout.responded)).toBe(false);await expect(page.locator('[data-story-action="hold"]')).toHaveCount(0);
  // Sample the moving actor and canvas geometry together immediately before
  // actual mouse input. Reading the full roster and then fetching bounds in
  // separate browser calls made this a stale-coordinate click on slower CI.
@@ -95,6 +95,7 @@ async function notice(page){
   expect(target).toBeTruthy();identity??=target.identity;expect(target.identity).toEqual(identity);expect(target.phase).toBe('signal');expect(target.responded).toBe(false);initialPointerHit??=target.hit;
   await page.mouse.click(target.x,target.y);
   const observed=await page.evaluate(()=>{const s=window.atoll.simulation,n=s.reefStories.lookout;return {time:s.time,phase:n.phase,cueClicked:n.cueClicked,responded:n.responded,player:{x:s.player.x,y:s.player.y},passer:n.passer};});
+  if(observed.cueClicked&&pauseAfter)await page.keyboard.press('p');
   attempts.push({target,observed});expect(target.hit.story,'Physical passing fish remains exposed to actual pointer input').toBe(false);expect(target.hit.id).toBe('reef');
   expect(Math.hypot(observed.player.x-target.player.x,observed.player.y-target.player.y),'Actual attention keeps the player anchored').toBeLessThan(3.1);
   if(observed.cueClicked)break;
@@ -122,6 +123,7 @@ for(const [id,width,height,response]of [['s8',1600,900,'hold'],['s8',1024,768,'m
  // A distant Take lookout command and remote food click cannot award a turn.
  await page.locator('[data-story-action="site"][data-value="crest-open"]').click();await swim(page,{x:650,y:300});await page.locator('[data-story-action="watch"]').click();expect((await read(page)).story.role).toBe('none');expect((await read(page)).story.partnerMeal).toBe(false);
  const anchor=await takeWatch(page),watchBefore=await read(page);await world(page,{x:anchor.x+450,y:anchor.y-70});await page.waitForTimeout(350);const watchAfter=await read(page);expect(Math.hypot(watchAfter.player.x-watchBefore.player.x,watchAfter.player.y-watchBefore.player.y)).toBeLessThan(3.1);expect(watchAfter.story.aim).not.toBe(watchBefore.story.aim);
+ await page.keyboard.press('p');expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(true);
  const pose=await page.evaluate(async()=>{const {poseFor,appearanceFor,LOOKOUT_RABBITFISH_ASSET}=await import('/src/rabbitfish-lookout-render.js');const s=window.atoll.simulation,e=s.section.entities.find(e=>e.id===s.reefStories.lookout.buddy.id),r=window.atoll.renderer;return {player:poseFor(r,s,s.player,r.clock),buddy:poseFor(r,s,e,r.clock),corrected:appearanceFor(r,s,s.player,r.clock)?.sprite!==r.sprites[s.player.species.index],asset:LOOKOUT_RABBITFISH_ASSET};});
  expect(pose.player.role).toBe('watch');expect(Math.abs(pose.player.rotation)).toBeGreaterThan(.8);expect(pose.buddy.rotation).toBe(0);if(id==='s52')expect(pose.corrected).toBe(true);
  const safetyStart=await safetyProof(page);expect(safetyStart.playerProtected).toBe(true);expect(safetyStart.hunters.length).toBeGreaterThan(0);
@@ -130,9 +132,12 @@ for(const [id,width,height,response]of [['s8',1600,900,'hold'],['s8',1024,768,'m
  // Require a real hunter in the visible reef, then prove its movement and
  // ordinary outside-scene predation below rather than imposing a 400px timer.
  expect(safetyStart.nearest.x).toBeGreaterThanOrEqual(0);expect(safetyStart.nearest.x).toBeLessThanOrEqual(1600);expect(safetyStart.nearest.y).toBeGreaterThanOrEqual(0);expect(safetyStart.nearest.y).toBeLessThanOrEqual(740);
- await capture(page,`${id}-${width}-upright`);const finFrames=await liveFinFrames(page,`${id}-${width}`);const noticed=await notice(page);const lifecycle=id==='s8'&&width===1600?await checkpoint(page):null;
- if(!lifecycle)await page.keyboard.press('p');expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(true);
- await capture(page,`${id}-${width}-attention`);await page.keyboard.press('p');const signalFinFrames=await liveFinFrames(page,`${id}-${width}-signal`,{pauseAfter:true});expect(signalFinFrames.firstPhase).toBe('signal');expect(signalFinFrames.secondPhase).toBe('signal');const responseInput=await respondFromPausedCapture(page,response);
+ await capture(page,`${id}-${width}-upright`);await page.keyboard.press('p');const finFrames=await liveFinFrames(page,`${id}-${width}`,{pauseAfter:true});await page.keyboard.press('p');const noticed=await notice(page,{pauseAfter:true});const lifecycle=id==='s8'&&width===1600?await checkpoint(page):null;
+ expect(await page.evaluate(()=>window.atoll.simulation.paused)).toBe(true);
+ // This encounter prioritizes actual attention, checkpoint restore and the
+ // immediate response. Phase-specific animation has its own fresh encounter
+ // below, so no mandatory live delay consumes the remaining response window.
+ await capture(page,`${id}-${width}-attention`);const responseInput=await respondFromPausedCapture(page,response);
  if(response==='move'){await phase(page,'relocating');const relocating=await read(page);expect(relocating.story.site).toBe('crest-sheltered');expect(relocating.story.partnerMeal).toBe(false);await capture(page,`${id}-${width}-departure`);await swim(page,{x:410,y:485});await page.keyboard.press('e');}
  await phase(page,'partner-feed',8000);const grazingStart=await read(page);await capture(page,`${id}-${width}-grazing-approach`);
  await expect.poll(async()=>(await read(page)).story.partnerMeal,{timeout:16000,message:'Normal hungry companion takes a committed real bite'}).toBe(true);
@@ -152,8 +157,20 @@ for(const [id,width,height,response]of [['s8',1600,900,'hold'],['s8',1024,768,'m
  const done=await read(page);expect(done.bites).toHaveLength(2);expect(done.bites[1].before-done.bites[1].after).toBe(35);expect(done.bites[1].committed).toBe(true);expect(done.bites[1].gap).toBeLessThanOrEqual(3.1);expect(done.story.buddy).toEqual(watchBefore.story.buddy);expect(done.legacyBuddy).toEqual(initial.legacyBuddy);expect(done.journal).not.toContain(id==='s8'?'foxface-companion':'rabbitfish-companion');expect(done.roster.flat().map(e=>e.id).sort()).toEqual(initial.roster.flat().map(e=>e.id).sort());expect(done.roster.flat()).toHaveLength(initial.roster.flat().length);for(const pair of initial.roster.flat().filter(e=>e.partner!==null)){const living=done.roster.flat().find(e=>e.id===pair.id&&e.alive&&e.incarnation===pair.incarnation);if(living)expect(living.partner).toBe(pair.partner);}
  expect(await page.locator('body').evaluate(e=>e.scrollWidth<=window.innerWidth+1)).toBe(true);const bounds=await page.locator('#reef-story').boundingBox();expect(bounds.x+bounds.width).toBeLessThanOrEqual(width+1);expect(bounds.y+bounds.height).toBeLessThanOrEqual(height+1);await capture(page,`${id}-${width}-complete`);
  await page.locator('[data-story-action="retry"]').click();expect((await read(page)).story.logged).toBe(true);expect((await read(page)).journal.filter(x=>x==='rabbitfish-lookout')).toHaveLength(1);expect(errors).toEqual([]);
- await writeFile(path.join(evidenceDir,`lookout-${id}-${width}-motion.json`),JSON.stringify({pose,swappedPose,finFrames,signalFinFrames,safetyStart,safetyEnd,lifecycle,noticed,responseInput,watchBefore,grazingStart,riseStart,watching,done},null,2));
+ await writeFile(path.join(evidenceDir,`lookout-${id}-${width}-motion.json`),JSON.stringify({pose,swappedPose,finFrames,safetyStart,safetyEnd,lifecycle,noticed,responseInput,watchBefore,grazingStart,riseStart,watching,done},null,2));
  testInfo.attach('lookout-motion-evidence',{path:path.join(evidenceDir,`lookout-${id}-${width}-motion.json`),contentType:'application/json'});
+});
+
+for(const [id,width,height]of [['s8',1600,900],['s8',1024,768],['s52',1600,900],['s52',1024,768]])test(`fresh signal motion ${id} ${width}: two live native fin frames in the passing encounter`,async({page},testInfo)=>{
+ test.setTimeout(60000);await page.setViewportSize({width,height});await mkdir(evidenceDir,{recursive:true});await begin(page,id,id==='s8'?9:1);await meet(page);await takeWatch(page);
+ // Start sampling at the actual first signal, without screenshots, save/load
+ // checks or full-roster observations spending this encounter's crossing time.
+ await page.waitForFunction(()=>window.atoll.simulation.reefStories.lookout.phase==='signal',null,{polling:'raf',timeout:16000});
+ const before=await page.evaluate(()=>{const s=window.atoll.simulation,n=s.reefStories.lookout;return {paused:s.paused,phase:n.phase,responded:n.responded,cueClicked:n.cueClicked,passer:structuredClone(n.passer),player:{x:s.player.x,y:s.player.y}};});
+ const frames=await liveFinFrames(page,`${id}-${width}-fresh-signal`,{pauseAfter:true});const after=await read(page);
+ expect(before.paused).toBe(false);expect(before.phase).toBe('signal');expect(before.responded).toBe(false);expect(before.cueClicked).toBe(false);expect(before.passer).toBeTruthy();
+ expect(frames.firstPhase).toBe('signal');expect(frames.secondPhase).toBe('signal');expect(after.paused).toBe(true);expect(after.story.responded).toBe(false);expect(after.story.cueClicked).toBe(false);expect(after.story.passer).toEqual(before.passer);expect(after.passer.id).toBe(before.passer.id);expect(Math.hypot(after.player.x-before.player.x,after.player.y-before.player.y)).toBeLessThan(3.1);expect(after.bites).toHaveLength(0);expect(after.story.partnerMeal).toBe(false);expect(after.story.playerMeal).toBe(false);
+ const receipt=path.join(evidenceDir,`lookout-${id}-${width}-fresh-signal-motion.json`);await writeFile(receipt,JSON.stringify({id,viewport:{width,height},before,frames,after},null,2));await testInfo.attach('lookout-fresh-signal-motion',{path:receipt,contentType:'application/json'});
 });
 
 test('Your Turn to Look actual stop releases swimming and leaves no bite or discovery',async({page})=>{
