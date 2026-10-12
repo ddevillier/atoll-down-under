@@ -94,7 +94,15 @@ function invite(sim){
 }
 export function storyAction(sim,action,value){
  if(!playing(sim)||!state(sim))return false;const s=state(sim);
- if(action==='retry'){const logged=s.logged;stopStory(sim);sim.reefStories.lookout=fresh(logged);return true;}
+ if(action==='retry'){
+  const logged=s.logged,previous=actor(sim,s.buddy);stopStory(sim);sim.reefStories.lookout=fresh(logged);
+  // Keep a consenting, nearby companion for another turn. Never take a fish
+  // away from its real pair, care, danger or an already committed meal.
+  if(sim.current===0&&previous&&free(sim,previous)&&relationshipAvailable(sim,previous)&&distance(previous,sim.player)<280){
+   const next=state(sim);next.buddy=ref(sim,previous);next.phase='approach';
+  }
+  return true;
+ }
  if(action==='leave'||action==='lookout-leave'){stopStory(sim);return true;}
  if(sim.current!==0){if(action==='context'||action==='invite'){sim.setDestination?.(0);message(sim,'Follow the route to Sunlit Crest to watch together.');return true;}return false;}
  if(action==='invite'||action==='lookout-invite')return invite(sim);
@@ -151,6 +159,13 @@ export function storyPlayer(sim,dt){
  sim.pointer={...s.anchor};sim.player.vx=0;sim.player.vy=0;sim.player.activity='lookout';return true;
 }
 function meal(sim,food,who){return food?.kind==='food'&&['algae','grass'].includes(food.food)&&!(food.regrow>0)&&who.feeding?.committed&&who.feeding.target===food.id&&contactGap(who,food)<=3.1&&distance(food,siteFor(state(sim)))<=70;}
+// A lookout turn is a small grazing bite, not a full feeding excursion. Only
+// genuine contact by the invited companion qualifies for this shorter recovery.
+// Existing digestion and all meals outside this exchange retain normal timing.
+export function npcMealPortion(sim,food,who){
+ if(!local(sim)||!food||!who)return 1;const s=state(sim);
+ return s.phase==='partner-feed'&&s.responded&&watching(s)&&who===actor(sim,s.buddy)&&distance(sim.player,s.anchor)<=3&&food?.id===s.partnerFood&&meal(sim,food,who)?1/6:1;
+}
 export function storyMeal(sim,food,who=sim.player){
  if(!local(sim))return;const s=state(sim),e=actor(sim,s.buddy),site=siteFor(s);if(!site||!e||!meal(sim,food,who))return;
  if(who===e&&s.phase==='partner-feed'&&s.responded&&watching(s)&&distance(sim.player,s.anchor)<=3&&food.id===s.partnerFood){s.partnerMeal=true;s.phase='swap';s.role='partner';s.anchor=null;s.settle=0;s.status=null;message(sim,'Your companion has taken a real bite. It rises to the lookout; wait for it to arrive, then click reachable food for your turn.');}

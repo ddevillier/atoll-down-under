@@ -5,7 +5,7 @@ import {approachMeal,feedingApproach,contactGap} from '../src/feeding-contact.js
 import {mealContact,tickFeeding} from '../src/feeding-motion.js';
 import {Simulation} from '../src/simulation.js';
 import {beginStory,storyAction as dispatchAction} from '../src/reef-stories.js';
-import {LOOKOUT_SITES,initStory,validStory,validStoryPlayer,storyAction,storyPointer,storyClick,storyPlayer,storyNPC,tickStory,storyMeal,storyView,stopStory,safety} from '../src/rabbitfish-lookout.js';
+import {LOOKOUT_SITES,initStory,validStory,validStoryPlayer,storyAction,storyPointer,storyClick,storyPlayer,storyNPC,tickStory,storyMeal,storyView,stopStory,safety,npcMealPortion} from '../src/rabbitfish-lookout.js';
 
 const animal=(id,index,x,y)=>({id,incarnation:0,species:SPECIES[index],x,y,angle:0,facing:1,alive:true,health:100,energy:85,satiated:0,rest:0,target:null,feeding:null,stun:0,cleanTime:0,biteCooldown:0,actionTime:0,ecology:{reef:0,partner:null},think:0});
 function scene(index=8){
@@ -148,7 +148,7 @@ test('generated dives complete through Simulation input, actor-aware bites and p
   const saved=sim.serialize();sim=Simulation.restore(saved);assert.equal(sim.paused,true);const frozen=sim.serialize();sim.step(10);assert.equal(sim.serialize(),frozen);sim.paused=false;
   const s=sim.reefStories.lookout,passer=sim.section.entities.find(e=>e.id===s.passer.id);sim.point(passer.x,passer.y);sim.eatAt(passer.x,passer.y);assert.equal(s.cueClicked,true);assert.equal(dispatchAction(sim,response),true);
   if(response==='move'){advanceUntil(()=>Math.hypot(sim.player.x-410,sim.player.y-485)<=40);assert.equal(dispatchAction(sim,'watch'),true);}
-  advanceUntil(()=>s.phase==='player-feed');const food=sim.section.food.find(f=>f.id===s.partnerFood);assert.equal(food.amount,88);assert.equal(s.partnerMeal,true);assert.equal(s.playerMeal,false);
+  advanceUntil(()=>s.phase==='player-feed');assert.ok(sim.section.entities.find(e=>e.id===s.buddy.id).satiated>0&&sim.section.entities.find(e=>e.id===s.buddy.id).satiated<=80/6,'a committed lookout nibble has proportional recovery');const food=sim.section.food.find(f=>f.id===s.partnerFood);assert.equal(food.amount,88);assert.equal(s.partnerMeal,true);assert.equal(s.playerMeal,false);
   assert.equal(sim.eatAt(food.x,food.y),true);assert.equal(s.playerMeal,false);advanceUntil(()=>s.phase==='complete');assert.equal(food.amount,53);assert.equal(s.playerMeal,true);assert.equal(sim.events.filter(e=>e.type==='discovery'&&e.value==='rabbitfish-lookout').length,1);
   assert.deepEqual(sim.sections.map(r=>r.entities.map(e=>e.id)),roster);assert.equal(validStory(s),true);
  }
@@ -166,4 +166,30 @@ test('seed1 slow mouse approach keeps the invited fish from eating another meal 
  sim.point(240,370);advanceUntil(()=>Math.hypot(sim.player.x-240,sim.player.y-370)<18);
  assert.equal(buddy.satiated,0);assert.equal(buddy.ecology?.partner??null,null);assert.equal(buddy.incarnation||0,initial.incarnation);assert.ok(Math.abs(buddy.health-(initial.health-sim.time*.045))<1e-6,'ordinary parasite drain occurs exactly once per Simulation tick');
  assert.equal(dispatchAction(sim,'watch'),true);assert.equal(s.phase,'watch');assert.equal(s.partnerMeal,false);assert.equal(s.playerMeal,false);
+});
+
+test('only a real invited grazing bite receives a small-portion digestion interval',()=>{
+ const sim=scene();begin(sim);signal(sim);storyAction(sim,'hold');
+ const buddy=sim.section.entities[0],food=sim.section.food[0];
+ assert.equal(npcMealPortion(sim,food,buddy),1,'intent without mouth contact is not a bite');
+ until(sim,()=>buddy.feeding?.committed&&contactGap(buddy,food)<=3.1);
+ // The module may already have consumed this contact; inspect the accepted
+ // contact contract in its pre-commit phase without changing physiology.
+ const completed=state(sim).phase;state(sim).phase='partner-feed';state(sim).role='player';state(sim).anchor={...LOOKOUT_SITES[0].lookout};
+ state(sim).partnerFood=food.id;
+ assert.equal(npcMealPortion(sim,food,buddy),1/6);
+ assert.equal(npcMealPortion(sim,food,sim.player),1);
+ const before=structuredClone(buddy);sim.paused=true;assert.equal(npcMealPortion(sim,food,buddy),1);sim.paused=false;
+ sim.current=1;assert.equal(npcMealPortion(sim,food,buddy),1);sim.current=0;
+ buddy.incarnation++;assert.equal(npcMealPortion(sim,food,buddy),1);buddy.incarnation--;
+ assert.deepEqual(buddy,before,'recovery query never clears digestion or edits an actor');
+ state(sim).phase=completed;
+});
+
+test('another exchange keeps the original free nearby fish without clearing its existing needs',()=>{
+ const sim=scene();exchange(sim);const original=state(sim).buddy,buddy=sim.section.entities[0];buddy.actionTime=0;buddy.feeding=null;buddy.satiated=12;buddy.rest=2;
+ const before=structuredClone(buddy);storyAction(sim,'retry');
+ assert.deepEqual(state(sim).buddy,original);assert.equal(state(sim).phase,'approach');assert.equal(state(sim).logged,true);
+ assert.equal(buddy.satiated,before.satiated);assert.equal(buddy.rest,before.rest);assert.equal(buddy.x,before.x);assert.equal(buddy.y,before.y);
+ buddy.ecology.partner=99;storyAction(sim,'retry');assert.equal(state(sim).buddy,null);assert.equal(buddy.ecology.partner,99);
 });

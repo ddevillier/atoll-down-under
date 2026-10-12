@@ -40,7 +40,8 @@ export function optionalJourney(sim,journal){
  const id=sim?.player?.species?.id,d=ADVENTURES[id];
  if(!d||sim.mode!=='practice'||sim.trial)return null;
  const complete=!!sim.adventure?.complete,recorded=!!journal?.discoveries?.includes(d.id);
- return {id:d.id,species:id,title:d.name,optional:true,recorded,complete,status:complete?'complete':recorded?'recorded':'exploring',step:currentStep(sim),counter:counter(sim),instruction:adventureInstruction(sim),description:d.description};
+ const context=id==='s19'&&journal?.discoveries?.includes('disappearing-artist')?'Your three-disguise adventure is recorded. This separate goal explores two backgrounds.':null;
+ return {id:d.id,species:id,title:d.name,optional:true,recorded,complete,status:complete?'complete':recorded?'recorded':'exploring',step:currentStep(sim),counter:counter(sim),instruction:adventureInstruction(sim),description:d.description,context};
 }
 export function optionalObservation(sim,journal){
  const id=sim?.residentFocus,d=RESIDENT_JOURNEYS[id],j=sim?.residentJourneys?.[id];

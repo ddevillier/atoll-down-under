@@ -2,7 +2,7 @@ import {storyCompatible} from './reef-story-data.js';
 import {initialAdventureSite,reserveAdventureParticipants,adventureParticipantReserved,tickAdventureReservation,claimAdventureParticipant,validAdventureReservation} from './adventure-admission.js';
 import {isProtectedActor,canPredate,storyNeedsHeld,syncAdventureSafety,steerAroundAdventure} from './adventure-safety.js';
 import {detectiveBuriedCandidates} from './detective-substrate.js';
-import {freshStories,validStories,activeStory,storyAction,tickStories,storyMeal,storyNPC,storyFoodHidden,storyFoodReserved,storyClick,storyPointer,storyPlayer,storySafety,validStoryPlayer} from './reef-stories.js';
+import {freshStories,validStories,activeStory,storyAction,tickStories,storyMeal,storyNpcMealPortion,storyNPC,storyFoodHidden,storyFoodReserved,storyClick,storyPointer,storyPlayer,storySafety,validStoryPlayer} from './reef-stories.js';
 import {chooseCustomRefuge,customMeal,tickCustomLife} from './custom-life.js';
 import {triggerAbility,defended as hasDefense,mimicTrusted,approachMimic,mimicBite,validMimicMemory,driftTowardLight,validLightOrigin,DEFENSIVE_ABILITIES} from './ability-rules.js';
 import {newCreation,validateCreation,legacyCreation,blueprint} from './creations.js';
@@ -538,12 +538,13 @@ export class Simulation {
     if(inReach&&e.biteCooldown<=0&&(!dest.species||canPredate(this,e,dest))&&(dest!==p||canEatPlayer&&!(p.hurtGrace>0))){
      speed=0;
      if(mealContact(e,dest,dt,contact.contact)){
+     const mealPortion=storyNpcMealPortion(this,dest,e);
      e.biteCooldown=2;e.actionTime=.65;
      if(dest===p&&canEatPlayer){const risk=predatorPolicy(this);if(e.species.ability==='mimic')mimicBite(this,e,p);else{p.health-=risk.damage;p.biteDamage=(p.biteDamage||0)+risk.damage;p.recoveryDelay=risk.recoveryDelay;}p.hurtGrace=risk.grace;p.lastHarm={type:'bite',name:e.species.name};p.energy-=8;p.cooldown=Math.max(p.cooldown,1);this.event('hurt',e.species.name+' took a bite.',{x:p.x,y:p.y});if(p.health<=0)this.die('You were eaten by a '+e.species.name+'.');}
      else if(dest!==p&&dest.kind==='food'){storyMeal(this,dest,e);schoolMeal(this,e,dest);witnessSandMeal(this,e,dest);companionMeal(this,e,dest);disturbPatch(dest);dest.amount-=12;if(dest.amount<=0){dest.regrow=8;dest.amount=100;}startNpcSchoolWave(this,e,dest);}
      else if(dest!==p&&e.species.ability==='mimic'&&(dest.species.food||'fish')==='fish'){mimicBite(this,e,dest);}
      else if(dest!==p){dest.alive=false;dest.respawn=24;}
-     if(e.target==='player')this.event('pursuit-release',e.species.name+' is digesting its meal.',{animalId:e.id,reason:'fed',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.satiated=45+this.random()*35;e.behavior='Digesting a meal';
+     if(e.target==='player')this.event('pursuit-release',e.species.name+' is digesting its meal.',{animalId:e.id,reason:'fed',x:e.x,y:e.y});e.target=null;e.pursuit=0;e.satiated=(45+this.random()*35)*mealPortion;e.behavior='Digesting a meal';
      }
     }else cancelPreparation(e);
    }else{e.target=null;e.pursuit=0;}

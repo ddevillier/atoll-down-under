@@ -108,6 +108,10 @@ export function storyMeal(sim,food,who=sim?.player){
  if(key&&playing(sim)&&(who===sim.player||key==='lookout'))return modules[key].storyMeal(sim,food,who);
  return false;
 }
+export function storyNpcMealPortion(sim,food,who){
+ const key=activeStory(sim);
+ return key&&playing(sim)?modules[key].npcMealPortion?.(sim,food,who)??1:1;
+}
 export function storyNPC(sim,e,dt){const key=activeStory(sim);return !!(key&&playing(sim)&&Number.isFinite(dt)&&dt>0&&modules[key].storyNPC(sim,e,dt));}
 export function storyClick(sim,x,y){const key=activeStory(sim);return !!(key&&playing(sim)&&Number.isFinite(x)&&Number.isFinite(y)&&modules[key].storyClick?.(sim,x,y));}
 export function storyPointer(sim,x,y){const key=activeStory(sim);return !!(key&&playing(sim)&&Number.isFinite(x)&&Number.isFinite(y)&&modules[key].storyPointer?.(sim,x,y));}

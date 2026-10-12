@@ -103,3 +103,11 @@ test('resident guidance respects identity loss, habitat changes and recorded-vs-
  s.current=(s.current+1)%9;assert.equal(optionalObservation(s,j).step,'Return to this resident’s habitat');
  s.residentJourneys.s46.complete=true;assert.equal(optionalObservation(s,j).complete,true);
 });
+
+test('the cuttlefish adventure record explains its separate background goal without forging progress',()=>{
+ const s=dive('s19'),j=freshJournal();recordProgress(j,'discovery','disappearing-artist',date);
+ const saved=s.serialize(),goal=optionalJourney(s,j);
+ assert.match(goal.context,/three-disguise adventure is recorded/);assert.match(goal.context,/separate goal/);
+ assert.equal(goal.complete,false);assert.deepEqual(goal.counter,{current:0,target:2,unit:'backgrounds'});assert.equal(s.serialize(),saved);
+ assert.equal(optionalJourney(s,freshJournal()).context,null);
+});
