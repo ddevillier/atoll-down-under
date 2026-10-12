@@ -73,6 +73,22 @@ test('a missed passer visibly relocates the companion without a meal or artifici
  const e=sim.section.entities[0],before={x:e.x,y:e.y};for(let i=0;i<120;i++)step(sim);assert.ok(Math.hypot(e.x-before.x,e.y-before.y)>20);assert.equal(sim.section.food[0].amount,100);assert.equal(sim.events.some(e=>e.type==='discovery'),false);
 });
 
+test('returning to the relocated lookout keeps its response when the same passer is still crossing',()=>{
+ for(const response of ['move','missed']){
+  const sim=scene();begin(sim);signal(sim);
+  if(response==='move')storyAction(sim,'move');
+  else until(sim,()=>state(sim).phase==='relocating');
+  const s=state(sim),site=LOOKOUT_SITES[1],passer=sim.section.entities[1];
+  // Reproduce the actual NPC-before-story tick ordering at the new nook.
+  Object.assign(sim.player,site.lookout);Object.assign(passer,{x:site.lookout.x-80,y:site.lookout.y-28});s.pass.stage='crossing';
+  assert.equal(storyAction(sim,'watch'),true);assert.equal(s.phase,'partner-feed');
+  storyNPC(sim,passer,1/60);tickStory(sim,1/60);
+  assert.equal(s.phase,'partner-feed');assert.equal(s.response,response);assert.equal(s.responded,true);assert.equal(s.partnerMeal,false);assert.equal(validStory(s),true);
+  assert.equal(storyPlayer(sim,1/60),true);assert.equal(validStoryPlayer(sim),true);assert.equal(safety(sim).holdNeeds,true);assert.equal(s.role,'player');assert.match(sim.events.at(-1).text,/companion is heading to the grazing patch/);
+  const saved=structuredClone(s);sim.reefStories.lookout=saved;initStory(sim);assert.strictEqual(state(sim),saved);assert.equal(validStoryPlayer(sim),true);assert.equal(storyPlayer(sim,1/60),true);
+ }
+});
+
 test('existing pair, buddy journeys, digestion, care and committed feeding are preserved',()=>{
  const sim=scene(),e=sim.section.entities[0];e.ecology.partner=99;sim.section.entities.push(animal(99,8,270,410));sim.section.entities[2].ecology.partner=e.id;
  storyAction(sim,'invite');assert.equal(state(sim).buddy,null);assert.equal(e.ecology.partner,99);assert.equal(sim.section.entities[2].ecology.partner,e.id);

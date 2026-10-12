@@ -40,7 +40,7 @@ test('Engineer integration records a second actual meal and preserves bounded re
  for(let i=0;i<120;i++){a.amount=100;a.regrow=0;s.player.biteCooldown=0;s.consume(a);ticks(s,.05);}
  for(let i=0;i<20;i++){a.amount=100;a.regrow=0;s.player.biteCooldown=0;s.consume(a);ticks(s,2);}
  const p=s.reefStories.engineer.patches.find(p=>p.id===a.id);expect(p.sand).toBe(4);expect(p.deposit).toBeLessThanOrEqual(.8);expect(p.meals).toBe(100);expect(s.reefStories.engineer.patches.length).toBeLessThanOrEqual(7);
- expect(()=>Simulation.restore(s.serialize())).not.toThrow();expect(stopStory(s)).toBe(true);s.player.biteCooldown=0;s.consume(a);ticks(s,.1);expect(p.algae).toBe(a.regrow>0?0:a.amount);const paused=s.serialize();s.paused=true;s.step(50);expect(s.serialize()).toBe(paused);
+ expect(()=>Simulation.restore(s.serialize())).not.toThrow();expect(stopStory(s)).toBe(true);s.player.biteCooldown=0;s.consume(a);ticks(s,.1);expect(p.algae).toBe(a.regrow>0?0:a.amount);s.paused=true;const paused=s.serialize();s.step(50);expect(s.serialize()).toBe(paused);
 });
 
 for(const [width,height] of [[1600,900],[1024,768]])test('Engineer real mouse grazing, rest/revisit and existing neighbor meal at '+width,async({page},testInfo)=>{

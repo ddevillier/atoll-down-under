@@ -78,8 +78,11 @@ function startWatch(sim){
  if(e.species.id!==p.species.id||!relationshipAvailable(sim,e)){unavailable(sim,'busy');return true;}
  if(!free(sim,e)){s.status='busy';message(sim,'Your companion is busy. Its care and committed meal come first.');return true;}
  if(e.satiated>0||e.rest>0){s.status=e.satiated>0?'digesting':'resting';message(sim,e.satiated>0?'Your companion is digesting. Explore together and return when it is hungry.':'Your companion is resting. Explore together and return when it is ready.');return true;}
- Object.assign(s,{phase:'watch',role:'player',anchor:{x:p.x,y:p.y},aim:-Math.PI/2,settle:0,status:null});sim.pointer={x:p.x,y:p.y};
- message(sim,'You are looking out. Move the pointer to aim; click the passing fish to choose a response. E or open water releases your watch.');return true;
+ // Moving nooks keeps the response already made to the same passing fish.
+ // Start its feeding turn directly: the NPC loop can run before tickStory,
+ // so entering watch again would reopen an already acknowledged signal.
+ Object.assign(s,{phase:s.responded?'partner-feed':'watch',role:'player',anchor:{x:p.x,y:p.y},aim:-Math.PI/2,settle:0,status:null});sim.pointer={x:p.x,y:p.y};
+ message(sim,s.responded?'You are looking out at the new nook. Your companion is heading to the grazing patch. Keep looking out while it feeds. E or open water releases your watch.':'You are looking out. Move the pointer to aim; click the passing fish to choose a response. E or open water releases your watch.');return true;
 }
 function invite(sim){
  const s=state(sim);if(!['choose','approach'].includes(s.phase))return false;
@@ -186,7 +189,7 @@ export function storyNPC(sim,e,dt){
   const pass=s.pass,dest={x:site.lookout.x+(pass.stage==='approach'?-1:1)*pass.direction*155,y:site.lookout.y-28};
   move(e,dest,dt);e.behavior='Passing the rabbitfish lookout';e.activity='cruising';pass.elapsed=Math.min(30,pass.elapsed+Math.min(dt,.1));
   if(pass.stage==='approach'&&distance(e,dest)<=12)pass.stage='crossing';
-  if(pass.stage==='crossing'&&distance(e,sim.player)<=170){pass.seen=true;if(s.phase==='watch')s.phase='signal';}
+  if(pass.stage==='crossing'&&distance(e,sim.player)<=170){pass.seen=true;if(s.phase==='watch')s.phase=s.responded?'partner-feed':'signal';}
   if(pass.stage==='crossing'&&distance(e,{x:site.lookout.x+pass.direction*155,y:site.lookout.y-28})<=12){pass.stage='passed';if(!s.responded&&pass.seen){s.response='missed';s.responded=true;relocate(sim,true);}}
   if(pass.elapsed>=30&&!pass.seen){unavailable(sim,'passer-away');return false;}
   // Simulation owns ordinary physiology, including on handled movement ticks.

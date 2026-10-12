@@ -36,7 +36,7 @@ const renderer=new ReefRenderer(canvas),audio=new Soundscape();
 const discoveryNarration=new DiscoveryNarration({audio,catalog:discoveryCatalog});
 let sim=null,home=true,modal=null,selection='s1',pending=null,guideTab='species',search='',toast='',toastUntil=0,inspected=null,last=performance.now(),acc=0,hudClock=0,focusBefore=null;
 let mapSelection=4;
-let modalReturn=null,finishingDive=null;
+let modalReturn=null,finishingDive=null,backgroundPauseReturn=null;
 let activeDiveName='',importedDive=null,storyHelpKey=null,pendingFreshStory=null;
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let config={...DEFAULT_BLUEPRINT},draftParent=null,creationRecords=[],creationError='',trialReturn=null,renameId=null,portraitPointer=.5;
@@ -258,10 +258,10 @@ function fieldNotesHTML(){
 function paintPortraits(){if(!renderer.ready)return;document.querySelectorAll('.species-portrait').forEach(c=>{const s=BY_ID[c.dataset.species];if(s)renderer.portrait(c,s);});if($('#custom-portrait'))renderer.portrait($('#custom-portrait'),createSpecies(config));}
 function focusModal(){requestAnimationFrame(()=>{if(modal){const target=$('.panel input:not([hidden])')||$('.panel button');target?.focus();}});}
 function openModal(name){if(!modal)modalReturn={sim,paused:!!sim?.paused,inspect:renderer.inspect,inspected};focusBefore=document.activeElement;if(name!=='message'){toast='';toastUntil=0;}if(sim)sim.paused=true;modal=name;renderer.inspect=false;renderer.hover=null;inspected=null;drawUI();focusModal();}
-function closeModal(resume=false){modal=null;if(sim&&!home){if(['advance','dead','won'].includes(sim.phase)){modal=sim.phase;sim.paused=true;}else{const back=modalReturn?.sim===sim?modalReturn:null;sim.paused=!resume&&!!back?.paused;renderer.inspect=sim.paused&&!!back?.inspect;inspected=sim.paused?back?.inspected||null:null;}}if(!modal)modalReturn=null;drawUI();if(modal)focusModal();else canvas.focus({preventScroll:true});}
-function enter(s,name,{resume=false}={}){sim=s;pendingFreshStory=null;modalReturn=null;careKind='';wellUntil=0;checkpointClock=0;lastDiscoveryCue=-Infinity;discoveryNarration.enterSpecies(s.player.species.id,{resume:resume||s.mode!=='practice'||!!s.trial});progress('habitat',s.current);activeDiveName=diveName(name||s.player.species.name+' dive');home=false;modal=null;sim.paused=resume?s.resumePaused===true:false;delete sim.resumePaused;inspected=null;renderer.inspect=sim.paused;renderer.syncScene(sim,home);audio.setTrack(sim.period==='night'?'moon-through-water':'glasswater');drawUI();canvas.focus();saveSlot(0,false);}
+function closeModal(resume=false){if(resume)backgroundPauseReturn=null;modal=null;if(sim&&!home){if(['advance','dead','won'].includes(sim.phase)){modal=sim.phase;sim.paused=true;}else{const back=modalReturn?.sim===sim?modalReturn:null;sim.paused=!resume&&!!back?.paused;renderer.inspect=sim.paused&&!!back?.inspect;inspected=sim.paused?back?.inspected||null:null;}}if(!modal)modalReturn=null;drawUI();if(modal)focusModal();else canvas.focus({preventScroll:true});}
+function enter(s,name,{resume=false}={}){sim=s;backgroundPauseReturn=null;pendingFreshStory=null;modalReturn=null;careKind='';wellUntil=0;checkpointClock=0;lastDiscoveryCue=-Infinity;discoveryNarration.enterSpecies(s.player.species.id,{resume:resume||s.mode!=='practice'||!!s.trial});progress('habitat',s.current);activeDiveName=diveName(name||s.player.species.name+' dive');home=false;modal=null;sim.paused=resume?s.resumePaused===true:false;delete sim.resumePaused;inspected=null;renderer.inspect=sim.paused;renderer.syncScene(sim,home);audio.setTrack(sim.period==='night'?'moon-through-water':'glasswater');drawUI();canvas.focus();saveSlot(0,false);}
 function resumeDive(restored,name){enter(restored,name,{resume:true});if(['advance','dead','won'].includes(restored.phase))openModal(restored.phase);announce('Dive resumed.');}
-function saveSlot(slot,announce=true){if(!sim||sim.trial)return false;if(sim.creation)persistCreation(sim);const state=sim.serialize();const success=write('atoll-save-'+slot,{name:diveName(activeDiveName),date:Date.now(),species:sim.player.species.name,mode:sim.mode,state});if(success&&slot>0&&pendingFreshStory?.source===sim)pendingFreshStory.preserved=JSON.stringify(state);if(success&&announce){audio.effect('save');notify('Dive saved.');}return success;}
+function saveSlot(slot,announce=true){if(!sim||sim.trial)return false;if(sim.creation)persistCreation(sim);if(announce)backgroundPauseReturn=null;let state=sim.serialize();if(slot===0&&backgroundPauseReturn?.sim===sim){const saved=JSON.parse(state);saved.paused=backgroundPauseReturn.paused;state=JSON.stringify(saved);}const success=write('atoll-save-'+slot,{name:diveName(activeDiveName),date:Date.now(),species:sim.player.species.name,mode:sim.mode,state});if(success&&slot>0&&pendingFreshStory?.source===sim)pendingFreshStory.preserved=JSON.stringify(state);if(success&&announce){audio.effect('save');notify('Dive saved.');}return success;}
 function startAdventureDive(speciesId,key,{preserve=true}={}){
  if(!storyCompatible(speciesId,key))return false;
  let preservedSlot=null;
@@ -315,20 +315,20 @@ ui.addEventListener('click',async event=>{
  else if(action==='map-clear'){sim.setDestination(null);drawUI();$('.reef-map-tile[data-reef="'+mapSelection+'"]')?.focus();}
  else if(action==='fullscreen'){toggleFullscreen().catch(()=>notify('Fullscreen could not change. Try F11 in the Windows app.'));}
  else if(action==='close')closeModal();
- else if(action==='resume'){home=false;modal=null;modalReturn=null;sim.paused=false;audio.setTrack(sim.period==='night'?'moon-through-water':'glasswater');if(['advance','dead','won'].includes(sim.phase))openModal(sim.phase);else{drawUI();canvas.focus();}}
+ else if(action==='resume'){backgroundPauseReturn=null;home=false;modal=null;modalReturn=null;sim.paused=false;audio.setTrack(sim.period==='night'?'moon-through-water':'glasswater');if(['advance','dead','won'].includes(sim.phase))openModal(sim.phase);else{drawUI();canvas.focus();}}
  else if(action==='home'){toast='';saveSlot(0,false);sim.paused=true;home=true;modal=null;titleRewards();audio.setTrack('blue-passage');drawUI();}
  else if(['guide','journal','saves','settings','help','scores'].includes(action)){if(action==='guide'){if(sim?.creation&&!home){openModal('custom-guide');return;}selection=sim?.player.species.id||selection;guideTab='species';search='';}openModal(action);}
  else if(action.startsWith('guide-')&&action!=='guide-current'){guideTab=action.slice(6);search='';drawUI();document.querySelector('[data-action="'+action+'"]')?.focus();}
  else if(action==='guide-current'){selection=inspected?.species?.id||selection;guideTab='species';search='';openModal('guide');}
- else if(action==='pause'||action==='inspect'){sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}
+ else if(action==='pause'||action==='inspect'){backgroundPauseReturn=null;sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}
  else if(action==='adventure-toggle'){sim.adventure.visible=!sim.adventure.visible;drawUI();}
- else if(action==='story-begin'){sim.paused=false;renderer.inspect=false;beginStory(sim,el.dataset.storyKey);drawUI();canvas.focus();}
+ else if(action==='story-begin'){backgroundPauseReturn=null;sim.paused=false;renderer.inspect=false;beginStory(sim,el.dataset.storyKey);drawUI();canvas.focus();}
  else if(action==='story-action'){storyAction(sim,el.dataset.storyAction,el.dataset.value);if(el.dataset.storyAction==='story-route'){mapSelection=sim.destination??sim.current;openModal('reef-map');}else updateStory();}
  else if(action==='story-stop'){stopStory(sim);drawUI();canvas.focus();}
  else if(action==='story-help'){storyHelpKey=activeStory(sim);if(discoveryCatalog.help?.[storyHelpKey]){openModal('story-help');audio.playNarration(discoveryCatalog.help[storyHelpKey].id);}}
  else if(action==='context'){sim.useContext();canvas.focus();}
  else if(action==='resident-close'){sim.residentFocus=null;drawUI();}
- else if(action==='resident-resume'){sim.paused=false;renderer.inspect=false;inspected=null;drawUI();canvas.focus();}
+ else if(action==='resident-resume'){backgroundPauseReturn=null;sim.paused=false;renderer.inspect=false;inspected=null;drawUI();canvas.focus();}
  else if(action==='resident-again'){const e=watchedResident(sim);if(e)beginResidentObservation(sim,e,true);drawUI();}
  else if(action==='resident-help'){selection=sim.residentFocus;openModal('activity');audio.playNarration('activities/'+selection);}
  else if(action==='escort-new'){forgetEscort(sim);canvas.focus();}
@@ -336,7 +336,7 @@ ui.addEventListener('click',async event=>{
  else if(action==='narration'){const id=currentSpeechId();if(audio.narrationId===id)audio.stopNarration();else if(id)audio.playNarration(id);}
  else if(action==='food-hints'){toggleFoodHints();}
  else if(action==='ability'){sim.useAbility();}
- else if(action==='cleaner'){if(sim.paused){sim.paused=false;renderer.inspect=false;inspected=null;drawUI();}sim.requestCleaning();canvas.focus();}
+ else if(action==='cleaner'){if(sim.paused){backgroundPauseReturn=null;sim.paused=false;renderer.inspect=false;inspected=null;drawUI();}sim.requestCleaning();canvas.focus();}
  else if(action.startsWith('save-')){saveSlot(Number(action.slice(5)));drawUI();}
  else if(action.startsWith('load-')){try{const data=read('atoll-save-'+action.slice(5),null);resumeDive(Simulation.restore(data?.state),data?.name);}catch(err){notify('Unable to load this dive. '+err.message+' Choose a different saved dive.');}}
  else if(action==='export-dive'&&sim){
@@ -394,7 +394,7 @@ document.addEventListener('keydown',e=>{
  if(e.key==='F11'&&window.atollDesktop){e.preventDefault();if(!e.repeat)toggleFullscreen().catch(()=>notify('Fullscreen could not change. Use the display control in Settings.'));return;}
  if(e.key==='Tab'&&modal){const nodes=[...document.querySelectorAll('.panel button:not(:disabled),.panel input,.panel select,.panel summary,.panel [tabindex="0"]')].filter(n=>n.offsetParent!==null);const first=nodes[0],last=nodes.at(-1);if(!document.activeElement?.closest('.panel')){e.preventDefault();(e.shiftKey?last:first)?.focus();return;}if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}return;}
  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveSlot(0);return;}
- if(e.key==='Escape'){e.preventDefault();if(e.repeat)return;if(home&&!modal){closeSplashMenus();return;}if(modal){if(!['dead','won','advance'].includes(modal))closeModal();}else if(sim&&!home){sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}return;}
+ if(e.key==='Escape'){e.preventDefault();if(e.repeat)return;if(home&&!modal){closeSplashMenus();return;}if(modal){if(!['dead','won','advance'].includes(modal))closeModal();}else if(sim&&!home){backgroundPauseReturn=null;sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}return;}
  if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName))return;
  if(e.key===' '&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.target.closest('button,a,summary,[role=button],[contenteditable]')&&!home&&!modal){e.preventDefault();audio.unlock();sim.useAbility();}
  if(e.key.toLowerCase()==='m'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&sim&&!home&&!modal&&sim.phase==='playing'){mapSelection=sim.destination??sim.current;openModal('reef-map');}
@@ -402,9 +402,10 @@ document.addEventListener('keydown',e=>{
  if(e.key.toLowerCase()==='c'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&sim&&!home&&!modal&&!sim.paused){e.preventDefault();sim.requestCleaning();}
  if(e.key.toLowerCase()==='h'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&sim&&!home&&!modal&&sim.phase==='playing'){e.preventDefault();toggleFoodHints();}
  if(e.key.toLowerCase()==='f'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!modal){if(sim?.creation&&!home){openModal('custom-guide');return;}selection=sim?.player.species.id||selection;openModal('guide');}
- if(e.key.toLowerCase()==='p'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&sim&&!home&&!modal){sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}
+ if(e.key.toLowerCase()==='p'&&!e.repeat&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&sim&&!home&&!modal){backgroundPauseReturn=null;sim.paused=!sim.paused;renderer.inspect=sim.paused;inspected=null;toast='';toastUntil=0;drawUI();}
 });
-function pauseForBackground(){if(sim&&!home&&!modal&&sim.phase==='playing'){sim.paused=true;renderer.inspect=true;toast='';toastUntil=0;drawUI();}}
+// Background safety is temporary; silent saves preserve the player's pause choice.
+function pauseForBackground(){if(sim&&!home&&!modal&&sim.phase==='playing'){if(backgroundPauseReturn?.sim!==sim)backgroundPauseReturn={sim,paused:sim.paused};sim.paused=true;renderer.inspect=true;toast='';toastUntil=0;drawUI();}}
 window.addEventListener('blur',pauseForBackground);
 window.atollDesktop?.onBackground(pauseForBackground);
 window.addEventListener('storage',e=>{if(e.key!=='atoll-journal'||!e.newValue)return;try{journal=mergeJournals(journal,validateJournal(JSON.parse(e.newValue)));discoveryNarration.syncJournal(journal);titleRewards();if(modal==='journal'){drawUI();focusModal();}}catch{}});
