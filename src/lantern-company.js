@@ -150,6 +150,9 @@ export function lanternSafety(sim){
  const participants=s.stage==='gather'?entities(sim).filter(e=>{
   const r=e.adventureReservation;return eligible(e)&&r?.key==='lantern'&&r.reef===8&&r.species==='s53'&&r.incarnation===incarnation(e)&&r.remaining>0;
  }).slice(0,3).map(e=>({id:e.id,incarnation:incarnation(e),species:'s53'})):s.participants.map(m=>({id:m.id,incarnation:m.incarnation,species:'s53'}));
+ // A distant player and expired invitations no longer occupy this gathering.
+ // Returning locally or meeting a still-reserved fish derives courtesy anew.
+ if(s.stage==='gather'&&!participants.length&&dist(sim.player,LANTERN_OUTCROP)>430)return null;
  return {reef:8,x:800,y:360,radius:430,participants,holdNeeds:s.stage==='route'};
 }
 export const storySafety=lanternSafety;

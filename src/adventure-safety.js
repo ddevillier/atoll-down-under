@@ -8,6 +8,25 @@ const exact=(e,ref)=>!!(e&&ref&&e.id===ref.id&&(e.incarnation||0)===(ref.incarna
 const inside=(e,zone)=>!!(e?.alive&&Number.isFinite(e.x)&&Number.isFinite(e.y)&&distance(e,zone)<=zone.radius);
 const previousActors=new WeakMap();
 
+// A safety circle may extend past the visible water. At a clipped edge, its
+// radial direction can point into land forever. Swim toward the nearest real
+// intersection of that edge and the outside of the local courtesy margin.
+// The actor still uses its normal speed and turning limit to reach that point.
+function clippedExitHeading(actor,zone,margin,speed,radial,heading){
+ const left=10,right=WORLD_WIDTH-10,top=25,bottom=WORLD_HEIGHT-20;
+ const reach=Math.max(12,Math.min(60,Math.max(0,speed)/(actor.species.agility||2)));
+ const radius=zone.radius+margin+6,candidates=[];
+ const horizontal=y=>{const squared=radius*radius-(y-zone.y)**2;if(squared<0)return;const dx=Math.sqrt(squared);for(const x of [zone.x-dx,zone.x+dx])if(x>=left&&x<=right)candidates.push({x,y});};
+ const vertical=x=>{const squared=radius*radius-(x-zone.x)**2;if(squared<0)return;const dy=Math.sqrt(squared);for(const y of [zone.y-dy,zone.y+dy])if(y>=top&&y<=bottom)candidates.push({x,y});};
+ if(actor.y<=top+reach&&(Math.sin(radial)<0||Math.sin(heading)<0))horizontal(top);
+ if(actor.y>=bottom-reach&&(Math.sin(radial)>0||Math.sin(heading)>0))horizontal(bottom);
+ if(actor.x<=left+reach&&(Math.cos(radial)<0||Math.cos(heading)<0))vertical(left);
+ if(actor.x>=right-reach&&(Math.cos(radial)>0||Math.cos(heading)>0))vertical(right);
+ if(!candidates.length)return heading;
+ candidates.sort((a,b)=>distance(actor,a)-distance(actor,b));
+ const exit=candidates[0];return Math.atan2(exit.y-actor.y,exit.x-actor.x);
+}
+
 // Descriptors come from the story dispatcher. These helpers never import the
 // dispatcher (avoiding a simulation/story dependency cycle), persist a shield,
 // change appetite/health, or apply a reef-wide fear effect. Protection is
@@ -61,7 +80,8 @@ export function steerAroundAdventure(sim,actor,dt,speed=actor?.species?.speed*.3
  // Existing ordinary food is still handled by ordinary movement/feeding.
  if(actor.target)return false;
  const radial=d>1?Math.atan2(actor.y-zone.y,actor.x-zone.x):actor.angle||0;
- const heading=radial+(d<zone.radius+margin*.5?0:(actor.id%2?1:-1)*Math.PI*.38);
+ const preferred=radial+(d<zone.radius+margin*.5?0:(actor.id%2?1:-1)*Math.PI*.38);
+ const heading=clippedExitHeading(actor,zone,margin,speed,radial,preferred);
  actor.angle=turnTowards(actor.angle||0,heading,(actor.species.agility||2)*dt);
  const advance=Math.max(0,speed)*dt;
  actor.x=clamp(actor.x+Math.cos(actor.angle)*advance,10,WORLD_WIDTH-10);
