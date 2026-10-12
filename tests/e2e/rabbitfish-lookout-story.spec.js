@@ -65,10 +65,26 @@ async function takeWatch(page,site='crest-open'){
 }
 async function notice(page){
  await phase(page,'signal');expect((await read(page)).story.responded).toBe(false);await expect(page.locator('[data-story-action="hold"]')).toHaveCount(0);
- let p=(await read(page)).passer;expect(p).toBeTruthy();const hit=await page.evaluate(p=>{const r=document.querySelector('#reef').getBoundingClientRect(),e=document.elementFromPoint(r.x+p.x/1600*r.width,r.y+(p.y+55)/900*r.height);return {tag:e?.tagName,id:e?.id,story:!!e?.closest('#reef-story')};},p);
- expect(hit.story,'Physical passing fish remains exposed to actual pointer input').toBe(false);expect(hit.id).toBe('reef');await world(page,p,true);
- await expect(page.locator('[data-story-action="hold"]')).toBeVisible();
- const aimed=await read(page);expect(aimed.story.cueClicked).toBe(true);expect(aimed.story.responded).toBe(false);return {...aimed,initialPointerHit:hit};
+ // Sample the moving actor and canvas geometry together immediately before
+ // actual mouse input. Reading the full roster and then fetching bounds in
+ // separate browser calls made this a stale-coordinate click on slower CI.
+ const attempts=[];let initialPointerHit,identity;
+ for(let attempt=0;attempt<3;attempt++){
+  const target=await page.evaluate(()=>{
+   const s=window.atoll.simulation,n=s.reefStories.lookout,p=n?.passer,e=p&&s.sections[p.reef].entities.find(e=>e.alive&&e.id===p.id&&(e.incarnation||0)===p.incarnation),r=document.querySelector('#reef').getBoundingClientRect();
+   if(!e)return null;const x=r.x+e.x/1600*r.width,y=r.y+(e.y+55)/900*r.height,hit=document.elementFromPoint(x,y);
+   return {identity:{id:e.id,incarnation:e.incarnation||0},x,y,time:s.time,phase:n.phase,responded:n.responded,player:{x:s.player.x,y:s.player.y},hit:{tag:hit?.tagName,id:hit?.id,story:!!hit?.closest('#reef-story')}};
+  });
+  expect(target).toBeTruthy();identity??=target.identity;expect(target.identity).toEqual(identity);expect(target.phase).toBe('signal');expect(target.responded).toBe(false);initialPointerHit??=target.hit;
+  await page.mouse.click(target.x,target.y);
+  const observed=await page.evaluate(()=>{const s=window.atoll.simulation,n=s.reefStories.lookout;return {time:s.time,phase:n.phase,cueClicked:n.cueClicked,responded:n.responded,player:{x:s.player.x,y:s.player.y},passer:n.passer};});
+  attempts.push({target,observed});expect(target.hit.story,'Physical passing fish remains exposed to actual pointer input').toBe(false);expect(target.hit.id).toBe('reef');
+  expect(Math.hypot(observed.player.x-target.player.x,observed.player.y-target.player.y),'Actual attention keeps the player anchored').toBeLessThan(3.1);
+  if(observed.cueClicked)break;
+  expect(observed.phase,'A real click must retain this live encounter: '+JSON.stringify(attempts)).toBe('signal');expect(observed.responded).toBe(false);
+ }
+ expect(attempts.at(-1).observed.cueClicked,'Actual mouse attention is acknowledged: '+JSON.stringify(attempts)).toBe(true);await expect(page.locator('[data-story-action="hold"]')).toBeVisible();
+ const aimed=await read(page);expect(aimed.story.cueClicked).toBe(true);expect(aimed.story.responded).toBe(false);expect(aimed.story.passer.id).toBe(identity.id);expect(aimed.story.passer.incarnation).toBe(identity.incarnation);return {...aimed,initialPointerHit,attentionAttempts:attempts};
 }
 
 test('fresh admission preserves adult slots and existing bonds for previously blocked rabbitfish seeds',async({page})=>{

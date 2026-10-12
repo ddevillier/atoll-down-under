@@ -36,7 +36,12 @@ const free=e=>e?.alive&&e.species?.id==='s12'&&e.health>0&&!e.hidden&&!e.target&
 const canBind=(e,entities)=>free(e)&&!(entities||[]).some(b=>b!==e&&b.ecology?.partner===e.id);
 function danger(sim,e){if(sim.storyProtected?.(e))return false;return [sim.player,...(sim.section?.entities||[])].some(b=>b!==e&&b.alive&&!b.hidden&&edible(b,e)&&distance(b,e)<110&&(b.target===e.id||!(b.satiated>0)));}
 const eligible=(sim,e)=>canBind(e,sim.section?.entities)&&!danger(sim,e);
-function bind(s,e){s.neighbor={id:e.id,incarnation:e.incarnation||0,species:'s12'};s.response='hidden';s.crowded=false;s.reacted=false;s.crowdAt=null;s.crowdPlayer=null;s.settled=0;if(!s.complete)s.stage=s.observed?'space':'listen';}
+function bind(s,e){
+ s.neighbor={id:e.id,incarnation:e.incarnation||0,species:'s12'};s.response='hidden';s.crowded=false;s.reacted=false;s.crowdAt=null;s.crowdPlayer=null;s.settled=0;
+ // The turn and spacing belonged to the previous individual. A replacement
+ // needs its own close observation before it can respond to a resting choice.
+ if(!s.complete){s.observed=false;s.choice=null;s.selected=null;s.stage='listen';}
+}
 function chooseSite(reef,e){return REEFS[reef].shelters.map((p,index)=>({index,d:distance(p,e)})).sort((a,b)=>a.d-b.d)[0].index;}
 
 export function initStory(sim){
@@ -112,7 +117,10 @@ export function tickStory(sim,dt){
  if(s.stage==='listen')s.stage='inspect';
  if(s.complete)return;
  const quiet=Math.hypot(p.vx||0,p.vy||0)<16&&!p.target&&!p.feeding&&!p.cleanerTarget&&!p.cleanTime&&!p.actionTime&&!p.abilityTime;
- const separate=s.choice&&s.reacted&&distance(p,s.selected)<45&&distance(p,e)>=150&&s.response==='settled'&&distance(p,s.crowdPlayer)>=90;
+ // Judge the room both fish have now. A close approach can start beside an
+ // authored opening, so an arbitrary retreat distance can make that valid
+ // choice impossible despite a real response and ample final separation.
+ const separate=s.choice&&s.reacted&&distance(p,s.selected)<45&&distance(p,e)>=150&&s.response==='settled';
  if(separate){s.stage='settle';s.settled=quiet?Math.min(1,s.settled+dt*2):0;}else{s.settled=0;if(s.stage==='settle')s.stage='space';}
 }
 export function storyNPC(sim,e,dt){
@@ -148,6 +156,7 @@ export function storyView(sim){
  const e=shadeNeighbor(sim);
  if(!e||!eligible(sim,e)){const admission=encounterAdmission(sim,'shade');return {step:e?'Your neighbor is busy':'No available neighbor',detail:admission.available?'Your neighbor is unavailable. Check for another free squirrelfish; a map route can lead to an existing encounter.':'The available neighbors are missing, busy, paired, or need care. Preserve this dive and choose a fresh adventure dive.',actions:[{id:'shade-retry',label:'Check for a free neighbor'}],needsFreshDive:!admission.available,complete:false};}
  if(s.stage==='listen'||s.stage==='inspect')return {step:'Follow the pulse into shade',detail:'The source ripple also works with sound muted. Approach the opening and inspect the real fish’s turn and spacing.',actions:[{id:'shade-inspect',label:'Inspect the shaded opening'}],complete:false};
+ if(s.observed&&!s.reacted)return {step:'Watch this neighbor',detail:'Approach the shaded opening and inspect how this fish turns and makes room before choosing your resting place.',actions:[{id:'shade-inspect',label:'Inspect the shaded opening'}],complete:false};
  if(s.stage==='settle')return {step:'Look back across the ledge',detail:'The neighbor has its own resting position. Inspect both places from your chosen opening.',actions:[{id:'shade-inspect',label:'Inspect both resting places'}],complete:false};
  return {step:'Choose your own space',detail:'Swim into another alcove or take the wider approach. Your position changes the neighbor’s movement; its sounds are not translated words.',actions:[{id:'shade-choose',value:'alcove',label:'Use the neighboring alcove'},{id:'shade-choose',value:'space',label:'Give the ledge more space'}],complete:false};
 }

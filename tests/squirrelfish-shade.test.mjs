@@ -66,9 +66,9 @@ test('pause, offscreen and inactive hooks freeze state and actor movement includ
  f.sim.reefStories.shade=JSON.parse(JSON.stringify(saved));assert.equal(validStory(f.sim.reefStories.shade),true);
 });
 
-test('missing or reincarnated neighbor preserves observation and rebinds only a free real fish',()=>{
+test('missing neighbor waits, then a free replacement requires its own observation',()=>{
  const f=fixture();inspect(f);const old={...f.s.neighbor};f.e.incarnation++;f.e.target='committed-meal';advance(f.sim,.1);assert.equal(shadeNeighbor(f.sim),null);assert.equal(f.s.observed,true);assert.equal(f.s.reacted,false);assert.equal(f.s.neighbor,null);assert.equal(validStory(f.s),true);assert.match(storyView(f.sim).step,/No available/);
- const replacement={...f.e,id:'next-squirrel',incarnation:1,target:null,x:f.site.home.x,y:f.site.home.y};f.sim.section.entities.push(replacement);advance(f.sim,.1);assert.notDeepEqual(f.s.neighbor,old);assert.equal(f.s.neighbor.id,replacement.id);assert.equal(f.s.observed,true);assert.equal(f.s.stage,'space');assert.equal(f.s.complete,false);assert.equal(f.sim.section.entities.length,2);
+ const replacement={...f.e,id:'next-squirrel',incarnation:1,target:null,x:f.site.home.x,y:f.site.home.y};f.sim.section.entities.push(replacement);advance(f.sim,.1);assert.notDeepEqual(f.s.neighbor,old);assert.equal(f.s.neighbor.id,replacement.id);assert.equal(f.s.observed,false);assert.equal(f.s.stage,'inspect');assert.equal(f.s.choice,null);assert.equal(f.s.selected,null);assert.match(storyView(f.sim).step,/Follow the pulse/);assert.equal(f.s.complete,false);assert.equal(f.sim.section.entities.length,2);
  const complete=fixture();finish(complete);complete.e.alive=false;const earned=structuredClone(complete.s);advance(complete.sim,5);assert.deepEqual(complete.s,earned);assert.equal(validStory(complete.s),true);
 });
 
@@ -89,8 +89,8 @@ test('local protection permits a calm spacing response beside a hunter while bus
  f.e.target=null;at(f.sim,{x:1500,y:80});assert.equal(f.sim.storyProtected(f.e),false);assert.equal(storyNPC(f.sim,f.e,.1),false);
 });
 
-test('saved selection and observed progress recover at a different ledge without invalid coordinates',()=>{
- const f=fixture();inspect(f);storyAction(f.sim,'shade-choose','alcove');f.e.alive=false;advance(f.sim,.1);const next={...f.e,id:915,incarnation:0,alive:true,x:1080,y:405};f.sim.section.entities.push(next);storyAction(f.sim,'shade-retry');assert.equal(f.s.site,1);assert.equal(f.s.observed,true);assert.equal(f.s.choice,null);assert.equal(f.s.selected,null);assert.equal(validStory(f.s),true);
+test('a new neighbor at a different ledge clears the old resting selection without invalid coordinates',()=>{
+ const f=fixture();inspect(f);storyAction(f.sim,'shade-choose','alcove');f.e.alive=false;advance(f.sim,.1);const next={...f.e,id:915,incarnation:0,alive:true,x:1080,y:405};f.sim.section.entities.push(next);storyAction(f.sim,'shade-retry');assert.equal(f.s.site,1);assert.equal(f.s.observed,false);assert.equal(f.s.choice,null);assert.equal(f.s.selected,null);assert.equal(validStory(f.s),true);
  assert.equal(storyNPC(f.sim,next,Infinity),false);const saved=structuredClone(f.s);tickStory(f.sim,Infinity);assert.deepEqual(f.s,saved);
 });
 
@@ -115,11 +115,41 @@ test('paused saved encounter keeps local safety until cancellation grants player
 
 test('busy neighbor shows recovery controls and rebinds a free fish without interrupting the actual meal',()=>{
  const f=fixture();inspect(f);f.e.target='actual-meal';f.e.feeding={target:'actual-meal',committed:true};const prior=structuredClone(f.e);assert.equal(storyView(f.sim).step,'Your neighbor is busy');assert.deepEqual(storyView(f.sim).actions,[{id:'shade-retry',label:'Check for a free neighbor'}]);assert.equal(storyView(f.sim).needsFreshDive,true);
- const next={...f.e,id:917,incarnation:0,target:null,feeding:null,x:1080,y:405};f.sim.section.entities.push(next);storyAction(f.sim,'shade-retry');assert.equal(f.s.neighbor.id,next.id);assert.equal(f.s.observed,true);assert.equal(f.s.stage,'space');assert.deepEqual(f.e,prior);assert.equal(validStory(f.s),true);
+ const next={...f.e,id:917,incarnation:0,target:null,feeding:null,x:1080,y:405};f.sim.section.entities.push(next);storyAction(f.sim,'shade-retry');assert.equal(f.s.neighbor.id,next.id);assert.equal(f.s.observed,false);assert.equal(f.s.stage,'listen');assert.deepEqual(f.e,prior);assert.equal(validStory(f.s),true);
 });
 
 test('recovery routes to an existing reachable neighbor and reverse pair links exclude recruitment',()=>{
  const f=fixture();inspect(f);f.sim.mode='practice';f.sim.period='night';f.e.target='actual-meal';f.sim.sections=Array.from({length:9},()=>({entities:[],food:[]}));f.sim.sections[8]=f.sim.section;
- const remote={...f.e,id:920,incarnation:2,target:null,x:1010,y:430};f.sim.sections[7].entities.push(remote);assert.equal(storyView(f.sim).needsFreshDive,false);storyAction(f.sim,'shade-retry');assert.equal(f.s.reef,7);assert.equal(f.s.neighbor.id,remote.id);assert.equal(f.sim.destination,7);assert.equal(f.s.observed,true);assert.equal(validStory(f.s),true);
+ const remote={...f.e,id:920,incarnation:2,target:null,x:1010,y:430};f.sim.sections[7].entities.push(remote);assert.equal(storyView(f.sim).needsFreshDive,false);storyAction(f.sim,'shade-retry');assert.equal(f.s.reef,7);assert.equal(f.s.neighbor.id,remote.id);assert.equal(f.sim.destination,7);assert.equal(f.s.observed,false);assert.equal(validStory(f.s),true);
  const paired=fixture();paired.sim.section.entities.push({...paired.e,id:925,ecology:{partner:paired.e.id}});const before=structuredClone(paired.e);at(paired.sim,paired.site.inspect);assert.equal(storyNPC(paired.sim,paired.e,.1),false);assert.deepEqual(paired.e,before);
+});
+
+
+test('a replacement after a resting choice requires its own live observation and remains finishable',()=>{
+ const f=fixture();inspect(f);storyAction(f.sim,'shade-choose','alcove');at(f.sim,f.site.alcove);
+ f.e.alive=false;const next={...f.e,id:930,incarnation:0,alive:true,target:null,x:f.site.home.x,y:f.site.home.y};f.sim.section.entities.push(next);tickStory(f.sim,.05);
+ assert.equal(f.s.neighbor.id,next.id);assert.equal(f.s.observed,false);assert.equal(f.s.choice,null);assert.equal(f.s.selected,null);assert.equal(f.s.complete,false);assert.equal(validStory(f.s),true);
+ assert.deepEqual(storyView(f.sim).actions,[{id:'shade-inspect',label:'Inspect the shaded opening'}]);
+ assert.equal(storyAction(f.sim,'shade-choose','alcove'),false);assert.equal(f.sim.events.some(e=>e.type==='discovery'),false);
+ finish(f,'space');assert.equal(f.s.complete,true);assert.equal(f.sim.events.filter(e=>e.type==='discovery').length,1);assert.equal(f.s.neighbor.id,next.id);
+});
+
+
+test('an older saved replacement state with observation but no reaction offers a physical recovery approach',()=>{
+ const f=fixture();inspect(f);f.s.reacted=false;f.s.crowded=false;f.s.crowdAt=null;f.s.crowdPlayer=null;f.s.stage='space';assert.equal(validStory(f.s),true);
+ assert.deepEqual(storyView(f.sim).actions,[{id:'shade-inspect',label:'Inspect the shaded opening'}]);
+ storyAction(f.sim,'shade-inspect');assert.deepEqual(f.sim.pointer,f.site.inspect);advance(f.sim,.8,{swim:true});assert.equal(f.s.reacted,true);
+ storyAction(f.sim,'shade-choose','space');advance(f.sim,7,{swim:true});storyAction(f.sim,'shade-inspect');assert.equal(f.s.complete,true);
+});
+
+
+test('both resting choices remain finishable when the original close approach was near the chosen opening',()=>{
+ for(const choice of ['alcove','space']){
+  const f=fixture(),close=choice==='alcove'?{x:460,y:260}:{x:250,y:325};Object.assign(f.e,choice==='alcove'?{x:400,y:230}:{x:270,y:270});at(f.sim,close);
+  advance(f.sim,.7);assert.equal(f.s.crowded,true);assert.equal(f.s.reacted,true);assert.ok(Math.hypot(f.e.x-f.s.crowdAt.x,f.e.y-f.s.crowdAt.y)>=18);
+  storyAction(f.sim,'shade-inspect');assert.equal(f.s.observed,true);storyAction(f.sim,'shade-choose',choice);advance(f.sim,7,{swim:true});
+  assert.equal(f.s.stage,'settle');assert.equal(f.s.response,'settled');assert.equal(f.s.settled,1);assert.ok(Math.hypot(f.sim.player.x-f.e.x,f.sim.player.y-f.e.y)>=150);
+  assert.ok(Math.hypot(f.sim.player.x-f.s.crowdPlayer.x,f.sim.player.y-f.s.crowdPlayer.y)<90,'this valid resting place does not require an arbitrary 90-unit retreat');
+  assert.equal(f.s.complete,false);storyAction(f.sim,'shade-inspect');assert.equal(f.s.complete,true);assert.equal(f.sim.events.filter(e=>e.type==='discovery').length,1);assert.equal(validStory(f.s),true);
+ }
 });
