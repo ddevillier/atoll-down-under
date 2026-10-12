@@ -39,8 +39,8 @@ async function begin(page,id,seed){
 }
 async function observeBites(page){
  await page.evaluate(async()=>{
-  const {contactGap}=await import('/src/feeding-contact.js'),s=window.atoll.simulation;window.__lookoutBites=[];
-  const npc=s.stepNpc.bind(s);s.stepNpc=(e,dt,plan)=>{const n=s.reefStories.lookout,f=e.target&&s.section.food.find(f=>f.id===e.target),before=f?.amount;const was=n?.partnerMeal;npc(e,dt,plan);if(!was&&n?.partnerMeal)window.__lookoutBites.push({who:'buddy',id:e.id,incarnation:e.incarnation||0,food:f?.id,before,after:f?.amount,committed:!!e.feeding?.committed,gap:f&&contactGap(e,f),x:e.x,y:e.y,time:s.time});};
+  const {contactGap}=await import('/src/feeding-contact.js'),s=window.atoll.simulation;window.__lookoutBites=[];window.__lookoutGrazingStart=null;
+  const npc=s.stepNpc.bind(s);s.stepNpc=(e,dt,plan)=>{const n=s.reefStories.lookout,f=e.target&&s.section.food.find(f=>f.id===e.target),before=f?.amount;const was=n?.partnerMeal;if(n?.phase==='partner-feed'&&e.id===n.buddy?.id&&!window.__lookoutGrazingStart)window.__lookoutGrazingStart={time:s.time,story:{phase:n.phase,response:n.response,role:n.role,partnerMeal:n.partnerMeal},buddy:{id:e.id,incarnation:e.incarnation||0,x:e.x,y:e.y}};npc(e,dt,plan);if(!was&&n?.partnerMeal)window.__lookoutBites.push({who:'buddy',id:e.id,incarnation:e.incarnation||0,food:f?.id,before,after:f?.amount,committed:!!e.feeding?.committed,gap:f&&contactGap(e,f),x:e.x,y:e.y,time:s.time});};
   const consume=s.consume.bind(s);s.consume=f=>{const before=f.amount,gap=contactGap(s.player,f),committed=!!s.player.feeding?.committed,n=s.reefStories.lookout,was=n?.playerMeal;consume(f);if(!was&&n?.playerMeal)window.__lookoutBites.push({who:'player',food:f.id,before,after:f.amount,committed,gap,x:s.player.x,y:s.player.y,time:s.time});};
  });
 }
@@ -64,7 +64,7 @@ async function respondFromPausedCapture(page,response){
  const button=page.locator(`[data-story-action="${response}"]`);await expect(button).toBeVisible();
  const target=await button.evaluate(e=>{const r=e.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;return {x,y,hit:document.elementFromPoint(x,y)?.closest('button')?.dataset.storyAction};});expect(target.hit).toBe(response);
  await page.mouse.move(target.x,target.y);await page.keyboard.press('p');await page.mouse.click(target.x,target.y);
- await expect.poll(async()=>page.evaluate(()=>{const n=window.atoll.simulation.reefStories.lookout;return {phase:n.phase,response:n.response,responded:n.responded};}),{timeout:4000,message:'Actual visible response button acknowledges the restored passing encounter'}).toEqual({phase:response==='hold'?'partner-feed':'relocating',response,responded:true});
+ await expect.poll(async()=>page.evaluate(()=>{const n=window.atoll.simulation.reefStories.lookout;return {response:n.response,responded:n.responded};}),{timeout:4000,message:'Actual visible response button acknowledges the restored passing encounter'}).toEqual({response,responded:true});
  const after=await page.evaluate(()=>{const s=window.atoll.simulation,n=s.reefStories.lookout;return {paused:s.paused,time:s.time,phase:n.phase,response:n.response,responded:n.responded,passer:structuredClone(n.passer)};});expect(after.paused).toBe(false);expect(after.passer).toEqual(before.passer);return {before,target,after};
 }
 async function meet(page){
@@ -139,7 +139,9 @@ for(const [id,width,height,response]of [['s8',1600,900,'hold'],['s8',1024,768,'m
  // below, so no mandatory live delay consumes the remaining response window.
  await capture(page,`${id}-${width}-attention`);const responseInput=await respondFromPausedCapture(page,response);
  if(response==='move'){await phase(page,'relocating');const relocating=await read(page);expect(relocating.story.site).toBe('crest-sheltered');expect(relocating.story.partnerMeal).toBe(false);await capture(page,`${id}-${width}-departure`);await swim(page,{x:410,y:485});await page.keyboard.press('e');}
- await phase(page,'partner-feed',8000);const grazingStart=await read(page);await capture(page,`${id}-${width}-grazing-approach`);
+ // Observe the actual first NPC grazing step instead of requiring a remote
+ // poll to land inside a transient phase on a loaded CI runner.
+ await expect.poll(()=>page.evaluate(()=>window.__lookoutGrazingStart),{timeout:8000}).not.toBeNull();const grazingStart=await page.evaluate(()=>structuredClone(window.__lookoutGrazingStart));expect(grazingStart.story).toEqual({phase:'partner-feed',response,role:'player',partnerMeal:false});await capture(page,`${id}-${width}-grazing-progress`);
  await expect.poll(async()=>(await read(page)).story.partnerMeal,{timeout:16000,message:'Normal hungry companion takes a committed real bite'}).toBe(true);
  const riseStart=await read(page);expect(riseStart.story.playerMeal).toBe(false);expect(riseStart.story.role).toBe('partner');await capture(page,`${id}-${width}-rise-start`);
  await phase(page,'player-feed',9000);const watching=await read(page);expect(watching.buddy.satiated).toBeGreaterThan(0);expect(watching.buddy.satiated).toBeLessThanOrEqual(80/6);await capture(page,`${id}-${width}-roles-swapped`);const site=watching.story.site==='crest-open'?{x:240,y:370,food:{x:190,y:460}}:{x:410,y:485,food:{x:360,y:575}};expect(Math.hypot(watching.buddy.x-site.x,watching.buddy.y-site.y)).toBeLessThanOrEqual(18);
